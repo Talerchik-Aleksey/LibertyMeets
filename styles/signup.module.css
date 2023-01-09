@@ -1,0 +1,93 @@
+.loginBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 26px;
+
+  position: absolute;
+  width: 617px;
+  height: 417px;
+  left: 412px;
+  top: 118px;
+}
+
+.inputBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 6px;
+
+  width: 617px;
+  height: 38px;
+
+  flex: none;
+  flex-grow: 0;
+}
+
+.inputBlock .fieldName {
+  width: 90px;
+  height: 30px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 30px;
+
+  color: var(--LibertyMeets-UtilityBlack);
+}
+
+.inputField {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 20px;
+
+  color: var(--LibertyMeets-UtilityGrey);
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px 12px;
+  gap: 8px;
+
+  width: 521px;
+  height: 38px;
+
+  background: var(--LibertyMeets-Background);
+  border: 1px solid var(--LibertyMeets-UtilityGrey);
+  border-radius: 4px;
+}
+.inputField:hover {
+  background-color: white;
+  border: 1px solid var(--LibertyMeets-Purple-500);
+}
+
+.rememberMeCheckbox {
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-feature-settings: "ordn" on;
+
+  color: var(--LibertyMeets-Purple-500);
+}
+
+.rememberMe {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+
+  color: var(--LibertyMeets-Purple-500);
+}
