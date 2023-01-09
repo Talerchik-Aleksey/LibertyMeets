@@ -1,8 +1,7 @@
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 import styles from "../styles/posts.module.css";
 import Image from "next/image";
 
-function CreatePost(props: any) {
+export default function CreatePost(props: any) {
   const state = {
     address: "",
 
@@ -63,7 +62,3 @@ function CreatePost(props: any) {
     </div>
   );
 }
-
-export default GoogleApiWrapper({
-  apiKey: "AIzaSyBLVHqBpK4pTUHkxRLctTj6a3nHrt1d-uI",
-})(CreatePost);
