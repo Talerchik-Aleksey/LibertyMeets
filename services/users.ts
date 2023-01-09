@@ -32,4 +32,6 @@ async function isEmailAlreadyUsed(email: string): Promise<boolean> {
   return users.length === 0;
 }
 
-export async function getUserByCredentials(user: UserType) {}
+export async function getUserByCredentials(user: UserType) {
+  
+}

@@ -6,11 +6,11 @@ export default NextAuth({
     CredentialProvider({
       name: "credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        email: { label: "Email", type: "text", placeholder: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (credentials?.username === "123" && credentials.password === "123") {
+        if (credentials?.email === "123" && credentials.password === "123") {
           return { id: "1", name: "qwerty", qqq: "456" };
         } else {
           return null;
