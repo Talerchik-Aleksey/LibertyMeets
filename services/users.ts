@@ -21,7 +21,7 @@ export async function saveUserToDatabase(user: UserType) {
   await Users.create(userToSave);
 }
 
-async function isEmailAlreadyUsed(email: string): Promise<boolean> {
+export async function isEmailAlreadyUsed(email: string): Promise<boolean> {
   const users = await Users.findAll({
     where: {
       email,
@@ -29,6 +29,14 @@ async function isEmailAlreadyUsed(email: string): Promise<boolean> {
   });
 
   return users.length > 0;
+}
+
+export async function createResetToken(email: string, reset_pwd_token: string) {
+  await Users.update({ reset_pwd_token },{
+    where: {
+      email,
+    },
+  });
 }
 
 export async function getUserByCredentials(user: UserType) {}
