@@ -20,7 +20,7 @@ export default async function handler(
   await connect();
   try {
     if (!req.method || req.method! !== "POST") {
-      res.status(400).json({ message: "only POST request is available" });
+      res.status(405).json({ message: "only POST request is available" });
     }
 
     const { email, password } = req.body as bodyType;
@@ -43,9 +43,11 @@ export default async function handler(
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;
       res.status(httpErr.httpCode).json({ message: httpErr.message });
+      return;
     } else {
       const error = err as Error;
       res.status(500).json({ message: error.message });
+      return;
     }
   }
 }

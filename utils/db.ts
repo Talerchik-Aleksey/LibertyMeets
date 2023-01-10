@@ -16,7 +16,7 @@ export type ConnectionOptionsType = {
 
 export async function connect(): Promise<Sequelize> {
   const options = config.get<ConnectionOptionsType>("db");
-  console.log(options)
+
   const sequelize = new Sequelize({
     dialect: options.dialect || options.type || "postgres",
     host: options.host,
