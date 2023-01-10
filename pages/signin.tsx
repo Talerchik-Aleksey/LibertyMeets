@@ -1,10 +1,10 @@
-import { signIn, getCsrfToken, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import CrossesOnBackground from "../Components/General/CrossesOnBackground";
 import LibertyMeetsLogo from "../Components/LibertyMeetsLogo";
 import styles from "../styles/signup.module.css";
 
-export default function signin(props: { csrfToken: string }) {
+export default function signin() {
   const router = useRouter();
   const { data: session } = useSession();
   if (session) {
@@ -56,12 +56,4 @@ export default function signin(props: { csrfToken: string }) {
       <button onClick={handleLoginUser}>Log In</button>
     </>
   );
-}
-
-export async function getServerSideProps(context: any) {
-  return {
-    props: {
-      csrfToken: await getCsrfToken(context),
-    },
-  };
 }
