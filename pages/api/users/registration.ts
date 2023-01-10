@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { saveUserToDatabase } from "../../../services/users";
-import { connect } from "../../../lib/db";
+import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { validateEmail } from "../../../utils/stringUtils";
 
@@ -24,7 +24,7 @@ export default async function handler(
     }
 
     const { email, password } = req.body as bodyType;
-    
+
     if (!email) {
       throw new HttpError(400, "no email");
     }
