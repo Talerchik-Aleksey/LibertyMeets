@@ -20,7 +20,7 @@ export default async function handler(
   await connect();
   try {
     if (!req.method || req.method! !== "POST") {
-      res.status(405).json({ message: "only POST request is available" });
+      res.status(405);
     }
 
     const { email, password } = req.body as bodyType;
