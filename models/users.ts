@@ -1,34 +1,65 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-import { AppDataSource } from "../migrations/data-source";
+import {
+  Table,
+  Column,
+  DataType,
+  AllowNull,
+  Model,
+  Default,
+  PrimaryKey,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
+  AutoIncrement,
+  CreatedAt,
+  UpdatedAt,
+  DeletedAt,
+} from "sequelize-typescript";
 
-@Entity()
-export class User {
-  @PrimaryGeneratedColumn("increment")
+@Table({
+  timestamps: true,
+  paranoid: true,
+  underscored: true,
+  tableName: "users",
+  initialAutoIncrement: "1",
+})
+export class Users extends Model {
+  @PrimaryKey
+  @AutoIncrement
+  @Column(DataType.NUMBER)
   id!: number;
 
-  @Column()
+  @AllowNull(false)
+  @Column(DataType.STRING)
   email!: string;
 
-  @Column()
+  @AllowNull(false)
+  @Column(DataType.STRING)
   password!: string;
 
-  @Column()
-  token: string | undefined;
+  @AllowNull(true)
+  @Default("")
+  @Column(DataType.STRING)
+  reset_pwd_token: string | undefined;
 
-  @Column()
+  @AllowNull(false)
+  @Default(false)
+  @Column(DataType.BOOLEAN)
   is_admin!: boolean;
 
-  @Column()
+  @AllowNull(false)
+  @Default(true)
+  @Column(DataType.BOOLEAN)
   is_enabled!: boolean;
 
-  @Column()
-  created_at!: Date;
+  @CreatedAt
+  @Column
+  createdAt!: Date;
 
-  @Column()
-  updated_at!: Date;
+  @UpdatedAt
+  @Column
+  updatedAt!: Date;
 
-  @Column()
-  deleted_at!: Date;
+  @DeletedAt
+  @Column
+  deletedAt!: Date;
 }
-
-export const usersRepo = AppDataSource.getRepository(User);

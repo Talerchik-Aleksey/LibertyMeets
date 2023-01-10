@@ -9,5 +9,6 @@
     "username": "postgres",
     "password": "",
     "database": "liberty"
-  }
+  },
+  "appUrl":"http://localhost:3000"
 }
