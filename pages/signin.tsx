@@ -1,3 +1,4 @@
+import { useFormik } from "formik";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import CrossesOnBackground from "../Components/General/CrossesOnBackground";
@@ -11,19 +12,21 @@ export default function signin() {
     router.push("/");
   }
 
-  const handleLoginUser = async (e: any) => {
-    e.preventDefault();
-    await signIn("credentials", {
-      redirect: true,
-      email: "123",
-      password: "123",
-    });
-  };
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: async (values) => {
+      await signIn("credentials", values);
+    },
+  });
+
   return (
     <>
       <CrossesOnBackground />
       <div style={{ height: "897px" }}>
-        <div className={styles.loginBlock}>
+        <form className={styles.loginBlock} onSubmit={formik.handleSubmit}>
           <LibertyMeetsLogo size={1} />
           <div className={styles.inputBlock}>
             <div className={styles.fieldName}>Email</div>
@@ -31,6 +34,8 @@ export default function signin() {
               name="email"
               className={styles.inputField}
               placeholder="spencer@libertymeets.com"
+              onChange={formik.handleChange}
+              value={formik.values.email}
             />
           </div>
           <div className={styles.inputBlock}>
@@ -40,6 +45,8 @@ export default function signin() {
               name="password"
               type="password"
               placeholder="********"
+              onChange={formik.handleChange}
+              value={formik.values.password}
             />
           </div>
           <div className={styles.inputBlock}>
@@ -51,9 +58,8 @@ export default function signin() {
             ></div>
           </div>
           <button type="submit">Log In</button>
-        </div>
+        </form>
       </div>
-      <button onClick={handleLoginUser}>Log In</button>
     </>
   );
 }
