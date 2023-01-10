@@ -1,7 +1,18 @@
 import LibertyMeetsLogo from "../LibertyMeetsLogo";
-import { signIn } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function GuestHeader() {
+  const { data: session } = useSession();
+  if (session) {
+    return (
+      <header>
+        <LibertyMeetsLogo size={0.5} />
+        <div className="clickableText" onClick={() => signOut()}>
+          Log out
+        </div>
+      </header>
+    );
+  }
   return (
     <header>
       <LibertyMeetsLogo size={0.5} />
