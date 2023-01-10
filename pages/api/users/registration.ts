@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { saveUserToDatabase } from "../../../services/users";
+import { connect } from "../../../lib/db";
 import { HttpError } from "../../../utils/HttpError";
 import { validateEmail } from "../../../utils/stringUtils";
 
@@ -16,13 +17,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<resType>
 ) {
+  await connect();
   try {
     if (!req.method || req.method! !== "POST") {
       res.status(400).json({ message: "only POST request is available" });
     }
 
     const { email, password } = req.body as bodyType;
-
+    
     if (!email) {
       throw new HttpError(400, "no email");
     }
@@ -38,7 +40,12 @@ export default async function handler(
     await saveUserToDatabase({ email, password });
     res.status(200).json({ message: "success registration" });
   } catch (err) {
-    const httpErr = err as HttpError;
-    res.status(httpErr.httpCode).json({ message: httpErr.message });
+    if (err instanceof HttpError) {
+      const httpErr = err as HttpError;
+      res.status(httpErr.httpCode).json({ message: httpErr.message });
+    } else {
+      const error = err as Error;
+      res.status(500).json({ message: error.message });
+    }
   }
 }
