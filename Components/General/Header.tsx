@@ -13,7 +13,7 @@ export default function Header() {
         <div className="clickableText" onClick={() => signOut()}>
           Log out
         </div>
-        <div className="clickableText" onClick={() => router.push("/resetPassword")}>
+        <div className="clickableText" onClick={() => router.push("/reset-password")}>
           Reset password
         </div>
       </header>

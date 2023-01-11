@@ -51,3 +51,17 @@ export async function getUserByCredentials(
   }
   return foundUser;
 }
+
+export async function isRightUser(password: string, token: string) {
+  const foundUser = await Users.findOne({ where: { reset_pwd_token: token } });
+  if (!foundUser) {
+    return null;
+  }
+  const result = await Users.update({ reset_pwd_token: null, password: hashSync(password, saltLength) },{
+    where: {
+      email: foundUser.email,
+    },
+  });
+
+  return result;
+}

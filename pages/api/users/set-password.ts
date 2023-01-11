@@ -1,16 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { createResetToken, isEmailAlreadyUsed } from "../../../services/users";
+import { isRightUser } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
-import { v4 } from "uuid";
 
 type resType = {
   message: string;
-  token?: string;
 };
 
 type bodyType = {
-  email: string;
+  token: string;
+  password: string;
 };
 
 export default async function handler(
@@ -23,23 +22,22 @@ export default async function handler(
       res.status(405);
     }
 
-    const { email } = req.body as bodyType;
+    const { token, password } = req.body as bodyType;
 
-    if (!email) {
+    if (!token) {
       throw new HttpError(400, "no email");
     }
-
-    const isUsed = await isEmailAlreadyUsed(email);
-
-    if (isUsed) {
-      const reset_pwd_token = v4();
-      await createResetToken(email, reset_pwd_token);
-      res.status(200).json({ message: "success create reset token", token: reset_pwd_token });
+    if (!password) {
+      throw new HttpError(400, "no password");
     }
 
-    if (!isUsed) {
-      res.status(204).json({ message: "this email not recognised"});
+    const isUser = await isRightUser(password, token);
+
+    if (!isUser) {
+      res.status(204).json({ message: "this user not found"});
     }
+
+    res.status(200).json({ message: "success reset password"});
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;
