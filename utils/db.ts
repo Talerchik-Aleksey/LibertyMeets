@@ -2,6 +2,8 @@ import { Sequelize } from "sequelize-typescript";
 import { Dialect, PoolOptions } from "sequelize";
 import config from "config";
 import { Users } from "../models/users";
+import { Posts } from "../models/posts";
+import { UserPosts } from "../models/usersPosts";
 
 export type ConnectionOptionsType = {
   type?: Dialect;
@@ -26,8 +28,7 @@ export async function connect(): Promise<Sequelize> {
     benchmark: true,
     pool: options.pool,
     transactionType: "IMMEDIATE" as any,
-    models: [Users],
+    models: [Users, Posts, UserPosts],
   });
   return sequelize;
 }
-

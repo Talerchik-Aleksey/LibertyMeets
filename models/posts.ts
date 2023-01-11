@@ -11,6 +11,7 @@ import {
   CreatedAt,
   UpdatedAt,
   DeletedAt,
+  ForeignKey,
 } from "sequelize-typescript";
 import { Users } from "./users";
 
@@ -29,7 +30,7 @@ export class Posts extends Model {
 
   @AllowNull(false)
   @Column(DataType.NUMBER)
-  @BelongsTo(() => Users, "id")
+  @ForeignKey(() => Users)
   author_id!: string;
 
   @AllowNull(false)

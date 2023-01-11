@@ -43,7 +43,10 @@ export default async function handler(
       throw new HttpError(400, "invalid description length");
     }
 
-    const response = await axios.get(`${APP_URL}/api/auth/session`);
+    const response = await axios.get(`${APP_URL}/api/auth/session`, {
+      headers: { Cookie: req.headers.cookie },
+    });
+
     const session = response.data as Session;
     if (!session || Object.keys(session).length === 0) {
       res.status(401);

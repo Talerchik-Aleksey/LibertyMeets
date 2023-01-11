@@ -8,12 +8,13 @@ import {
   BelongsTo,
   AutoIncrement,
   CreatedAt,
+  ForeignKey,
 } from "sequelize-typescript";
 import { Posts } from "./posts";
 import { Users } from "./users";
 
 @Table({
-  timestamps: true,
+  timestamps: false,
   paranoid: false,
   underscored: true,
   tableName: "user_posts",
@@ -27,12 +28,12 @@ export class UserPosts extends Model {
 
   @AllowNull(false)
   @Column(DataType.NUMBER)
-  @BelongsTo(() => Users, "id")
+  @ForeignKey(() => Users)
   user_id!: number;
 
   @AllowNull(false)
   @Column(DataType.NUMBER)
-  @BelongsTo(() => Posts, "id")
+  @ForeignKey(() => Posts)
   post_id!: number;
 
   @CreatedAt
