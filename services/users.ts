@@ -31,7 +31,7 @@ export async function isEmailAlreadyUsed(email: string): Promise<boolean> {
   return users.length > 0;
 }
 
-export async function createResetToken(email: string, reset_pwd_token: string) {
+export async function fillToken(email: string, reset_pwd_token: string) {
   await Users.update({ reset_pwd_token },{
     where: {
       email,
@@ -52,7 +52,17 @@ export async function getUserByCredentials(
   return foundUser;
 }
 
-export async function isRightUser(password: string, token: string) {
+export async function isRightToken(token: string): Promise<boolean> {
+  const users = await Users.findAll({
+    where: {
+      reset_pwd_token: token,
+    },
+  });
+
+  return users.length > 0;
+}
+
+export async function changePassword(password: string, token: string) {
   const foundUser = await Users.findOne({ where: { reset_pwd_token: token } });
   if (!foundUser) {
     return null;

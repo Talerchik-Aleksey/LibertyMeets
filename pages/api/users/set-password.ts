@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isRightUser } from "../../../services/users";
+import { changePassword } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 
@@ -12,11 +12,12 @@ type bodyType = {
   password: string;
 };
 
+connect();
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<resType>
 ) {
-  await connect();
   try {
     if (!req.method || req.method! !== "POST") {
       res.status(405);
@@ -31,7 +32,7 @@ export default async function handler(
       throw new HttpError(400, "no password");
     }
 
-    const isUser = await isRightUser(password, token);
+    const isUser = await changePassword(password, token);
 
     if (!isUser) {
       res.status(204).json({ message: "this user not found"});

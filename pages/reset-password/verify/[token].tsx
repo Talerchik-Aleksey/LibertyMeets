@@ -6,16 +6,15 @@ import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 
 type propsType = { appUrl: string };
-const EMAIL = 'dkarpekin@12devs.com';
 
 export default function VerifyUser({ appUrl }: propsType){
-  const [isRightEmail, setIsRightEmail] = useState<boolean>(false);
+  const [isRightUser, setIsRightUser] = useState<boolean>(false);
   const router = useRouter();
   useEffect(() => {
     (async() => {
-      const req = await axios.post(`${appUrl}/api/users/verification`, { email: EMAIL });
+      const req = await axios.post(`${appUrl}/api/users/verification`, { token: router.query.token });
         if (req.status === 200) {
-          setIsRightEmail(true);
+          setIsRightUser(true);
         } else {
           router.push("/reset-password/expired-token");
         }
@@ -47,11 +46,9 @@ export default function VerifyUser({ appUrl }: propsType){
     },
   });
 
-  if (typeof window === "undefined") return null;
-
   return(
     <div>
-    {isRightEmail ?
+    {isRightUser ?
       <form onSubmit={formik.handleSubmit}>
       <input
         name="password"

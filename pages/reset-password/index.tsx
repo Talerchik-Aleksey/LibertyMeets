@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import config from "config";
@@ -18,14 +18,19 @@ export default function ResetPassword({ appUrl }: propsType){
       email: ""
     },
     onSubmit: async (values) => {
-      const req = await axios.post(`${appUrl}/api/users/reset-password`, values);
-      if (req.status === 200) {
-        setGenerateLink(`${appUrl}/reset-password/verify/${req.data.token}`)
-        router.push("/reset-password/check-email");
-      } else {
-        setIsWrongEmail(true);
-        router.push("/reset-password");
-      }
+      try {
+        const req = await axios.post(`${appUrl}/api/users/reset-password`, values);
+        if (req.status === 200) {
+          setGenerateLink(`${appUrl}/reset-password/verify/${req.data.token}`)
+          router.push("/reset-password/check-email");
+        }
+      } catch (err) {
+        const error = err as AxiosError;
+        const response = error.response;
+        if (response?.status === 403) {
+          setIsWrongEmail(true);
+        }
+      };
     },
   });
   console.log('generateLink <-------', generateLink);
@@ -33,7 +38,7 @@ export default function ResetPassword({ appUrl }: propsType){
     return(
         <>
         <div style={{ height: "897px" }}>
-          {isWrongEmail ? <div>This email not recognised</div> : <></>}
+          {isWrongEmail ? <div>This email is not exists</div> : <></>}
           <form className={styles.loginBlock} onSubmit={formik.handleSubmit}>
             <LibertyMeetsLogo size={1} />
             <div className={styles.inputBlock}>

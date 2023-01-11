@@ -1,25 +1,26 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isEmailAlreadyUsed } from "../../../services/users";
+import { isRightToken } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 
 type bodyType = {
-  email: string;
+  token: string;
 };
+
+connect();
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  await connect();
   try {
-    const { email } = req.body as bodyType;
+    const { token } = req.body as bodyType;
 
-    if (!email) {
-      throw new HttpError(400, "no email");
+    if (!token) {
+      throw new HttpError(400, "no token");
     }
 
-    const isUsed = await isEmailAlreadyUsed(email);
+    const isUsed = await isRightToken(token);
 
     if (!isUsed) {
       res.status(204).json({ message: "this email not recognised"});
