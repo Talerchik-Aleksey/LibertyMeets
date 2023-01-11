@@ -3,7 +3,6 @@ import { HttpError } from "../utils/HttpError";
 import { compareSync, hashSync } from "bcryptjs";
 import config from "config";
 import { Users } from "../models/users";
-import { v4 } from "uuid";
 import { connect } from "../utils/db";
 
 const saltLength = config.get<number>("hash.saltLength");
@@ -18,7 +17,6 @@ export async function saveUserToDatabase(user: UserType) {
   const userToSave = {
     email: user.email,
     password: hashSync(user.password, saltLength),
-    reset_pwd_token: v4(),
   };
   await Users.create(userToSave);
 }
