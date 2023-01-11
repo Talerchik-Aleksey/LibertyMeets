@@ -4,8 +4,10 @@ import { compareSync, hashSync } from "bcryptjs";
 import config from "config";
 import { Users } from "../models/users";
 import { v4 } from "uuid";
+import { connect } from "../utils/db";
 
 const saltLength = config.get<number>("hash.saltLength");
+connect();
 
 export async function saveUserToDatabase(user: UserType) {
   const isUsed = await isEmailAlreadyUsed(user.email);
@@ -31,4 +33,15 @@ async function isEmailAlreadyUsed(email: string): Promise<boolean> {
   return users.length > 0;
 }
 
-export async function getUserByCredentials(user: UserType) {}
+export async function getUserByCredentials(
+  user: UserType
+): Promise<Users | null> {
+  const foundUser = await Users.findOne({ where: { email: user.email } });
+  if (!foundUser) {
+    return null;
+  }
+  if (!compareSync(user.password, foundUser.password)) {
+    return null;
+  }
+  return foundUser;
+}
