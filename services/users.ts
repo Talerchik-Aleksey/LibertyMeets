@@ -3,9 +3,10 @@ import { HttpError } from "../utils/HttpError";
 import { compareSync, hashSync } from "bcryptjs";
 import config from "config";
 import { Users } from "../models/users";
-import { v4 } from "uuid";
+import { connect } from "../utils/db";
 
 const saltLength = config.get<number>("hash.saltLength");
+connect();
 
 export async function saveUserToDatabase(user: UserType) {
   const isUsed = await isEmailAlreadyUsed(user.email);
@@ -16,7 +17,6 @@ export async function saveUserToDatabase(user: UserType) {
   const userToSave = {
     email: user.email,
     password: hashSync(user.password, saltLength),
-    reset_pwd_token: v4(),
   };
   await Users.create(userToSave);
 }
@@ -31,4 +31,15 @@ async function isEmailAlreadyUsed(email: string): Promise<boolean> {
   return users.length > 0;
 }
 
-export async function getUserByCredentials(user: UserType) {}
+export async function getUserByCredentials(
+  user: UserType
+): Promise<Users | null> {
+  const foundUser = await Users.findOne({ where: { email: user.email } });
+  if (!foundUser) {
+    return null;
+  }
+  if (!compareSync(user.password, foundUser.password)) {
+    return null;
+  }
+  return foundUser;
+}
