@@ -6,42 +6,71 @@ import {
   Model,
   Default,
   PrimaryKey,
+  BelongsTo,
   AutoIncrement,
   CreatedAt,
   UpdatedAt,
   DeletedAt,
 } from "sequelize-typescript";
+import { Users } from "./users";
 
 @Table({
   timestamps: true,
   paranoid: true,
   underscored: true,
-  tableName: "users",
+  tableName: "posts",
   initialAutoIncrement: "1",
 })
-export class Users extends Model {
+export class Posts extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.NUMBER)
   id!: number;
 
   @AllowNull(false)
-  @Column(DataType.STRING)
-  email!: string;
+  @Column(DataType.NUMBER)
+  @BelongsTo(() => Users, "id")
+  author_id!: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  password!: string;
+  title!: string;
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  category!: string;
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  description!: string;
+
+  @AllowNull(false)
+  @Column(DataType.BOOLEAN)
+  is_public!: boolean;
 
   @AllowNull(true)
-  @Default("")
   @Column(DataType.STRING)
-  reset_pwd_token: string | undefined;
+  location_name!: string;
 
-  @AllowNull(false)
-  @Default(false)
-  @Column(DataType.BOOLEAN)
-  is_admin!: boolean;
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  street!: string;
+
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  city!: string;
+
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  state!: string;
+
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  zip!: string;
+
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  geo!: string;
 
   @AllowNull(false)
   @Default(true)
