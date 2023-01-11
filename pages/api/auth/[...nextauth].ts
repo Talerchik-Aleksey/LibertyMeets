@@ -1,5 +1,6 @@
-import NextAuth from "next-auth";
+import NextAuth, { DefaultUser } from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
+import { getUserByCredentials } from "../../../services/users";
 
 export default NextAuth({
   providers: [
@@ -10,11 +11,12 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (credentials?.email === "123" && credentials.password === "123") {
-          return { id: "1", name: "qwerty", qqq: "456" };
-        } else {
+        if (!credentials) {
           return null;
         }
+
+        const user = await getUserByCredentials(credentials);
+        return user as unknown as DefaultUser | null;
       },
     }),
   ],
@@ -22,15 +24,14 @@ export default NextAuth({
     jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id;
-        token.name = user.name;
+        token.email = user.email;
       }
-
       return token;
     },
     session: ({ session, token }) => {
       if (token) {
-        session.user!.id = token.id as string;
-        session.user!.name = token.name || "missing No";
+        session.user!.id = token.id as number;
+        session.user!.email = token.email || "missing No";
       }
 
       return session;
