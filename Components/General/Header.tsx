@@ -1,8 +1,12 @@
 import LibertyMeetsLogo from "../LibertyMeetsLogo";
+import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function Header() {
   const { data: session } = useSession();
+  const router = useRouter();
+
   if (session) {
     return (
       <header>
@@ -10,9 +14,13 @@ export default function Header() {
         <div className="clickableText" onClick={() => signOut()}>
           Log out
         </div>
+        <div className="clickableText">
+          <Link href="/reset-password">Reset password</Link>
+        </div>
       </header>
     );
   }
+
   return (
     <header>
       <LibertyMeetsLogo size={0.5} />
