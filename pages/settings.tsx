@@ -5,9 +5,9 @@ import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import styles from "../styles/signup.module.css";
 
-type RegistrationProps = { appUrl: string };
+type SettingsProps = { appUrl: string };
 
-export default function Registration({ appUrl }: RegistrationProps) {
+export default function Settings({ appUrl }: SettingsProps) {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
