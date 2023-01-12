@@ -35,8 +35,7 @@ export default async function handler(
     const token = await getToken({ req, secret: KEY });
 
     if (!token) {
-      res.status(401);
-      return;
+      throw new HttpError(400, "user does not valid");
     }
 
     await changePasswordByUserId( token.id as number, password );
