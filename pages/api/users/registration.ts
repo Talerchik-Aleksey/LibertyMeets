@@ -13,14 +13,16 @@ type bodyType = {
   password: string;
 };
 
+connect();
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<resType>
 ) {
-  await connect();
   try {
     if (!req.method || req.method! !== "POST") {
       res.status(405);
+      return;
     }
 
     const { email, password } = req.body as bodyType;
