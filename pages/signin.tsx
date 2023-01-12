@@ -54,7 +54,7 @@ export default function signin() {
             <label className={styles.rememberMe}>Remember Me</label>
             <div
               className="clickableText"
-              onClick={() => router.push("/resetPassword")}
+              onClick={() => router.push("/reset-password")}
             ></div>
           </div>
           <button type="submit">Log In</button>
