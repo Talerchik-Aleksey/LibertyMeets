@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { changePasswordByUserId } from "../../../services/users";
+import { changePasswordByUserId, isPasswordUsed } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import config from "config";
@@ -36,6 +36,12 @@ export default async function handler(
 
     if (!token) {
       throw new HttpError(400, "user does not valid");
+    }
+
+    const isUsedPassword = await isPasswordUsed(token.id as number, password);
+
+    if (isUsedPassword) {
+      throw new HttpError(400, "password used");
     }
 
     await changePasswordByUserId( token.id as number, password );

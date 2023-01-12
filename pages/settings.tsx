@@ -1,7 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { useFormik } from "formik";
 import config from "config";
-import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import styles from "../styles/signup.module.css";
 import { useState } from "react";
@@ -14,7 +13,6 @@ type ErrorResponse = {
 export default function Settings({ appUrl }: SettingsProps) {
   const [isUpdatedPassword, setIsUpdatedPassword] = useState<boolean>();
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       password: "",
@@ -22,7 +20,7 @@ export default function Settings({ appUrl }: SettingsProps) {
     },
     onSubmit: async (values) => {
       if (values.password !== values.repeatPassword) {
-        alert("repeatPassword");
+        setErrorMessage('repeat password');
         return;
       }
 

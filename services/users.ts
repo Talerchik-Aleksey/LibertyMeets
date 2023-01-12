@@ -61,6 +61,15 @@ export async function getUserByCredentials(
   return foundUser;
 }
 
+export async function isPasswordUsed(userId: number, password: string) {
+  const foundUser = await Users.findOne({ where: { id: userId } });
+  if (!foundUser) {
+    return null;
+  }
+
+  return compareSync(password, foundUser.password);
+}
+
 export async function changePasswordByUserId(userId: number, password: string) {
   await Users.update({ password: hashSync(password, saltLength) }, {
     where: {
