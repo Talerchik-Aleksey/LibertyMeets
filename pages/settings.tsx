@@ -34,7 +34,7 @@ export default function Registration({ appUrl }: RegistrationProps) {
       <form className={styles.loginBlock} onSubmit={formik.handleSubmit}>
         <div className={styles.inputBlock}>User Details</div>
         <div className={styles.inputBlock}>
-          <div className={styles.fieldName}>Password</div>
+          <div className={styles.fieldName}>New Password</div>
           <input
             className={styles.inputField}
             name="password"
@@ -45,7 +45,7 @@ export default function Registration({ appUrl }: RegistrationProps) {
           />
         </div>
         <div className={styles.inputBlock}>
-          <div className={styles.fieldName}>New Password</div>
+          <div className={styles.fieldName}>Repeat New Password</div>
           <input
             className={styles.inputField}
             name="repeatPassword"
