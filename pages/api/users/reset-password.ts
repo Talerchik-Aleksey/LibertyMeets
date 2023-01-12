@@ -1,15 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { fillToken, isEmailAlreadyUsed } from "../../../services/users";
+import { fillToken, findUser } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { v4 } from "uuid";
 
-type resType = {
+type ResType = {
   message: string;
   token?: string;
 };
 
-type bodyType = {
+type BodyType = {
   email: string;
 };
 
@@ -17,28 +17,29 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<resType>
+  res: NextApiResponse<ResType>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
       res.status(405);
+      return;
     }
 
-    const { email } = req.body as bodyType;
+    const { email } = req.body as BodyType;
 
     if (!email) {
       throw new HttpError(400, "no email");
     }
 
-    const isUsed = await isEmailAlreadyUsed(email);
+    const foundUser = await findUser(email);
 
-    if (isUsed) {
+    if (foundUser) {
       const reset_pwd_token = v4();
       await fillToken(email, reset_pwd_token);
       res.status(200).json({ message: "success create reset token", token: reset_pwd_token });
     }
 
-    if (!isUsed) {
+    if (!foundUser) {
       res.status(403).json({ message: "email is not exists"});
     }
   } catch (err) {

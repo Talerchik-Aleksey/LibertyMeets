@@ -31,6 +31,15 @@ export async function isEmailAlreadyUsed(email: string): Promise<boolean> {
   return users.length > 0;
 }
 
+export async function findUser(email: string) {
+  const foundUser = await Users.findOne({ where: { email: email } });
+  if (!foundUser) {
+    return null;
+  }
+
+  return foundUser;
+}
+
 export async function fillToken(email: string, reset_pwd_token: string) {
   await Users.update({ reset_pwd_token },{
     where: {

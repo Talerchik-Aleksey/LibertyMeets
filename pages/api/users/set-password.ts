@@ -3,11 +3,11 @@ import { changePassword } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 
-type resType = {
+type ResType = {
   message: string;
 };
 
-type bodyType = {
+type BodyType = {
   token: string;
   password: string;
 };
@@ -16,14 +16,14 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<resType>
+  res: NextApiResponse<ResType>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
       res.status(405);
     }
 
-    const { token, password } = req.body as bodyType;
+    const { token, password } = req.body as BodyType;
 
     if (!token) {
       throw new HttpError(400, "no email");

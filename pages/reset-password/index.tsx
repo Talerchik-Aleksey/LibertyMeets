@@ -7,9 +7,9 @@ import LibertyMeetsLogo from "../../Components/LibertyMeetsLogo";
 import styles from "../../styles/signup.module.css";
 import { useState } from "react";
 
-type propsType = { appUrl: string };
+type ResetPasswordProps = { appUrl: string };
 
-export default function ResetPassword({ appUrl }: propsType){
+export default function ResetPassword({ appUrl }: ResetPasswordProps){
   const [isWrongEmail, setIsWrongEmail] = useState<boolean>(false);
   const [generateLink, setGenerateLink] = useState<string>('');
   const router = useRouter();

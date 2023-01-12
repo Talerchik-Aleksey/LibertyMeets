@@ -5,9 +5,9 @@ import config from 'config';
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 
-type propsType = { appUrl: string };
+type ChangePasswordProps = { appUrl: string };
 
-export default function VerifyUser({ appUrl }: propsType){
+export default function ChangePassword({ appUrl }: ChangePasswordProps){
   const [isRightUser, setIsRightUser] = useState<boolean>(false);
   const router = useRouter();
   useEffect(() => {

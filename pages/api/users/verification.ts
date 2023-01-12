@@ -3,7 +3,7 @@ import { isRightToken } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 
-type bodyType = {
+type BodyType = {
   token: string;
 };
 
@@ -14,7 +14,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { token } = req.body as bodyType;
+    const { token } = req.body as BodyType;
 
     if (!token) {
       throw new HttpError(400, "no token");
