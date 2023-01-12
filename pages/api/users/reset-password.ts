@@ -37,10 +37,12 @@ export default async function handler(
       const reset_pwd_token = v4();
       await fillToken(email, reset_pwd_token);
       res.status(200).json({ message: "success create reset token", token: reset_pwd_token });
+      return;
     }
 
     if (!foundUser) {
       res.status(403).json({ message: "email is not exists"});
+      return;
     }
   } catch (err) {
     if (err instanceof HttpError) {

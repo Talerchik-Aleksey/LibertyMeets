@@ -36,6 +36,7 @@ export default async function handler(
 
     if (!isUser) {
       res.status(204).json({ message: "this user not found"});
+      return;
     }
 
     res.status(200).json({ message: "success reset password"});

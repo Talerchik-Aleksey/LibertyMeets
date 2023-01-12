@@ -24,6 +24,7 @@ export default async function handler(
 
     if (!isUsed) {
       res.status(204).json({ message: "this email not recognised"});
+      return;
     }
     res.status(200).json({ message: "success"});
   } catch (err) {
