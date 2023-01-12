@@ -43,3 +43,11 @@ export async function getUserByCredentials(
   }
   return foundUser;
 }
+
+export async function changePasswordByUserId(userId: number, password: string) {
+  await Users.update({ password: hashSync(password, saltLength) }, {
+    where: {
+      id: userId
+    }
+  });
+}
