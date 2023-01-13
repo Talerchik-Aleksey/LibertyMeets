@@ -56,7 +56,7 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const appUrl = config.get<string>("appUrl");
   const postsPerPage = config.get<number>("posts.perPage");
-  console.log(postsPerPage)
+  
   return {
     props: { appUrl, postsPerPage },
   };
