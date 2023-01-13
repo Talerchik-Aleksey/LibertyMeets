@@ -26,3 +26,21 @@ export async function savePostToDb({
   await UserPosts.create({ user_id: user.id, post_id: createdPost.id });
   return createdPost;
 }
+
+const PAGE_SIZE = 20;
+export async function getPosts(page: number, isUserLoggedIn: boolean) {
+  if (isUserLoggedIn) {
+    const posts = await Posts.findAll({
+      limit: PAGE_SIZE,
+      offset: PAGE_SIZE * (page - 1),
+    });
+    return posts;
+  }
+
+  const posts = await Posts.findAll({
+    where: { is_public: true },
+    limit: PAGE_SIZE,
+    offset: PAGE_SIZE * (page - 1),
+  });
+  return posts;
+}
