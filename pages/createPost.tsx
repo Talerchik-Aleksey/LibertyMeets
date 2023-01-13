@@ -30,7 +30,6 @@ export default function CreatePost({ appUrl }: propsType) {
       isPublic: true,
     },
     onSubmit: async (values) => {
-      console.log(`${appUrl}/api/posts/create`);
       const req = await axios.post(`${appUrl}/api/posts/create`, values, {
         withCredentials: true,
       });
