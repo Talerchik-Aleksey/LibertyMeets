@@ -2,6 +2,9 @@ import NextAuth, { DefaultUser } from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
 import { getUserByCredentials } from "../../../services/users";
 
+const LAT = 40.73061;
+const LNG = -73.935242;
+
 export default NextAuth({
   providers: [
     CredentialProvider({
@@ -23,6 +26,14 @@ export default NextAuth({
   callbacks: {
     jwt: ({ token, user }) => {
       if (user) {
+        const isEven = +user.id % 2;
+        if (isEven) {
+          token.lat = LAT;
+          token.lng = LNG;
+        } else {
+          token.lat = null;
+          token.lng = null;
+        }
         token.id = user.id;
         token.email = user.email;
       }
@@ -32,6 +43,8 @@ export default NextAuth({
       if (token) {
         session.user!.id = token.id as number;
         session.user!.email = token.email || "missing No";
+        session.user!.lat = token.lat as number;
+        session.user!.lng = token.lng as number;
       }
 
       return session;
