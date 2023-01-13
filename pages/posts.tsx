@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Posts } from "../models/posts";
 import { useRouter } from "next/router";
+import { Pagination } from "antd";
 
-type propsType = { appUrl: string };
+type PropsType = { appUrl: string };
 
-export default function PostsPage({ appUrl }: propsType) {
-  const [getPosts, setPosts] = useState<Posts[]>([]);
+export default function PostsPage({ appUrl }: PropsType) {
+  const [posts, setPosts] = useState<Posts[]>([]);
   const router = useRouter();
 
   let page = 1;
@@ -16,7 +17,7 @@ export default function PostsPage({ appUrl }: propsType) {
   if (queryPage && +queryPage) {
     page = +queryPage;
   }
-  
+
   useEffect(() => {
     (async () => {
       const res = await axios.get(`${appUrl}/api/events`, {
@@ -24,15 +25,27 @@ export default function PostsPage({ appUrl }: propsType) {
       });
       setPosts(res.data.data);
     })();
-  }, []);
+  }, [page]);
+
+  const handlerPagination = (page: number, pageSize: number) => {
+    router.query.page = page + "";
+    router.push(router);
+  };
 
   return (
     <>
-      {getPosts.map((item) => (
-        <div>
+      {posts.map((item) => (
+        <div key={item.id}>
           {item.category} {item.title} {item.geo} {item.event_time}
         </div>
       ))}
+
+      <Pagination
+        current={page}
+        total={500}
+        pageSize={20}
+        onChange={handlerPagination}
+      />
     </>
   );
 }
