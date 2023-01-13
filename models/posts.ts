@@ -74,6 +74,10 @@ export class Posts extends Model {
   geo!: string;
 
   @AllowNull(false)
+  @Column(DataType.DATE)
+  event_time!: Date;
+
+  @AllowNull(false)
   @Default(true)
   @Column(DataType.BOOLEAN)
   is_enabled!: boolean;
