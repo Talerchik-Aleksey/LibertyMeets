@@ -26,3 +26,54 @@ export async function savePostToDb({
   await UserPosts.create({ user_id: user.id, post_id: createdPost.id });
   return createdPost;
 }
+
+const PAGE_SIZE = 20;
+export async function getPosts(page: number, isPublic: boolean) {
+  // const posts = await Posts.findAll({
+  //   where: { is_public: isPublic },
+  //   limit: PAGE_SIZE,
+  //   offset: PAGE_SIZE * (page - 1),
+  // });
+
+  // return posts;
+
+  return [
+    {
+      title: "title1",
+      category: "social",
+      geo: "geo1",
+      event_time: new Date(),
+    },
+    {
+      title: "title1",
+      category: "social",
+      geo: "geo1",
+      event_time: new Date(),
+    },
+    {
+      title: "title1",
+      category: "social",
+      geo: "geo1",
+      event_time: new Date(),
+    },
+    {
+      title: "title1",
+      category: "social",
+      geo: "geo1",
+      event_time: new Date(),
+    },
+    {
+      title: "title1",
+      category: "social",
+      geo: "geo1",
+      event_time: new Date(),
+    },
+    {
+      title: "title1",
+      category: "social",
+      geo: "geo1",
+      event_time: new Date(),
+    },
+    
+  ];
+}
