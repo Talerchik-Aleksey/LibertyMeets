@@ -16,7 +16,7 @@ export default function PostsPage({ appUrl }: propsType) {
   if (queryPage && +queryPage) {
     page = +queryPage;
   }
-  console.log(page);
+  
   useEffect(() => {
     (async () => {
       const res = await axios.get(`${appUrl}/api/events`, {
