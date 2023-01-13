@@ -1,3 +1,4 @@
+import { FavoritePosts } from "../models/favoritePosts";
 import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
 import { PostType } from "../types/general";
@@ -43,4 +44,19 @@ export async function getPosts(page: number, isUserLoggedIn: boolean) {
     offset: PAGE_SIZE * (page - 1),
   });
   return posts;
+}
+
+export async function changeFavoritePost(userId: number, postId: number) {
+  const query = {
+    where: { user_id: userId, post_id: postId },
+  };
+  const foundFav = await FavoritePosts.findOne(query);
+
+  if (foundFav) {
+    await FavoritePosts.destroy(query);
+    return false;
+  } else {
+    await FavoritePosts.create(query);
+    return true;
+  }
 }
