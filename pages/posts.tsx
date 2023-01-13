@@ -43,7 +43,8 @@ export default function PostsPage({ appUrl }: PropsType) {
       <Pagination
         current={page}
         total={500}
-        pageSize={20}
+        defaultPageSize={20}
+        showSizeChanger={false}
         onChange={handlerPagination}
       />
     </>
