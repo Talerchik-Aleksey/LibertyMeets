@@ -24,9 +24,9 @@ export default async function handler(
     }
 
     const session = await getSession({ req });
-    const isPublic = !!session;
+    const isUserLoggedIn = !!session;
 
-    const post = await getPosts(1, isPublic);
+    const post = await getPosts(1, isUserLoggedIn);
     res.status(200).json({ status: "ok", data: post });
   } catch (err) {
     if (err instanceof HttpError) {
