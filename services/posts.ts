@@ -28,52 +28,19 @@ export async function savePostToDb({
 }
 
 const PAGE_SIZE = 20;
-export async function getPosts(page: number, isPublic: boolean) {
-  // const posts = await Posts.findAll({
-  //   where: { is_public: isPublic },
-  //   limit: PAGE_SIZE,
-  //   offset: PAGE_SIZE * (page - 1),
-  // });
+export async function getPosts(page: number, isUserLoggedIn: boolean) {
+  if (isUserLoggedIn) {
+    const posts = await Posts.findAll({
+      limit: PAGE_SIZE,
+      offset: PAGE_SIZE * (page - 1),
+    });
+    return posts;
+  }
 
-  // return posts;
-
-  return [
-    {
-      title: "title1",
-      category: "social",
-      geo: "geo1",
-      event_time: new Date(),
-    },
-    {
-      title: "title1",
-      category: "social",
-      geo: "geo1",
-      event_time: new Date(),
-    },
-    {
-      title: "title1",
-      category: "social",
-      geo: "geo1",
-      event_time: new Date(),
-    },
-    {
-      title: "title1",
-      category: "social",
-      geo: "geo1",
-      event_time: new Date(),
-    },
-    {
-      title: "title1",
-      category: "social",
-      geo: "geo1",
-      event_time: new Date(),
-    },
-    {
-      title: "title1",
-      category: "social",
-      geo: "geo1",
-      event_time: new Date(),
-    },
-    
-  ];
+  const posts = await Posts.findAll({
+    where: { is_public: true },
+    limit: PAGE_SIZE,
+    offset: PAGE_SIZE * (page - 1),
+  });
+  return posts;
 }
