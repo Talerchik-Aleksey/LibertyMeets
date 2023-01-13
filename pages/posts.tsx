@@ -6,10 +6,11 @@ import { Posts } from "../models/posts";
 import { useRouter } from "next/router";
 import { Pagination } from "antd";
 
-type PropsType = { appUrl: string };
+type PropsType = { appUrl: string; postsPerPage: number };
 
-export default function PostsPage({ appUrl }: PropsType) {
+export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
   const [posts, setPosts] = useState<Posts[]>([]);
+  const [totalCount, setTotalCount] = useState<number>(0);
   const router = useRouter();
 
   let page = 1;
@@ -23,11 +24,12 @@ export default function PostsPage({ appUrl }: PropsType) {
       const res = await axios.get(`${appUrl}/api/events`, {
         params: { page },
       });
-      setPosts(res.data.data);
+      setPosts(res.data.data.posts);
+      setTotalCount(res.data.data.count)
     })();
   }, [page]);
 
-  const handlerPagination = (page: number, pageSize: number) => {
+  const handlerPagination = (page: number) => {
     router.query.page = page + "";
     router.push(router);
   };
@@ -42,8 +44,8 @@ export default function PostsPage({ appUrl }: PropsType) {
 
       <Pagination
         current={page}
-        total={500}
-        defaultPageSize={20}
+        total={totalCount}
+        defaultPageSize={postsPerPage}
         showSizeChanger={false}
         onChange={handlerPagination}
       />
@@ -53,7 +55,9 @@ export default function PostsPage({ appUrl }: PropsType) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const appUrl = config.get<string>("appUrl");
+  const postsPerPage = config.get<number>("posts.perPage");
+  console.log(postsPerPage)
   return {
-    props: { appUrl },
+    props: { appUrl, postsPerPage },
   };
 };
