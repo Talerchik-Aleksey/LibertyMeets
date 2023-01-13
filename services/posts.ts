@@ -27,7 +27,7 @@ export async function savePostToDb({
   return createdPost;
 }
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 2;
 export async function getPosts(page: number, isUserLoggedIn: boolean) {
   if (isUserLoggedIn) {
     const posts = await Posts.findAll({

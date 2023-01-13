@@ -3,17 +3,26 @@ import config from "config";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Posts } from "../models/posts";
+import { useRouter } from "next/router";
 
 type propsType = { appUrl: string };
 
 export default function PostsPage({ appUrl }: propsType) {
   const [getPosts, setPosts] = useState<Posts[]>([]);
+  const router = useRouter();
+
+  let page = 1;
+  const queryPage = router.query.page;
+  if (queryPage && +queryPage) {
+    page = +queryPage;
+  }
+  console.log(page);
   useEffect(() => {
     (async () => {
       const res = await axios.get(`${appUrl}/api/events`, {
-        params: { page: 1 },
+        params: { page },
       });
-      setPosts(res.data.data)
+      setPosts(res.data.data);
     })();
   }, []);
 

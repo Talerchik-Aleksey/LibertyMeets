@@ -10,6 +10,10 @@ type resType = {
   data: any;
 };
 
+type queryType = {
+  page: number | undefined;
+};
+
 connect();
 const APP_URL = config.get<string>("appUrl");
 
@@ -23,10 +27,15 @@ export default async function handler(
       return;
     }
 
+    let { page } = req.query as queryType;
+    if (!page) {
+      page = 1;
+    }
+
     const session = await getSession({ req });
     const isUserLoggedIn = !!session;
 
-    const post = await getPosts(1, isUserLoggedIn);
+    const post = await getPosts(page, isUserLoggedIn);
     res.status(200).json({ status: "ok", data: post });
   } catch (err) {
     if (err instanceof HttpError) {
