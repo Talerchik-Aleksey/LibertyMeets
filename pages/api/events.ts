@@ -34,8 +34,8 @@ export default async function handler(
 
     const session = await getSession({ req });
 
-    const posts = await getPosts(page, session?.user);
-    res.status(200).json({ status: "ok", data: posts });
+    const { posts, count } = await getPosts(page, session?.user);
+    res.status(200).json({ status: "ok", data: { posts, count } });
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;

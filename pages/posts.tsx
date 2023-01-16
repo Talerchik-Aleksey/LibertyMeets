@@ -2,11 +2,10 @@ import { GetServerSideProps } from "next";
 import config from "config";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Posts } from "../models/posts";
 import { useRouter } from "next/router";
 import { Pagination } from "antd";
 
-type PropsType = { appUrl: string, postsPerPage:number };
+type PropsType = { appUrl: string; postsPerPage: number };
 type PostType = {
   id: number;
   title: string;
@@ -17,7 +16,7 @@ type PostType = {
   favoriteUsers: { id: number }[];
 };
 
-export default function PostsPage({ appUrl }: PropsType) {
+export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const router = useRouter();
@@ -34,7 +33,7 @@ export default function PostsPage({ appUrl }: PropsType) {
         params: { page },
       });
       setPosts(res.data.data.posts);
-      setTotalCount(res.data.data.count)
+      setTotalCount(res.data.data.count);
     })();
   }, [page]);
 
@@ -98,8 +97,8 @@ export default function PostsPage({ appUrl }: PropsType) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const appUrl = config.get<string>("appUrl");
   const postsPerPage = config.get<number>("posts.perPage");
-  
+
   return {
-    props: { appUrl },
+    props: { appUrl, postsPerPage },
   };
 };

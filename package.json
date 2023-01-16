@@ -13,7 +13,7 @@
     "@types/node": "18.11.18",
     "@types/react": "^16.0.0",
     "@types/react-dom": "18.0.10",
-    "antd": "^5.1.4",
+    "antd": "^5.1.5",
     "axios": "^1.2.2",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.8",

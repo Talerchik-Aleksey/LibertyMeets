@@ -31,7 +31,6 @@ export async function savePostToDb({
   return createdPost;
 }
 
-const PAGE_SIZE = 20;
 export async function getPosts(
   page: number,
   user: { id: number } | null | undefined
@@ -47,7 +46,8 @@ export async function getPosts(
         required: false,
       },
     });
-    return posts;
+    const count = await Posts.count();
+    return { posts, count };
   }
 
   const posts = await Posts.findAll({
@@ -55,7 +55,7 @@ export async function getPosts(
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * (page - 1),
   });
-  const count = await Posts.count({ where });
+  const count = await Posts.count({ where: { is_public: true } });
   return { count, posts };
 }
 
