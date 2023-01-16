@@ -1,6 +1,9 @@
 import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
 import { PostType } from "../types/general";
+import config from "config";
+
+const PAGE_SIZE = config.get<number>("posts.perPage");
 
 export async function savePostToDb({
   user,
@@ -27,20 +30,20 @@ export async function savePostToDb({
   return createdPost;
 }
 
-const PAGE_SIZE = 20;
-export async function getPosts(page: number, isUserLoggedIn: boolean) {
-  if (isUserLoggedIn) {
-    const posts = await Posts.findAll({
-      limit: PAGE_SIZE,
-      offset: PAGE_SIZE * (page - 1),
-    });
-    return posts;
+export async function getPosts(
+  page: number,
+  isUserLoggedIn: boolean
+): Promise<{ count: number; posts: Posts[] }> {
+  let where = undefined;
+  if (!isUserLoggedIn) {
+    where = { is_public: true };
   }
 
   const posts = await Posts.findAll({
-    where: { is_public: true },
+    where,
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * (page - 1),
   });
-  return posts;
+  const count = await Posts.count({ where });
+  return { count, posts };
 }
