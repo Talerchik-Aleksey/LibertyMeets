@@ -12,6 +12,7 @@ type PostType = {
   geo: string;
   event_time: Date;
   category: string;
+  favoriteUsers: { id: number }[];
 };
 
 export default function PostsPage({ appUrl }: propsType) {
@@ -29,7 +30,7 @@ export default function PostsPage({ appUrl }: propsType) {
       const res = await axios.get(`${appUrl}/api/events`, {
         params: { page },
       });
-      console.log(res.data)
+      console.log(res.data);
       setPosts(res.data.data);
     })();
   }, []);
@@ -37,8 +38,14 @@ export default function PostsPage({ appUrl }: propsType) {
   return (
     <>
       {getPosts.map((item) => (
-        <div>
+        <div key={`post ${item.id}`}>
+          {item.favoriteUsers.length > 0 ? (
+            <div>star </div>
+          ) : (
+            <div>no star</div>
+          )}
           {item.category} {item.title} {item.geo} {item.event_time}
+          <hr />
         </div>
       ))}
     </>

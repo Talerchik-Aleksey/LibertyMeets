@@ -41,7 +41,7 @@ export async function getPosts(
         model: FavoritePosts,
         as: "favoriteUsers",
         where: { user_id: user.id },
-        required:false
+        required: false,
       },
     });
     return posts;
