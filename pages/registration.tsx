@@ -27,7 +27,8 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
       if (!recaptchaValue) {
         return;
       }
-      await axios.post(`${appUrl}/api/recaptcha`, recaptchaValue);
+
+      values.recaptchaValue = recaptchaValue;
 
       const req = await axios.post(`${appUrl}/api/users/registration`, values);
       if (req.status === 200) {
