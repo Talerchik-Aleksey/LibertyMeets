@@ -1,18 +1,17 @@
-import axios from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { savePostToDb } from "../../../services/posts";
 import { PostType } from "../../../types/general";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import config from "config";
-import { Session } from "next-auth";
+import { getSession } from "next-auth/react";
 
-type resType = {
+type ResType = {
   status: string;
   data: any;
 };
 
-type bodyType = PostType;
+type BodyType = PostType;
 
 connect();
 const CATEGORIES = ["social", "volunteer", "professional", "camping"];
@@ -20,7 +19,7 @@ const APP_URL = config.get<string>("appUrl");
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<resType>
+  res: NextApiResponse<ResType>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
@@ -28,8 +27,12 @@ export default async function handler(
       return;
     }
 
-    const body = req.body as bodyType;
+    const body = req.body as BodyType;
     const { title, category, description } = body;
+
+    if (!title || !category || !description || !body.isPublic) {
+      throw new HttpError(400, "invalid body structure");
+    }
 
     if (title.length < 4 || title.length > 28) {
       throw new HttpError(400, "invalid title length");
@@ -43,12 +46,8 @@ export default async function handler(
       throw new HttpError(400, "invalid description length");
     }
 
-    const response = await axios.get(`${APP_URL}/api/auth/session`, {
-      headers: { Cookie: req.headers.cookie },
-    });
-
-    const session = response.data as Session;
-    if (!session || Object.keys(session).length === 0) {
+    const session = await getSession({req})
+    if (!session) {
       res.status(401);
       return;
     }

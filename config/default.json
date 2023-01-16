@@ -1,7 +1,5 @@
 {
-  "hash": {
-    "saltLength": 10
-  },
+  "appUrl":"http://localhost:3000",
   "db": {
     "type": "postgres",
     "host": "localhost",
@@ -10,6 +8,11 @@
     "password": "",
     "database": "liberty"
   },
-  "appUrl":"http://localhost:3000",
-  "secretKey":"test"
+  "secretKey":"test",
+  "hash": {
+    "saltLength": 10
+  },
+  "posts":{
+    "perPage":2
+  }
 }
