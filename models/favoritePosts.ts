@@ -40,8 +40,6 @@ export class FavoritePosts extends Model {
   @Column
   createdAt!: Date;
 
-  /////////////////////////////
-
   @BelongsTo(() => Posts)
   post?: Posts;
 }
