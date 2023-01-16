@@ -56,16 +56,14 @@ export async function getPosts(
 }
 
 export async function changeFavoritePost(userId: number, postId: number) {
-  const query = {
-    where: { user_id: userId, post_id: postId },
-  };
-  const foundFav = await FavoritePosts.findOne(query);
+  const info = { user_id: userId, post_id: postId };
+  const foundFav = await FavoritePosts.findOne({ where: info });
 
   if (foundFav) {
-    await FavoritePosts.destroy(query);
+    await FavoritePosts.destroy({ where: info });
     return false;
   } else {
-    await FavoritePosts.create(query);
+    await FavoritePosts.create(info);
     return true;
   }
 }
