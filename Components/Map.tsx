@@ -7,10 +7,11 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
+import { DEFAULT_LAT, DEFAULT_LNG } from "../constants/constants";
 
 const center = {
-  lat: 51.505,
-  lng: -0.09,
+  lat: DEFAULT_LAT,
+  lng: DEFAULT_LNG,
 };
 
 type MapProps = {
@@ -45,7 +46,7 @@ function LocationMarker(props: MapProps) {
       map.flyTo(position, map.getZoom());
     }
   }, [lat, lng, map]);
-
+// TODO Customize popup
   return position === null ? null : (
     <Marker position={position}>
       <Popup>
@@ -60,7 +61,7 @@ export default function Map(props: MapProps) {
 
   return (
     <MapContainer
-      center={[51.505, -0.09]}
+      center={[DEFAULT_LAT,DEFAULT_LNG]}
       zoom={13}
       scrollWheelZoom={false}
       style={{ height: 460, width: 842 }}

@@ -1,9 +1,7 @@
 import NextAuth, { DefaultUser } from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
 import { getUserByCredentials } from "../../../services/users";
-
-const LAT = 40.73061;
-const LNG = -73.935242;
+import { DEFAULT_LAT, DEFAULT_LNG } from "../../../constants/constants";
 
 export default NextAuth({
   providers: [
@@ -28,8 +26,8 @@ export default NextAuth({
       if (user) {
         const isEven = +user.id % 2;
         if (isEven) {
-          token.lat = LAT;
-          token.lng = LNG;
+          token.lat = DEFAULT_LAT;
+          token.lng = DEFAULT_LNG;
         } else {
           token.lat = null;
           token.lng = null;

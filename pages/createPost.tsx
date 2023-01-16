@@ -8,11 +8,9 @@ import { GetServerSideProps } from "next";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
+import { KEY_LAT, KEY_LNG } from "../constants/constants";
 
 type PropsType = { appUrl: string };
-
-const LAT = "lat";
-const LNG = "lng";
 
 const options = {
   enableHighAccuracy: true,
@@ -24,7 +22,6 @@ export default function CreatePost({ appUrl }: PropsType) {
   const { data: session } = useSession();
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
-  console.log("session <-------", session);
 
   const Map = useMemo(
     () =>
@@ -40,8 +37,8 @@ export default function CreatePost({ appUrl }: PropsType) {
   }) {
     setLat(position.coords.latitude);
     setLng(position.coords.longitude);
-    localStorage.setItem(LAT, position.coords.latitude.toString());
-    localStorage.setItem(LNG, position.coords.longitude.toString());
+    localStorage.setItem(KEY_LAT, position.coords.latitude.toString());
+    localStorage.setItem(KEY_LNG, position.coords.longitude.toString());
   }
 
   function error(err: { code: any; message: any }) {
@@ -59,12 +56,14 @@ export default function CreatePost({ appUrl }: PropsType) {
       if (lat) setLat(lat);
       if (lng) setLng(lng);
       if (lat && lng) {
+        localStorage.setItem(KEY_LAT, lat.toString());
+        localStorage.setItem(KEY_LNG, lng.toString());
         return;
       }
     }
     if (!lat || !lng) {
-      lsLat = localStorage.getItem(LAT);
-      lsLng = localStorage.getItem(LNG);
+      lsLat = localStorage.getItem(KEY_LAT);
+      lsLng = localStorage.getItem(KEY_LNG);
       if (lsLat) setLat(+lsLat);
       if (lsLng) setLng(+lsLng);
       if (lsLat && lsLng) {
