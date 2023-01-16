@@ -8,6 +8,7 @@
     "password": "",
     "database": "liberty"
   },
+  "secretKey":"test",
   "hash": {
     "saltLength": 10
   },
