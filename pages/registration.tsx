@@ -4,9 +4,9 @@ import config from "config";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 
-type propsType = { appUrl: string };
+type PropsType = { appUrl: string };
 
-export default function Registration({ appUrl }: propsType) {
+export default function Registration({ appUrl }: PropsType) {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {

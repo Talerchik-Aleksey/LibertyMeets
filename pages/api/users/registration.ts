@@ -4,11 +4,11 @@ import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { validateEmail } from "../../../utils/stringUtils";
 
-type resType = {
+type ResType = {
   message: string;
 };
 
-type bodyType = {
+type BodyType = {
   email: string;
   password: string;
 };
@@ -17,7 +17,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<resType>
+  res: NextApiResponse<ResType>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
@@ -25,7 +25,7 @@ export default async function handler(
       return;
     }
 
-    const { email, password } = req.body as bodyType;
+    const { email, password } = req.body as BodyType;
 
     if (!email) {
       throw new HttpError(400, "no email");
