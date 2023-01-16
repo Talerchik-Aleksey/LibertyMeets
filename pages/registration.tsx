@@ -19,15 +19,15 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
       recaptchaValue: "",
     },
     onSubmit: async (values) => {
-      const recaptchaValue = recaptchaRef.current?.getValue();
-      if (!recaptchaValue) {
-        return;
-      }
       if (values.password !== values.repeatPassword) {
         alert("repeatPassword");
         return;
       }
-      values.recaptchaValue = recaptchaValue;
+      const recaptchaValue = recaptchaRef.current?.getValue();
+      if (!recaptchaValue) {
+        return;
+      }
+      await axios.post(`${appUrl}/api/recaptcha`, recaptchaValue);
 
       const req = await axios.post(`${appUrl}/api/users/registration`, values);
       if (req.status === 200) {
