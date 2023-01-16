@@ -44,7 +44,4 @@ export class FavoritePosts extends Model {
 
   @BelongsTo(() => Posts)
   post?: Posts;
-
-  // @BelongsTo(() => Users)
-  // user?: Users;
 }
