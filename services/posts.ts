@@ -2,6 +2,9 @@ import { FavoritePosts } from "../models/favoritePosts";
 import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
 import { PostType } from "../types/general";
+import config from "config";
+
+const PAGE_SIZE = config.get<number>("posts.perPage");
 
 export async function savePostToDb({
   user,
@@ -52,7 +55,8 @@ export async function getPosts(
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * (page - 1),
   });
-  return posts;
+  const count = await Posts.count({ where });
+  return { count, posts };
 }
 
 export async function changeFavoritePost(userId: number, postId: number) {

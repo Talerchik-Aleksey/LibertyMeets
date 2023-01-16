@@ -6,12 +6,12 @@ import { HttpError } from "../../../utils/HttpError";
 import config from "config";
 import { getSession } from "next-auth/react";
 
-type resType = {
+type ResType = {
   status: string;
   data: any;
 };
 
-type bodyType = PostType;
+type BodyType = PostType;
 
 connect();
 const CATEGORIES = ["social", "volunteer", "professional", "camping"];
@@ -19,7 +19,7 @@ const APP_URL = config.get<string>("appUrl");
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<resType>
+  res: NextApiResponse<ResType>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
@@ -27,7 +27,7 @@ export default async function handler(
       return;
     }
 
-    const body = req.body as bodyType;
+    const body = req.body as BodyType;
     const { title, category, description } = body;
 
     if (!title || !category || !description || !body.isPublic) {

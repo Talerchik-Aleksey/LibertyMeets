@@ -5,12 +5,12 @@ import { getSession } from "next-auth/react";
 import { connect } from "../../utils/db";
 import { HttpError } from "../../utils/HttpError";
 
-type resType = {
+type ResType = {
   status: string;
   data: any;
 };
 
-type queryType = {
+type QueryType = {
   page: number | undefined;
 };
 
@@ -19,7 +19,7 @@ const APP_URL = config.get<string>("appUrl");
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<resType>
+  res: NextApiResponse<ResType>
 ) {
   try {
     if (!req.method || req.method! !== "GET") {
@@ -27,7 +27,7 @@ export default async function handler(
       return;
     }
 
-    let { page } = req.query as queryType;
+    let { page } = req.query as QueryType;
     if (!page) {
       page = 1;
     }

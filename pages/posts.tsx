@@ -2,9 +2,11 @@ import { GetServerSideProps } from "next";
 import config from "config";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Posts } from "../models/posts";
 import { useRouter } from "next/router";
+import { Pagination } from "antd";
 
-type propsType = { appUrl: string };
+type PropsType = { appUrl: string, postsPerPage:number };
 type PostType = {
   id: number;
   title: string;
@@ -15,8 +17,9 @@ type PostType = {
   favoriteUsers: { id: number }[];
 };
 
-export default function PostsPage({ appUrl }: propsType) {
+export default function PostsPage({ appUrl }: PropsType) {
   const [posts, setPosts] = useState<PostType[]>([]);
+  const [totalCount, setTotalCount] = useState<number>(0);
   const router = useRouter();
 
   let page = 1;
@@ -30,9 +33,15 @@ export default function PostsPage({ appUrl }: propsType) {
       const res = await axios.get(`${appUrl}/api/events`, {
         params: { page },
       });
-      setPosts(res.data.data);
+      setPosts(res.data.data.posts);
+      setTotalCount(res.data.data.count)
     })();
-  }, []);
+  }, [page]);
+
+  const handlerPagination = (page: number) => {
+    router.query.page = page + "";
+    router.push(router);
+  };
 
   async function changeStar(postId: number) {
     const res = await axios.post(`${appUrl}/api/favorites/${postId}`);
@@ -74,12 +83,22 @@ export default function PostsPage({ appUrl }: propsType) {
           <hr />
         </div>
       ))}
+
+      <Pagination
+        current={page}
+        total={totalCount}
+        defaultPageSize={postsPerPage}
+        showSizeChanger={false}
+        onChange={handlerPagination}
+      />
     </>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const appUrl = config.get<string>("appUrl");
+  const postsPerPage = config.get<number>("posts.perPage");
+  
   return {
     props: { appUrl },
   };
