@@ -2,13 +2,20 @@ import { GetServerSideProps } from "next";
 import config from "config";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Posts } from "../models/posts";
 import { useRouter } from "next/router";
 
 type propsType = { appUrl: string };
+type PostType = {
+  id: number;
+  title: string;
+  is_favorite: boolean;
+  geo: string;
+  event_time: Date;
+  category: string;
+};
 
 export default function PostsPage({ appUrl }: propsType) {
-  const [getPosts, setPosts] = useState<Posts[]>([]);
+  const [getPosts, setPosts] = useState<PostType[]>([]);
   const router = useRouter();
 
   let page = 1;
@@ -16,12 +23,13 @@ export default function PostsPage({ appUrl }: propsType) {
   if (queryPage && +queryPage) {
     page = +queryPage;
   }
-  
+
   useEffect(() => {
     (async () => {
       const res = await axios.get(`${appUrl}/api/events`, {
         params: { page },
       });
+      console.log(res.data)
       setPosts(res.data.data);
     })();
   }, []);

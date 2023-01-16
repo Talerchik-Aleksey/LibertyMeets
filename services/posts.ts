@@ -29,11 +29,20 @@ export async function savePostToDb({
 }
 
 const PAGE_SIZE = 20;
-export async function getPosts(page: number, isUserLoggedIn: boolean) {
-  if (isUserLoggedIn) {
+export async function getPosts(
+  page: number,
+  user: { id: number } | null | undefined
+) {
+  if (user) {
     const posts = await Posts.findAll({
       limit: PAGE_SIZE,
       offset: PAGE_SIZE * (page - 1),
+      include: {
+        model: FavoritePosts,
+        as: "favoriteUsers",
+        where: { user_id: user.id },
+        required:false
+      },
     });
     return posts;
   }

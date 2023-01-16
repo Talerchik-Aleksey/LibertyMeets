@@ -6,13 +6,14 @@ import {
   Model,
   Default,
   PrimaryKey,
-  BelongsTo,
   AutoIncrement,
   CreatedAt,
   UpdatedAt,
   DeletedAt,
   ForeignKey,
+  HasMany,
 } from "sequelize-typescript";
+import { FavoritePosts } from "./favoritePosts";
 import { Users } from "./users";
 
 @Table({
@@ -93,4 +94,7 @@ export class Posts extends Model {
   @DeletedAt
   @Column
   deletedAt!: Date;
+
+  @HasMany(() => FavoritePosts, { foreignKey: "post_id" })
+  favoriteUsers?: FavoritePosts[];
 }

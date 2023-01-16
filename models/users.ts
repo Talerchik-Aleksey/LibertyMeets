@@ -10,7 +10,9 @@ import {
   CreatedAt,
   UpdatedAt,
   DeletedAt,
+  HasMany,
 } from "sequelize-typescript";
+import { FavoritePosts } from "./favoritePosts";
 
 @Table({
   timestamps: true,
@@ -59,4 +61,7 @@ export class Users extends Model {
   @DeletedAt
   @Column
   deletedAt!: Date;
+
+  @HasMany(() => FavoritePosts, { foreignKey: 'user_id' })
+  favoritePosts?: FavoritePosts[];
 }
