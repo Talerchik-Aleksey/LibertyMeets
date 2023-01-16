@@ -6,11 +6,9 @@ import { GetServerSideProps } from "next";
 import ReCAPTCHA from "react-google-recaptcha";
 import { createRef } from "react";
 
-type PropsType = { appUrl: string };
+type PropsType = { appUrl: string; recaptchaKey: string };
 
-const RECAPTCHA_PUBLIC_KEY = "6LeAP_8jAAAAAHdN2O95MOJDmCGK8ELnuUFIYiJr";
-
-export default function Registration({ appUrl }: PropsType) {
+export default function Registration({ appUrl, recaptchaKey }: PropsType) {
   const recaptchaRef = createRef<ReCAPTCHA>();
   const router = useRouter();
   const formik = useFormik({
@@ -65,7 +63,7 @@ export default function Registration({ appUrl }: PropsType) {
         />
         <button type="submit">Submit</button>
         <ReCAPTCHA
-          sitekey={RECAPTCHA_PUBLIC_KEY}
+          sitekey={recaptchaKey}
           onChange={formik.handleChange}
           ref={recaptchaRef}
         />
@@ -76,7 +74,8 @@ export default function Registration({ appUrl }: PropsType) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const appUrl = config.get<string>("appUrl");
+  const recaptchaKey = config.get<string>("recaptcha.public_recaptcha_key");
   return {
-    props: { appUrl },
+    props: { appUrl, recaptchaKey },
   };
 };

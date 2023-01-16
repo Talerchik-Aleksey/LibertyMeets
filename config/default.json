@@ -15,6 +15,8 @@
   "posts":{
     "perPage":2
   },
-  "public_recaptcha_key":"",
-  "recaptcha_key":""
+  "recaptcha":{
+    "public_recaptcha_key":"",
+    "recaptcha_key":""
+  }
 }

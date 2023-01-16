@@ -16,7 +16,7 @@ type BodyType = {
   recaptchaValue: string;
 };
 
-const RECAPTCHA_SECRET_KEY = config.get<string>("recaptcha_key");
+const RECAPTCHA_SECRET_KEY = config.get<string>("recaptcha.recaptcha_key");
 
 connect();
 
@@ -32,13 +32,6 @@ export default async function handler(
 
     const { email, password, recaptchaValue } = req.body as BodyType;
 
-    const response = await axios.post(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${RECAPTCHA_SECRET_KEY}&response=${recaptchaValue}`
-    );
-
-    if (!response.data.success) {
-      throw new HttpError(400, "reCAPTCHA error");
-    }
     if (!email) {
       throw new HttpError(400, "no email");
     }
@@ -49,6 +42,14 @@ export default async function handler(
 
     if (!validateEmail(email)) {
       throw new HttpError(400, "invalid email");
+    }
+
+    const response = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${RECAPTCHA_SECRET_KEY}&response=${recaptchaValue}`
+    );
+
+    if (!response.data.success) {
+      throw new HttpError(400, "reCAPTCHA error");
     }
 
     await saveUserToDatabase({ email, password });
