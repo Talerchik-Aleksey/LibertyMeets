@@ -37,7 +37,7 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
       setPosts(res.data.data.posts);
       setTotalCount(res.data.data.count);
     })();
-  }, [appUrl, page]);
+  }, [page, category, appUrl]);
 
   const handlerPagination = (page: number) => {
     router.query.page = page + "";
@@ -59,15 +59,6 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
     console.log(foundPost.is_favorite);
   }
 
-  async function filterByCategories(category: string) {
-    setCategory(category);
-    const res = await axios.get(`${appUrl}/api/events`, {
-      params: { category },
-    });
-    setPosts(res.data.data.posts);
-    setTotalCount(res.data.data.count);
-  }
-
   return (
     <>
       <div style={{ display: "flex" }}>
@@ -75,7 +66,7 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
           <div
             style={{ padding: 20, cursor: "pointer" }}
             key={index}
-            onClick={() => filterByCategories(`${item}`)}
+            onClick={() => setCategory(item)}
           >
             {item}
           </div>

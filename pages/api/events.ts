@@ -34,6 +34,7 @@ export default async function handler(
     }
 
     if (category === "All") category = undefined;
+    if (category) page = 1;
 
     const session = await getSession({ req });
 
