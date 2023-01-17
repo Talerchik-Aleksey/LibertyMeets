@@ -1,13 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 import { HttpError } from "../../../utils/HttpError";
+import { getUserPosts } from "../../../services/posts";
 
 type ResType = {
   status: string;
   data: any;
 };
 
-export default async function getUserPosts(
+export default async function userPosts(
   req: NextApiRequest,
   res: NextApiResponse<ResType>
 ) {
@@ -22,6 +23,9 @@ export default async function getUserPosts(
       res.status(401);
       return;
     }
+
+    const posts = await getUserPosts(session.user.id);
+    res.status(200).json({ status: "ok", data: { posts } });
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;

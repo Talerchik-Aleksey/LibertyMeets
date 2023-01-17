@@ -3,6 +3,7 @@ import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
 import { PostType } from "../types/general";
 import config from "config";
+import userPosts from "../pages/api/posts/get-userPosts";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -78,4 +79,11 @@ export async function changeFavoritePost(userId: number, postId: number) {
     await FavoritePosts.create(info);
     return true;
   }
+}
+
+export async function getUserPosts(id: number) {
+  const userPosts = await Posts.findAll({
+    where: { author_id: id },
+  });
+  return { userPosts };
 }
