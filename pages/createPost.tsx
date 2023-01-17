@@ -119,7 +119,7 @@ export default function CreatePost({ appUrl }: PropsType) {
             <option value="social">Social</option>
             <option value="volunteer">Volunteer</option>
             <option value="professional">Proffesional</option>
-            <option value="camping">Camping</option>
+            <option value="campaigns">Сampaigns</option>
           </select>
           <input
             name="isPublic"
