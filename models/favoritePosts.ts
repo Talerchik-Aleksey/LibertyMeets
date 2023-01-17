@@ -8,6 +8,7 @@ import {
   AutoIncrement,
   CreatedAt,
   ForeignKey,
+  BelongsTo,
 } from "sequelize-typescript";
 import { Posts } from "./posts";
 import { Users } from "./users";
@@ -38,4 +39,7 @@ export class FavoritePosts extends Model {
   @CreatedAt
   @Column
   createdAt!: Date;
+
+  @BelongsTo(() => Posts)
+  post?: Posts;
 }

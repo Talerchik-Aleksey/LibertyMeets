@@ -4,6 +4,7 @@ import config from "config";
 import { Users } from "../models/users";
 import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
+import { FavoritePosts } from "../models/favoritePosts";
 
 export type ConnectionOptionsType = {
   type?: Dialect;
@@ -28,7 +29,7 @@ export async function connect(): Promise<Sequelize> {
     benchmark: true,
     pool: options.pool,
     transactionType: "IMMEDIATE" as any,
-    models: [Users, Posts, UserPosts],
+    models: [Users, Posts, UserPosts, FavoritePosts],
   });
   return sequelize;
 }

@@ -9,7 +9,7 @@ type ResType = {
   data: any;
 };
 
-type QueryType = { postId: string };
+type QueryType = { eventId: string };
 
 connect();
 
@@ -23,8 +23,8 @@ export default async function handler(
       return;
     }
 
-    const body = req.query as QueryType;
-    const postId = +body.postId;
+    const query = req.query as QueryType;
+    const postId = +query.eventId;
 
     const session = await getSession({ req });
     if (!session) {
