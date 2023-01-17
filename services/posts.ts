@@ -1,3 +1,4 @@
+import { FavoritePosts } from "../models/favoritePosts";
 import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
 import { PostType } from "../types/general";
@@ -32,18 +33,41 @@ export async function savePostToDb({
 
 export async function getPosts(
   page: number,
-  isUserLoggedIn: boolean
-): Promise<{ count: number; posts: Posts[] }> {
-  let where = undefined;
-  if (!isUserLoggedIn) {
-    where = { is_public: true };
+  user: { id: number } | null | undefined
+) {
+  if (user) {
+    const posts = await Posts.findAll({
+      limit: PAGE_SIZE,
+      offset: PAGE_SIZE * (page - 1),
+      include: {
+        model: FavoritePosts,
+        as: "favoriteUsers",
+        where: { user_id: user.id },
+        required: false,
+      },
+    });
+    const count = await Posts.count();
+    return { posts, count };
   }
 
   const posts = await Posts.findAll({
-    where,
+    where: { is_public: true },
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * (page - 1),
   });
-  const count = await Posts.count({ where });
+  const count = await Posts.count({ where: { is_public: true } });
   return { count, posts };
+}
+
+export async function changeFavoritePost(userId: number, postId: number) {
+  const info = { user_id: userId, post_id: postId };
+  const foundFav = await FavoritePosts.findOne({ where: info });
+
+  if (foundFav) {
+    await FavoritePosts.destroy({ where: info });
+    return false;
+  } else {
+    await FavoritePosts.create(info);
+    return true;
+  }
 }
