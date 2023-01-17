@@ -5,22 +5,74 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import config from "config";
 import { GetServerSideProps } from "next";
+import { useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
+import { useSession } from "next-auth/react";
+import { KEY_LAT, KEY_LNG } from "../constants/constants";
 
-type propsType = { appUrl: string };
+type PropsType = { appUrl: string };
 
-export default function CreatePost({ appUrl }: propsType) {
-  // const state = {
-  //   address: "",
+const options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0,
+};
 
-  //   showingInfoWindow: false,
-  //   activeMarker: {},
-  //   selectedPlace: {},
+export default function CreatePost({ appUrl }: PropsType) {
+  const { data: session } = useSession();
+  const [lat, setLat] = useState<number>(0);
+  const [lng, setLng] = useState<number>(0);
 
-  //   mapCenter: {
-  //     lat: 49.2827291,
-  //     lng: -123.1207375,
-  //   },
-  // };
+  const Map = useMemo(
+    () =>
+      dynamic(() => import("../Components/Map"), {
+        loading: () => <p>A map is loading</p>,
+        ssr: false,
+      }),
+    []
+  );
+
+  function success(position: {
+    coords: { latitude: number; longitude: number };
+  }) {
+    setLat(position.coords.latitude);
+    setLng(position.coords.longitude);
+    localStorage.setItem(KEY_LAT, position.coords.latitude.toString());
+    localStorage.setItem(KEY_LNG, position.coords.longitude.toString());
+  }
+
+  function error(err: { code: any; message: any }) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  }
+
+  useEffect(() => {
+    let lat;
+    let lng;
+    let lsLat;
+    let lsLng;
+    if (session) {
+      lat = session.user.lat;
+      lng = session.user.lng;
+      if (lat) setLat(lat);
+      if (lng) setLng(lng);
+      if (lat && lng) {
+        localStorage.setItem(KEY_LAT, lat.toString());
+        localStorage.setItem(KEY_LNG, lng.toString());
+        return;
+      }
+    }
+    if (!lat || !lng) {
+      lsLat = localStorage.getItem(KEY_LAT);
+      lsLng = localStorage.getItem(KEY_LNG);
+      if (lsLat) setLat(+lsLat);
+      if (lsLng) setLng(+lsLng);
+      if (lsLat && lsLng) {
+        return;
+      }
+    }
+    navigator.geolocation.getCurrentPosition(success, error, options);
+  }, [session]);
+
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -78,25 +130,7 @@ export default function CreatePost({ appUrl }: propsType) {
         </div>
         <div>
           Location
-          {/* <Map
-            style={{ width: "842px", height: "460px" }}
-            google={props.google}
-            initialCenter={{
-              lat: state.mapCenter.lat,
-              lng: state.mapCenter.lng,
-            }}
-            center={{
-              lat: state.mapCenter.lat,
-              lng: state.mapCenter.lng,
-            }}
-          >
-            <Marker
-              mapCenter={{
-                lat: state.mapCenter.lat,
-                lng: state.mapCenter.lng,
-              }}
-            />
-          </Map> */}
+          <Map lat={lat} lng={lng} />
         </div>
         <div>
           <button>Cancel</button>
