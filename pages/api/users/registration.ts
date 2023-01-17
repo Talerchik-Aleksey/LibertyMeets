@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { Siteverify } from "../../../services/recaptcha";
 import { saveUserToDatabase } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
@@ -11,6 +12,7 @@ type ResType = {
 type BodyType = {
   email: string;
   password: string;
+  recaptchaValue: string;
 };
 
 connect();
@@ -25,7 +27,7 @@ export default async function handler(
       return;
     }
 
-    const { email, password } = req.body as BodyType;
+    const { email, password, recaptchaValue } = req.body as BodyType;
 
     if (!email) {
       throw new HttpError(400, "no email");
@@ -37,6 +39,12 @@ export default async function handler(
 
     if (!validateEmail(email)) {
       throw new HttpError(400, "invalid email");
+    }
+
+    const isSuccess = await Siteverify(recaptchaValue);
+
+    if (!isSuccess) {
+      throw new HttpError(422, "Invalid captcha code");
     }
 
     await saveUserToDatabase({ email, password });
