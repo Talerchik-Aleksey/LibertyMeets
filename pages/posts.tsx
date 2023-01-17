@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { Pagination } from "antd";
+import { CATEGORIES } from "../constants/constants";
 
 type PropsType = { appUrl: string; postsPerPage: number };
 type PostType = {
@@ -19,6 +20,7 @@ type PostType = {
 export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
+  const [category, setCategory] = useState<string | undefined>(undefined);
   const router = useRouter();
 
   let page = 1;
@@ -30,12 +32,12 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
   useEffect(() => {
     (async () => {
       const res = await axios.get(`${appUrl}/api/events`, {
-        params: { page },
+        params: { page, category },
       });
       setPosts(res.data.data.posts);
       setTotalCount(res.data.data.count);
     })();
-  }, [page]);
+  }, [appUrl, page]);
 
   const handlerPagination = (page: number) => {
     router.query.page = page + "";
@@ -57,11 +59,31 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
     console.log(foundPost.is_favorite);
   }
 
+  async function filterByCategories(category: string) {
+    setCategory(category);
+    const res = await axios.get(`${appUrl}/api/events`, {
+      params: { category },
+    });
+    setPosts(res.data.data.posts);
+    setTotalCount(res.data.data.count);
+  }
+
   return (
     <>
+      <div style={{ display: "flex" }}>
+        {CATEGORIES.map((item, index) => (
+          <div
+            style={{ padding: 20, cursor: "pointer" }}
+            key={index}
+            onClick={() => filterByCategories(`${item}`)}
+          >
+            {item}
+          </div>
+        ))}
+      </div>
       {posts.map((item) => (
         <div key={`post ${item.id}`}>
-          {item.favoriteUsers.length > 0 || item.is_favorite ? (
+          {item.favoriteUsers?.length > 0 || item.is_favorite ? (
             <div
               onClick={() => {
                 changeStar(item.id);

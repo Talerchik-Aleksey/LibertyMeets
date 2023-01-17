@@ -25,6 +25,7 @@ export async function savePostToDb({
     description: post.description,
     is_public: post.isPublic,
     geo: geo,
+    event_time: new Date(),
   });
 
   await UserPosts.create({ user_id: user.id, post_id: createdPost.id });
@@ -33,10 +34,13 @@ export async function savePostToDb({
 
 export async function getPosts(
   page: number,
-  user: { id: number } | null | undefined
+  user: { id: number } | null | undefined,
+  category: string | undefined
 ) {
   if (user) {
+    const info = category ? { category } : undefined;
     const posts = await Posts.findAll({
+      where: info,
       limit: PAGE_SIZE,
       offset: PAGE_SIZE * (page - 1),
       include: {
@@ -46,16 +50,20 @@ export async function getPosts(
         required: false,
       },
     });
-    const count = await Posts.count();
+    const count = await Posts.count({
+      where: info,
+    });
     return { posts, count };
   }
 
+  const info = category ? { is_public: true, category } : { is_public: true };
+
   const posts = await Posts.findAll({
-    where: { is_public: true },
+    where: info,
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * (page - 1),
   });
-  const count = await Posts.count({ where: { is_public: true } });
+  const count = await Posts.count({ where: info });
   return { count, posts };
 }
 
