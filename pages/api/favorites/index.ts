@@ -1,9 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import config from "config";
-import { getPosts } from "../../services/posts";
+import { getFavoritesPosts } from "../../../services/posts";
+import { connect } from "../../../utils/db";
+import { HttpError } from "../../../utils/HttpError";
 import { getSession } from "next-auth/react";
-import { connect } from "../../utils/db";
-import { HttpError } from "../../utils/HttpError";
 
 type ResType = {
   status: string;
@@ -12,11 +11,9 @@ type ResType = {
 
 type QueryType = {
   page: number | undefined;
-  category: string | undefined;
 };
 
 connect();
-const APP_URL = config.get<string>("appUrl");
 
 export default async function handler(
   req: NextApiRequest,
@@ -28,16 +25,14 @@ export default async function handler(
       return;
     }
 
-    let { page, category } = req.query as QueryType;
+    let { page } = req.query as QueryType;
     if (!page) {
       page = 1;
     }
 
-    if (category === "All") category = undefined;
-
     const session = await getSession({ req });
 
-    const { posts, count } = await getPosts(page, session?.user, category);
+    const { posts, count } = await getFavoritesPosts(page, session?.user);
     res.status(200).json({ status: "ok", data: { posts, count } });
   } catch (err) {
     if (err instanceof HttpError) {
