@@ -14,7 +14,7 @@ type ResType = {
 type BodyType = PostType;
 
 connect();
-const CATEGORIES = ["social", "volunteer", "professional", "camping"];
+const CATEGORIES = ["social", "volunteer", "professional", "campaigns"];
 const APP_URL = config.get<string>("appUrl");
 
 export default async function handler(

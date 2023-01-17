@@ -12,6 +12,7 @@ type ResType = {
 
 type QueryType = {
   page: number | undefined;
+  category: string | undefined;
 };
 
 connect();
@@ -27,14 +28,17 @@ export default async function handler(
       return;
     }
 
-    let { page } = req.query as QueryType;
+    let { page, category } = req.query as QueryType;
     if (!page) {
       page = 1;
     }
 
+    if (category === "All") category = undefined;
+    if (category) page = 1;
+
     const session = await getSession({ req });
 
-    const { posts, count } = await getPosts(page, session?.user);
+    const { posts, count } = await getPosts(page, session?.user, category);
     res.status(200).json({ status: "ok", data: { posts, count } });
   } catch (err) {
     if (err instanceof HttpError) {
