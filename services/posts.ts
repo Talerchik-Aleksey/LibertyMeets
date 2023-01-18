@@ -107,3 +107,12 @@ export async function getUserPosts(userId: number) {
 
   return { userPosts };
 }
+
+export async function deletePostInDb(userId: number, postId: number) {
+  const res = await Posts.destroy({
+    where: { id: postId },
+  });
+  await FavoritePosts.destroy({ where: { user_id: userId, post_id: postId } });
+
+  return res;
+}
