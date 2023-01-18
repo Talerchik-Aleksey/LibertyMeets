@@ -85,5 +85,6 @@ export async function getUserPosts(userId: number) {
   const userPosts = await Posts.findAll({
     where: { author_id: userId },
   });
+  
   return { userPosts };
 }
