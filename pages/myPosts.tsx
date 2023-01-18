@@ -39,8 +39,7 @@ export default function MyPosts({ appUrl }: PropsType) {
   return (
     <>
       <div>
-        {/* url need to be fixed */}
-        <Button type="text" onClick={() => handleClick("")}>
+        <Button type="text" onClick={() => handleClick("myFavoritesPosts")}>
           My Favorites
         </Button>
         <Button type="text" onClick={() => handleClick("myPosts")}>
