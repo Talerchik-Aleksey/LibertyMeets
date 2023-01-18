@@ -4,6 +4,8 @@ import config from "config";
 import { GetServerSideProps } from "next";
 import styles from "../styles/signup.module.css";
 import { useState } from "react";
+import { Button } from "antd";
+import { useRouter } from "next/router";
 
 type SettingsProps = { appUrl: string };
 type ErrorResponse = {
@@ -12,7 +14,7 @@ type ErrorResponse = {
 
 export default function Settings({ appUrl }: SettingsProps) {
   const [isUpdatedPassword, setIsUpdatedPassword] = useState<boolean>();
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const formik = useFormik({
     initialValues: {
       password: "",
@@ -20,12 +22,15 @@ export default function Settings({ appUrl }: SettingsProps) {
     },
     onSubmit: async (values) => {
       if (values.password !== values.repeatPassword) {
-        setErrorMessage('repeat password');
+        setErrorMessage("repeat password");
         return;
       }
 
       try {
-        const req = await axios.post(`${appUrl}/api/users/change-password`, values);
+        const req = await axios.post(
+          `${appUrl}/api/users/change-password`,
+          values
+        );
         if (req.status === 200) {
           setIsUpdatedPassword(true);
         }
@@ -33,18 +38,37 @@ export default function Settings({ appUrl }: SettingsProps) {
         const error = err as AxiosError;
         const response = error.response;
         setErrorMessage((response?.data as ErrorResponse).message);
-      };
+      }
     },
   });
 
+  const router = useRouter();
+
+  const handleClick = (path: string) => {
+    router.push(`${appUrl}/${path}`);
+  };
+
   return (
     <div style={{ height: "897px" }}>
+      <div>
+        {/* url need to be fixed */}
+        <Button type="text" onClick={() => handleClick("")}>
+          My Favorites
+        </Button>
+        <Button type="text" onClick={() => handleClick("myPosts")}>
+          My Posts
+        </Button>
+        <Button type="text" onClick={() => handleClick("settings")}>
+          Settings
+        </Button>
+      </div>
       <form className={styles.loginBlock} onSubmit={formik.handleSubmit}>
         <div className={styles.inputBlock}>User Details</div>
-        {isUpdatedPassword ?
-          <div>Your password was updated successfully.</div> :
+        {isUpdatedPassword ? (
+          <div>Your password was updated successfully.</div>
+        ) : (
           <div>{errorMessage}</div>
-        }
+        )}
         <div className={styles.inputBlock}>
           <div className={styles.fieldName}>New Password</div>
           <input
@@ -68,15 +92,12 @@ export default function Settings({ appUrl }: SettingsProps) {
           />
         </div>
         <div className={styles.inputBlock}>
-          <button
-            type="submit"
-            className="clickableText"
-          >Save Changes</button>
+          <button type="submit" className="clickableText">
+            Save Changes
+          </button>
         </div>
         <div className={styles.inputBlock}>
-          <button
-            className="clickableText"
-          >Delete Account?</button>
+          <button className="clickableText">Delete Account?</button>
         </div>
       </form>
     </div>
