@@ -84,13 +84,17 @@ export async function getFavoritesPosts(
   page: number,
   user: { id: number } | null | undefined
 ) {
-  const favPosts = await FavoritePosts.findAll();
+  const favPosts = await FavoritePosts.findAll({
+    where: {
+      user_id: user?.id,
+    },
+    attributes: ["post_id"],
+  });
   const ids = favPosts.map((item) => item.post_id);
-  const info = user ? { id: ids } : { id: ids, is_public: true };
   const posts = await Posts.findAll({
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * (page - 1),
-    where: info,
+    where: { id: ids },
   });
 
   return { posts, count: ids.length };

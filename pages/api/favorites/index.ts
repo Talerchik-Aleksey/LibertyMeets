@@ -31,6 +31,10 @@ export default async function handler(
     }
 
     const session = await getSession({ req });
+    if (!session) {
+      res.status(401);
+      return;
+    }
 
     const { posts, count } = await getFavoritesPosts(page, session?.user);
     res.status(200).json({ status: "ok", data: { posts, count } });
