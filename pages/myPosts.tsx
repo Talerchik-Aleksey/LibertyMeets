@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import config from "config";
 import { useRouter } from "next/router";
 import { Pagination } from "antd";
+import { Button } from "antd";
 
 type PropsType = { appUrl: string; postsPerPage: number };
 type PostType = {
@@ -42,6 +43,10 @@ export default function MyPosts({ appUrl, postsPerPage }: PropsType) {
     // router.push(`${appUrl}/pages/${post_id}`);
   };
 
+  const handleClick = (path: string) => {
+    router.push(`${appUrl}/${path}`);
+  };
+
   const handlerPagination = (page: number) => {
     router.query.page = page + "";
     router.push(router);
@@ -49,6 +54,17 @@ export default function MyPosts({ appUrl, postsPerPage }: PropsType) {
 
   return (
     <>
+      <div>
+        <Button type="text" onClick={() => handleClick("myFavoritesPosts")}>
+          My Favorites
+        </Button>
+        <Button type="text" onClick={() => handleClick("myPosts")}>
+          My Posts
+        </Button>
+        <Button type="text" onClick={() => handleClick("settings")}>
+          Settings
+        </Button>
+      </div>
       {myPosts.map((item) => (
         <div key={`post ${item.id}`} onClick={() => routeHandler(item.id)}>
           {item.event_time} {item.category} {item.title} {item.geo}
