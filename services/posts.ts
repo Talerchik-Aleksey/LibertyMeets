@@ -79,3 +79,22 @@ export async function changeFavoritePost(userId: number, postId: number) {
     return true;
   }
 }
+
+export async function getPost(postId: number) {
+  const post = await Posts.findOne({
+    where: {
+      id: postId,
+    },
+    attributes: [
+      'title',
+      'category',
+      'description',
+      'is_public',
+      'geo',
+      'event_time',
+      'author_id'
+    ]
+  });
+
+  return post;
+}
