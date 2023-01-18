@@ -3,7 +3,7 @@ import config from "config";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { Pagination } from "antd";
+import { Button, Pagination } from "antd";
 
 type PropsType = { appUrl: string; postsPerPage: number };
 type PostType = {
@@ -56,8 +56,23 @@ export default function MyFavoritesPostsPage({
     }
   }
 
+  const handleClick = (path: string) => {
+    router.push(`${appUrl}/${path}`);
+  };
+
   return (
     <>
+      <div>
+        <Button type="text" onClick={() => handleClick("myFavoritesPosts")}>
+          My Favorites
+        </Button>
+        <Button type="text" onClick={() => handleClick("myPosts")}>
+          My Posts
+        </Button>
+        <Button type="text" onClick={() => handleClick("settings")}>
+          Settings
+        </Button>
+      </div>
       {posts.map((item) => (
         <div key={`post ${item.id}`}>
           <div
