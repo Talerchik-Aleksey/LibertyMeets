@@ -81,10 +81,29 @@ export async function changeFavoritePost(userId: number, postId: number) {
   }
 }
 
+export async function getPost(postId: number) {
+  const post = await Posts.findOne({
+    where: {
+      id: postId,
+    },
+    attributes: [
+      "title",
+      "category",
+      "description",
+      "is_public",
+      "geo",
+      "event_time",
+      "author_id",
+    ],
+  });
+
+  return post;
+}
+
 export async function getUserPosts(userId: number) {
   const userPosts = await Posts.findAll({
     where: { author_id: userId },
   });
-  
+
   return { userPosts };
 }
