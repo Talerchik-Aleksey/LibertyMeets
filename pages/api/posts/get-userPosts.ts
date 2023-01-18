@@ -8,6 +8,10 @@ type ResType = {
   data: any;
 };
 
+type QueryType = {
+  page: number | undefined;
+};
+
 export default async function userPosts(
   req: NextApiRequest,
   res: NextApiResponse<ResType>
@@ -18,13 +22,18 @@ export default async function userPosts(
       return;
     }
 
+    let { page } = req.query as QueryType;
+    if (!page) {
+      page = 1;
+    }
+
     const session = await getSession({ req });
     if (!session) {
       res.status(401);
       return;
     }
 
-    const posts = await getUserPosts(session.user.id);
+    const posts = await getUserPosts(page, session.user.id);
     res.status(200).json({ status: "ok", data: { posts } });
   } catch (err) {
     if (err instanceof HttpError) {
