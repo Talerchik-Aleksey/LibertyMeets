@@ -51,8 +51,7 @@ export default function Settings({ appUrl }: SettingsProps) {
   return (
     <div style={{ height: "897px" }}>
       <div>
-        {/* url need to be fixed */}
-        <Button type="text" onClick={() => handleClick("")}>
+        <Button type="text" onClick={() => handleClick("myFavoritesPosts")}>
           My Favorites
         </Button>
         <Button type="text" onClick={() => handleClick("myPosts")}>
