@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import config from "config";
 import { useRouter } from "next/router";
 
-type PropsType = { appUrl: string; postsPerPage: number };
+type PropsType = { appUrl: string };
 type PostType = {
   id: number;
   title: string;
@@ -36,7 +36,6 @@ export default function MyPosts({ appUrl }: PropsType) {
       {myPosts.map((item) => (
         <div key={`post ${item.id}`} onClick={() => routeHandler(item.id)}>
           {item.event_time} {item.category} {item.title} {item.geo}
-          <hr />
         </div>
       ))}
     </>
