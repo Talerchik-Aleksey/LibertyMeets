@@ -1,6 +1,14 @@
 export function validateEmail(email: string): boolean {
+  const start = /^/;
+  const username = /([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")/;
+  const at = /@/;
+  const domain =
+    /((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;
+  const end = /$/;
+
   const regex = new RegExp(
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    `${start.source}${username.source}${at.source}${domain.source}${end.source}`
   );
+
   return regex.test(email.toLocaleLowerCase());
 }
