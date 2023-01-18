@@ -3,6 +3,7 @@ import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
 import { PostType } from "../types/general";
 import config from "config";
+import userPosts from "../pages/api/posts/get-userPosts";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -86,15 +87,23 @@ export async function getPost(postId: number) {
       id: postId,
     },
     attributes: [
-      'title',
-      'category',
-      'description',
-      'is_public',
-      'geo',
-      'event_time',
-      'author_id'
-    ]
+      "title",
+      "category",
+      "description",
+      "is_public",
+      "geo",
+      "event_time",
+      "author_id",
+    ],
   });
 
   return post;
+}
+
+export async function getUserPosts(userId: number) {
+  const userPosts = await Posts.findAll({
+    where: { author_id: userId },
+  });
+
+  return { userPosts };
 }
