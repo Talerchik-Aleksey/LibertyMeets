@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import config from "config";
 import { useRouter } from "next/router";
+import { Button } from "antd";
 
 type PropsType = { appUrl: string };
 type PostType = {
@@ -31,11 +32,27 @@ export default function MyPosts({ appUrl }: PropsType) {
     // router.push(`${appUrl}/pages/${post_id}`);
   };
 
+  const handleClick = (path: string) => {
+    router.push(`${appUrl}/${path}`);
+  };
+
   return (
     <>
+      <div>
+        <Button type="text" onClick={() => handleClick("myFavoritesPosts")}>
+          My Favorites
+        </Button>
+        <Button type="text" onClick={() => handleClick("myPosts")}>
+          My Posts
+        </Button>
+        <Button type="text" onClick={() => handleClick("settings")}>
+          Settings
+        </Button>
+      </div>
       {myPosts.map((item) => (
         <div key={`post ${item.id}`} onClick={() => routeHandler(item.id)}>
           {item.event_time} {item.category} {item.title} {item.geo}
+          <hr />
         </div>
       ))}
     </>
@@ -49,4 +66,3 @@ export const getServerSideProps: GetServerSideProps = async () => {
     props: { appUrl },
   };
 };
-
