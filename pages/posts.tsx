@@ -59,6 +59,10 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
     console.log(foundPost.is_favorite);
   }
 
+  const goToPostPage = (post_id: number) => {
+    router.push(`${appUrl}/events/${post_id}`);
+  };
+
   return (
     <>
       <div style={{ display: "flex" }}>
@@ -94,8 +98,10 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
               no star
             </div>
           )}
-          {item.category} {item.title} {item.geo} {item.event_time}
-          <hr />
+          <div onClick={() => goToPostPage(item.id)}>
+            {item.category} {item.title} {item.geo} {item.event_time}
+            <hr />
+          </div>
         </div>
       ))}
 
