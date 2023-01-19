@@ -117,7 +117,7 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
       {getPostsByDate(posts, isTomorrow).length > 0 && <h3>Tomorrow</h3>}
       {renderPosts(getPostsByDate(posts, isTomorrow), changeStar)}
       {getPostsByDate(posts, (date) => !isTomorrow(date) && !isToday(date))
-        .length > 0 && <h3>Another</h3>}
+        .length > 0 && <h3>Soon</h3>}
       {renderPosts(
         getPostsByDate(posts, (date) => !isTomorrow(date) && !isToday(date)),
         changeStar
