@@ -6,6 +6,7 @@ import styles from "../styles/signup.module.css";
 import { useState } from "react";
 import { Button } from "antd";
 import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
 
 type SettingsProps = { appUrl: string };
 type ErrorResponse = {
@@ -47,6 +48,19 @@ export default function Settings({ appUrl }: SettingsProps) {
   const handleClick = (path: string) => {
     router.push(`${appUrl}/${path}`);
   };
+
+  async function deleteAccount() {
+    try {
+      const res = await axios.post(`${appUrl}/api/users/deleteAccount`);
+      if (res.status === 200) {
+        signOut({ callbackUrl: "/registration" });
+      }
+    } catch (err) {
+      const error = err as AxiosError;
+      const response = error.response;
+      setErrorMessage((response?.data as ErrorResponse).message);
+    }
+  }
 
   return (
     <div style={{ height: "897px" }}>
@@ -95,10 +109,12 @@ export default function Settings({ appUrl }: SettingsProps) {
             Save Changes
           </button>
         </div>
-        <div className={styles.inputBlock}>
-          <button className="clickableText">Delete Account?</button>
-        </div>
       </form>
+      <div className={styles.inputBlock}>
+        <button className="clickableText" onClick={deleteAccount}>
+          Delete Account?
+        </button>
+      </div>
     </div>
   );
 }
