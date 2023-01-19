@@ -47,8 +47,10 @@ export default function MyPosts({ appUrl, postsPerPage }: PropsType) {
   };
 
   const handlerPagination = (page: number) => {
-    router.query.page = page + "";
-    router.push(router);
+    router.push({
+      pathname: `${appUrl}/myPosts`,
+      query: { page },
+    });
   };
 
   return (
