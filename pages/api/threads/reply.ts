@@ -18,6 +18,7 @@ type ResType = {
 
 type QueryType = {
   postId: number | undefined;
+  userId: number | undefined;
 };
 
 type BodyType = {
@@ -31,14 +32,17 @@ export default async function handler(
   res: NextApiResponse<ResType>
 ) {
   try {
-    if (!req.method || req.method! !== "GET") {
+    if (!req.method || req.method! !== "POST") {
       res.status(405);
       return;
     }
 
-    let { postId } = req.query as QueryType;
+    let { postId, userId: threadUserId } = req.query as QueryType;
     if (!postId) {
       throw new HttpError(400, "no postId");
+    }
+    if (!threadUserId) {
+      throw new HttpError(400, "no userId");
     }
 
     let { message } = req.body as BodyType;
@@ -56,7 +60,12 @@ export default async function handler(
     }
     const userId = session?.user.id;
     const isAuthor = await isAuthorCheck(userId, postId);
-    const thread = await getThread(postId, userId);
+    const thread = await getThread(postId, threadUserId);
+
+    if (!isAuthor && userId !== thread?.user_id) {
+      res.status(403);
+      return;
+    }
 
     if (!thread) {
       if (isAuthor) {
