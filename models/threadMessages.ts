@@ -10,6 +10,7 @@ import {
   ForeignKey,
 } from "sequelize-typescript";
 import { v4 } from "uuid";
+import { Threads } from "./threads";
 import { Users } from "./users";
 
 @Table({
@@ -19,7 +20,7 @@ import { Users } from "./users";
   tableName: "threads",
   initialAutoIncrement: "1",
 })
-export class Threads extends Model {
+export class ThreadMessages extends Model {
   @PrimaryKey
   @Column(DataType.UUIDV4)
   @Default(v4)

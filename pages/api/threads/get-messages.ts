@@ -1,10 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import config from "config";
 import { connect } from "../../../utils/db";
 import { getSession } from "next-auth/react";
 import { HttpError } from "../../../utils/HttpError";
-import { isAuthorCheck } from "../../../services/posts";
-import { getThreads } from "../../../services/threads";
+import {
+  getMessages,
+  getThreads,
+  isUserCanView,
+} from "../../../services/threads";
 
 type ResType = {
   status: string;
@@ -12,7 +14,7 @@ type ResType = {
 };
 
 type QueryType = {
-  postId: number | undefined;
+  threadId: string | undefined;
 };
 
 connect();
@@ -27,9 +29,9 @@ export default async function handler(
       return;
     }
 
-    let { postId } = req.query as QueryType;
-    if (!postId) {
-      throw new HttpError(400, "no postId");
+    let { threadId } = req.query as QueryType;
+    if (!threadId) {
+      throw new HttpError(400, "no threaId");
     }
 
     const session = await getSession({ req });
@@ -38,14 +40,14 @@ export default async function handler(
       return;
     }
     const userId = session?.user.id;
-    const isAuthor = isAuthorCheck(userId, postId);
-    if (!isAuthor) {
+    const isCanView = isUserCanView(threadId, session.user.id);
+    if (!isCanView) {
       res.status(403);
       return;
     }
 
-    const threads = await getThreads(postId);
-    res.status(200).json({ status: "ok", data: { threads } });
+    const messages = await getMessages(threadId);
+    res.status(200).json({ status: "ok", data: { messages: messages } });
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;
