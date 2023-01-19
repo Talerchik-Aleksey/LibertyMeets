@@ -8,7 +8,7 @@ import { GetServerSideProps } from "next";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
-import { KEY_LAT, KEY_LNG } from "../constants/constants";
+import { KEY_LAT, KEY_LNG, DEFAULT_LAT, DEFAULT_LNG } from "../constants/constants";
 
 type PropsType = { appUrl: string };
 
@@ -80,8 +80,12 @@ export default function CreatePost({ appUrl }: PropsType) {
       category: "",
       description: "",
       isPublic: true,
+      lat: DEFAULT_LAT,
+      lng: DEFAULT_LNG
     },
     onSubmit: async (values) => {
+      values.lat = lat;
+      values.lng = lng;
       const req = await axios.post(`${appUrl}/api/posts/create`, values, {
         withCredentials: true,
       });

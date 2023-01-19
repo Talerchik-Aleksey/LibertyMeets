@@ -4,6 +4,7 @@ import { UserPosts } from "../models/usersPosts";
 import { PostType } from "../types/general";
 import config from "config";
 import userPosts from "../pages/api/posts/get-userPosts";
+import { HttpError } from "../utils/HttpError";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -81,6 +82,25 @@ export async function changeFavoritePost(userId: number, postId: number) {
   }
 }
 
+export async function getPost(postId: number) {
+  const post = await Posts.findOne({
+    where: {
+      id: postId,
+    },
+    attributes: [
+      "title",
+      "category",
+      "description",
+      "is_public",
+      "geo",
+      "event_time",
+      "author_id",
+    ],
+  });
+
+  return post;
+}
+
 export async function getUserPosts(userId: number) {
   const userPosts = await Posts.findAll({
     where: { author_id: userId },
@@ -97,4 +117,14 @@ export async function isAuthorCheck(
     where: { id: postId, author_id: userId },
   });
   return !!foundPost;
+}
+
+export async function deletePostInDb(userId: number, postId: number) {
+  const res = await Posts.destroy({
+    where: { id: postId },
+  });
+  if (!res) {
+    throw new HttpError(404, "no success");
+  }
+  await FavoritePosts.destroy({ where: { user_id: userId, post_id: postId } });
 }
