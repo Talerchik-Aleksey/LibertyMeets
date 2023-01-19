@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 
 type SinglePostProps = { appUrl: string };
 type ErrorResponse = {
-  message: string;
+  status: string;
 };
 type PostType = {
   id: number;
@@ -65,10 +65,25 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
       } catch (err) {
         const error = err as AxiosError;
         const response = error.response;
-        setErrorMessage((response?.data as ErrorResponse).message);
+        setErrorMessage((response?.data as ErrorResponse).status);
       }
     })();
   }, [appUrl, router, session]);
+
+  async function deletePost() {
+    try {
+      const res = await axios.post(`${appUrl}/api/posts/deletePost`, {
+        postId: router.query.postId,
+      });
+      if (res.status === 200) {
+        router.push("/myPosts");
+      }
+    } catch (err) {
+      const error = err as AxiosError;
+      const response = error.response;
+      setErrorMessage((response?.data as ErrorResponse).status);
+    }
+  }
 
   return (
     <>
@@ -90,7 +105,7 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
                   <div>
                     <div>Edit</div>
                     <div>Make public</div>
-                    <div>Delete</div>
+                    <div onClick={deletePost}>Delete</div>
                   </div>
                 ) : (
                   <></>

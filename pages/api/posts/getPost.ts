@@ -19,10 +19,10 @@ export default async function handler(
 
     const post = await getPost(postId);
     if (!post) {
-      res.status(404).json({ message: "no post" });
+      res.status(404).json({ status: "no post" });
       return;
     }
-    res.status(200).json({ message: "ok", data: post });
+    res.status(200).json({ status: "ok", data: post });
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;
