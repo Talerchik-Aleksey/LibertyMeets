@@ -40,10 +40,9 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
   }, [page, category, appUrl]);
 
   const changePageNumber = (page: number) => {
-    router.query.page = page + "";
     router.push({
       pathname: `${appUrl}/posts`,
-      query: { page: router.query.page },
+      query: { page },
     });
   };
 

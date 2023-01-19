@@ -44,10 +44,9 @@ export default function MyFavoritesPostsPage({
   }, [page, appUrl]);
 
   const changePageNumber = (page: number) => {
-    router.query.page = page + "";
     router.push({
       pathname: `${appUrl}/myFavoritesPosts`,
-      query: { page: router.query.page },
+      query: { page },
     });
   };
 
