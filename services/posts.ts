@@ -148,3 +148,16 @@ export async function deletePostInDb(userId: number, postId: number) {
   }
   await FavoritePosts.destroy({ where: { user_id: userId, post_id: postId } });
 }
+
+export async function changePostVisible(
+  userId: number,
+  postId: number,
+  is_public: boolean
+) {
+  await Posts.update(
+    { is_public },
+    {
+      where: { author_id: userId, id: postId },
+    }
+  );
+}
