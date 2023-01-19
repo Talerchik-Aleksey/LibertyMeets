@@ -41,8 +41,10 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
   }, [page, category, appUrl]);
 
   const changePageNumber = (page: number) => {
-    router.query.page = page + "";
-    router.push(router);
+    router.push({
+      pathname: `${appUrl}/posts`,
+      query: { page },
+    });
   };
 
   async function changeStar(postId: number) {

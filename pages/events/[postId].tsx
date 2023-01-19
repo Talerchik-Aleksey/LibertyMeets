@@ -85,6 +85,22 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
     }
   }
 
+  async function makePublic(is_public: boolean) {
+    try {
+      const res = await axios.post(`${appUrl}/api/posts/updatePost`, {
+        postId: router.query.postId,
+        is_public,
+      });
+      if (res.status === 200) {
+        setPost({ ...post, is_public } as PostType);
+      }
+    } catch (err) {
+      const error = err as AxiosError;
+      const response = error.response;
+      setErrorMessage((response?.data as ErrorResponse).status);
+    }
+  }
+
   return (
     <>
       {errorMessage ? (
@@ -104,7 +120,9 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
                 {showList ? (
                   <div>
                     <div>Edit</div>
-                    <div>Make public</div>
+                    <div onClick={() => makePublic(!post?.is_public)}>
+                      Make public
+                    </div>
                     <div onClick={deletePost}>Delete</div>
                   </div>
                 ) : (
@@ -128,7 +146,7 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
             <div>{post?.description}</div>
           </div>
           <div style={{ paddingBottom: 20 }}>
-            This post is currently {post?.is_public ? "public" : ""}
+            This post is currently {post?.is_public ? "public" : "private"}
           </div>
           {showMap ? (
             <div style={{ paddingBottom: 20 }}>
