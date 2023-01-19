@@ -3,6 +3,7 @@ import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
 import { PostType } from "../types/general";
 import config from "config";
+import userPosts from "../pages/api/posts/get-userPosts";
 import { HttpError } from "../utils/HttpError";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
@@ -106,6 +107,16 @@ export async function getUserPosts(userId: number) {
   });
 
   return { userPosts };
+}
+
+export async function isAuthorCheck(
+  userId: number,
+  postId: number
+): Promise<boolean> {
+  const foundPost = await Posts.findOne({
+    where: { id: postId, author_id: userId },
+  });
+  return !!foundPost;
 }
 
 export async function deletePostInDb(userId: number, postId: number) {
