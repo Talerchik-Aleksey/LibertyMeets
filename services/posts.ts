@@ -121,12 +121,16 @@ export async function getPost(postId: number) {
   return post;
 }
 
-export async function getUserPosts(userId: number) {
+export async function getUserPosts(page: number, userId: number) {
   const userPosts = await Posts.findAll({
     where: { author_id: userId },
+    limit: PAGE_SIZE,
+    offset: PAGE_SIZE * (page - 1),
   });
 
-  return { userPosts };
+  const count = await Posts.count({ where: { author_id: userId } });
+
+  return { userPosts, count };
 }
 
 export async function isAuthorCheck(

@@ -3,9 +3,10 @@ import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import config from "config";
 import { useRouter } from "next/router";
+import { Pagination } from "antd";
 import { Button } from "antd";
 
-type PropsType = { appUrl: string };
+type PropsType = { appUrl: string; postsPerPage: number };
 type PostType = {
   id: number;
   title: string;
@@ -16,16 +17,26 @@ type PostType = {
   favoriteUsers: { id: number }[];
 };
 
-export default function MyPosts({ appUrl }: PropsType) {
+export default function MyPosts({ appUrl, postsPerPage }: PropsType) {
   const [myPosts, setMyPosts] = useState<PostType[]>([]);
+  const [totalCount, setTotalCount] = useState<number>(0);
   const router = useRouter();
+
+  let page = 1;
+  const queryPage = router.query.page;
+  if (queryPage && +queryPage) {
+    page = +queryPage;
+  }
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get(`${appUrl}/api/posts/get-userPosts`);
+      const res = await axios.get(`${appUrl}/api/posts/get-userPosts`, {
+        params: { page },
+      });
       setMyPosts(res.data.data.posts.userPosts);
+      setTotalCount(res.data.data.posts.count);
     })();
-  }, []);
+  }, [page, appUrl]);
 
   const routeHandler = (post_id: number) => {
     router.push(`${appUrl}/events/${post_id}`);
@@ -33,6 +44,11 @@ export default function MyPosts({ appUrl }: PropsType) {
 
   const handleClick = (path: string) => {
     router.push(`${appUrl}/${path}`);
+  };
+
+  const handlerPagination = (page: number) => {
+    router.query.page = page + "";
+    router.push(router);
   };
 
   return (
@@ -54,14 +70,23 @@ export default function MyPosts({ appUrl }: PropsType) {
           <hr />
         </div>
       ))}
+
+      <Pagination
+        current={page}
+        total={totalCount}
+        defaultPageSize={postsPerPage}
+        showSizeChanger={false}
+        onChange={handlerPagination}
+      />
     </>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const appUrl = config.get<string>("appUrl");
+  const postsPerPage = config.get<number>("posts.perPage");
 
   return {
-    props: { appUrl },
+    props: { appUrl, postsPerPage },
   };
 };
