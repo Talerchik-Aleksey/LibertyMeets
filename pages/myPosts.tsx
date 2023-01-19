@@ -39,8 +39,7 @@ export default function MyPosts({ appUrl, postsPerPage }: PropsType) {
   }, [page, appUrl]);
 
   const routeHandler = (post_id: number) => {
-    // navigation to post (url need to be fixed)
-    // router.push(`${appUrl}/pages/${post_id}`);
+    router.push(`${appUrl}/events/${post_id}`);
   };
 
   const handleClick = (path: string) => {
