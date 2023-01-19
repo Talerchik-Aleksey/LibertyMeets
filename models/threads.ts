@@ -9,9 +9,11 @@ import {
   CreatedAt,
   ForeignKey,
   HasOne,
+  HasMany,
 } from "sequelize-typescript";
 import { v4 } from "uuid";
 import { Posts } from "./posts";
+import { ThreadMessages } from "./threadMessages";
 import { Users } from "./users";
 
 @Table({
@@ -43,4 +45,7 @@ export class Threads extends Model {
 
   @HasOne(() => Posts)
   post?: Posts;
+
+  @HasMany(() => ThreadMessages, { foreignKey: "thread_id" })
+  threadMessages?: ThreadMessages[];
 }

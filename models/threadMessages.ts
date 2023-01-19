@@ -17,7 +17,7 @@ import { Users } from "./users";
   timestamps: true,
   paranoid: true,
   underscored: true,
-  tableName: "threads",
+  tableName: "thread-messages",
   initialAutoIncrement: "1",
 })
 export class ThreadMessages extends Model {
@@ -32,9 +32,9 @@ export class ThreadMessages extends Model {
   user_id!: number;
 
   @AllowNull(false)
-  @Column(DataType.NUMBER)
+  @Column(DataType.UUIDV4)
   @ForeignKey(() => Threads)
-  thread_id!: number;
+  thread_id!: string;
 
   @AllowNull(false)
   @Column(DataType.TEXT)

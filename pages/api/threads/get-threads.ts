@@ -37,7 +37,8 @@ export default async function handler(
       res.status(401);
       return;
     }
-    const userId = session?.user.id;
+    
+    const userId = session.user.id;
     const isAuthor = isAuthorCheck(userId, postId);
     if (!isAuthor) {
       res.status(403);
