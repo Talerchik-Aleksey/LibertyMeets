@@ -62,6 +62,10 @@ export default function MyFavoritesPostsPage({
     router.push(`${appUrl}/${path}`);
   };
 
+  const goToPostPage = (post_id: number) => {
+    router.push(`${appUrl}/events/${post_id}`);
+  };
+
   return (
     <>
       <div>
@@ -84,8 +88,10 @@ export default function MyFavoritesPostsPage({
           >
             star{" "}
           </div>
-          {item.category} {item.title} {item.geo} {item.event_time}
-          <hr />
+          <div onClick={() => goToPostPage(item.id)}>
+            {item.category} {item.title} {item.geo} {item.event_time}
+            <hr />
+          </div>
         </div>
       ))}
       <Pagination

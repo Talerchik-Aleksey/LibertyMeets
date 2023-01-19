@@ -38,7 +38,7 @@ export default function MyPosts({ appUrl, postsPerPage }: PropsType) {
     })();
   }, [page, appUrl]);
 
-  const routeHandler = (post_id: number) => {
+  const goToPostPage = (post_id: number) => {
     router.push(`${appUrl}/events/${post_id}`);
   };
 
@@ -67,7 +67,7 @@ export default function MyPosts({ appUrl, postsPerPage }: PropsType) {
         </Button>
       </div>
       {myPosts.map((item) => (
-        <div key={`post ${item.id}`} onClick={() => routeHandler(item.id)}>
+        <div key={`post ${item.id}`} onClick={() => goToPostPage(item.id)}>
           {item.event_time} {item.category} {item.title} {item.geo}
           <hr />
         </div>
