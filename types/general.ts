@@ -8,6 +8,6 @@ export type PostType = {
   category: string;
   description: string;
   isPublic: string;
-  lat: string;
-  lng: string;
+  lat: number;
+  lng: number;
 };
