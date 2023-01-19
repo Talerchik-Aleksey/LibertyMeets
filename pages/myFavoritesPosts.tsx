@@ -3,8 +3,7 @@ import config from "config";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { Pagination } from "antd";
-import { CATEGORIES } from "../constants/constants";
+import { Button, Pagination } from "antd";
 
 type PropsType = { appUrl: string; postsPerPage: number };
 type PostType = {
@@ -17,10 +16,12 @@ type PostType = {
   favoriteUsers: { id: number }[];
 };
 
-export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
+export default function MyFavoritesPostsPage({
+  appUrl,
+  postsPerPage,
+}: PropsType) {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
-  const [category, setCategory] = useState<string | undefined>(undefined);
   const router = useRouter();
 
   let page = 1;
@@ -31,74 +32,60 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get(`${appUrl}/api/events`, {
-        params: { page, category },
+      const res = await axios.get(`${appUrl}/api/favorites`, {
+        params: { page },
       });
+      res.data.data.posts.forEach(
+        (item: { is_favorite: boolean }) => (item.is_favorite = true)
+      );
       setPosts(res.data.data.posts);
       setTotalCount(res.data.data.count);
     })();
-  }, [page, category, appUrl]);
+  }, [page, appUrl]);
 
   const changePageNumber = (page: number) => {
     router.query.page = page + "";
     router.push(router);
   };
 
-  async function changeStar(postId: number) {
+  async function movePost(postId: number) {
     const res = await axios.post(`${appUrl}/api/favorites/${postId}`);
-    const currentPosts = posts;
-    const foundPost = currentPosts.find((item) => item.id === postId);
-    if (!foundPost) {
-      return;
+    if (res.status === 200) {
+      const currentPosts = posts.filter((item) => item.id !== postId);
+      setPosts(currentPosts);
     }
-    foundPost.is_favorite = res.data.data.isFavorite;
-    foundPost.favoriteUsers = [];
-
-    setPosts([...currentPosts]);
-    console.log(currentPosts.map((item) => item.is_favorite));
-    console.log(foundPost.is_favorite);
   }
+
+  const handleClick = (path: string) => {
+    router.push(`${appUrl}/${path}`);
+  };
 
   return (
     <>
-      <div style={{ display: "flex" }}>
-        {CATEGORIES.map((item, index) => (
-          <div
-            style={{ padding: 20, cursor: "pointer" }}
-            key={index}
-            onClick={() => {
-              setCategory(item);
-              changePageNumber(1);
-            }}
-          >
-            {item}
-          </div>
-        ))}
+      <div>
+        <Button type="text" onClick={() => handleClick("myFavoritesPosts")}>
+          My Favorites
+        </Button>
+        <Button type="text" onClick={() => handleClick("myPosts")}>
+          My Posts
+        </Button>
+        <Button type="text" onClick={() => handleClick("settings")}>
+          Settings
+        </Button>
       </div>
       {posts.map((item) => (
         <div key={`post ${item.id}`}>
-          {item.favoriteUsers?.length > 0 || item.is_favorite ? (
-            <div
-              onClick={() => {
-                changeStar(item.id);
-              }}
-            >
-              star{" "}
-            </div>
-          ) : (
-            <div
-              onClick={() => {
-                changeStar(item.id);
-              }}
-            >
-              no star
-            </div>
-          )}
+          <div
+            onClick={() => {
+              movePost(item.id);
+            }}
+          >
+            star{" "}
+          </div>
           {item.category} {item.title} {item.geo} {item.event_time}
           <hr />
         </div>
       ))}
-
       <Pagination
         current={page}
         total={totalCount}

@@ -82,6 +82,26 @@ export async function changeFavoritePost(userId: number, postId: number) {
   }
 }
 
+export async function getFavoritesPosts(
+  page: number,
+  user: { id: number } | null | undefined
+) {
+  const favPosts = await FavoritePosts.findAll({
+    where: {
+      user_id: user?.id,
+    },
+    attributes: ["post_id"],
+  });
+  const ids = favPosts.map((item) => item.post_id);
+  const posts = await Posts.findAll({
+    limit: PAGE_SIZE,
+    offset: PAGE_SIZE * (page - 1),
+    where: { id: ids },
+  });
+
+  return { posts, count: ids.length };
+}
+
 export async function getPost(postId: number) {
   const post = await Posts.findOne({
     where: {
