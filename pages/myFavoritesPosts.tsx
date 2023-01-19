@@ -44,8 +44,10 @@ export default function MyFavoritesPostsPage({
   }, [page, appUrl]);
 
   const changePageNumber = (page: number) => {
-    router.query.page = page + "";
-    router.push(router);
+    router.push({
+      pathname: `${appUrl}/myFavoritesPosts`,
+      query: { page },
+    });
   };
 
   async function movePost(postId: number) {
@@ -58,6 +60,10 @@ export default function MyFavoritesPostsPage({
 
   const handleClick = (path: string) => {
     router.push(`${appUrl}/${path}`);
+  };
+
+  const goToPostPage = (post_id: number) => {
+    router.push(`${appUrl}/events/${post_id}`);
   };
 
   return (
@@ -82,8 +88,10 @@ export default function MyFavoritesPostsPage({
           >
             star{" "}
           </div>
-          {item.category} {item.title} {item.geo} {item.event_time}
-          <hr />
+          <div onClick={() => goToPostPage(item.id)}>
+            {item.category} {item.title} {item.geo} {item.event_time}
+            <hr />
+          </div>
         </div>
       ))}
       <Pagination
