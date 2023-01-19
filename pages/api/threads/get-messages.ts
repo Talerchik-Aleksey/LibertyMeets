@@ -31,7 +31,7 @@ export default async function handler(
 
     let { threadId } = req.query as QueryType;
     if (!threadId) {
-      throw new HttpError(400, "no threaId");
+      throw new HttpError(400, "no threadId");
     }
 
     const session = await getSession({ req });
