@@ -32,11 +32,7 @@ export default async function handler(
       return;
     }
 
-    const result = await deletePostInDb(session.user.id, postId);
-    if (!result) {
-      res.status(404).json({ status: "no success" });
-      return;
-    }
+    await deletePostInDb(session.user.id, postId);
 
     res.status(200).json({ status: "ok" });
   } catch (err) {

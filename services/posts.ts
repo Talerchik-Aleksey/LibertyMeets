@@ -3,7 +3,7 @@ import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
 import { PostType } from "../types/general";
 import config from "config";
-import userPosts from "../pages/api/posts/get-userPosts";
+import { HttpError } from "../utils/HttpError";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -112,7 +112,8 @@ export async function deletePostInDb(userId: number, postId: number) {
   const res = await Posts.destroy({
     where: { id: postId },
   });
+  if (!res) {
+    throw new HttpError(404, "no success");
+  }
   await FavoritePosts.destroy({ where: { user_id: userId, post_id: postId } });
-
-  return res;
 }
