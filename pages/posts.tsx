@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { Pagination } from "antd";
 import { CATEGORIES } from "../constants/constants";
+import { isToday, isTomorrow } from "../utils/eventTimeStatus";
 
 type PropsType = { appUrl: string; postsPerPage: number };
 type PostType = {
@@ -59,6 +60,42 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
     console.log(foundPost.is_favorite);
   }
 
+  function getPostsByDate(
+    posts: PostType[],
+    filterFn: (date: Date) => boolean
+  ) {
+    return posts.filter((post) => filterFn(new Date(post.event_time)));
+  }
+
+  function renderPosts(
+    posts: PostType[],
+    changeStar: (postId: number) => void
+  ) {
+    return posts.map((item) => (
+      <div key={`post ${item.id}`}>
+        {item.favoriteUsers?.length > 0 || item.is_favorite ? (
+          <div
+            onClick={() => {
+              changeStar(item.id);
+            }}
+          >
+            star{" "}
+          </div>
+        ) : (
+          <div
+            onClick={() => {
+              changeStar(item.id);
+            }}
+          >
+            no star
+          </div>
+        )}
+        {item.category} {item.title} {item.geo} {item.event_time}
+        <hr />
+      </div>
+    ));
+  }
+
   return (
     <>
       <div style={{ display: "flex" }}>
@@ -75,30 +112,16 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
           </div>
         ))}
       </div>
-      {posts.map((item) => (
-        <div key={`post ${item.id}`}>
-          {item.favoriteUsers?.length > 0 || item.is_favorite ? (
-            <div
-              onClick={() => {
-                changeStar(item.id);
-              }}
-            >
-              star{" "}
-            </div>
-          ) : (
-            <div
-              onClick={() => {
-                changeStar(item.id);
-              }}
-            >
-              no star
-            </div>
-          )}
-          {item.category} {item.title} {item.geo} {item.event_time}
-          <hr />
-        </div>
-      ))}
-
+      {getPostsByDate(posts, isToday).length > 0 && <h3>Today</h3>}
+      {renderPosts(getPostsByDate(posts, isToday), changeStar)}
+      {getPostsByDate(posts, isTomorrow).length > 0 && <h3>Tomorrow</h3>}
+      {renderPosts(getPostsByDate(posts, isTomorrow), changeStar)}
+      {getPostsByDate(posts, (date) => !isTomorrow(date) && !isToday(date))
+        .length > 0 && <h3>Another</h3>}
+      {renderPosts(
+        getPostsByDate(posts, (date) => !isTomorrow(date) && !isToday(date)),
+        changeStar
+      )}
       <Pagination
         current={page}
         total={totalCount}
