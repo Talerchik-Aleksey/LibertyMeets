@@ -1,23 +1,26 @@
 import { PostType } from "../types/general";
 import { useRouter } from "next/router";
 
-export default function PostListItem(
-  posts: PostType[],
-  appUrl: string,
-  changeStar: (postId: number) => void
-) {
+type PostListItemProps = {
+  post: PostType;
+  appUrl: string;
+  changeStar: (postId: number) => void;
+};
+
+export default function PostListItem(props: PostListItemProps) {
+  const { post, appUrl, changeStar } = props;
   const router = useRouter();
 
   const goToPostPage = (post_id: number) => {
     router.push(`${appUrl}/events/${post_id}`);
   };
 
-  return posts.map((item) => (
-    <div key={`post ${item.id}`}>
-      {item.favoriteUsers?.length > 0 || item.is_favorite ? (
+  return (
+    <>
+      {post.favoriteUsers.length > 0 || post.is_favorite ? (
         <div
           onClick={() => {
-            changeStar(item.id);
+            changeStar(post.id);
           }}
         >
           star{" "}
@@ -25,16 +28,16 @@ export default function PostListItem(
       ) : (
         <div
           onClick={() => {
-            changeStar(item.id);
+            changeStar(post.id);
           }}
         >
           no star
         </div>
       )}
-      <div onClick={() => goToPostPage(item.id)}>
-        {item.category} {item.title} {item.geo} {item.event_time}
+      <div onClick={() => goToPostPage(post.id)}>
+        {post.category} {post.title} {post.geo} {post.event_time}
         <hr />
       </div>
-    </div>
-  ));
+    </>
+  );
 }

@@ -8,6 +8,7 @@ import { CATEGORIES } from "../constants/constants";
 import { isToday, isTomorrow } from "../utils/eventTimeStatus";
 import { PostType } from "../types/general";
 import PostListItem from "../Components/PostListItem";
+import PostsList from "../Components/PostsList";
 
 type PropsType = { appUrl: string; postsPerPage: number };
 
@@ -78,17 +79,31 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
           </div>
         ))}
       </div>
-      {getPostsByDate(posts, isToday).length > 0 && <h3>Today</h3>}
-      {PostListItem(getPostsByDate(posts, isToday), appUrl, changeStar)}
-      {getPostsByDate(posts, isTomorrow).length > 0 && <h3>Tomorrow</h3>}
-      {PostListItem(getPostsByDate(posts, isTomorrow), appUrl, changeStar)}
-      {getPostsByDate(posts, (date) => !isTomorrow(date) && !isToday(date))
-        .length > 0 && <h3>Soon</h3>}
-      {PostListItem(
-        getPostsByDate(posts, (date) => !isTomorrow(date) && !isToday(date)),
-        appUrl,
-        changeStar
-      )}
+      <div>
+        {getPostsByDate(posts, isToday).length > 0 && <h3>Today</h3>}
+        <PostsList
+          posts={getPostsByDate(posts, isToday)}
+          appUrl={appUrl}
+          changeStar={changeStar}
+        />
+        {getPostsByDate(posts, isTomorrow).length > 0 && <h3>Tomorrow</h3>}
+        <PostsList
+          posts={getPostsByDate(posts, isTomorrow)}
+          appUrl={appUrl}
+          changeStar={changeStar}
+        />
+        {getPostsByDate(posts, (date) => !isTomorrow(date) && !isToday(date))
+          .length > 0 && <h3>Soon</h3>}
+
+        <PostsList
+          posts={getPostsByDate(
+            posts,
+            (date) => !isTomorrow(date) && !isToday(date)
+          )}
+          appUrl={appUrl}
+          changeStar={changeStar}
+        />
+      </div>
       <Pagination
         current={page}
         total={totalCount}
