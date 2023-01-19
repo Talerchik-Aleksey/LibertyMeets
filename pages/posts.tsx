@@ -6,17 +6,10 @@ import { useRouter } from "next/router";
 import { Pagination } from "antd";
 import { CATEGORIES } from "../constants/constants";
 import { isToday, isTomorrow } from "../utils/eventTimeStatus";
+import { PostType } from "../types/general";
+import PostListItem from "../Components/PostListItem";
 
 type PropsType = { appUrl: string; postsPerPage: number };
-type PostType = {
-  id: number;
-  title: string;
-  is_favorite?: boolean;
-  geo: string;
-  event_time: Date;
-  category: string;
-  favoriteUsers: { id: number }[];
-};
 
 export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
   const [posts, setPosts] = useState<PostType[]>([]);
@@ -66,40 +59,6 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
   ) {
     return posts.filter((post) => filterFn(new Date(post.event_time)));
   }
-  const goToPostPage = (post_id: number) => {
-    router.push(`${appUrl}/events/${post_id}`);
-  };
-
-  function renderPosts(
-    posts: PostType[],
-    changeStar: (postId: number) => void
-  ) {
-    return posts.map((item) => (
-      <div key={`post ${item.id}`}>
-        {item.favoriteUsers?.length > 0 || item.is_favorite ? (
-          <div
-            onClick={() => {
-              changeStar(item.id);
-            }}
-          >
-            star{" "}
-          </div>
-        ) : (
-          <div
-            onClick={() => {
-              changeStar(item.id);
-            }}
-          >
-            no star
-          </div>
-        )}
-        <div onClick={() => goToPostPage(item.id)}>
-          {item.category} {item.title} {item.geo} {item.event_time}
-          <hr />
-        </div>
-      </div>
-    ));
-  }
 
   return (
     <>
@@ -118,13 +77,14 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
         ))}
       </div>
       {getPostsByDate(posts, isToday).length > 0 && <h3>Today</h3>}
-      {renderPosts(getPostsByDate(posts, isToday), changeStar)}
+      {PostListItem(getPostsByDate(posts, isToday), appUrl, changeStar)}
       {getPostsByDate(posts, isTomorrow).length > 0 && <h3>Tomorrow</h3>}
-      {renderPosts(getPostsByDate(posts, isTomorrow), changeStar)}
+      {PostListItem(getPostsByDate(posts, isTomorrow), appUrl, changeStar)}
       {getPostsByDate(posts, (date) => !isTomorrow(date) && !isToday(date))
         .length > 0 && <h3>Soon</h3>}
-      {renderPosts(
+      {PostListItem(
         getPostsByDate(posts, (date) => !isTomorrow(date) && !isToday(date)),
+        appUrl,
         changeStar
       )}
       <Pagination
