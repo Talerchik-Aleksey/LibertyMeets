@@ -107,3 +107,13 @@ export async function getUserPosts(userId: number) {
 
   return { userPosts };
 }
+
+export async function isAuthorCheck(
+  userId: number,
+  postId: number
+): Promise<boolean> {
+  const foundPost = await Posts.findOne({
+    where: { id: postId, author_id: userId },
+  });
+  return !!foundPost;
+}

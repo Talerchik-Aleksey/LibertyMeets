@@ -32,7 +32,7 @@ export class Posts extends Model {
   @AllowNull(false)
   @Column(DataType.NUMBER)
   @ForeignKey(() => Users)
-  author_id!: string;
+  author_id!: number;
 
   @AllowNull(false)
   @Column(DataType.STRING)
