@@ -1,5 +1,5 @@
 {
-  "appUrl":"http://localhost:3000",
+  "appUrl": "http://localhost:3000",
   "db": {
     "type": "postgres",
     "host": "localhost",
@@ -8,42 +8,35 @@
     "password": "",
     "database": "liberty"
   },
-  "secretKey":"test",
+  "secretKey": "test",
   "hash": {
     "saltLength": 10
   },
-  "posts":{
-    "perPage":2
+  "posts": {
+    "perPage": 2
   },
-  "recaptcha":{
-    "public_recaptcha_key":"",
-    "recaptcha_key":""
+  "recaptcha": {
+    "public_recaptcha_key": "",
+    "recaptcha_key": ""
   },
 
   "emails": {
-    "debugEmails": true,
-    "mainAppHost": "www.wevat.pl",
-    "imgPrefix": "https://wevat.my-new-site.com/em/img",
     "templatesDir": "/emails",
-    "signupVerify": {
+    "emailProps": {
       "from": {
-        "name": "WeVAT",
-        "email": "hello@wevat.pl"
+        "name": "",
+        "email": ""
       },
-      "bcc": [
-        {
-          "email": "andrey@12devs.com"
-        }
-      ],
-      "reply_to": "hello@wevat.pl",
-      "template": "signup-verify"
+      "cc": [],
+      "bcc": [],
+      "reply_to": ""
     }
   },
   "mailgun": {
     "apiKey": "",
     "domain": "",
+    "host": "",
     "recipients": [],
     "noReplyMail": ""
   }
-
 }

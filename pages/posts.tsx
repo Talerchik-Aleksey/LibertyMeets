@@ -117,22 +117,13 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const email = "rex.beer60@ethereal.email"
-  const emailConfig = config.get<any>("emails.signupVerify");
   const emailParams = {
-    // from: emailConfig.from,
-    ...emailConfig,
+    subject:"",
     to: {
-      email,
-      name: email,
+      email: "rex.beer60@ethereal.email",
     },
-    //verificationURL: `${config.get("app.mainUrl")}/verify/${dbUser.verificationToken}`,
-    replyEmail: emailConfig.reply_to,
   };
-  await sendEmail('reset-password', emailParams)
-  
-
-
+  await sendEmail("reset-password", emailParams, {user:{name:"MyName"}});
 
   const appUrl = config.get<string>("appUrl");
   const postsPerPage = config.get<number>("posts.perPage");
