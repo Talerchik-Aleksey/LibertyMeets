@@ -9,6 +9,7 @@ import { isToday, isTomorrow } from "../utils/eventTimeStatus";
 import { PostType } from "../types/general";
 import PostListItem from "../Components/PostListItem";
 import PostsList from "../Components/PostsList";
+import { sendEmail } from "../utils/mailgun";
 
 type PropsType = { appUrl: string; postsPerPage: number };
 
@@ -116,6 +117,14 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  // const emailParams = {
+  //   subject:"",
+  //   to: {
+  //     email: "rex.beer60@ethereal.email",
+  //   },
+  // };
+  // await sendEmail("reset-password", emailParams, {user:{name:"MyName"}});
+
   const appUrl = config.get<string>("appUrl");
   const postsPerPage = config.get<number>("posts.perPage");
 
