@@ -8,6 +8,7 @@ import {
   PrimaryKey,
   CreatedAt,
   ForeignKey,
+  DeletedAt,
 } from "sequelize-typescript";
 import { v4 } from "uuid";
 import { Threads } from "./threads";
@@ -43,4 +44,8 @@ export class ThreadMessages extends Model {
   @CreatedAt
   @Column
   createdAt!: Date;
+
+  @DeletedAt
+  @Column
+  deletedAt!: Date;
 }

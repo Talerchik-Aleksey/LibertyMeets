@@ -9,13 +9,14 @@ import {
   AutoIncrement,
   CreatedAt,
   ForeignKey,
+  DeletedAt,
 } from "sequelize-typescript";
 import { Posts } from "./posts";
 import { Users } from "./users";
 
 @Table({
   timestamps: false,
-  paranoid: false,
+  paranoid: true,
   underscored: true,
   tableName: "user_posts",
   initialAutoIncrement: "1",
@@ -39,4 +40,8 @@ export class UserPosts extends Model {
   @CreatedAt
   @Column
   createdAt!: Date;
+
+  @DeletedAt
+  @Column
+  deletedAt!: Date;
 }
