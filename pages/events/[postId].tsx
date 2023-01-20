@@ -101,6 +101,10 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
     }
   }
 
+  const goToEditPage = () => {
+    router.push(`${appUrl}/events/edit/${router.query.postId}`);
+  };
+
   return (
     <>
       {errorMessage ? (
@@ -119,7 +123,7 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
                 </div>
                 {showList ? (
                   <div>
-                    <div>Edit</div>
+                    <div onClick={goToEditPage}>Edit</div>
                     <div onClick={() => makePublic(!post?.is_public)}>
                       Make public
                     </div>
