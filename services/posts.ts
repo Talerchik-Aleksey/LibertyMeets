@@ -172,3 +172,17 @@ export async function changePostVisible(
     }
   );
 }
+
+export async function editPost(
+  postId: number,
+  postTitle: string,
+  postCategory: string,
+  postDescription: string
+) {
+  const res = await Posts.update(
+    { title: postTitle, category: postCategory, description: postDescription },
+    {
+      where: { id: postId },
+    }
+  );
+}
