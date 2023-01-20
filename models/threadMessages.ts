@@ -17,13 +17,13 @@ import { Users } from "./users";
   timestamps: true,
   paranoid: true,
   underscored: true,
-  tableName: "thread-messages",
+  tableName: "thread_messages",
   initialAutoIncrement: "1",
 })
 export class ThreadMessages extends Model {
   @PrimaryKey
-  @Column(DataType.UUIDV4)
   @Default(v4)
+  @Column(DataType.UUIDV4)
   id!: string;
 
   @AllowNull(false)
