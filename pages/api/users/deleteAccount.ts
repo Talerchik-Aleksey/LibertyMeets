@@ -9,13 +9,14 @@ type ResType = {
   message: string;
 };
 
-connect();
+const sequelize = connect();
 const KEY = config.get<string>("secretKey");
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResType>
 ) {
+  console.log('1 <-------');
   try {
     if (!req.method || req.method! !== "POST") {
       res.status(405);
@@ -28,8 +29,8 @@ export default async function handler(
       throw new HttpError(400, "user does not valid");
     }
 
-    await deleteAccount(token.id as number);
-    res.status(200).json({ message: "success" });
+    await deleteAccount(token.id as number, sequelize);
+    // res.status(200).json({ message: "success" });
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;

@@ -6,6 +6,11 @@ import { Users } from "../models/users";
 import { connect } from "../utils/db";
 import { Posts } from "../models/posts";
 import { FavoritePosts } from "../models/favoritePosts";
+import { Transaction } from "sequelize";
+import { Sequelize } from "sequelize-typescript";
+import { Threads } from "../models/threads";
+import { ThreadMessages } from "../models/threadMessages";
+import { UserPosts } from "../models/usersPosts";
 
 const saltLength = config.get<number>("hash.saltLength");
 connect();
@@ -113,27 +118,52 @@ export async function changePassword(password: string, token: string) {
   return result;
 }
 
-export async function deleteAccount(userId: number) {
-  const resFavoritePosts = await FavoritePosts.destroy({
-    where: {
-      user_id: userId,
-    },
-  });
-  if (!resFavoritePosts) {
-    throw new HttpError(404, "no success to delete favorites posts");
-  }
+export async function deleteAccount(
+  userId: number,
+  sequelize: Promise<Sequelize>
+) {
+  const t = (await sequelize).transaction();
+  const transaction: any = { transaction: t };
+  try {
+    await Users.destroy({ where: { id: userId }, transaction });
 
-  const resPost = await Posts.destroy({
-    where: {
-      author_id: userId,
-    },
-  });
-  if (!resPost) {
-    throw new HttpError(404, "no success to delete posts");
-  }
+    await FavoritePosts.destroy({
+      where: {
+        user_id: userId,
+      },
+      transaction,
+    });
 
-  const resUser = await Users.destroy({ where: { id: userId } });
-  if (!resUser) {
-    throw new HttpError(404, "no success to delete account");
+    const posts = await Posts.findAll({ where: { author_id: userId } });
+    console.log('posts <-------', posts);
+    if (posts.length === 0) {
+      return;
+    }
+    const postIds = posts.map((item) => item.id);
+
+    const thread = await Threads.findAll({ where: { post_id: postIds } });
+    console.log('thread <-------', thread);
+
+    await UserPosts.destroy({ where: { post_id: postIds }, transaction });
+
+    await Posts.destroy({
+      where: {
+        author_id: userId,
+      },
+      transaction,
+    });
+
+    if (thread.length === 0) {
+      return;
+    }
+    const threadIds = thread.map((item) => item.id);
+    await ThreadMessages.destroy({
+      where: { thread_id: threadIds },
+      transaction,
+    });
+
+    await Threads.destroy({ where: { post_id: postIds }, transaction });
+  } catch (err) {
+    return err;
   }
 }
