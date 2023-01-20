@@ -15,7 +15,7 @@ import { Posts } from "./posts";
 import { Users } from "./users";
 
 @Table({
-  timestamps: false,
+  timestamps: true,
   paranoid: true,
   underscored: true,
   tableName: "user_posts",

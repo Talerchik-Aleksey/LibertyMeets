@@ -16,7 +16,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResType>
 ) {
-  console.log('1 <-------');
   try {
     if (!req.method || req.method! !== "POST") {
       res.status(405);
@@ -29,8 +28,12 @@ export default async function handler(
       throw new HttpError(400, "user does not valid");
     }
 
-    await deleteAccount(token.id as number, sequelize);
-    // res.status(200).json({ message: "success" });
+    const result = await deleteAccount(token.id as number, sequelize);
+    if (result) {
+      res.status(500).json({ message: result.message });
+      return;
+    }
+    res.status(200).json({ message: "success" });
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;
