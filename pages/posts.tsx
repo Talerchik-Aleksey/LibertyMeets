@@ -117,13 +117,13 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const emailParams = {
-    subject:"",
-    to: {
-      email: "rex.beer60@ethereal.email",
-    },
-  };
-  await sendEmail("reset-password", emailParams, {user:{name:"MyName"}});
+  // const emailParams = {
+  //   subject:"",
+  //   to: {
+  //     email: "rex.beer60@ethereal.email",
+  //   },
+  // };
+  // await sendEmail("reset-password", emailParams, {user:{name:"MyName"}});
 
   const appUrl = config.get<string>("appUrl");
   const postsPerPage = config.get<number>("posts.perPage");
