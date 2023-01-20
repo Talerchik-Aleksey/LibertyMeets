@@ -18,5 +18,32 @@
   "recaptcha":{
     "public_recaptcha_key":"",
     "recaptcha_key":""
+  },
+
+  "emails": {
+    "debugEmails": true,
+    "mainAppHost": "www.wevat.pl",
+    "imgPrefix": "https://wevat.my-new-site.com/em/img",
+    "templatesDir": "/emails",
+    "signupVerify": {
+      "from": {
+        "name": "WeVAT",
+        "email": "hello@wevat.pl"
+      },
+      "bcc": [
+        {
+          "email": "andrey@12devs.com"
+        }
+      ],
+      "reply_to": "hello@wevat.pl",
+      "template": "signup-verify"
+    }
+  },
+  "mailgun": {
+    "apiKey": "",
+    "domain": "",
+    "recipients": [],
+    "noReplyMail": ""
   }
+
 }
