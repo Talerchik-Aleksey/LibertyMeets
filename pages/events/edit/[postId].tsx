@@ -10,20 +10,9 @@ type PropsType = { appUrl: string };
 type ErrorResponse = {
   status: string;
 };
-type PostType = {
-  id: number;
-  author_id: number;
-  title: string;
-  geo: string;
-  event_time: Date;
-  category: string;
-  description: string;
-  is_public: boolean;
-};
 
 export default function EditPost({ appUrl }: PropsType) {
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [postInfo, setPostInfo] = useState<PostType>();
   const router = useRouter();
 
   useEffect(() => {
@@ -36,7 +25,6 @@ export default function EditPost({ appUrl }: PropsType) {
         const res = await axios.get(`${appUrl}/api/posts/getPost`, {
           params: { postId },
         });
-        setPostInfo(res.data.data);
         formik.setFieldValue("title", res.data.data.title);
         formik.setFieldValue("category", res.data.data.category);
         formik.setFieldValue("description", res.data.data.description);
@@ -60,11 +48,8 @@ export default function EditPost({ appUrl }: PropsType) {
         withCredentials: true,
       });
       if (req.status === 200) {
-        alert(req.data.data.postId);
         router.push(`${appUrl}/events/${req.data.data.postId}`);
-      } else {
-        alert();
-      }
+      } 
     },
   });
 
@@ -95,7 +80,6 @@ export default function EditPost({ appUrl }: PropsType) {
             <option value="professional">Proffesional</option>
             <option value="campaigns">Сampaigns</option>
           </select>
-          {/* <input name="id" value={router.query.postId} hidden={true} /> */}
           <div>
             <button>Cancel</button>
             <button type="submit">Update</button>
