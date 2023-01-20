@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { editPost } from "../../../services/posts";
 import { HttpError } from "../../../utils/HttpError";
-import { PostType } from "../../../types/general";
+import { connect } from "../../../utils/db";
 
 type ResType = {
   status: string;
@@ -16,6 +16,8 @@ type BodyType = {
 };
 
 const CATEGORIES = ["social", "volunteer", "professional", "campaigns"];
+
+connect();
 
 export default async function handler(
   req: NextApiRequest,
