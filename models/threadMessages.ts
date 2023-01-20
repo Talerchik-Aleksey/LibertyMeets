@@ -17,7 +17,7 @@ import { Users } from "./users";
   timestamps: true,
   paranoid: true,
   underscored: true,
-  tableName: "threads",
+  tableName: "thread_messages",
   initialAutoIncrement: "1",
 })
 export class ThreadMessages extends Model {
