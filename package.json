@@ -25,7 +25,8 @@
     "sass": "^1.57.1",
     "sequelize": "^6.28.0",
     "sequelize-typescript": "^2.1.5",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
