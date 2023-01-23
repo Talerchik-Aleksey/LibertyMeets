@@ -5,12 +5,28 @@ import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import ReCAPTCHA from "react-google-recaptcha";
 import { createRef, useState } from "react";
+import * as Yup from "yup";
 
 type PropsType = { appUrl: string; recaptchaKey: string };
 
 type ErrorResponse = {
   message: string;
 };
+
+const SignupSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email")
+    .max(100, "less than 100 characters")
+    .required("Required"),
+  password: Yup.string()
+    .min(4, "at least 4 characters")
+    .max(100, "less than 100 characters")
+    .required("Required"),
+  repeatPassword: Yup.string()
+    .min(4, "at least 4 characters")
+    .max(100, "less than 100 characters")
+    .required("Required"),
+});
 
 export default function Registration({ appUrl, recaptchaKey }: PropsType) {
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -23,6 +39,7 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
       repeatPassword: "",
       recaptchaValue: "",
     },
+    validationSchema: SignupSchema,
     onSubmit: async (values) => {
       if (values.password !== values.repeatPassword) {
         setErrorMessage("repeatPassword");
@@ -56,26 +73,44 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
     <>
       {errorMessage ? <div>{errorMessage}</div> : <></>}
       <form onSubmit={formik.handleSubmit}>
-        <input
-          name="email"
-          placeholder="email"
-          onChange={formik.handleChange}
-          value={formik.values.email}
-        />
-        <input
-          name="password"
-          placeholder="password"
-          type="password"
-          onChange={formik.handleChange}
-          value={formik.values.password}
-        />
-        <input
-          name="repeatPassword"
-          placeholder="password"
-          type="password"
-          onChange={formik.handleChange}
-          value={formik.values.repeatPassword}
-        />
+        <div>
+          <input
+            name="email"
+            placeholder="email"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
+          />
+          {formik.touched.email && formik.errors.email && (
+            <span>{formik.errors.email}</span>
+          )}
+        </div>
+        <div>
+          <input
+            name="password"
+            placeholder="password"
+            type="password"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.password}
+          />
+          {formik.touched.password && formik.errors.password && (
+            <span>{formik.errors.password}</span>
+          )}
+        </div>
+        <div>
+          <input
+            name="repeatPassword"
+            placeholder="password"
+            type="password"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.repeatPassword}
+          />
+          {formik.touched.repeatPassword && formik.errors.repeatPassword && (
+            <span>{formik.errors.repeatPassword}</span>
+          )}
+        </div>
         <button type="submit">Submit</button>
         <ReCAPTCHA
           sitekey={recaptchaKey}

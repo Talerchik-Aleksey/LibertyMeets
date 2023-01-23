@@ -4,6 +4,12 @@ import { useRouter } from "next/router";
 import CrossesOnBackground from "../Components/General/CrossesOnBackground";
 import LibertyMeetsLogo from "../Components/LibertyMeetsLogo";
 import styles from "../styles/signup.module.css";
+import * as Yup from "yup";
+
+const SigninSchema = Yup.object().shape({
+  email: Yup.string().email("Invalid email").required("Required"),
+  password: Yup.string().required("Required"),
+});
 
 export default function signin() {
   const router = useRouter();
@@ -17,6 +23,7 @@ export default function signin() {
       email: "",
       password: "",
     },
+    validationSchema: SigninSchema,
     onSubmit: async (values) => {
       await signIn("credentials", values);
     },
@@ -35,8 +42,12 @@ export default function signin() {
               className={styles.inputField}
               placeholder="spencer@libertymeets.com"
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               value={formik.values.email}
             />
+            {formik.touched.email && formik.errors.email && (
+              <span>{formik.errors.email}</span>
+            )}
           </div>
           <div className={styles.inputBlock}>
             <div className={styles.fieldName}>Password</div>
@@ -46,8 +57,12 @@ export default function signin() {
               type="password"
               placeholder="********"
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               value={formik.values.password}
             />
+            {formik.touched.password && formik.errors.password && (
+              <span>{formik.errors.password}</span>
+            )}
           </div>
           <div className={styles.inputBlock}>
             <input className={styles.rememberMeCheckbox} type="checkbox" />
