@@ -3,7 +3,9 @@ import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
 import { PostType } from "../types/general";
 import config from "config";
-import userPosts from "../pages/api/posts/get-userPosts";
+import { HttpError } from "../utils/HttpError";
+import { Threads } from "../models/threads";
+import { ThreadMessages } from "../models/threadMessages";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -81,6 +83,26 @@ export async function changeFavoritePost(userId: number, postId: number) {
   }
 }
 
+export async function getFavoritesPosts(
+  page: number,
+  user: { id: number } | null | undefined
+) {
+  const favPosts = await FavoritePosts.findAll({
+    where: {
+      user_id: user?.id,
+    },
+    attributes: ["post_id"],
+  });
+  const ids = favPosts.map((item) => item.post_id);
+  const posts = await Posts.findAll({
+    limit: PAGE_SIZE,
+    offset: PAGE_SIZE * (page - 1),
+    where: { id: ids },
+  });
+
+  return { posts, count: ids.length };
+}
+
 export async function getPost(postId: number) {
   const post = await Posts.findOne({
     where: {
@@ -100,12 +122,16 @@ export async function getPost(postId: number) {
   return post;
 }
 
-export async function getUserPosts(userId: number) {
+export async function getUserPosts(page: number, userId: number) {
   const userPosts = await Posts.findAll({
     where: { author_id: userId },
+    limit: PAGE_SIZE,
+    offset: PAGE_SIZE * (page - 1),
   });
 
-  return { userPosts };
+  const count = await Posts.count({ where: { author_id: userId } });
+
+  return { userPosts, count };
 }
 
 export async function isAuthorCheck(
@@ -117,4 +143,47 @@ export async function isAuthorCheck(
   });
 
   return !!foundPost;
+}
+
+export async function deletePostInDb(userId: number, postId: number) {
+  await FavoritePosts.destroy({ where: { user_id: userId, post_id: postId } });
+  await UserPosts.destroy({ where: { post_id: postId } });
+  const thread = await Threads.findOne({ where: { post_id: postId } });
+  if (thread) {
+    await ThreadMessages.destroy({ where: { thread_id: thread.id } });
+  }
+  await Threads.destroy({ where: { post_id: postId } });
+  const res = await Posts.destroy({
+    where: { id: postId },
+  });
+  if (!res) {
+    throw new HttpError(404, "no success");
+  }
+}
+
+export async function changePostVisible(
+  userId: number,
+  postId: number,
+  is_public: boolean
+) {
+  await Posts.update(
+    { is_public },
+    {
+      where: { author_id: userId, id: postId },
+    }
+  );
+}
+
+export async function editPost(
+  postId: number,
+  postTitle: string,
+  postCategory: string,
+  postDescription: string
+) {
+  const res = await Posts.update(
+    { title: postTitle, category: postCategory, description: postDescription },
+    {
+      where: { id: postId },
+    }
+  );
 }

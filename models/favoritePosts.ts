@@ -7,6 +7,7 @@ import {
   PrimaryKey,
   AutoIncrement,
   CreatedAt,
+  DeletedAt,
   ForeignKey,
   BelongsTo,
 } from "sequelize-typescript";
@@ -15,7 +16,7 @@ import { Users } from "./users";
 
 @Table({
   timestamps: false,
-  paranoid: false,
+  paranoid: true,
   underscored: true,
   tableName: "favorite_posts",
   initialAutoIncrement: "1",
@@ -39,6 +40,10 @@ export class FavoritePosts extends Model {
   @CreatedAt
   @Column
   createdAt!: Date;
+
+  @DeletedAt
+  @Column
+  deletedAt!: Date;
 
   @BelongsTo(() => Posts)
   post?: Posts;

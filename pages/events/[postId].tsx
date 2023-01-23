@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 
 type SinglePostProps = { appUrl: string };
 type ErrorResponse = {
-  message: string;
+  status: string;
 };
 type PostType = {
   id: number;
@@ -65,10 +65,45 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
       } catch (err) {
         const error = err as AxiosError;
         const response = error.response;
-        setErrorMessage((response?.data as ErrorResponse).message);
+        setErrorMessage((response?.data as ErrorResponse).status);
       }
     })();
   }, [appUrl, router, session]);
+
+  async function deletePost() {
+    try {
+      const res = await axios.post(`${appUrl}/api/posts/deletePost`, {
+        postId: router.query.postId,
+      });
+      if (res.status === 200) {
+        router.push("/myPosts");
+      }
+    } catch (err) {
+      const error = err as AxiosError;
+      const response = error.response;
+      setErrorMessage((response?.data as ErrorResponse).status);
+    }
+  }
+
+  async function makePublic(is_public: boolean) {
+    try {
+      const res = await axios.post(`${appUrl}/api/posts/updatePost`, {
+        postId: router.query.postId,
+        is_public,
+      });
+      if (res.status === 200) {
+        setPost({ ...post, is_public } as PostType);
+      }
+    } catch (err) {
+      const error = err as AxiosError;
+      const response = error.response;
+      setErrorMessage((response?.data as ErrorResponse).status);
+    }
+  }
+
+  const goToEditPage = () => {
+    router.push(`${appUrl}/events/edit/${router.query.postId}`);
+  };
 
   return (
     <>
@@ -88,9 +123,11 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
                 </div>
                 {showList ? (
                   <div>
-                    <div>Edit</div>
-                    <div>Make public</div>
-                    <div>Delete</div>
+                    <div onClick={goToEditPage}>Edit</div>
+                    <div onClick={() => makePublic(!post?.is_public)}>
+                      Make public
+                    </div>
+                    <div onClick={deletePost}>Delete</div>
                   </div>
                 ) : (
                   <></>
@@ -113,7 +150,7 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
             <div>{post?.description}</div>
           </div>
           <div style={{ paddingBottom: 20 }}>
-            This post is currently {post?.is_public ? "public" : ""}
+            This post is currently {post?.is_public ? "public" : "private"}
           </div>
           {showMap ? (
             <div style={{ paddingBottom: 20 }}>

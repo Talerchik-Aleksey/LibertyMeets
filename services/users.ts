@@ -4,6 +4,8 @@ import { compareSync, hashSync } from "bcryptjs";
 import config from "config";
 import { Users } from "../models/users";
 import { connect } from "../utils/db";
+import { Posts } from "../models/posts";
+import { FavoritePosts } from "../models/favoritePosts";
 
 const saltLength = config.get<number>("hash.saltLength");
 connect();
@@ -41,11 +43,14 @@ export async function findUser(email: string) {
 }
 
 export async function fillToken(email: string, reset_pwd_token: string) {
-  await Users.update({ reset_pwd_token },{
-    where: {
-      email,
-    },
-  });
+  await Users.update(
+    { reset_pwd_token },
+    {
+      where: {
+        email,
+      },
+    }
+  );
 }
 
 export async function getUserByCredentials(
@@ -71,11 +76,14 @@ export async function isPasswordUsed(userId: number, password: string) {
 }
 
 export async function changePasswordByUserId(userId: number, password: string) {
-  await Users.update({ password: hashSync(password, saltLength) }, {
-    where: {
-      id: userId
+  await Users.update(
+    { password: hashSync(password, saltLength) },
+    {
+      where: {
+        id: userId,
+      },
     }
-  });
+  );
 }
 
 export async function isRightToken(token: string): Promise<boolean> {
@@ -93,11 +101,39 @@ export async function changePassword(password: string, token: string) {
   if (!foundUser) {
     return null;
   }
-  const result = await Users.update({ reset_pwd_token: null, password: hashSync(password, saltLength) },{
-    where: {
-      email: foundUser.email,
-    },
-  });
+  const result = await Users.update(
+    { reset_pwd_token: null, password: hashSync(password, saltLength) },
+    {
+      where: {
+        email: foundUser.email,
+      },
+    }
+  );
 
   return result;
+}
+
+export async function deleteAccount(userId: number) {
+  const resFavoritePosts = await FavoritePosts.destroy({
+    where: {
+      user_id: userId,
+    },
+  });
+  if (!resFavoritePosts) {
+    throw new HttpError(404, "no success to delete favorites posts");
+  }
+
+  const resPost = await Posts.destroy({
+    where: {
+      author_id: userId,
+    },
+  });
+  if (!resPost) {
+    throw new HttpError(404, "no success to delete posts");
+  }
+
+  const resUser = await Users.destroy({ where: { id: userId } });
+  if (!resUser) {
+    throw new HttpError(404, "no success to delete account");
+  }
 }

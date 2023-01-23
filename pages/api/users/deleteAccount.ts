@@ -1,28 +1,35 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getPost } from "../../../services/posts";
+import { deleteAccount } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
+import config from "config";
+import { getToken } from "next-auth/jwt";
 
-type QueryType = {
-  postId: string;
+type ResType = {
+  message: string;
 };
 
 connect();
+const KEY = config.get<string>("secretKey");
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<ResType>
 ) {
   try {
-    const query = req.query as QueryType;
-    const postId = +query.postId;
-
-    const post = await getPost(postId);
-    if (!post) {
-      res.status(404).json({ status: "no post" });
+    if (!req.method || req.method! !== "POST") {
+      res.status(405);
       return;
     }
-    res.status(200).json({ status: "ok", data: post });
+
+    const token = await getToken({ req, secret: KEY });
+
+    if (!token) {
+      throw new HttpError(400, "user does not valid");
+    }
+
+    await deleteAccount(token.id as number);
+    res.status(200).json({ message: "success" });
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;

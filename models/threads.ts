@@ -10,6 +10,7 @@ import {
   ForeignKey,
   HasOne,
   HasMany,
+  DeletedAt,
 } from "sequelize-typescript";
 import { v4 } from "uuid";
 import { Posts } from "./posts";
@@ -42,6 +43,10 @@ export class Threads extends Model {
   @CreatedAt
   @Column
   createdAt!: Date;
+
+  @DeletedAt
+  @Column
+  deletedAt!: Date;
 
   @HasOne(() => Posts)
   post?: Posts;

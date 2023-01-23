@@ -1,44 +1,41 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import config from "config";
-import { getPosts } from "../../services/posts";
 import { getSession } from "next-auth/react";
-import { connect } from "../../utils/db";
-import { HttpError } from "../../utils/HttpError";
+import { changePostVisible } from "../../../services/posts";
+import { connect } from "../../../utils/db";
+import { HttpError } from "../../../utils/HttpError";
 
 type ResType = {
   status: string;
-  data: any;
+  data?: any;
 };
 
-type QueryType = {
-  page: number | undefined;
-  category: string | undefined;
+type BodyType = {
+  postId: number;
+  is_public: boolean;
 };
 
 connect();
-const APP_URL = config.get<string>("appUrl");
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResType>
 ) {
   try {
-    if (!req.method || req.method! !== "GET") {
+    if (!req.method || req.method! !== "POST") {
       res.status(405);
       return;
     }
-
-    let { page, category } = req.query as QueryType;
-    if (!page) {
-      page = 1;
+    const body = req.body as BodyType;
+    const { postId, is_public } = body;
+    const session = await getSession({ req });
+    if (!session) {
+      res.status(401);
+      return;
     }
 
-    if (category === "All") category = undefined;
+    await changePostVisible(session.user.id, postId, is_public);
 
-    const session = await getSession({ req });
-
-    const { posts, count } = await getPosts(page, session?.user, category);
-    res.status(200).json({ status: "ok", data: { posts, count } });
+    res.status(200).json({ status: "ok" });
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;
