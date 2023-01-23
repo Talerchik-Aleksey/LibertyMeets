@@ -4,7 +4,12 @@ import { connect } from "../../../utils/db";
 import { getSession } from "next-auth/react";
 import { HttpError } from "../../../utils/HttpError";
 import { isAuthorCheck } from "../../../services/posts";
-import { getThreads } from "../../../services/threads";
+import {
+  createThread,
+  createThreadMessage,
+  getThread,
+  getThreads,
+} from "../../../services/threads";
 
 type ResType = {
   status: string;
@@ -13,6 +18,11 @@ type ResType = {
 
 type QueryType = {
   postId: number | undefined;
+  userId: number | undefined;
+};
+
+type BodyType = {
+  message: string;
 };
 
 connect();
@@ -22,14 +32,25 @@ export default async function handler(
   res: NextApiResponse<ResType>
 ) {
   try {
-    if (!req.method || req.method! !== "GET") {
+    if (!req.method || req.method! !== "POST") {
       res.status(405);
       return;
     }
 
-    let { postId } = req.query as QueryType;
+    let { postId, userId: threadUserId } = req.query as QueryType;
     if (!postId) {
       throw new HttpError(400, "no postId");
+    }
+    if (!threadUserId) {
+      throw new HttpError(400, "no userId");
+    }
+
+    let { message } = req.body as BodyType;
+    if (!message) {
+      throw new HttpError(400, "no message");
+    }
+    if (message.trim().length === 0) {
+      throw new HttpError(400, "empty message");
     }
 
     const session = await getSession({ req });
@@ -37,16 +58,25 @@ export default async function handler(
       res.status(401);
       return;
     }
-    
-    const userId = session.user.id;
-    const isAuthor = isAuthorCheck(userId, postId);
-    if (!isAuthor) {
+    const userId = session?.user.id;
+    const isAuthor = await isAuthorCheck(userId, postId);
+    const thread = await getThread(postId, threadUserId);
+
+    if (!isAuthor && userId !== thread?.user_id) {
       res.status(403);
       return;
     }
 
-    const threads = await getThreads(postId);
-    res.status(200).json({ status: "ok", data: { threads } });
+    if (!thread) {
+      if (isAuthor) {
+        throw new HttpError(418, "author cannot start thread in his post");
+      } else {
+        await createThread(postId, userId);
+      }
+    }
+    await createThreadMessage(thread!.id, userId, message);
+
+    res.status(200).json({ status: "ok", data: {} });
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;

@@ -39,8 +39,8 @@ export default async function handler(
       res.status(401);
       return;
     }
-    const userId = session?.user.id;
-    const isCanView = isUserCanView(threadId, session.user.id);
+    const userId = session.user.id;
+    const isCanView = isUserCanView(threadId, userId);
     if (!isCanView) {
       res.status(403);
       return;

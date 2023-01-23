@@ -9,10 +9,12 @@ import {
   CreatedAt,
   ForeignKey,
   HasOne,
+  HasMany,
   DeletedAt,
 } from "sequelize-typescript";
 import { v4 } from "uuid";
 import { Posts } from "./posts";
+import { ThreadMessages } from "./threadMessages";
 import { Users } from "./users";
 
 @Table({
@@ -24,8 +26,8 @@ import { Users } from "./users";
 })
 export class Threads extends Model {
   @PrimaryKey
-  @Column(DataType.UUIDV4)
   @Default(v4)
+  @Column(DataType.UUIDV4)
   id!: string;
 
   @AllowNull(false)
@@ -48,4 +50,7 @@ export class Threads extends Model {
 
   @HasOne(() => Posts)
   post?: Posts;
+
+  @HasMany(() => ThreadMessages, { foreignKey: "thread_id" })
+  threadMessages?: ThreadMessages[];
 }
