@@ -4,6 +4,7 @@ import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import config from "config";
 import { getToken } from "next-auth/jwt";
+import { deletePosts } from "../../../services/posts";
 
 type ResType = {
   message: string;
@@ -17,23 +18,33 @@ export default async function handler(
   res: NextApiResponse<ResType>
 ) {
   try {
-    if (!req.method || req.method! !== "POST") {
-      res.status(405);
-      return;
-    }
+    await (
+      await sequelize
+    ).transaction(async (t) => {
+      if (!req.method || req.method! !== "POST") {
+        res.status(405);
+        return;
+      }
 
-    const token = await getToken({ req, secret: KEY });
+      const token = await getToken({ req, secret: KEY });
 
-    if (!token) {
-      throw new HttpError(400, "user does not valid");
-    }
+      if (!token) {
+        throw new HttpError(400, "user does not valid");
+      }
 
-    const result = await deleteAccount(token.id as number, sequelize);
-    if (result) {
-      res.status(500).json({ message: result.message });
-      return;
-    }
-    res.status(200).json({ message: "success" });
+      const resDelPosts = await deletePosts(token.id as number, t);
+      if (resDelPosts) {
+        res.status(500).json({ message: resDelPosts.message });
+        return;
+      }
+
+      const resDelAcc = await deleteAccount(token.id as number, t);
+      if (resDelAcc) {
+        res.status(500).json({ message: resDelAcc.message });
+        return;
+      }
+      res.status(200).json({ message: "success" });
+    });
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;

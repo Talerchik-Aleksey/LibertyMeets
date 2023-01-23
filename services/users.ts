@@ -7,9 +7,11 @@ import { connect } from "../utils/db";
 import { Posts } from "../models/posts";
 import { FavoritePosts } from "../models/favoritePosts";
 import { Sequelize } from "sequelize-typescript";
+import { Transaction } from "sequelize";
 import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
 import { UserPosts } from "../models/usersPosts";
+import shortid from "shortid";
 
 const saltLength = config.get<number>("hash.saltLength");
 connect();
@@ -117,58 +119,36 @@ export async function changePassword(password: string, token: string) {
   return result;
 }
 
-export async function deleteAccount(
-  userId: number,
-  sequelize: Promise<Sequelize>
-) {
+export async function deleteAccount(userId: number, t: Transaction) {
+  const random = shortid.generate();
   try {
-    await (
-      await sequelize
-    ).transaction(async (t) => {
-      await Users.destroy({ where: { id: userId }, transaction: t });
+    // TODO timestamps: true and column update_at into FavoritePosts and UserPosts
 
-      await UserPosts.destroy({ where: { user_id: userId }, transaction: t });
+    // await UserPosts.destroy({ where: { user_id: userId }, transaction: t });
 
-      await FavoritePosts.destroy({
-        where: {
-          user_id: userId,
-        },
-        transaction: t,
-      });
+    // await FavoritePosts.destroy({
+    //   where: {
+    //     user_id: userId,
+    //   },
+    //   transaction: t,
+    // });
 
-      const posts = await Posts.findAll({
-        where: { author_id: userId },
-        transaction: t,
-      });
-
-      if (posts.length === 0) {
-        return;
-      }
-      const postIds = posts.map((item) => item.id);
-
-      await Posts.destroy({
-        where: {
-          author_id: userId,
-        },
-        transaction: t,
-      });
-
-      // TODO Model not initialized: Member "findAll" cannot be called. "Threads" needs to be added to a Sequelize instance.
-
-      // const thread = await Threads.findAll({
-      //   where: { post_id: postIds },
-      //   transaction: t,
-      // });
-      // if (thread.length === 0) {
-      //   return;
-      // }
-      // const threadIds = thread.map((item) => item.id);
-      // await ThreadMessages.destroy({
-      //   where: { thread_id: threadIds },
-      //   transaction: t,
-      // });
-      // await Threads.destroy({ where: { post_id: postIds }, transaction: t });
+    const user = await Users.findOne({
+      where: { id: userId },
+      transaction: t,
     });
+    if (!user) {
+      return;
+    }
+
+    const updateEmail = random.concat("->", user.email);
+    await Users.update(
+      { email: updateEmail },
+      { where: { id: userId }, transaction: t }
+    );
+
+    await Users.destroy({ where: { id: userId }, transaction: t });
+
     return;
   } catch (err) {
     const error = err as Error;
