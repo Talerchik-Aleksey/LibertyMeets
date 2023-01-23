@@ -17,11 +17,11 @@ type ErrorResponse = {
 const SettingsSchema = Yup.object().shape({
   password: Yup.string()
     .min(4, "at least 4 characters")
-    .max(20, "less than 20 characters")
+    .max(100, "less than 100 characters")
     .required("Required"),
   repeatPassword: Yup.string()
     .min(4, "at least 4 characters")
-    .max(20, "less than 20 characters")
+    .max(100, "less than 100 characters")
     .required("Required"),
 });
 
