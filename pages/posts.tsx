@@ -120,7 +120,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // const emailParams = {
   //   subject:"",
   //   to: {
-  //     email: "rex.beer60@ethereal.email",
+  //     email: "vburdylev@twelvedevs.com",
   //   },
   // };
   // await sendEmail("reset-password", emailParams, {user:{name:"MyName"}});
