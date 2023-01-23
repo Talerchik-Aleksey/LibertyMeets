@@ -141,6 +141,7 @@ export async function isAuthorCheck(
   const foundPost = await Posts.findOne({
     where: { id: postId, author_id: userId },
   });
+
   return !!foundPost;
 }
 
