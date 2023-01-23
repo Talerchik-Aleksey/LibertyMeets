@@ -1,32 +1,16 @@
-import LibertyMeetsLogo from "../LibertyMeetsLogo";
-import { useRouter } from "next/router";
-import { signIn, signOut, useSession } from "next-auth/react";
-import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import HeaderCreateProfileLogOut from "./Header CreateProfileLogOut/HeaderCreateProfileLogOut";
+import GuestHeader from "./Header SignUpLogIn/GuestHeader";
 
 export default function Header() {
   const { data: session } = useSession();
-  const router = useRouter();
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  useEffect(() => {
+    if (session) {
+      setIsLogin(true);
+    }
+  }, [session]);
 
-  if (session) {
-    return (
-      <header>
-        <LibertyMeetsLogo size={0.5} />
-        <div className="clickableText" onClick={() => signOut()}>
-          Log out
-        </div>
-        <div className="clickableText">
-          <Link href="/reset-password">Reset password</Link>
-        </div>
-      </header>
-    );
-  }
-
-  return (
-    <header>
-      <LibertyMeetsLogo size={0.5} />
-      <div className="clickableText" onClick={() => signIn()}>
-        Log in
-      </div>
-    </header>
-  );
+  return <>{isLogin ? <HeaderCreateProfileLogOut /> : <GuestHeader />}</>;
 }

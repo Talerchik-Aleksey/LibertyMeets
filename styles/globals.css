@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 :root {
   --LibertyMeets-Purple-100: #efeff4;
   --LibertyMeets-Purple-500: #921a64;
@@ -9,79 +10,49 @@
   --LibertyMeets-Warning_Accent: #ff8b00;
 }
 
-body {
+* {
   margin: 0;
 }
 
-header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 16px 48px;
-  gap: 20px;
-
-  height: 90px;
-
-  background: var(--LibertyMeets-Purple-100);
+html,
+body {
+  min-height: 100%;
 }
 
-footer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 16px 48px;
-  gap: 40px;
-
+.wrapper {
   position: relative;
-  height: 95px;
-  width: 100%;
-
-  background: var(--LibertyMeets-Purple-100);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.rectangle-right {
-  position: absolute;
-  left: 1202px;
-  top: 166px;
+.main {
+  flex-grow: 1;
 }
 
-.rectangle-left {
-  position: absolute;
-  left: 0px;
-  top: 496px;
-}
-
-.clickableText {
-  color: var(--LibertyMeets-UtilityBlack);
-
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 30px;
-}
-.clickableText:hover {
-  color: var(--LibertyMeets-Purple-500);
-  cursor: pointer;
+header {
+  flex-grow: 0;
 }
 
 .defaultPage {
   background-color: #f9fafb;
   padding: 200px 184px;
 }
+
+footer {
+  margin-top: auto;
+  flex-grow: 0;
+}
+
 .defaultPage > div {
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   margin: 60px auto;
   padding: 30px 36px;
   gap: 8px;
-
   width: 862px;
-
   background: #ffffff;
-
   box-shadow: 0px 1px 2px rgba(31, 41, 55, 0.08);
   border-radius: 4px;
 }
