@@ -60,9 +60,9 @@ export default async function handler(
     }
     const userId = session?.user.id;
     const isAuthor = await isAuthorCheck(userId, postId);
-    const thread = await getThread(postId, threadUserId);
+    let thread = await getThread(postId, threadUserId);
 
-    if (!isAuthor && userId !== thread?.user_id) {
+    if (thread && !isAuthor && userId !== thread.user_id) {
       res.status(403);
       return;
     }
@@ -74,6 +74,8 @@ export default async function handler(
         await createThread(postId, userId);
       }
     }
+
+    thread = await getThread(postId, threadUserId);
     await createThreadMessage(thread!.id, userId, message);
 
     res.status(200).json({ status: "ok", data: {} });

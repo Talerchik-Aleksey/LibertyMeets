@@ -18,7 +18,7 @@ import { ThreadMessages } from "./threadMessages";
 import { Users } from "./users";
 
 @Table({
-  timestamps: true,
+  timestamps: false,
   paranoid: true,
   underscored: true,
   tableName: "threads",
@@ -48,9 +48,9 @@ export class Threads extends Model {
   @Column
   deletedAt!: Date;
 
-  @HasOne(() => Posts)
-  post?: Posts;
+//@HasOne(() => Posts)
+  //post?: Posts;
 
-  @HasMany(() => ThreadMessages, { foreignKey: "thread_id" })
-  threadMessages?: ThreadMessages[];
+  //@HasMany(() => ThreadMessages, { foreignKey: "thread_id" })
+  //threadMessages?: ThreadMessages[];
 }

@@ -15,7 +15,7 @@ import { Threads } from "./threads";
 import { Users } from "./users";
 
 @Table({
-  timestamps: true,
+  timestamps: false,
   paranoid: true,
   underscored: true,
   tableName: "thread_messages",
