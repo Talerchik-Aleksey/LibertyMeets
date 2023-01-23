@@ -7,11 +7,23 @@ import { useState } from "react";
 import { Button } from "antd";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
+import * as Yup from "yup";
 
 type SettingsProps = { appUrl: string };
 type ErrorResponse = {
   message: string;
 };
+
+const SettingsSchema = Yup.object().shape({
+  password: Yup.string()
+    .min(4, "at least 4 characters")
+    .max(20, "less than 20 characters")
+    .required("Required"),
+  repeatPassword: Yup.string()
+    .min(4, "at least 4 characters")
+    .max(20, "less than 20 characters")
+    .required("Required"),
+});
 
 export default function Settings({ appUrl }: SettingsProps) {
   const [isUpdatedPassword, setIsUpdatedPassword] = useState<boolean>();
@@ -21,6 +33,7 @@ export default function Settings({ appUrl }: SettingsProps) {
       password: "",
       repeatPassword: "",
     },
+    validationSchema: SettingsSchema,
     onSubmit: async (values) => {
       if (values.password !== values.repeatPassword) {
         setErrorMessage("repeat password");
@@ -90,8 +103,12 @@ export default function Settings({ appUrl }: SettingsProps) {
             type="password"
             placeholder="********"
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             value={formik.values.password}
           />
+          {formik.touched.password && formik.errors.password && (
+            <span>{formik.errors.password}</span>
+          )}
         </div>
         <div className={styles.inputBlock}>
           <div className={styles.fieldName}>Repeat New Password</div>
@@ -101,8 +118,12 @@ export default function Settings({ appUrl }: SettingsProps) {
             type="password"
             placeholder="********"
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             value={formik.values.repeatPassword}
           />
+          {formik.touched.repeatPassword && formik.errors.repeatPassword && (
+            <span>{formik.errors.repeatPassword}</span>
+          )}
         </div>
         <div className={styles.inputBlock}>
           <button type="submit" className="clickableText">

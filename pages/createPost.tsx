@@ -8,7 +8,13 @@ import { GetServerSideProps } from "next";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
-import { KEY_LAT, KEY_LNG, DEFAULT_LAT, DEFAULT_LNG } from "../constants/constants";
+import {
+  KEY_LAT,
+  KEY_LNG,
+  DEFAULT_LAT,
+  DEFAULT_LNG,
+} from "../constants/constants";
+import * as Yup from "yup";
 
 type PropsType = { appUrl: string };
 
@@ -17,6 +23,17 @@ const options = {
   timeout: 5000,
   maximumAge: 0,
 };
+
+const CreateSchema = Yup.object().shape({
+  title: Yup.string()
+    .min(4, "at least 4 characters")
+    .max(100, "less than 100 characters")
+    .required("Required"),
+  description: Yup.string()
+    .min(4, "at least 4 characters")
+    .max(100, "less than 100 characters")
+    .required("Required"),
+});
 
 export default function CreatePost({ appUrl }: PropsType) {
   const { data: session } = useSession();
@@ -81,8 +98,9 @@ export default function CreatePost({ appUrl }: PropsType) {
       description: "",
       isPublic: true,
       lat: DEFAULT_LAT,
-      lng: DEFAULT_LNG
+      lng: DEFAULT_LNG,
     },
+    validationSchema: CreateSchema,
     onSubmit: async (values) => {
       values.lat = lat;
       values.lng = lng;
@@ -103,18 +121,30 @@ export default function CreatePost({ appUrl }: PropsType) {
       <form className={styles.block} onSubmit={formik.handleSubmit}>
         <div>Create Post</div>
         <div>
-          <input
-            name="title"
-            placeholder="title"
-            onChange={formik.handleChange}
-            value={formik.values.title}
-          />
-          <input
-            name="description"
-            placeholder="description"
-            onChange={formik.handleChange}
-            value={formik.values.description}
-          />
+          <div>
+            <input
+              name="title"
+              placeholder="title"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.title}
+            />
+            {formik.touched.title && formik.errors.title && (
+              <span>{formik.errors.title}</span>
+            )}
+          </div>
+          <div>
+            <input
+              name="description"
+              placeholder="description"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.description}
+            />
+            {formik.touched.description && formik.errors.description && (
+              <span>{formik.errors.description}</span>
+            )}
+          </div>
           <select
             name="category"
             onChange={formik.handleChange}
