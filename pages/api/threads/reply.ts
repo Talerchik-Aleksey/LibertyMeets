@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import config from "config";
 import { connect } from "../../../utils/db";
 import { getSession } from "next-auth/react";
 import { HttpError } from "../../../utils/HttpError";
