@@ -10,12 +10,13 @@ import {
   CreatedAt,
   ForeignKey,
   DeletedAt,
+  UpdatedAt,
 } from "sequelize-typescript";
 import { Posts } from "./posts";
 import { Users } from "./users";
 
 @Table({
-  timestamps: false,
+  timestamps: true,
   paranoid: true,
   underscored: true,
   tableName: "user_posts",
@@ -40,6 +41,10 @@ export class UserPosts extends Model {
   @CreatedAt
   @Column
   createdAt!: Date;
+
+  @UpdatedAt
+  @Column
+  updatedAt!: Date;
 
   @DeletedAt
   @Column

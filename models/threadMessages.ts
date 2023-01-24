@@ -10,13 +10,14 @@ import {
   ForeignKey,
   DeletedAt,
   BelongsTo,
+  UpdatedAt,
 } from "sequelize-typescript";
 import { v4 } from "uuid";
 import { Threads } from "./threads";
 import { Users } from "./users";
 
 @Table({
-  timestamps: false,
+  timestamps: true,
   paranoid: true,
   underscored: true,
   tableName: "thread_messages",
@@ -45,6 +46,10 @@ export class ThreadMessages extends Model {
   @CreatedAt
   @Column
   createdAt!: Date;
+
+  @UpdatedAt
+  @Column
+  updatedAt!: Date;
 
   @DeletedAt
   @Column

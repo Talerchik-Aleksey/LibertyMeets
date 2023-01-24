@@ -12,6 +12,7 @@ import {
   HasMany,
   DeletedAt,
   BelongsTo,
+  UpdatedAt,
 } from "sequelize-typescript";
 import { v4 } from "uuid";
 import { Posts } from "./posts";
@@ -19,7 +20,7 @@ import { ThreadMessages } from "./threadMessages";
 import { Users } from "./users";
 
 @Table({
-  timestamps: false,
+  timestamps: true,
   paranoid: true,
   underscored: true,
   tableName: "threads",
@@ -44,6 +45,10 @@ export class Threads extends Model {
   @CreatedAt
   @Column
   createdAt!: Date;
+
+  @UpdatedAt
+  @Column
+  updatedAt!: Date;
 
   @DeletedAt
   @Column
