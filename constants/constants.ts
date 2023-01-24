@@ -6,8 +6,8 @@ export const KEY_LNG = "lng";
 
 export const CATEGORIES = [
   "All",
-  "social",
-  "volunteer",
-  "professional",
-  "campaigns",
+  "Social",
+  "Volunteer",
+  "Professional",
+  "Campaigns",
 ];

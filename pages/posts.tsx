@@ -10,6 +10,7 @@ import { PostType } from "../types/general";
 import PostListItem from "../Components/PostListItem";
 import PostsList from "../Components/PostsList";
 import { sendEmail } from "../utils/mailgun";
+import Events from "../Components/Events/Events";
 
 type PropsType = { appUrl: string; postsPerPage: number };
 
@@ -66,6 +67,7 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
 
   return (
     <>
+      <Events appUrl={appUrl} />
       <div style={{ display: "flex" }}>
         {CATEGORIES.map((item, index) => (
           <div
