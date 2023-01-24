@@ -80,7 +80,13 @@ export default async function handler(
     await createThreadMessage(thread!.id, userId, message);
 
     const post = await getPost(thread!.post_id);
-    await sendReplyMessage(post!.author_id, message);
+    if (!isAuthor) {
+      console.log(post?.author_id, message);
+      await sendReplyMessage(post!.author_id, message);
+    } else {
+      console.log(thread!.user_id, message);
+      await sendReplyMessage(thread!.user_id, message);
+    }
 
     res.status(200).json({ status: "ok", data: {} });
   } catch (err) {

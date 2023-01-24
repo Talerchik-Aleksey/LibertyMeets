@@ -167,8 +167,18 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
           ) : (
             <></>
           )}
-          <Thread appUrl={appUrl} threadId={"d80d7d19-3cbc-4c45-820e-2da8fd9714e2"} />
-          <ThreadForm isThreadExists={false} appUrl={appUrl} postId={+postId} />
+          <Thread
+            appUrl={appUrl}
+            threadId={"d80d7d19-3cbc-4c45-820e-2da8fd9714e2"}
+          />
+          <ThreadForm
+            isThreadExists={false}
+            appUrl={appUrl}
+            postId={+postId}
+            isAuthor={
+              session ? post?.author_id === session?.user.id : undefined
+            }
+          />
         </div>
       )}
     </>
