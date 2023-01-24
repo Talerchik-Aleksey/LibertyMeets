@@ -4,6 +4,7 @@ import { Router, useRouter } from "next/router";
 import CrossesOnBackground from "../Components/General/CrossesOnBackground";
 import LibertyMeetsLogo from "../Components/LibertyMeetsLogo";
 import styles from "../styles/signup.module.css";
+import url from "url";
 import * as Yup from "yup";
 
 const SigninSchema = Yup.object().shape({
@@ -16,8 +17,11 @@ export default function signin() {
   const { data: session } = useSession();
 
   function goBack() {
-    const callback = router.query.callback;
-    return callback ? router.back() : router.push("/");
+    const callback = `${router.query.callbackUrl}`;
+    const { pathname } = url.parse(callback);
+    return pathname === undefined
+      ? router.push(`${pathname}`)
+      : router.push("/");
   }
 
   if (session) {
