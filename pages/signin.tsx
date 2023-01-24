@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import CrossesOnBackground from "../Components/General/CrossesOnBackground";
 import LibertyMeetsLogo from "../Components/LibertyMeetsLogo";
 import styles from "../styles/signup.module.css";
@@ -14,8 +14,14 @@ const SigninSchema = Yup.object().shape({
 export default function signin() {
   const router = useRouter();
   const { data: session } = useSession();
+
+  function goBack() {
+    const callback = router.query.callback;
+    return callback ? router.back() : router.push("/");
+  }
+
   if (session) {
-    router.back();
+    goBack();
   }
 
   const formik = useFormik({
