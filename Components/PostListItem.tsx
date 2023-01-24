@@ -17,7 +17,7 @@ export default function PostListItem(props: PostListItemProps) {
 
   return (
     <>
-      {post.favoriteUsers.length > 0 || post.is_favorite ? (
+      {post.favoriteUsers?.length > 0 || post.is_favorite ? (
         <div
           onClick={() => {
             changeStar(post.id);
