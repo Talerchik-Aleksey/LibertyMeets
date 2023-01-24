@@ -208,25 +208,22 @@ export async function deletePosts(userId: number, t: Transaction) {
       transaction: t,
     });
 
-    // TODO Model not initialized: Member "findAll" cannot be called. "Threads" needs to be added to a Sequelize instance.
+    const thread = await Threads.findAll({
+      where: { post_id: postIds },
+      transaction: t,
+    });
+    if (thread.length === 0) {
+      return;
+    }
 
-    // const thread = await Threads.findAll({
-    //   where: { post_id: postIds },
-    //   transaction: t,
-    // });
-    // if (thread.length === 0) {
-    //   return;
-    // }
-    // console.log('thread <-------', thread);
+    const threadIds = thread.map((item) => item.id);
+    await ThreadMessages.destroy({
+      where: { thread_id: threadIds },
+      transaction: t,
+    });
 
-    // const threadIds = thread.map((item) => item.id);
-    // await ThreadMessages.destroy({
-    //   where: { thread_id: threadIds },
-    //   transaction: t,
-    // });
-
-    // await Threads.destroy({ where: { post_id: postIds }, transaction: t });
-    // return;
+    await Threads.destroy({ where: { post_id: postIds }, transaction: t });
+    return;
   } catch (err) {
     const error = err as Error;
     return error;

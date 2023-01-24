@@ -12,7 +12,6 @@ import {
   DeletedAt,
   ForeignKey,
   HasMany,
-  BelongsToMany,
 } from "sequelize-typescript";
 import { FavoritePosts } from "./favoritePosts";
 import { Threads } from "./threads";

@@ -127,16 +127,14 @@ export async function changePassword(password: string, token: string) {
 export async function deleteAccount(userId: number, t: Transaction) {
   const random = shortid.generate();
   try {
-    // TODO timestamps: true and column update_at into FavoritePosts and UserPosts
+    await UserPosts.destroy({ where: { user_id: userId }, transaction: t });
 
-    // await UserPosts.destroy({ where: { user_id: userId }, transaction: t });
-
-    // await FavoritePosts.destroy({
-    //   where: {
-    //     user_id: userId,
-    //   },
-    //   transaction: t,
-    // });
+    await FavoritePosts.destroy({
+      where: {
+        user_id: userId,
+      },
+      transaction: t,
+    });
 
     const user = await Users.findOne({
       where: { id: userId },
