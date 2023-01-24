@@ -4,22 +4,32 @@ import { generateFromString } from "generate-avatar";
 
 type PropsType = {
   appUrl: string;
-  threadId: string;
+  threadId?: string;
+  postId?: number;
+  userId?: number;
 };
 type Message = {
   message: string;
   user_id: number;
 };
 
-export default function Thread({ appUrl, threadId }: PropsType) {
+export default function Thread({
+  appUrl,
+  threadId,
+  postId,
+  userId,
+}: PropsType) {
   const [messages, setMessages] = useState<Message[]>([]);
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get(`${appUrl}/api/threads/get-messages`, {
-        params: { threadId },
-      });
-      setMessages(res.data.data.messages);
+      const params = { threadId, postId, threadUserId: userId };
+      try {
+        const res = await axios.get(`${appUrl}/api/threads/get-messages`, {
+          params,
+        });
+        setMessages(res.data.data.messages);
+      } catch {}
     })();
   }, []);
 
