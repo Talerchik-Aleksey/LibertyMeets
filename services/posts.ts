@@ -146,19 +146,49 @@ export async function isAuthorCheck(
   return !!foundPost;
 }
 
-export async function deletePostInDb(userId: number, postId: number) {
-  await FavoritePosts.destroy({ where: { user_id: userId, post_id: postId } });
-  await UserPosts.destroy({ where: { post_id: postId } });
-  const thread = await Threads.findOne({ where: { post_id: postId } });
-  if (thread) {
-    await ThreadMessages.destroy({ where: { thread_id: thread.id } });
-  }
-  await Threads.destroy({ where: { post_id: postId } });
-  const res = await Posts.destroy({
-    where: { id: postId },
-  });
-  if (!res) {
-    throw new HttpError(404, "no success");
+export async function deletePost(
+  userId: number,
+  postId: number,
+  t: Transaction
+) {
+  try {
+    await UserPosts.destroy({ where: { post_id: postId }, transaction: t });
+
+    await FavoritePosts.destroy({
+      where: {
+        user_id: userId,
+        post_id: postId,
+      },
+      transaction: t,
+    });
+
+    const thread = await Threads.findOne({
+      where: { post_id: postId },
+      transaction: t,
+    });
+
+    await Posts.destroy({
+      where: {
+        id: postId,
+      },
+      transaction: t,
+    });
+
+    if (!thread) {
+      return;
+    }
+
+    await ThreadMessages.destroy({
+      where: { thread_id: thread.id },
+      transaction: t,
+    });
+
+    await Threads.destroy({ where: { post_id: postId }, transaction: t });
+
+    return;
+  } catch (err) {
+    const error = err as Error;
+    return error;
   }
 }
 
@@ -223,6 +253,7 @@ export async function deletePosts(userId: number, t: Transaction) {
     });
 
     await Threads.destroy({ where: { post_id: postIds }, transaction: t });
+
     return;
   } catch (err) {
     const error = err as Error;
