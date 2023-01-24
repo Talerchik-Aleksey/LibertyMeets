@@ -9,7 +9,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <SessionProvider>
         <Header />
-        <Component {...pageProps} />
+        <div className="main">
+          <Component {...pageProps} />
+        </div>
         <Footer />
       </SessionProvider>
     </>
