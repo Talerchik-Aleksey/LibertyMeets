@@ -8,7 +8,6 @@ import {
   PrimaryKey,
   CreatedAt,
   ForeignKey,
-  HasOne,
   HasMany,
   DeletedAt,
   BelongsTo,

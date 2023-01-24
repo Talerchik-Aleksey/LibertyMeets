@@ -6,6 +6,12 @@ import { Users } from "../models/users";
 import { connect } from "../utils/db";
 import { Posts } from "../models/posts";
 import { FavoritePosts } from "../models/favoritePosts";
+import { Sequelize } from "sequelize-typescript";
+import { Transaction } from "sequelize";
+import { Threads } from "../models/threads";
+import { ThreadMessages } from "../models/threadMessages";
+import { UserPosts } from "../models/usersPosts";
+import shortid from "shortid";
 
 const saltLength = config.get<number>("hash.saltLength");
 connect();
@@ -118,27 +124,37 @@ export async function changePassword(password: string, token: string) {
   return result;
 }
 
-export async function deleteAccount(userId: number) {
-  const resFavoritePosts = await FavoritePosts.destroy({
-    where: {
-      user_id: userId,
-    },
-  });
-  if (!resFavoritePosts) {
-    throw new HttpError(404, "no success to delete favorites posts");
-  }
+export async function deleteAccount(userId: number, t: Transaction) {
+  const random = shortid.generate();
+  try {
+    await UserPosts.destroy({ where: { user_id: userId }, transaction: t });
 
-  const resPost = await Posts.destroy({
-    where: {
-      author_id: userId,
-    },
-  });
-  if (!resPost) {
-    throw new HttpError(404, "no success to delete posts");
-  }
+    await FavoritePosts.destroy({
+      where: {
+        user_id: userId,
+      },
+      transaction: t,
+    });
 
-  const resUser = await Users.destroy({ where: { id: userId } });
-  if (!resUser) {
-    throw new HttpError(404, "no success to delete account");
+    const user = await Users.findOne({
+      where: { id: userId },
+      transaction: t,
+    });
+    if (!user) {
+      return;
+    }
+
+    const updateEmail = random.concat("->", user.email);
+    await Users.update(
+      { email: updateEmail },
+      { where: { id: userId }, transaction: t }
+    );
+
+    await Users.destroy({ where: { id: userId }, transaction: t });
+
+    return;
+  } catch (err) {
+    const error = err as Error;
+    return error;
   }
 }
