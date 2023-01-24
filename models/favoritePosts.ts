@@ -10,6 +10,7 @@ import {
   DeletedAt,
   ForeignKey,
   BelongsTo,
+  UpdatedAt,
 } from "sequelize-typescript";
 import { Posts } from "./posts";
 import { Users } from "./users";
@@ -40,6 +41,10 @@ export class FavoritePosts extends Model {
   @CreatedAt
   @Column
   createdAt!: Date;
+
+  @UpdatedAt
+  @Column
+  updatedAt!: Date;
 
   @DeletedAt
   @Column
