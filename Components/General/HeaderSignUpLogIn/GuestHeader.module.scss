@@ -1,0 +1,80 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 24px 50px;
+  gap: 20px;
+  background: var(--LibertyMeets-Purple-100);
+  justify-content: space-between;
+
+  @media (max-width: 700px) {
+    flex-direction: column;
+    padding: 20px 8px;
+  }
+}
+
+.logo img {
+  height: 40px;
+}
+
+.navigation {
+  font-family: "Inter";
+  display: flex;
+  gap: 40px;
+
+  @media (max-width: 700px) {
+    gap: unset;
+    width: 100%;
+    justify-content: space-around;
+  }
+}
+
+.signUp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 137px;
+  height: 40px;
+  background: #921a64;
+  border-radius: 4px;
+  padding: 8px 16px;
+  transition: 0.5s;
+  border: none !important;
+
+  &:hover {
+    transition: 0.5s;
+    background: #640674;
+  }
+}
+
+.signUpText {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-transform: capitalize;
+  color: #ffffff;
+}
+
+.logIn {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  height: 40px;
+  color: #333333;
+  transition: 0.5s;
+
+  &:hover {
+    transition: 0.5s;
+    color: #921a64 !important;
+  }
+}
+
+.itemLink {
+  text-decoration: none;
+}
