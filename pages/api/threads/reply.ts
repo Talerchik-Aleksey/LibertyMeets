@@ -3,13 +3,14 @@ import config from "config";
 import { connect } from "../../../utils/db";
 import { getSession } from "next-auth/react";
 import { HttpError } from "../../../utils/HttpError";
-import { isAuthorCheck } from "../../../services/posts";
+import { getPost, isAuthorCheck } from "../../../services/posts";
 import {
   createThread,
   createThreadMessage,
   getThread,
   getThreads,
 } from "../../../services/threads";
+import { sendReplyMessage } from "../../../services/email";
 
 type ResType = {
   status: string;
@@ -60,9 +61,9 @@ export default async function handler(
     }
     const userId = session?.user.id;
     const isAuthor = await isAuthorCheck(userId, postId);
-    const thread = await getThread(postId, threadUserId);
+    let thread = await getThread(postId, threadUserId);
 
-    if (!isAuthor && userId !== thread?.user_id) {
+    if (thread && !isAuthor && userId !== thread.user_id) {
       res.status(403);
       return;
     }
@@ -74,7 +75,18 @@ export default async function handler(
         await createThread(postId, userId);
       }
     }
+
+    thread = await getThread(postId, threadUserId);
     await createThreadMessage(thread!.id, userId, message);
+
+    const post = await getPost(thread!.post_id);
+    if (!isAuthor) {
+      console.log(post?.author_id, message);
+      await sendReplyMessage(post!.author_id, message);
+    } else {
+      console.log(thread!.user_id, message);
+      await sendReplyMessage(thread!.user_id, message);
+    }
 
     res.status(200).json({ status: "ok", data: {} });
   } catch (err) {

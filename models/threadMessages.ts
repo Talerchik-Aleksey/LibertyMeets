@@ -9,6 +9,8 @@ import {
   CreatedAt,
   ForeignKey,
   DeletedAt,
+  BelongsTo,
+  UpdatedAt,
 } from "sequelize-typescript";
 import { v4 } from "uuid";
 import { Threads } from "./threads";
@@ -28,13 +30,13 @@ export class ThreadMessages extends Model {
   id!: string;
 
   @AllowNull(false)
-  @Column(DataType.NUMBER)
   @ForeignKey(() => Users)
+  @Column(DataType.NUMBER)
   user_id!: number;
 
   @AllowNull(false)
-  @Column(DataType.UUIDV4)
   @ForeignKey(() => Threads)
+  @Column(DataType.UUIDV4)
   thread_id!: string;
 
   @AllowNull(false)
@@ -45,7 +47,14 @@ export class ThreadMessages extends Model {
   @Column
   createdAt!: Date;
 
+  @UpdatedAt
+  @Column
+  updatedAt!: Date;
+
   @DeletedAt
   @Column
   deletedAt!: Date;
+
+  @BelongsTo(()=>Threads, "thread_id")
+  thread?:string
 }
