@@ -64,15 +64,18 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           className={styles.form}
+          validateTrigger={false}
         >
           <Form.Item
             name="email"
             rules={[
-              { required: false, message: "Please input your Username!" },
+              { required: true },
+              { type: "email" },
+              { type: "string", max: 100 },
             ]}
             colon={false}
             labelAlign="left"
-            label="* Email"
+            label="Email"
             labelCol={{ span: 5 }}
             className={styles.email}
           >
@@ -92,15 +95,13 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
           </Form.Item>
 
           <Form.Item
-            label="* Password"
+            label="Password"
             name="password"
             colon={false}
             labelCol={{ span: 5 }}
             className={styles.password}
             labelAlign="left"
-            rules={[
-              { required: false, message: "Please input your password!" },
-            ]}
+            rules={[{ required: true }, { type: "string", min: 4, max: 100 }]}
           >
             <Input
               suffix={

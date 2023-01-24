@@ -41,15 +41,19 @@ export default function Login() {
           initialValues={{ remember: true }}
           onFinish={onFinish}
           className={styles.form}
+          validateTrigger={false}
         >
           <Form.Item
             name="email"
+            // rules={[{ required: true, message: "Please input your Username!" }]}
             rules={[
-              { required: false, message: "Please input your Username!" },
+              { required: true },
+              { type: "email" },
+              { type: "string", max: 100 },
             ]}
             colon={false}
             labelAlign="left"
-            label="* Email"
+            label="Email"
             labelCol={{ span: 4 }}
             className={styles.username}
           >
@@ -69,15 +73,14 @@ export default function Login() {
           </Form.Item>
 
           <Form.Item
-            label="* Password"
+            label="Password"
             name="password"
             colon={false}
             labelCol={{ span: 4 }}
             labelAlign="left"
             className={styles.password}
-            rules={[
-              { required: false, message: "Please input your password!" },
-            ]}
+            // rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[{ required: true }, { type: "string", min: 4, max: 100 }]}
           >
             <Input
               suffix={
