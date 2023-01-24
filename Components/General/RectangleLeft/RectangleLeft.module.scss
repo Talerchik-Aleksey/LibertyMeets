@@ -1,0 +1,20 @@
+.left {
+  @media (max-width: 1940px) {
+    width: calc(469px - 9vw);
+    height: calc(258px - 9vh);
+  }
+
+  @media (max-width: 1440px) {
+    width: 469px;
+    height: 258px;
+  }
+
+  @media (max-width: 1350px) {
+    width: calc(469px - 10vw);
+    height: calc(258px - 10vh);
+  }
+
+  @media (max-width: 1000px) {
+    display: none;
+  }
+}

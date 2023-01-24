@@ -5,6 +5,8 @@ import { GetServerSideProps } from "next";
 import { useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
+import ThreadForm from "../../Components/Posts/ThreadForm";
+import Thread from "../../Components/Posts/Thread";
 
 type SinglePostProps = { appUrl: string };
 type ErrorResponse = {
@@ -19,6 +21,9 @@ type PostType = {
   category: string;
   description: string;
   is_public: boolean;
+};
+type QueryType = {
+  postId: string;
 };
 
 export default function SinglePost({ appUrl }: SinglePostProps) {
@@ -39,6 +44,8 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
       }),
     []
   );
+
+  const { postId } = router.query as QueryType;
 
   useEffect(() => {
     (async () => {
@@ -160,6 +167,18 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
           ) : (
             <></>
           )}
+          <Thread
+            appUrl={appUrl}
+            threadId={"d80d7d19-3cbc-4c45-820e-2da8fd9714e2"}
+          />
+          <ThreadForm
+            isThreadExists={false}
+            appUrl={appUrl}
+            postId={+postId}
+            isAuthor={
+              session ? post?.author_id === session?.user.id : undefined
+            }
+          />
         </div>
       )}
     </>

@@ -5,6 +5,8 @@ import { Users } from "../models/users";
 import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
 import { FavoritePosts } from "../models/favoritePosts";
+import { Threads } from "../models/threads";
+import { ThreadMessages } from "../models/threadMessages";
 
 export type ConnectionOptionsType = {
   type?: Dialect;
@@ -29,7 +31,8 @@ export async function connect(): Promise<Sequelize> {
     benchmark: true,
     pool: options.pool,
     transactionType: "IMMEDIATE" as any,
-    models: [Users, Posts, UserPosts, FavoritePosts],
+    models: [Users, Posts, UserPosts, FavoritePosts, Threads, ThreadMessages],
+    logging: false,
   });
   return sequelize;
 }
