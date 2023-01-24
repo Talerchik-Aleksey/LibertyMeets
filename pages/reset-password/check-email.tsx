@@ -1,5 +1,5 @@
-export default function CheckEmail(){
-  return(
-      <div style={{ height: "897px" }}>Thank you, please check your email and follow the instructions</div>
-  )
+import CheckEmailPage from "../../Components/General/CheckEmailPage/CheckEmailPage";
+
+export default function CheckEmail() {
+  return <CheckEmailPage />;
 }
