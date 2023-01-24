@@ -12,8 +12,10 @@ import {
   DeletedAt,
   ForeignKey,
   HasMany,
+  BelongsToMany,
 } from "sequelize-typescript";
 import { FavoritePosts } from "./favoritePosts";
+import { Threads } from "./threads";
 import { Users } from "./users";
 
 @Table({
@@ -97,4 +99,7 @@ export class Posts extends Model {
 
   @HasMany(() => FavoritePosts, { foreignKey: "post_id" })
   favoriteUsers?: FavoritePosts[];
+
+  //@HasMany(() => Threads, { foreignKey: "post_id" })
+  //threads?: Threads[];
 }

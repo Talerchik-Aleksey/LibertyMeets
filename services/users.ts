@@ -42,6 +42,11 @@ export async function findUser(email: string) {
   return foundUser;
 }
 
+export async function getUser(userId: number) {
+  const founfUser = Users.findOne({ where: { id: userId } });
+  return founfUser;
+}
+
 export async function fillToken(email: string, reset_pwd_token: string) {
   await Users.update(
     { reset_pwd_token },

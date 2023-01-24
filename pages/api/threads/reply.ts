@@ -3,13 +3,14 @@ import config from "config";
 import { connect } from "../../../utils/db";
 import { getSession } from "next-auth/react";
 import { HttpError } from "../../../utils/HttpError";
-import { isAuthorCheck } from "../../../services/posts";
+import { getPost, isAuthorCheck } from "../../../services/posts";
 import {
   createThread,
   createThreadMessage,
   getThread,
   getThreads,
 } from "../../../services/threads";
+import { sendReplyMessage } from "../../../services/email";
 
 type ResType = {
   status: string;
@@ -77,6 +78,9 @@ export default async function handler(
 
     thread = await getThread(postId, threadUserId);
     await createThreadMessage(thread!.id, userId, message);
+
+    const post = await getPost(thread!.post_id);
+    await sendReplyMessage(post!.author_id, message);
 
     res.status(200).json({ status: "ok", data: {} });
   } catch (err) {

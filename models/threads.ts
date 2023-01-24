@@ -11,6 +11,7 @@ import {
   HasOne,
   HasMany,
   DeletedAt,
+  BelongsTo,
 } from "sequelize-typescript";
 import { v4 } from "uuid";
 import { Posts } from "./posts";
@@ -31,8 +32,8 @@ export class Threads extends Model {
   id!: string;
 
   @AllowNull(false)
-  @Column(DataType.NUMBER)
   @ForeignKey(() => Users)
+  @Column(DataType.NUMBER)
   user_id!: number;
 
   @AllowNull(false)
@@ -48,9 +49,9 @@ export class Threads extends Model {
   @Column
   deletedAt!: Date;
 
-//@HasOne(() => Posts)
+  //@BelongsTo(() => Posts, "post_id")
   //post?: Posts;
 
-  //@HasMany(() => ThreadMessages, { foreignKey: "thread_id" })
-  //threadMessages?: ThreadMessages[];
+  @HasMany(() => ThreadMessages, { foreignKey: "thread_id" })
+  threadMessages?: ThreadMessages[];
 }

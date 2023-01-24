@@ -2,6 +2,7 @@ import { Posts } from "../models/posts";
 import { ThreadMessages } from "../models/threadMessages";
 import { Threads } from "../models/threads";
 import { HttpError } from "../utils/HttpError";
+import { getPost } from "./posts";
 
 export async function getThreads(postId: number) {
   const foundThreads = Threads.findAll({ where: { post_id: postId } });
@@ -18,13 +19,15 @@ export async function getThread(postId: number, userId: number) {
 export async function isUserCanView(threadId: string, userId: number) {
   const foundThread = await Threads.findOne({
     where: { id: threadId },
-    include: { model: Posts, as: "post" },
+    //include: { model: Posts, as: "post" },
   });
   if (!foundThread) {
     throw new HttpError(404, "thread not found");
   }
   const threadCreatorId = foundThread.user_id;
-  const authorId = foundThread.post?.author_id;
+  
+  const post = await getPost(foundThread.post_id)
+  const authorId = post!.author_id;
 
   return userId === threadCreatorId || userId === authorId;
 }
