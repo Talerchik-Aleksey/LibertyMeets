@@ -14,8 +14,6 @@ type ResType = {
   data: any;
 };
 
-type QueryType = QueryPostUser | QueryThread;
-
 type QueryThread = { threadId: string | undefined };
 type QueryPostUser = {
   postId: string | undefined;
@@ -31,6 +29,12 @@ export default async function handler(
   try {
     if (!req.method || req.method! !== "GET") {
       res.status(405);
+      return;
+    }
+
+    const session = await getSession({ req });
+    if (!session) {
+      res.status(401);
       return;
     }
 
@@ -54,11 +58,6 @@ export default async function handler(
       throw new HttpError(400, "no threadId");
     }
 
-    const session = await getSession({ req });
-    if (!session) {
-      res.status(401);
-      return;
-    }
     const userId = session.user.id;
     const isCanView = isUserCanView(threadId, userId);
     if (!isCanView) {

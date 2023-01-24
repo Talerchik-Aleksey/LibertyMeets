@@ -8,7 +8,6 @@ import {
   createThread,
   createThreadMessage,
   getThread,
-  getThreads,
 } from "../../../services/threads";
 import { sendReplyMessage } from "../../../services/email";
 
