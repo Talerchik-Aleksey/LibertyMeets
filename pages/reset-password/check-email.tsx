@@ -1,5 +1,5 @@
-import CheckEmailPage from "../../Components/General/CheckEmailPage/CheckEmailPage";
+import CheckEmail from "../../Components/General/CheckEmail/CheckEmail";
 
-export default function CheckEmail() {
-  return <CheckEmailPage />;
+export default function CheckEmailPage() {
+  return <CheckEmail />;
 }

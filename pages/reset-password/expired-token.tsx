@@ -1,5 +1,6 @@
-import ExpiredTokenPage from "../../Components/General/ExpiredTokenPage/ExpiredTokenPage";
+import ExpiredToken from "../../Components/General/ExpiredToken/ExpiredToken";
 
-export default function ExpiredToken() {
-  return <ExpiredTokenPage />;
+
+export default function ExpiredTokenPage() {
+  return <ExpiredToken />;
 }
