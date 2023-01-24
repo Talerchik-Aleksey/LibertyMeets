@@ -45,7 +45,6 @@ export default function Login() {
         >
           <Form.Item
             name="email"
-            // rules={[{ required: true, message: "Please input your Username!" }]}
             rules={[
               { required: true },
               { type: "email" },
@@ -79,7 +78,6 @@ export default function Login() {
             labelCol={{ span: 4 }}
             labelAlign="left"
             className={styles.password}
-            // rules={[{ required: true, message: "Please input your password!" }]}
             rules={[{ required: true }, { type: "string", min: 4, max: 100 }]}
           >
             <Input
