@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Button, Form, Input } from "antd";
 import { useRouter } from "next/router";
-import styles from "./ResetPasswordComponent.module.scss";
-import RectangleLeft from "../RectangleLeft/RectangleLeft";
-import RectangleRight from "../RectangleRight/RectangleRight";
+import styles from "./ResetPassword.module.scss";
+import RectangleLeft from "../General/RectangleLeft/RectangleLeft";
+import RectangleRight from "../General/RectangleRight/RectangleRight";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
 
 type ResetPasswordProps = { appUrl: string };
 
-export default function ResetPasswordComponent({ appUrl }: ResetPasswordProps) {
+export default function ResetPassword({ appUrl }: ResetPasswordProps) {
   const [isWrongEmail, setIsWrongEmail] = useState<boolean>(false);
   const [generateLink, setGenerateLink] = useState<string>("");
   const router = useRouter();

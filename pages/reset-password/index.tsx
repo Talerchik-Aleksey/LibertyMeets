@@ -1,13 +1,13 @@
 import config from "config";
 import { GetServerSideProps } from "next";
-import ResetPasswordComponent from "../../Components/General/ResetPasswordComponent/ResetPasswordComponent";
+import ResetPassword from "../../Components/ResetPassword/ResetPassword";
 
-type ResetPasswordProps = { appUrl: string };
+type ResetPasswordPageProps = { appUrl: string };
 
-export default function ResetPassword({ appUrl }: ResetPasswordProps) {
+export default function ResetPasswordPage({ appUrl }: ResetPasswordPageProps) {
   return (
     <>
-      <ResetPasswordComponent appUrl={appUrl} />
+      <ResetPassword appUrl={appUrl} />
     </>
   );
 }

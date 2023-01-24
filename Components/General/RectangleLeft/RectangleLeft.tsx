@@ -5,7 +5,7 @@ export default function RectangleLeft() {
   return (
     <div className={styles.rectangleLeft}>
       <Image
-        src="/decor/Rectangle 864.svg"
+        src="/decor/Rectangle-864.svg"
         alt=""
         width={469}
         height={258}

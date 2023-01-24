@@ -14,7 +14,7 @@ export default function LandingMain() {
       <div className={styles.titleBlock}>
         <div className={styles.rectangleLeftBlock}>
           <Image
-            src="/decor/Rectangle 866.svg"
+            src="/decor/Rectangle-866.svg"
             alt=""
             width={284}
             height={258}
@@ -93,8 +93,8 @@ export default function LandingMain() {
       </div>
       <div className={styles.purpleBlock}>
         <Image
-          src="/decor/Frame 36732.png"
-          alt="Frame 36732"
+          src="/decor/Frame-36732.png"
+          alt="Frame-36732"
           width={524}
           height={440}
           className={styles.libertyAbout}

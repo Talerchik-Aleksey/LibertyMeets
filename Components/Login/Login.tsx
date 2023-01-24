@@ -4,8 +4,8 @@ import { signIn, useSession } from "next-auth/react";
 import { Button, Form, Input } from "antd";
 import { useRouter } from "next/router";
 import styles from "./Login.module.scss";
-import RectangleLeft from "../RectangleLeft/RectangleLeft";
-import RectangleRight from "../RectangleRight/RectangleRight";
+import RectangleLeft from "../General/RectangleLeft/RectangleLeft";
+import RectangleRight from "../General/RectangleRight/RectangleRight";
 import Link from "next/link";
 
 export default function Login() {

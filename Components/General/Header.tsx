@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
-import HeaderCreateProfileLogOut from "./Header CreateProfileLogOut/HeaderCreateProfileLogOut";
-import GuestHeader from "./Header SignUpLogIn/GuestHeader";
+import HeaderCreateProfileLogOut from "./HeaderCreateProfileLogOut/HeaderCreateProfileLogOut";
+import GuestHeader from "./HeaderSignUpLogIn/GuestHeader";
 
 export default function Header() {
   const { data: session } = useSession();

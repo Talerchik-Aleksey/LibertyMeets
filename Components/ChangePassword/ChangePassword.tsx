@@ -2,17 +2,15 @@ import React from "react";
 import Image from "next/image";
 import { Button, Form, Input } from "antd";
 import { useRouter } from "next/router";
-import styles from "./ChangePasswordComponent.module.scss";
-import RectangleLeft from "../RectangleLeft/RectangleLeft";
-import RectangleRight from "../RectangleRight/RectangleRight";
+import styles from "./ChangePassword.module.scss";
+import RectangleLeft from "../General/RectangleLeft/RectangleLeft";
+import RectangleRight from "../General/RectangleRight/RectangleRight";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 type ChangePasswordProps = { appUrl: string };
 
-export default function ChangePasswordComponent({
-  appUrl,
-}: ChangePasswordProps) {
+export default function ChangePassword({ appUrl }: ChangePasswordProps) {
   const [isRightUser, setIsRightUser] = useState<boolean>(false);
   const router = useRouter();
   useEffect(() => {

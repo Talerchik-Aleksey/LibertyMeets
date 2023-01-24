@@ -1,4 +1,4 @@
-import styles from "./RegistrationComponent.module.scss";
+import styles from "./Registration.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -6,8 +6,8 @@ import { Button, Form, Input } from "antd";
 import axios, { AxiosError } from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import { createRef, useState } from "react";
-import RectangleLeft from "../RectangleLeft/RectangleLeft";
-import RectangleRight from "../RectangleRight/RectangleRight";
+import RectangleLeft from "../General/RectangleLeft/RectangleLeft";
+import RectangleRight from "../General/RectangleRight/RectangleRight";
 
 type PropsType = { appUrl: string; recaptchaKey: string };
 
@@ -15,10 +15,7 @@ type ErrorResponse = {
   message: string;
 };
 
-export default function RegistrationComponent({
-  appUrl,
-  recaptchaKey,
-}: PropsType) {
+export default function Registration({ appUrl, recaptchaKey }: PropsType) {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const recaptchaRef = createRef<ReCAPTCHA>();
   const router = useRouter();

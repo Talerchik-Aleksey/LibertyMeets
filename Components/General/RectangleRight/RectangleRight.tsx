@@ -5,7 +5,7 @@ export default function RectangleRight() {
   return (
     <div className={styles.rectangleRight}>
       <Image
-        src="/decor/Rectangle 865.svg"
+        src="/decor/Rectangle-865.svg"
         alt=""
         width={212}
         height={280}

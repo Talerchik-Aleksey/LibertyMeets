@@ -1,11 +1,11 @@
 import config from "config";
 import { GetServerSideProps } from "next";
-import RegistrationComponent from "../Components/General/Registration/RegistrationComponent";
+import Registration from "../Components/Registration/Registration";
 
 type PropsType = { appUrl: string; recaptchaKey: string };
 
-export default function Registration({ appUrl, recaptchaKey }: PropsType) {
-  return <RegistrationComponent appUrl={appUrl} recaptchaKey={recaptchaKey} />;
+export default function RegistrationPage({ appUrl, recaptchaKey }: PropsType) {
+  return <Registration appUrl={appUrl} recaptchaKey={recaptchaKey} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
