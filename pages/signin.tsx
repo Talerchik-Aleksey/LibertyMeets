@@ -15,7 +15,7 @@ export default function signin() {
   const router = useRouter();
   const { data: session } = useSession();
   if (session) {
-    router.push("/");
+    router.back();
   }
 
   const formik = useFormik({
