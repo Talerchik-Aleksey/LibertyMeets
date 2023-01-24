@@ -1,0 +1,24 @@
+.container{
+    min-height: calc(100vh - 188px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background: #f9fafb;
+}
+
+.message{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 51px;
+    color: #921A64;
+    width: 40%;
+    text-align: center;
+
+    @media (max-width:500px) {
+        width: 60%;
+        font-size: 36px;
+    }
+}
