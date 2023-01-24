@@ -12,7 +12,7 @@ export default function Footer() {
         <LibertyMeetsLogo />
       </div>
       <div className={styles.footerInfo}>
-        <div className={styles.clickableText} onClick={() => router.push("/")}>
+        <div className={styles.clickableText} onClick={() => router.push("/about")}>
           About LibertyMeets
         </div>
         <div className={styles.liberty}>LibertyMeets ©️ 2022</div>
