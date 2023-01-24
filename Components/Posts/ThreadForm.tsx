@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import { useSession } from "next-auth/react";import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 type PropsType = {
   isThreadExists: boolean;
   appUrl: string;
   postId: number;
   isAuthor: boolean | undefined;
+  threadUserId: number | undefined;
 };
 
 export default function ThreadForm({
@@ -14,20 +16,23 @@ export default function ThreadForm({
   appUrl,
   postId,
   isAuthor,
+  threadUserId,
 }: PropsType) {
   const { data: session } = useSession();
+
+  if(!threadUserId){
+    return(<></>)
+  }
 
   const formik = useFormik({
     initialValues: {
       message: "",
     },
     onSubmit: async (values) => {
-      const threadUserId = isAuthor ? 3 : session?.user.id;
-
       await axios.post(
         `${appUrl}/api/threads/reply`,
         { message: values.message },
-        { params: { postId, userId: threadUserId } }
+        { params: { postId, threadUserId } }
       );
     },
   });

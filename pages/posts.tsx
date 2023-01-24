@@ -53,8 +53,6 @@ export default function PostsPage({ appUrl, postsPerPage }: PropsType) {
     foundPost.favoriteUsers = [];
 
     setPosts([...currentPosts]);
-    console.log(currentPosts.map((item) => item.is_favorite));
-    console.log(foundPost.is_favorite);
   }
 
   function getPostsByDate(
