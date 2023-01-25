@@ -135,3 +135,49 @@
       font-size: 18px;
   }
 }
+
+.signUp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 137px;
+  height: 40px;
+  background: #921a64;
+  border-radius: 4px;
+  padding: 8px 16px;
+  transition: 0.5s;
+  border: none !important;
+
+  &:hover {
+    transition: 0.5s;
+    background: #640674;
+  }
+}
+
+.signUpText {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-transform: capitalize;
+  color: #ffffff;
+}
+
+.logIn {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  height: 40px;
+  color: #333333;
+  transition: 0.5s;
+
+  &:hover {
+    transition: 0.5s;
+    color: #921a64 !important;
+  }
+}
