@@ -1,15 +1,17 @@
 import { Button, Input } from "antd";
 import styles from "./NavBar.module.scss";
 import Image from "next/image";
-import type { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from "react";
 import { CATEGORIES } from "../../../constants/constants";
 
 type NavBarProps = {
-  setCategory: Dispatch<SetStateAction<string | undefined>>
-  changePageNumber: (page: number) => void
-}
+  setCategory: Dispatch<SetStateAction<string | undefined>>;
+  changePageNumber: (page: number) => void;
+};
+
 export default function NavBar(props: NavBarProps) {
-  const {setCategory, changePageNumber} = props;
+  const { setCategory, changePageNumber } = props;
+
   return (
     <div className={styles.navbar}>
       <div className={styles.tabs}>

@@ -1,31 +1,24 @@
 import { PostType } from "../types/general";
-import PostListItem from "./PostListItem";
-import EventSingleRow from "../Components/EventSingleRow/EventSingleRow";
+import Event from "./Event/Event";
 
 type PostListProps = {
   posts: PostType[];
-  appUrl: string;
   changeStar: (postId: number) => void;
+  isViewForAllCategory: boolean;
 };
 
 export default function PostsList(props: PostListProps) {
-  const { posts, appUrl, changeStar } = props;
+  const { posts, changeStar, isViewForAllCategory } = props;
 
   return (
     <>
       {posts.map((post) => (
-        <EventSingleRow
+        <Event
           key={post.id}
           post={post}
-          appUrl={appUrl}
           changeStar={changeStar}
+          isViewForAllCategory={isViewForAllCategory}
         />
-        // <PostListItem
-        //   key={post.id}
-        //   post={post}
-        //   appUrl={appUrl}
-        //   changeStar={changeStar}
-        // />
       ))}
     </>
   );

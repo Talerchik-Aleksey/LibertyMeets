@@ -1,26 +1,20 @@
 import { Pagination } from "antd";
 import { useState, useEffect } from "react";
 import AddListing from "../AddListing/AddListing";
-import EventRowThree from "../EventRowThree/EventRowThree";
-import EventSingleRow from "../EventSingleRow/EventSingleRow";
 import NavBar from "../General/NavBar/NavBar";
 import { isToday, isTomorrow } from "../../utils/eventTimeStatus";
 import styles from "./Events.module.scss";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { PostType } from "../../types/general";
 import PostsList from "../PostsList";
 import axios from "axios";
 
-type PropsType = { appUrl: string };
+type PropsType = { appUrl: string; postsPerPage: number };
 
-export default function Events({ appUrl }: PropsType) {
+export default function Events({ appUrl, postsPerPage }: PropsType) {
   const [current, setCurrent] = useState<number>(1);
-  const onChange = (page) => {
-    console.log(page);
-    setCurrent(page);
-  };
-
+  const [isViewForAllCategory, setisViewForAllCategory] =
+    useState<boolean>(true);
   const [posts, setPosts] = useState<PostType[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [category, setCategory] = useState<string | undefined>(undefined);
@@ -37,13 +31,17 @@ export default function Events({ appUrl }: PropsType) {
       const res = await axios.get(`${appUrl}/api/events`, {
         params: { page, category },
       });
+      if (category === "All" || category === undefined) {
+        setisViewForAllCategory(true);
+      } else {
+        setisViewForAllCategory(false);
+      }
       setPosts(res.data.data.posts);
       setTotalCount(res.data.data.count);
     })();
   }, [page, category, appUrl]);
 
   const changePageNumber = (page: number) => {
-    console.log("page <-------", page);
     setCurrent(page);
     router.push({
       pathname: `${appUrl}/posts`,
@@ -62,8 +60,6 @@ export default function Events({ appUrl }: PropsType) {
     foundPost.favoriteUsers = [];
 
     setPosts([...currentPosts]);
-    console.log(currentPosts.map((item) => item.is_favorite));
-    console.log(foundPost.is_favorite);
   }
 
   function getPostsByDate(
@@ -87,31 +83,25 @@ export default function Events({ appUrl }: PropsType) {
                   <span className={styles.buttonDay}>Today</span>
                 </div>
               )}
-              {/* <Link className={styles.event} href={"/liveposts"}>
-                <EventSingleRow />
-              </Link> */}
               <PostsList
                 posts={getPostsByDate(posts, isToday)}
-                appUrl={appUrl}
                 changeStar={changeStar}
+                isViewForAllCategory={isViewForAllCategory}
               />
             </div>
-            {/* <div className={styles.eventsSubBlock}>
+            <div className={styles.eventsSubBlock}>
               {getPostsByDate(posts, isTomorrow).length > 0 && (
                 <div className={styles.eventsSubBlockTitle}>
                   <span className={styles.buttonDay}>Tomorrow</span>
                 </div>
               )}
-              <Link className={styles.event} href={"/liveposts"}>
-                <EventSingleRow />
-              </Link>
               <PostsList
                 posts={getPostsByDate(posts, isTomorrow)}
-                appUrl={appUrl}
                 changeStar={changeStar}
+                isViewForAllCategory={isViewForAllCategory}
               />
-            </div> */}
-            {/* <div className={styles.eventsSubBlock}>
+            </div>
+            <div className={styles.eventsSubBlock}>
               {getPostsByDate(
                 posts,
                 (date) => !isTomorrow(date) && !isToday(date)
@@ -120,48 +110,22 @@ export default function Events({ appUrl }: PropsType) {
                   <span className={styles.buttonDay}>Soon</span>
                 </div>
               )}
-              <Link className={styles.event} href={"/liveposts"}>
-                <EventSingleRow />
-              </Link>
               <PostsList
                 posts={getPostsByDate(
                   posts,
                   (date) => !isTomorrow(date) && !isToday(date)
                 )}
-                appUrl={appUrl}
                 changeStar={changeStar}
+                isViewForAllCategory={isViewForAllCategory}
               />
-            </div> */}
-            {/* <div className={styles.eventsSubBlock}>
-              <div className={styles.eventsSubBlockTitle}>
-                {" "}
-                <span className={styles.buttonDay}>Yesterday</span>
-              </div>
-              <Link className={styles.event} href={"/liveposts"}>
-                <EventRowThree />
-              </Link>
-              <Link className={styles.event} href={"/liveposts"}>
-                <EventRowThree />
-              </Link>
-              <Link className={styles.event} href={"/liveposts"}>
-                <EventRowThree />
-              </Link>
-              <Link className={styles.event} href={"/liveposts"}>
-                <EventRowThree />
-              </Link>
-              <Link className={styles.event} href={"/liveposts"}>
-                <EventRowThree />
-              </Link>
-              <Link className={styles.event} href={"/liveposts"}>
-                <EventRowThree />
-              </Link>
-            </div> */}
+            </div>
           </div>
           <Pagination
             className={styles.pagination}
             current={current}
             onChange={changePageNumber}
             total={totalCount}
+            defaultPageSize={postsPerPage}
             itemRender={(page, type, element) => {
               return (
                 <>
