@@ -72,16 +72,18 @@ export default function ChangePassword({ appUrl }: ChangePasswordProps) {
               initialValues={{ remember: true }}
               onFinish={onFinish}
               className={styles.form}
+              validateTrigger={false}
             >
               <Form.Item
-                label="* Password"
+                label="Password"
                 name="password"
                 colon={false}
                 labelCol={{ span: 4 }}
                 labelAlign="left"
                 className={styles.password}
                 rules={[
-                  { required: false, message: "Please input your password!" },
+                  { required: true },
+                  { type: "string", min: 4, max: 100 },
                 ]}
               >
                 <Input
@@ -101,14 +103,15 @@ export default function ChangePassword({ appUrl }: ChangePasswordProps) {
               </Form.Item>
 
               <Form.Item
-                label="* Password"
+                label="Password"
                 name="repeatPassword"
                 colon={false}
                 labelCol={{ span: 4 }}
                 labelAlign="left"
                 className={styles.password}
                 rules={[
-                  { required: false, message: "Please input your password!" },
+                  { required: true },
+                  { type: "string", min: 4, max: 100 },
                 ]}
               >
                 <Input
