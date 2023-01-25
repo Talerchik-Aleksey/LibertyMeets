@@ -7,12 +7,22 @@ import styles from "./Login.module.scss";
 import RectangleLeft from "../General/RectangleLeft/RectangleLeft";
 import RectangleRight from "../General/RectangleRight/RectangleRight";
 import Link from "next/link";
+import url from "url";
 
 export default function Login() {
   const router = useRouter();
   const { data: session } = useSession();
+
+  function goBack() {
+    const callback = `${router.query.callbackUrl}`;
+    const { pathname } = url.parse(callback);
+    return pathname === undefined
+      ? router.push(`${pathname}`)
+      : router.push("/");
+  }
+
   if (session) {
-    router.push("/");
+    goBack();
   }
 
   async function onFinish(values: any) {

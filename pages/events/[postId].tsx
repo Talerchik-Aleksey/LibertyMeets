@@ -5,6 +5,9 @@ import { GetServerSideProps } from "next";
 import { useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
+import ThreadForm from "../../Components/Posts/ThreadForm";
+import Thread from "../../Components/Posts/Thread";
+import AuthorThreads from "../../Components/Posts/AuthorThreads";
 
 type SinglePostProps = { appUrl: string };
 type ErrorResponse = {
@@ -19,6 +22,9 @@ type PostType = {
   category: string;
   description: string;
   is_public: boolean;
+};
+type QueryType = {
+  postId: string;
 };
 
 export default function SinglePost({ appUrl }: SinglePostProps) {
@@ -39,6 +45,8 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
       }),
     []
   );
+
+  const { postId } = router.query as QueryType;
 
   useEffect(() => {
     (async () => {
@@ -105,6 +113,8 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
     router.push(`${appUrl}/events/edit/${router.query.postId}`);
   };
 
+  const isAuthor = session ? post?.author_id === session?.user.id : undefined;
+
   return (
     <>
       {errorMessage ? (
@@ -159,6 +169,26 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
             </div>
           ) : (
             <></>
+          )}
+          {isAuthor ? (
+            <>
+              <AuthorThreads appUrl={appUrl} postId={+postId} />
+            </>
+          ) : (
+            <>
+              <Thread
+                appUrl={appUrl}
+                userId={session?.user.id}
+                postId={+postId}
+              />
+              <ThreadForm
+                isThreadExists={false}
+                appUrl={appUrl}
+                postId={+postId}
+                isAuthor={isAuthor}
+                threadUserId={session?.user.id}
+              />
+            </>
           )}
         </div>
       )}

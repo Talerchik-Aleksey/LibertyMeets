@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
-import { deletePostInDb } from "../../../services/posts";
+import { deletePost } from "../../../services/posts";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 
@@ -13,28 +13,36 @@ type BodyType = {
   postId: number;
 };
 
-connect();
+const sequelize = connect();
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResType>
 ) {
   try {
-    if (!req.method || req.method! !== "POST") {
-      res.status(405);
-      return;
-    }
-    const body = req.body as BodyType;
-    const { postId } = body;
-    const session = await getSession({ req });
-    if (!session) {
-      res.status(401);
-      return;
-    }
+    await (
+      await sequelize
+    ).transaction(async (t) => {
+      if (!req.method || req.method! !== "POST") {
+        res.status(405);
+        return;
+      }
+      const body = req.body as BodyType;
+      const { postId } = body;
+      const session = await getSession({ req });
+      if (!session) {
+        res.status(401);
+        return;
+      }
 
-    await deletePostInDb(session.user.id, postId);
+      const result = await deletePost(session.user.id, postId, t);
+      if (result) {
+        res.status(500).json({ status: result.message });
+        return;
+      }
 
-    res.status(200).json({ status: "ok" });
+      res.status(200).json({ status: "ok" });
+    });
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;

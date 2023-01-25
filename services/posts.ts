@@ -6,6 +6,7 @@ import config from "config";
 import { HttpError } from "../utils/HttpError";
 import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
+import { Transaction } from "sequelize";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -145,19 +146,49 @@ export async function isAuthorCheck(
   return !!foundPost;
 }
 
-export async function deletePostInDb(userId: number, postId: number) {
-  await FavoritePosts.destroy({ where: { user_id: userId, post_id: postId } });
-  await UserPosts.destroy({ where: { post_id: postId } });
-  const thread = await Threads.findOne({ where: { post_id: postId } });
-  if (thread) {
-    await ThreadMessages.destroy({ where: { thread_id: thread.id } });
-  }
-  await Threads.destroy({ where: { post_id: postId } });
-  const res = await Posts.destroy({
-    where: { id: postId },
-  });
-  if (!res) {
-    throw new HttpError(404, "no success");
+export async function deletePost(
+  userId: number,
+  postId: number,
+  t: Transaction
+) {
+  try {
+    await UserPosts.destroy({ where: { post_id: postId }, transaction: t });
+
+    await FavoritePosts.destroy({
+      where: {
+        user_id: userId,
+        post_id: postId,
+      },
+      transaction: t,
+    });
+
+    const thread = await Threads.findOne({
+      where: { post_id: postId },
+      transaction: t,
+    });
+
+    await Posts.destroy({
+      where: {
+        id: postId,
+      },
+      transaction: t,
+    });
+
+    if (!thread) {
+      return;
+    }
+
+    await ThreadMessages.destroy({
+      where: { thread_id: thread.id },
+      transaction: t,
+    });
+
+    await Threads.destroy({ where: { post_id: postId }, transaction: t });
+
+    return;
+  } catch (err) {
+    const error = err as Error;
+    return error;
   }
 }
 
@@ -186,4 +217,46 @@ export async function editPost(
       where: { id: postId },
     }
   );
+}
+
+export async function deletePosts(userId: number, t: Transaction) {
+  try {
+    const posts = await Posts.findAll({
+      where: { author_id: userId },
+      transaction: t,
+    });
+
+    if (posts.length === 0) {
+      return;
+    }
+    const postIds = posts.map((item) => item.id);
+
+    await Posts.destroy({
+      where: {
+        author_id: userId,
+      },
+      transaction: t,
+    });
+
+    const thread = await Threads.findAll({
+      where: { post_id: postIds },
+      transaction: t,
+    });
+    if (thread.length === 0) {
+      return;
+    }
+
+    const threadIds = thread.map((item) => item.id);
+    await ThreadMessages.destroy({
+      where: { thread_id: threadIds },
+      transaction: t,
+    });
+
+    await Threads.destroy({ where: { post_id: postIds }, transaction: t });
+
+    return;
+  } catch (err) {
+    const error = err as Error;
+    return error;
+  }
 }
