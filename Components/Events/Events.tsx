@@ -88,8 +88,6 @@ export default function Events({ appUrl, postsPerPage }: PropsType) {
                 changeStar={changeStar}
                 isViewForAllCategory={isViewForAllCategory}
               />
-            </div>
-            <div className={styles.eventsSubBlock}>
               {getPostsByDate(posts, isTomorrow).length > 0 && (
                 <div className={styles.eventsSubBlockTitle}>
                   <span className={styles.buttonDay}>Tomorrow</span>
@@ -100,8 +98,6 @@ export default function Events({ appUrl, postsPerPage }: PropsType) {
                 changeStar={changeStar}
                 isViewForAllCategory={isViewForAllCategory}
               />
-            </div>
-            <div className={styles.eventsSubBlock}>
               {getPostsByDate(
                 posts,
                 (date) => !isTomorrow(date) && !isToday(date)

@@ -8,6 +8,7 @@
 .container {
   display: flex;
   align-items: center;
+  width: 1112px;
   padding: 18px 15px;
   justify-content: space-between;
   transition: 0.5s;
@@ -36,6 +37,7 @@
 
 .info {
   max-width: 800px;
+  min-width: 800px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
