@@ -94,7 +94,7 @@ export default function CreatePost({ appUrl }: PropsType) {
   const formik = useFormik({
     initialValues: {
       title: "",
-      category: "",
+      category: "social",
       description: "",
       isPublic: true,
       lat: DEFAULT_LAT,
@@ -149,6 +149,7 @@ export default function CreatePost({ appUrl }: PropsType) {
             name="category"
             onChange={formik.handleChange}
             value={formik.values.category}
+            defaultValue={formik.values.category}
           >
             <option value="social">Social</option>
             <option value="volunteer">Volunteer</option>
