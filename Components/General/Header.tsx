@@ -39,7 +39,7 @@ const map = {
     "/about",
   ],
   showLogIn: ["/", "/registration", "/about", "/posts"],
-  showSignUp: ["/signin"],
+  showSignUp: ["/signin", "/about", "/posts"],
 };
 
 export default function Header() {
