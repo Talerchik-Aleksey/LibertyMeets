@@ -110,6 +110,7 @@ export async function getPost(postId: number) {
       id: postId,
     },
     attributes: [
+      "id",
       "title",
       "category",
       "description",
@@ -143,7 +144,7 @@ export async function isAuthorCheck(
     where: { id: postId, author_id: userId },
   });
 
-  return !!foundPost;
+  return Boolean(foundPost);
 }
 
 export async function deletePost(
