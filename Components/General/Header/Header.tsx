@@ -7,7 +7,6 @@ import styles from "./Header.module.scss";
 import { Button } from "antd";
 import { signOut } from "next-auth/react";
 import LibertyMeetsLogo from "../../LibertyMeetsLogo";
-import Item from "antd/es/list/Item";
 
 const map = {
   showSearch: ["", "myFavoritesPosts", "myPosts", "settings", "about"],
