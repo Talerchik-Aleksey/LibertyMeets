@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import ThreadForm from "../../Components/Posts/ThreadForm";
 import Thread from "../../Components/Posts/Thread";
+import AuthorThreads from "../../Components/Posts/AuthorThreads";
 
 type SinglePostProps = { appUrl: string };
 type ErrorResponse = {
@@ -112,6 +113,8 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
     router.push(`${appUrl}/events/edit/${router.query.postId}`);
   };
 
+  const isAuthor = session ? post?.author_id === session?.user.id : undefined;
+
   return (
     <>
       {errorMessage ? (
@@ -167,18 +170,26 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
           ) : (
             <></>
           )}
-          <Thread
-            appUrl={appUrl}
-            threadId={"d80d7d19-3cbc-4c45-820e-2da8fd9714e2"}
-          />
-          <ThreadForm
-            isThreadExists={false}
-            appUrl={appUrl}
-            postId={+postId}
-            isAuthor={
-              session ? post?.author_id === session?.user.id : undefined
-            }
-          />
+          {isAuthor ? (
+            <>
+              <AuthorThreads appUrl={appUrl} postId={+postId} />
+            </>
+          ) : (
+            <>
+              <Thread
+                appUrl={appUrl}
+                userId={session?.user.id}
+                postId={+postId}
+              />
+              <ThreadForm
+                isThreadExists={false}
+                appUrl={appUrl}
+                postId={+postId}
+                isAuthor={isAuthor}
+                threadUserId={session?.user.id}
+              />
+            </>
+          )}
         </div>
       )}
     </>

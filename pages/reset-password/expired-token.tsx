@@ -1,5 +1,6 @@
-export default function ExpiredToken(){
-  return(
-      <div style={{ height: "897px" }}>ERROR</div>
-  )
+import ExpiredToken from "../../Components/General/ExpiredToken/ExpiredToken";
+
+
+export default function ExpiredTokenPage() {
+  return <ExpiredToken />;
 }
