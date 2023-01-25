@@ -9,6 +9,12 @@ export async function getThreads(postId: number) {
   return foundThreads;
 }
 
+export async function getThreadById(id: string) {
+  return Threads.findOne({
+    where: { id },
+  });
+}
+
 export async function getThread(postId: number, userId: number) {
   const foundThread = Threads.findOne({
     where: { post_id: postId, user_id: userId },
