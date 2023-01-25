@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import config from "config";
 import { connect } from "../../../utils/db";
 import { getSession } from "next-auth/react";
 import { HttpError } from "../../../utils/HttpError";
@@ -8,7 +7,6 @@ import {
   createThread,
   createThreadMessage,
   getThread,
-  getThreads,
 } from "../../../services/threads";
 import { sendReplyMessage } from "../../../services/email";
 
@@ -19,7 +17,7 @@ type ResType = {
 
 type QueryType = {
   postId: number | undefined;
-  userId: number | undefined;
+  threadUserId: number | undefined;
 };
 
 type BodyType = {
@@ -38,7 +36,7 @@ export default async function handler(
       return;
     }
 
-    let { postId, userId: threadUserId } = req.query as QueryType;
+    let { postId, threadUserId } = req.query as QueryType;
     if (!postId) {
       throw new HttpError(400, "no postId");
     }
@@ -81,10 +79,8 @@ export default async function handler(
 
     const post = await getPost(thread!.post_id);
     if (!isAuthor) {
-      console.log(post?.author_id, message);
       await sendReplyMessage(post!.author_id, message);
     } else {
-      console.log(thread!.user_id, message);
       await sendReplyMessage(thread!.user_id, message);
     }
 
