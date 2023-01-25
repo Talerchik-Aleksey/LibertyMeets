@@ -1,6 +1,5 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
-
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,8 +8,6 @@ import { Button } from "antd";
 import { signOut } from "next-auth/react";
 import LibertyMeetsLogo from "../../LibertyMeetsLogo";
 import Item from "antd/es/list/Item";
-
-let page;
 
 const map = {
   showSearch: ["", "myFavoritesPosts", "myPosts", "settings", "about"],
