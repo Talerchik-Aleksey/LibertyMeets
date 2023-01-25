@@ -20,10 +20,6 @@ export default function ThreadForm({
 }: PropsType) {
   const { data: session } = useSession();
 
-  if(!threadUserId){
-    return(<></>)
-  }
-
   const formik = useFormik({
     initialValues: {
       message: "",
@@ -36,6 +32,10 @@ export default function ThreadForm({
       );
     },
   });
+
+  if(!threadUserId){
+    return(<></>)
+  }
 
   return (
     <>
