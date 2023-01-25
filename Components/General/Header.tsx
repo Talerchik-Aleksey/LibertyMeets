@@ -11,8 +11,15 @@ import { Button } from "antd";
 import { signOut } from "next-auth/react";
 
 const map = {
-  showSearch: ["/", "/myFavoritesPosts", "/myPosts", "/settings"],
-  showCreatePost: ["/", "/posts", "/myFavoritesPosts", "/myPosts", "/settings"],
+  showSearch: ["/", "/myFavoritesPosts", "/myPosts", "/settings", "/about"],
+  showCreatePost: [
+    "/",
+    "/posts",
+    "/myFavoritesPosts",
+    "/myPosts",
+    "/settings",
+    "/about",
+  ],
   showMyProfile: [
     "/",
     "/posts",
@@ -20,6 +27,7 @@ const map = {
     "/myPosts",
     "/settings",
     "/createPost",
+    "/about",
   ],
   showLogOut: [
     "/",
@@ -28,6 +36,7 @@ const map = {
     "/myPosts",
     "/settings",
     "/createPost",
+    "/about",
   ],
   showLogIn: ["/", "/registration", "/about", "/posts"],
   showSignUp: ["/signin"],
