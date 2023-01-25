@@ -1,15 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import config from "config";
 import { connect } from "../../../utils/db";
 import { getSession } from "next-auth/react";
 import { HttpError } from "../../../utils/HttpError";
-import { isAuthorCheck } from "../../../services/posts";
+import { getPost, isAuthorCheck } from "../../../services/posts";
 import {
   createThread,
   createThreadMessage,
   getThread,
-  getThreads,
 } from "../../../services/threads";
+import { sendReplyMessage } from "../../../services/email";
 
 type ResType = {
   status: string;
@@ -18,7 +17,7 @@ type ResType = {
 
 type QueryType = {
   postId: number | undefined;
-  userId: number | undefined;
+  threadUserId: number | undefined;
 };
 
 type BodyType = {
@@ -37,7 +36,7 @@ export default async function handler(
       return;
     }
 
-    let { postId, userId: threadUserId } = req.query as QueryType;
+    let { postId, threadUserId } = req.query as QueryType;
     if (!postId) {
       throw new HttpError(400, "no postId");
     }
@@ -60,9 +59,9 @@ export default async function handler(
     }
     const userId = session?.user.id;
     const isAuthor = await isAuthorCheck(userId, postId);
-    const thread = await getThread(postId, threadUserId);
+    let thread = await getThread(postId, threadUserId);
 
-    if (!isAuthor && userId !== thread?.user_id) {
+    if (thread && !isAuthor && userId !== thread.user_id) {
       res.status(403);
       return;
     }
@@ -74,7 +73,16 @@ export default async function handler(
         await createThread(postId, userId);
       }
     }
+
+    thread = await getThread(postId, threadUserId);
     await createThreadMessage(thread!.id, userId, message);
+
+    const post = await getPost(thread!.post_id);
+    if (!isAuthor) {
+      await sendReplyMessage(post!.author_id, message);
+    } else {
+      await sendReplyMessage(thread!.user_id, message);
+    }
 
     res.status(200).json({ status: "ok", data: {} });
   } catch (err) {
