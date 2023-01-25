@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { signIn, useSession } from "next-auth/react";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import CrossesOnBackground from "../Components/General/CrossesOnBackground";
 import LibertyMeetsLogo from "../Components/LibertyMeetsLogo";
 import styles from "../styles/signup.module.css";
