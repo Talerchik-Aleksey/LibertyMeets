@@ -96,3 +96,42 @@
     gap: 20px;
   }
 }
+
+.search{
+  background: #921A64;
+  border-radius: 4px;
+  text-decoration: none;
+  display: flex;
+  gap:10px;
+  align-items: center;
+  padding: 8px 16px;
+  gap: 10px;
+  width: 263px;
+  height: 40px;
+  border-radius: 4px;
+  transition:0.5s;
+  border:none!important ;
+
+  @media (max-width:1200px) {
+      width: auto;
+  }
+
+  &:hover{
+      transition:0.5s;
+      background: #640674;
+      border:none!important ;
+  }
+}
+
+.searchText{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #FFFFFF;
+
+  @media (max-width:1200px) {
+      font-size: 18px;
+  }
+}

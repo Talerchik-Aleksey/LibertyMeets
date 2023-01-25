@@ -4,8 +4,11 @@ import { Button } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export default function HeaderCreateProfileLogOut() {
+  const router = useRouter();
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -15,6 +18,25 @@ export default function HeaderCreateProfileLogOut() {
       </div>
       <div className={styles.navigation}>
         <ul className={styles.navigationItemContainer}>
+          <li className={styles.navigationItem}>
+            {/* <Link className={styles.navigationItemLink} href={"/posts"}> */}
+            <Button
+              className={styles.search}
+              onClick={() => {
+                router.push("/posts");
+              }}
+            >
+              <Image
+                src="/decor/Vector4.svg"
+                alt=""
+                width={16}
+                height={14}
+                className={styles.vector}
+              />
+              <span className={styles.searchText}>Search Opportunities </span>
+            </Button>
+            {/* </Link> */}
+          </li>
           <li className={styles.navigationItem}>
             <Link className={styles.navigationItemLink} href={"/createPost"}>
               <Button className={styles.createPosts}>
@@ -31,7 +53,10 @@ export default function HeaderCreateProfileLogOut() {
           </li>
           <li className={styles.navigationItem}>
             {" "}
-            <Link className={styles.navigationItemLink} href={"/profile"}>
+            <Link
+              className={styles.navigationItemLink}
+              href={"/myFavoritesPosts"}
+            >
               <Button type="text" className={styles.myProfile}>
                 My Profile
               </Button>
