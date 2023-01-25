@@ -107,7 +107,7 @@ export async function getFavoritesPosts(
   return { posts, count: ids.length };
 }
 
-export async function getPost(postId: number): Promise<Posts|null> {
+export async function getPost(postId: number) {
   const post = await Posts.findOne({
     where: {
       id: postId,
