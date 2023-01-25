@@ -8,44 +8,49 @@ import styles from "./Header.module.scss";
 import { Button } from "antd";
 import { signOut } from "next-auth/react";
 import LibertyMeetsLogo from "../../LibertyMeetsLogo";
+import Item from "antd/es/list/Item";
+
+let page;
 
 const map = {
-  showSearch: ["/", "/myFavoritesPosts", "/myPosts", "/settings", "/about"],
+  showSearch: ["", "myFavoritesPosts", "myPosts", "settings", "about"],
   showCreatePost: [
-    "/",
-    "/posts",
-    "/myFavoritesPosts",
-    "/myPosts",
-    "/settings",
-    "/about",
+    "",
+    "posts",
+    "myFavoritesPosts",
+    "myPosts",
+    "settings",
+    "about",
   ],
   showMyProfile: [
-    "/",
-    "/posts",
-    "/myFavoritesPosts",
-    "/myPosts",
-    "/settings",
-    "/createPost",
-    "/about",
+    "",
+    "posts",
+    "myFavoritesPosts",
+    "myPosts",
+    "settings",
+    "createPost",
+    "about",
+    "events",
   ],
   showLogOut: [
-    "/",
-    "/posts",
-    "/myFavoritesPosts",
-    "/myPosts",
-    "/settings",
-    "/createPost",
-    "/about",
+    "",
+    "posts",
+    "myFavoritesPosts",
+    "myPosts",
+    "settings",
+    "createPost",
+    "about",
+    "events",
   ],
-  showLogIn: ["/", "/registration", "/about", "/posts"],
-  showSignUp: ["/signin", "/about", "/posts"],
+  showLogIn: ["", "registration", "about", "posts"],
+  showSignUp: ["signin", "about", "posts"],
 };
 
 export default function Header() {
   const { data: session } = useSession();
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const router = useRouter();
-  const url = router.asPath.toString();
+  const url = router.route.split("/")[1];
 
   useEffect(() => {
     if (session) {
@@ -144,7 +149,10 @@ export default function Header() {
             <ul className={styles.navigationItemContainer}>
               {map.showSignUp.includes(url) && (
                 <li className={styles.navigationItem}>
-                  <Link className={styles.navigationItemLink} href={"/registration"}>
+                  <Link
+                    className={styles.navigationItemLink}
+                    href={"/registration"}
+                  >
                     <Button className={styles.signUp}>
                       <Image
                         src="/decor/Vector.svg"
