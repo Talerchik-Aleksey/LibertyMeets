@@ -1,4 +1,3 @@
-import config from "config";
 import addressparser from "addressparser";
 import { Threads } from "../models/threads";
 import { getPost } from "./posts";
@@ -6,31 +5,12 @@ import { getThreadById } from "./threads";
 import { findUser } from "./users";
 import { handleReplyToPost } from "./reply";
 import { getTextMessageFromEmailPayload } from "../utils/mailgun-payload";
+import { extractThreadIdFromHeaderStr } from "../utils/mime-headers";
 
 type MailgunIncomingMessage = Record<string, string>;
 
-const baseDomain = config.get<string>("emails.replySetup.baseDomain");
-
-// TODO move to util and covert with unit tests
-const processReferences = (referencesStr: string) => {
-  const re = new RegExp('\\<?([\\w\\d-])@' + baseDomain + '\\>?');
-  return referencesStr.split(/\s+/)
-    .filter(Boolean)
-    .map(s => s.trim())
-    .filter(Boolean)
-    .map((ref) => {
-      const t = ref.match(re);
-      if (!t) {
-        return false;
-      }
-      return t[1];
-    })
-    .filter(Boolean)
-    .shift();
-};
-
 const tryToFindThread = async(references: string) => {
-  let threadId = processReferences(references);
+  let threadId = extractThreadIdFromHeaderStr(references);
   if (!threadId) {
     return null;
   }

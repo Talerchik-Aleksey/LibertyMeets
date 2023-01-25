@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "jest --watch tests/**",
+    "test": "NODE_CONFIG_ENV=test NODE_ENV=test jest --watch tests/**",
     "lint": "next lint"
   },
   "dependencies": {

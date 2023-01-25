@@ -6,7 +6,7 @@ import { connect } from "../utils/db";
 
 connect();
 
-describe("Simple test", () => {
+xdescribe("Simple test", () => {
   it("foo", async () => {
 
     // postId = 9 

@@ -5,7 +5,7 @@ import {
   createThreadMessage,
   getThread,
 } from "./threads";
-import { sendReplyMessageToPost } from "./email";
+import { sendReplyMessageToThread } from "./email";
 import { Posts } from "../models/posts";
 
 export const handleReplyToPost = async (
@@ -15,9 +15,6 @@ export const handleReplyToPost = async (
 ) => {
   const postId = post.id;
 
-
-  console.log(postId, userId);
-  console.log('postId, userId');
   const isAuthor = await isAuthorCheck(userId, postId);
 
   let thread = await getThread(postId, userId);
@@ -41,9 +38,9 @@ export const handleReplyToPost = async (
   await createThreadMessage(thread!.id, userId, message);
 
   if (isAuthor) {
-    await sendReplyMessageToPost(thread!.user_id, message, post);
+    await sendReplyMessageToThread(thread!.user_id, message, thread);
   } else {
-    await sendReplyMessageToPost(post.author_id, message, post);
+    await sendReplyMessageToThread(post.author_id, message, thread);
   }
 
   return true;

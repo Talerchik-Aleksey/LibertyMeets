@@ -41,7 +41,6 @@ have a good day!
 
 test message by AP #2`;
     const result = stripHtml(input);
-    console.log(result);
     expect(result).toBe(expected);
   });
 });
