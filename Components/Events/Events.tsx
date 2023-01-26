@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { PostType } from "../../types/general";
 import PostsList from "../PostsList";
 import axios from "axios";
+import Header from "../General/Header";
 
 type PropsType = { appUrl: string; postsPerPage: number };
 
@@ -28,7 +29,15 @@ export default function Events({ appUrl, postsPerPage }: PropsType) {
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get(`${appUrl}/api/events`, {
+      const res = await axios(`${appUrl}/api/events`, {
+        method: "GET",
+        mode: "no-cors",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+        credentials: "same-origin",
         params: { page, category },
       });
       if (category === "All" || category === undefined) {
