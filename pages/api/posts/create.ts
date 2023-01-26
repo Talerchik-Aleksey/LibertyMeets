@@ -3,7 +3,6 @@ import { savePostToDb } from "../../../services/posts";
 import { PostType } from "../../../types/general";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
-import config from "config";
 import { getSession } from "next-auth/react";
 
 type ResType = {
@@ -15,7 +14,6 @@ type BodyType = PostType;
 
 connect();
 const CATEGORIES = ["social", "volunteer", "professional", "campaigns"];
-const APP_URL = config.get<string>("appUrl");
 
 export default async function handler(
   req: NextApiRequest,
