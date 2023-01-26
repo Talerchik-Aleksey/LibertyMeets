@@ -125,8 +125,9 @@ export default function CreatePost(props: CreatePostProps) {
                 className={styles.postTitleText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="Post Title"
+                label="* Post Title"
                 name="title"
+                colon={false}
               >
                 <Input
                   suffix={
@@ -146,9 +147,10 @@ export default function CreatePost(props: CreatePostProps) {
                 className={styles.categoryText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="Category"
+                label="* Category"
                 name="category"
                 initialValue="social"
+                colon={false}
               >
                 <Select className={styles.categorySelect}>
                   <Select.Option
@@ -183,8 +185,9 @@ export default function CreatePost(props: CreatePostProps) {
                 className={styles.descriptionText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="Description"
+                label="* Description"
                 name="description"
+                colon={false}
               >
                 <TextArea
                   maxLength={200}
@@ -206,7 +209,7 @@ export default function CreatePost(props: CreatePostProps) {
             <Image src="/decor/qwe.svg" alt="" width={26} height={26} />
           </div>
           <div className={styles.location}>
-            <span>Location</span>
+            <span>* Location</span>
             <div className={styles.map}>
               <Map lat={lat} lng={lng} />
             </div>
