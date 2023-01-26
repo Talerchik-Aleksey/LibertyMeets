@@ -12,7 +12,7 @@ export type PostType = {
   geo: string;
   favoriteUsers: { id: number }[];
   description: string;
-  isPublic: string;
+  isPublic: boolean;
   lat: number;
   lng: number;
 };
