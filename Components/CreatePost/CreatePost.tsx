@@ -10,7 +10,7 @@ import { KEY_LAT, KEY_LNG } from "../../constants/constants";
 import styles from "./CreatePost.module.scss";
 
 const { TextArea } = Input;
-const options = {
+const geoLocationOptions = {
   enableHighAccuracy: true,
   timeout: 5000,
   maximumAge: 0,
@@ -72,7 +72,11 @@ export default function CreatePost(props: CreatePostProps) {
         return;
       }
     }
-    navigator.geolocation.getCurrentPosition(success, error, options);
+    navigator.geolocation.getCurrentPosition(
+      success,
+      error,
+      geoLocationOptions
+    );
   }, [session]);
 
   const router = useRouter();
