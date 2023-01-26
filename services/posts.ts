@@ -7,8 +7,11 @@ import { HttpError } from "../utils/HttpError";
 import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
 import { Transaction } from "sequelize";
+import { connect } from "../utils/db";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
+
+connect();
 
 export async function savePostToDb({
   user,
