@@ -32,7 +32,7 @@ export default function Thread({
         setMessages(res.data.data.messages);
       } catch {}
     })();
-  }, []);
+  }, [appUrl, threadId, postId, userId]);
 
   return (
     <>

@@ -14,7 +14,6 @@ import {
   DEFAULT_LAT,
   DEFAULT_LNG,
 } from "../constants/constants";
-import * as Yup from "yup";
 
 type PropsType = { appUrl: string };
 
@@ -23,17 +22,6 @@ const options = {
   timeout: 5000,
   maximumAge: 0,
 };
-
-const CreateSchema = Yup.object().shape({
-  title: Yup.string()
-    .min(4, "at least 4 characters")
-    .max(100, "less than 100 characters")
-    .required("Required"),
-  description: Yup.string()
-    .min(4, "at least 4 characters")
-    .max(100, "less than 100 characters")
-    .required("Required"),
-});
 
 export default function CreatePost({ appUrl }: PropsType) {
   const { data: session } = useSession();
@@ -100,7 +88,6 @@ export default function CreatePost({ appUrl }: PropsType) {
       lat: DEFAULT_LAT,
       lng: DEFAULT_LNG,
     },
-    validationSchema: CreateSchema,
     onSubmit: async (values) => {
       values.lat = lat;
       values.lng = lng;

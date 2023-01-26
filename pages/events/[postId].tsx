@@ -112,7 +112,6 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
   const goToEditPage = () => {
     router.push(`${appUrl}/events/edit/${router.query.postId}`);
   };
-
   const isAuthor = session ? post?.author_id === session?.user.id : undefined;
 
   return (
@@ -186,7 +185,6 @@ export default function SinglePost({ appUrl }: SinglePostProps) {
                 appUrl={appUrl}
                 postId={+postId}
                 isAuthor={isAuthor}
-                threadUserId={session?.user.id}
               />
             </>
           )}
