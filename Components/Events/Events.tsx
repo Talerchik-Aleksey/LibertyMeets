@@ -9,45 +9,85 @@ import { PostType } from "../../types/general";
 import PostsList from "../PostsList";
 import axios from "axios";
 
-type PropsType = { appUrl: string; postsPerPage: number };
+type PropsType = {
+  appUrl: string;
+  postsPerPage: number;
+  initialPosts: PostType[];
+  initialCount: number;
+};
 
-export default function Events({ appUrl, postsPerPage }: PropsType) {
+export default function Events({
+  appUrl,
+  postsPerPage,
+  initialPosts,
+  initialCount,
+}: PropsType) {
   const [current, setCurrent] = useState<number>(1);
-  const [isViewForAllCategory, setisViewForAllCategory] =
+  const [isViewForAllCategory, setIsViewForAllCategory] =
     useState<boolean>(true);
   const [posts, setPosts] = useState<PostType[]>([]);
-  const [totalCount, setTotalCount] = useState<number>(0);
+  const [totalCount, setTotalCount] = useState<number>(initialCount);
   const [category, setCategory] = useState<string | undefined>(undefined);
   const router = useRouter();
 
+  useEffect(() => {
+    setPosts(initialPosts);
+    setTotalCount(initialCount);
+  }, [initialPosts, initialCount]);
+
   let page = 1;
+  useEffect(() => {
+    if (router.query?.page) {
+      setCurrent(Number(router.query?.page));
+    }
+    if (router.query.category && typeof router.query.category === "string") {
+      setCategory(router.query.category);
+    }
+  }, [router.query.category, router.query?.page]);
+
   const queryPage = router.query.page;
   if (queryPage && +queryPage) {
     page = +queryPage;
   }
 
-  useEffect(() => {
-    (async () => {
-      const res = await axios.get(`${appUrl}/api/events`, {
-        params: { page, category },
-      });
-      if (category === "All" || category === undefined) {
-        setisViewForAllCategory(true);
-      } else {
-        setisViewForAllCategory(false);
-      }
-      setPosts(res.data.data.posts);
-      setTotalCount(res.data.data.count);
-    })();
-  }, [page, category, appUrl]);
-
-  const changePageNumber = (page: number) => {
+  function changePageNumber(page: number) {
     setCurrent(page);
+    if (category) {
+      router.push({
+        pathname: `${appUrl}/posts`,
+        query: { page, category },
+      });
+
+      return;
+    }
     router.push({
       pathname: `${appUrl}/posts`,
       query: { page },
     });
-  };
+  }
+
+  async function changeCategory(category: string) {
+    if (category === "All" || category === undefined) {
+      setIsViewForAllCategory(true);
+    } else {
+      setIsViewForAllCategory(false);
+    }
+    if (category === "All") {
+      setCategory(undefined);
+      router.push({
+        pathname: `${appUrl}/posts`,
+        query: { page },
+      });
+
+      return;
+    }
+    setCategory(category.toLowerCase());
+    setCurrent(1);
+    router.push({
+      pathname: `${appUrl}/posts`,
+      query: { category: category.toLowerCase() },
+    });
+  }
 
   async function changeStar(postId: number) {
     const res = await axios.post(`${appUrl}/api/favorites/${postId}`);
@@ -72,7 +112,9 @@ export default function Events({ appUrl, postsPerPage }: PropsType) {
   return (
     <div className={styles.eventsPageContainer}>
       <div className={styles.navigation}>
-        <NavBar setCategory={setCategory} changePageNumber={changePageNumber} />
+        <NavBar
+          changeCategory={changeCategory}
+        />
       </div>
       <div className={styles.wrap}>
         <div className={styles.container}>
