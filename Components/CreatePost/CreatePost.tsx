@@ -8,6 +8,7 @@ import axios from "axios";
 import RememberBlock from "../RememberBlock/RememberBlock";
 import { KEY_LAT, KEY_LNG } from "../../constants/constants";
 import styles from "./CreatePost.module.scss";
+import Link from "next/link";
 
 const { TextArea } = Input;
 const geoLocationOptions = {
@@ -24,7 +25,7 @@ export default function CreatePost(props: CreatePostProps) {
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
   const [isPublic, setIsPublic] = useState<boolean>(true);
-
+  
   const Map = useMemo(
     () =>
       dynamic(() => import("../Map"), {
@@ -98,16 +99,22 @@ export default function CreatePost(props: CreatePostProps) {
   return (
     <div className={styles.container}>
       <div className={styles.arrow}>
-        <Button className={styles.arrowBtn} type="link">
-          <Image
-            src="/decor/arrow-left.svg"
-            alt=""
-            width={45}
-            height={42}
-            className={styles.vector}
-          />
-          <span className={styles.backBtn}>Back</span>
-        </Button>
+        <Link className={styles.backLink} href={""}>
+          <Button
+            className={styles.arrowBtn}
+            type="link"
+            onClick={() => router.push("/posts")}
+          >
+            <Image
+              src="/decor/arrow-left.svg"
+              alt=""
+              width={45}
+              height={42}
+              className={styles.vector}
+            />
+            <span className={styles.backBtn}>Back</span>
+          </Button>
+        </Link>
       </div>
       <div className={styles.createContainer}>
         <Form name="normal_login" onFinish={onFinish} validateTrigger={false}>
@@ -205,15 +212,22 @@ export default function CreatePost(props: CreatePostProps) {
             </div>
           </div>
           <div className={styles.buttonBlock}>
-            <Button className={styles.cancel}>
-              <Image src="/decor/x.svg" alt="" width={10} height={10} />
-              <span className={styles.cancelBtn}>Cancel</span>
-            </Button>
-            <Form.Item>
-              <Button className={styles.preview} htmlType="submit">
-                <Image src="/decor/eyes.svg" alt="" width={16} height={14} />
-                <span className={styles.previewBtn}>Preview Post</span>
+            <Link className={styles.cancelLink} href={""}>
+              <Button
+                className={styles.cancel}
+                onClick={() => router.push("/posts")}
+              >
+                <Image src="/decor/x.svg" alt="" width={10} height={10} />
+                <span className={styles.cancelBtn}>Cancel</span>
               </Button>
+            </Link>
+            <Form.Item>
+              <Link href={""}>
+                <Button className={styles.preview} htmlType="submit">
+                  <Image src="/decor/eyes.svg" alt="" width={16} height={14} />
+                  <span className={styles.previewBtn}>Preview Post</span>
+                </Button>
+              </Link>
             </Form.Item>
           </div>
           <div className={styles.remember}>
