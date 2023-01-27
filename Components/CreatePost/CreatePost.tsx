@@ -201,7 +201,7 @@ export default function CreatePost(props: CreatePostProps) {
           <div className={styles.location}>
             <span>Location</span>
             <div className={styles.map}>
-              <Map lat={lat} lng={lng} />
+              <Map lat={lat} lng={lng} setLat={setLat} setLng={setLng} />
             </div>
           </div>
           <div className={styles.buttonBlock}>
