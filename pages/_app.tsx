@@ -54,8 +54,7 @@ const butler = Butler({
       weight: "600",
     },
   ],
-  fallback: ["Butler"],
-  variable: "--font-butler"
+  fallback: ["Butler"]
 });
 
 
@@ -63,13 +62,13 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <SessionProvider>
-      <style jsx global>{`
-        :root {
-          --font-butler: ${butler.style.fontFamily};
-          --font-inter:${inter.style.fontFamily};
-          --font-nunito:${nunito.style.fontFamily};
-        }
-      `}</style>
+        <style jsx global>{`
+          :root {
+            --font-butler: ${butler.style.fontFamily};
+            --font-inter: ${inter.style.fontFamily};
+            --font-nunito: ${nunito.style.fontFamily};
+          }
+        `}</style>
 
         <Header />
         <div className="main">
