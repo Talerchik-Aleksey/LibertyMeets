@@ -107,7 +107,7 @@ export default function Login() {
               <span className={styles.highload2}></span>
             </label>
 
-            <Link className={styles.forgot} href="/resetPassword">
+            <Link className={styles.forgot} href="" onClick={()=> router.push('/reset-password')}>
               Forgot password
             </Link>
           </div>

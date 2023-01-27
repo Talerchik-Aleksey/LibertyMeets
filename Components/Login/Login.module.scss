@@ -1,7 +1,7 @@
 .logoImage {
   width: 426px;
   height: 75px;
-  padding-bottom: 40px;
+  padding-bottom: 30px;
 
   @media (max-width: 800px) {
     width: 340px;
@@ -124,11 +124,11 @@
 }
 
 .username div div {
-  min-width: 70px !important;
+  min-width: 90px !important;
 }
 
 .password div div{
-  min-width: 70px !important;
+  min-width: 90px !important;
 }
 
 .box {
@@ -289,18 +289,6 @@
   color: #ffffff;
 }
 
-.password div {
-  gap: 20px;
-
-  @media (max-width: 580px) {
-    gap: unset;
-  }
-}
-
-.username div {
-  gap: 20px;
-
-  @media (max-width: 580px) {
-    gap: unset;
-  }
+.username {
+  margin-bottom: 30px;
 }
