@@ -22,14 +22,17 @@
 
   "emails": {
     "templatesDir": "/emails",
+    "replySetup": {
+      "baseDomain": "mg.example.com"
+    },
     "emailProps": {
       "from": {
-        "name": "",
-        "email": ""
+        "name": "LibertyMeets service",
+        "email": "service@mg.example.com"
       },
       "cc": [],
       "bcc": [],
-      "reply_to": ""
+      "reply_to": "reply-service@mg.example.com"
     }
   },
   "mailgun": {

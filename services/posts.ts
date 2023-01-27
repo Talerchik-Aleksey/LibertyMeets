@@ -7,8 +7,11 @@ import { HttpError } from "../utils/HttpError";
 import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
 import { Transaction } from "sequelize";
+import { connect } from "../utils/db";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
+
+connect();
 
 export async function savePostToDb({
   user,
@@ -110,6 +113,7 @@ export async function getPost(postId: number) {
       id: postId,
     },
     attributes: [
+      "id",
       "title",
       "category",
       "description",
@@ -143,7 +147,7 @@ export async function isAuthorCheck(
     where: { id: postId, author_id: userId },
   });
 
-  return !!foundPost;
+  return Boolean(foundPost);
 }
 
 export async function deletePost(

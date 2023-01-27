@@ -40,7 +40,7 @@ export async function isEmailAlreadyUsed(email: string): Promise<boolean> {
 }
 
 export async function findUser(email: string) {
-  const foundUser = await Users.findOne({ where: { email: email } });
+  const foundUser = await Users.findOne({ where: { email } });
   if (!foundUser) {
     return null;
   }

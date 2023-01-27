@@ -40,10 +40,15 @@ const props = config.get<{
   reply_to: string;
 }>("emails.emailProps");
 
+type HeadersSetupEntry = [string, string];
+type HeadersSetup = Array<HeadersSetupEntry>;
+
+
 export async function sendEmail(
   template: string,
   paramsArg: paramsType,
-  templateProps: any
+  templateProps: any,
+  headers: HeadersSetup = []
 ) {
   const params = { ...props, ...paramsArg, subject: "" };
 
@@ -82,6 +87,10 @@ export async function sendEmail(
   } else {
     data["h:Reply-To"] = params.from.email;
   }
+
+  headers.forEach(([header, value]) => {
+    data[`h:${header}`] = value;
+  });
 
   if (!isRecipientsFound) {
     throw new Error("Recipients not found");
