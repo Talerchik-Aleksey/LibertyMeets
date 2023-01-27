@@ -8,28 +8,34 @@
   }
 }
 
-.lock {
-  font-family: "Font Awesome 5 Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 30px;
-  text-align: right;
-}
-
 .loginWrapper {
   display: flex;
   min-height: 100vh;
+  height: 897px;
   align-items: center;
   justify-content: center;
   position: relative;
+  background: url('../../public/decor/Rectangle-864.svg'),url('../../public/decor/Rectangle-865.svg');
+  background-repeat: no-repeat;
+  background-position: bottom 70px left , top 76px right;
+  background-size: 469px, 212px;
 
-  @media (max-width: 800px) {
-    min-height: calc(100vh - 252px);
-    padding: 30px 0;
+  @media (max-width:1300px) {
+    background-size: 369px, 172px;
+    background-position: bottom 0 left , top 0 right;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width:1080px) {
+    height: auto;
+    background-size: 299px, 172px;        
+  }
+
+  @media (max-width:800px) {
+    padding: 30px 0;
+    background:unset;
+  }
+    
+  @media (max-width:600px) {
     height: auto;
     padding: 50px 0;
   }
@@ -41,64 +47,6 @@
   align-items: center;
   justify-content: center;
   padding: 15px;
-}
-
-.leftBlock {
-  position: absolute;
-
-  @media (max-width: 1940px) {
-    width: calc(469px - 9vw);
-    height: calc(258px - 9vh);
-    left: 0;
-    bottom: 5px;
-  }
-
-  @media (max-width: 1440px) {
-    width: 469px;
-    height: 258px;
-    left: 0;
-    bottom: 70px;
-  }
-
-  @media (max-width: 1350px) {
-    width: calc(469px - 10vw);
-    height: calc(258px - 10vh);
-    left: 0;
-    bottom: 5px;
-  }
-
-  @media (max-width: 1000px) {
-    display: none;
-  }
-}
-
-.rightBlock {
-  position: absolute;
-
-  @media (max-width: 1940px) {
-    width: calc(238px - 5vw);
-    height: calc(280px - 5vh);
-    right: 0;
-    top: 5px;
-  }
-
-  @media (max-width: 1440px) {
-    width: 238px;
-    height: 280px;
-    right: 0;
-    top: 70px;
-  }
-
-  @media (max-width: 1350px) {
-    width: calc(238px - 10vw);
-    height: calc(280px - 10vh);
-    right: 0;
-    top: 5px;
-  }
-
-  @media (max-width: 1000px) {
-    display: none;
-  }
 }
 
 .goods {
@@ -119,6 +67,7 @@
 
 .usernameInput {
   height: 38px;
+  border-color: #929292;
 
   &:hover {
     border-color: #921a64 !important;
@@ -127,6 +76,7 @@
 
 .inputPassword {
   height: 38px;
+  border-color: #929292;
 
   &:hover {
     border-color: #921a64 !important;
@@ -171,24 +121,26 @@
 
 .username label {
   font-size: 16px !important;
-  width: 190px !important;
+}
+
+.username div div {
+  min-width: 70px !important;
+}
+
+.password div div{
+  min-width: 70px !important;
 }
 
 .box {
   display: flex;
-  gap: 168px;
+  gap: 200px;
   justify-content: flex-end;
   align-items: center;
   padding-top: 10px;
 
   @media (max-width: 800px) {
-    justify-content: flex-end;
-    gap: 35px;
-  }
-
-  @media (max-width: 580px) {
-    justify-content: center;
-    gap: 35px;
+    justify-content: space-between;
+    gap: 0;
   }
 }
 
@@ -212,10 +164,10 @@
 }
 
 .form {
-  min-width: 630px;
+  min-width: 640px;
 
   @media (max-width: 800px) {
-    min-width: min-content;
+    min-width: auto;
   }
 }
 
