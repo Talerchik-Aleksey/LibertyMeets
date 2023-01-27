@@ -17,14 +17,20 @@ type ErrorResponse = {
 
 export default function Registration({ appUrl, recaptchaKey }: PropsType) {
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [terms, setTerms] = useState<boolean>(false);
   const recaptchaRef = createRef<ReCAPTCHA>();
   const router = useRouter();
 
   async function onFinish(values: any) {
     const recaptchaValue = recaptchaRef.current?.getValue();
-    if (!recaptchaValue) {
-      setErrorMessage("no recaptchaValue");
-      return;
+    if (!recaptchaValue || !terms) {
+      if (!terms && !recaptchaValue) {
+        setErrorMessage("no recaptchaValue and terms");
+        return;
+      } else if (!terms) {
+        setErrorMessage("no terms");
+        return;
+      } else setErrorMessage("no recaptchaValue");
     }
 
     values.recaptchaValue = recaptchaValue;
@@ -124,12 +130,25 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
               <span className={styles.checkboxText}>
                 {" "}
                 I have read the{" "}
-                <Link href="" className={styles.checkboxTerms}>
+                <Link
+                  href=""
+                  className={styles.checkboxTerms}
+                  onClick={() => {
+                    window.open(`${appUrl}/terms`);
+                  }}
+                >
                   {" "}
                   Terms & Privacy Policy
                 </Link>
               </span>
-              <input type="checkbox" className={styles.checkHighload} />
+              <input
+                type="checkbox"
+                className={styles.checkHighload}
+                onClick={() => {
+                  if (terms === false) setTerms(true);
+                  else setTerms(false);
+                }}
+              />
               <span className={styles.highload2}></span>
             </label>
 
@@ -156,7 +175,7 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
           </Form.Item>
         </Form>
 
-        <Link className={styles.link} href={""}>
+        <Link className={styles.link} href={"/signin"}>
           I already have an account!
         </Link>
       </div>
