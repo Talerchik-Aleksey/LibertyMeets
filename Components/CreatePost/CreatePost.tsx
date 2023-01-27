@@ -81,17 +81,21 @@ export default function CreatePost(props: CreatePostProps) {
 
   const router = useRouter();
   async function onFinish(values: any) {
-    values.lat = lat;
-    values.lng = lng;
-    values.isPublic = isPublic;
-    const req = await axios.post(`${appUrl}/api/posts/create`, values, {
-      withCredentials: true,
-    });
-    if (req.status === 200) {
-      alert(req.data.data.postId);
-      router.push("/myPosts");
-    } else {
-      alert();
+    try {
+      values.lat = lat;
+      values.lng = lng;
+      values.isPublic = isPublic;
+      const req = await axios.post(`${appUrl}/api/posts/create`, values, {
+        withCredentials: true,
+      });
+      if (req.status === 200) {
+        alert(req.data.data.postId);
+        router.push("/myPosts");
+      } else {
+        alert();
+      }
+    } catch (e) {
+      console.error(e);
     }
   }
 
