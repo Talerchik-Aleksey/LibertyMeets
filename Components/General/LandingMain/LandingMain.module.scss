@@ -5,7 +5,7 @@
 
 .valuesText {
   color: #6f2cff;
-  font-family: "Inter";
+  font-family: var(--font-inter);
   font-style: normal;
   font-weight: 600;
   font-size: 36px;
@@ -42,7 +42,7 @@
 }
 
 .subtitle {
-  font-family: "Butler";
+  font-family: var(--font-butler);
   font-style: normal;
   font-weight: 700;
   font-size: 72px;
@@ -176,7 +176,7 @@
 }
 
 .description {
-  font-family: "Inter";
+  font-family: var(--font-inter);
   font-style: normal;
   font-weight: 700;
   font-size: 30px;
@@ -192,7 +192,7 @@
 }
 
 .valuesTitle {
-  font-family: "Butler";
+  font-family: var(--font-butler);
   font-style: normal;
   font-weight: 700;
   font-size: 48px;
@@ -224,7 +224,7 @@
 }
 
 .buttonLearnMore {
-  font-family: "Inter";
+  font-family: var(--font-inter);
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -259,7 +259,7 @@
 }
 
 .descriptionPurple {
-  font-family: "Inter";
+  font-family: var(--font-inter);
   font-style: normal;
   font-weight: 700;
   font-size: 42px;
@@ -283,7 +283,7 @@
 }
 
 .infoBlockButton {
-  font-family: "Inter";
+  font-family: var(--font-inter);
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -313,7 +313,7 @@
 }
 
 .infoBlockButtonPurple {
-  font-family: "Inter";
+  font-family: var(--font-inter);
   font-style: normal;
   font-weight: 400;
   font-size: 20px;

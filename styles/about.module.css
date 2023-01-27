@@ -1,5 +1,5 @@
 .aboutTitle {
-  font-family: "Butler";
+  font-family: var(--font-butler);
   font-style: normal;
   font-weight: 700;
   font-size: 48px;
@@ -13,7 +13,7 @@
 }
 
 .aboutDescription {
-  font-family: "Inter";
+  font-family: var(--font-inter);
   font-style: normal;
   font-weight: 400;
   font-size: 16px;

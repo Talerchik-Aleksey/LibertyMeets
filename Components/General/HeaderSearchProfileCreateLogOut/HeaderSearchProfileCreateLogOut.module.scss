@@ -29,7 +29,7 @@
 }
 
 .navigation {
-  font-family: "Inter";
+  font-family: var(--font-inter);
   display: flex;
   gap: 20px;
 
@@ -56,7 +56,7 @@
 }
 
 .logOut {
-  font-family: "Inter";
+  font-family: var(--font-inter);
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -75,7 +75,7 @@
 }
 
 .myProfile {
-  font-family: "Inter";
+  font-family: var(--font-inter);
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -119,7 +119,7 @@
 }
 
 .createPostsText {
-  font-family: "Inter";
+  font-family: var(--font-inter);
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -158,7 +158,7 @@
 }
 
 .searchText {
-  font-family: "Inter";
+  font-family: var(--font-inter);
   font-style: normal;
   font-weight: 400;
   font-size: 20px;

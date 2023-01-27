@@ -10,7 +10,7 @@
 }
 
 .message{
-    font-family: 'Inter';
+    font-family: var(--font-inter);
     font-style: normal;
     font-weight: 700;
     font-size: 42px;
@@ -27,7 +27,7 @@
 }
 
 .codeMessage{
-    font-family: 'Inter';
+    font-family: var(--font-inter);
     font-style: normal;
     font-weight: 700;
     font-size: 42px;

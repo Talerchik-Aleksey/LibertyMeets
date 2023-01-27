@@ -6,7 +6,7 @@
 .valuesText {
   color: var(--LibertyMeets-Purple-500A);
 
-  font-family: "Inter";
+  font-family: var(--font-inter);
   font-style: normal;
   font-weight: 600;
   font-size: 36px;
@@ -19,7 +19,7 @@
 }
 
 .goods {
-  font-family: "Butler";
+  font-family: var(--font-butler);
   font-style: normal;
   font-weight: 700;
   font-size: 72px;
