@@ -130,23 +130,19 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
               <span className={styles.checkboxText}>
                 {" "}
                 I have read the{" "}
-                <Link
-                  href=""
-                  className={styles.checkboxTerms}
-                  onClick={() => {
-                    window.open(`${appUrl}/terms`);
-                  }}
+                <a
+                  target="_blank"
+                  href={`${appUrl}/terms`}
+                  rel="noopener noreferrer"
                 >
-                  {" "}
                   Terms & Privacy Policy
-                </Link>
+                </a>
               </span>
               <input
                 type="checkbox"
                 className={styles.checkHighload}
                 onClick={() => {
-                  if (terms === false) setTerms(true);
-                  else setTerms(false);
+                  terms ? setTerms(false) : setTerms(true);
                 }}
               />
               <span className={styles.highload2}></span>
