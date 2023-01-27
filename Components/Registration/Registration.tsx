@@ -30,7 +30,9 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
       } else if (!terms) {
         setErrorMessage("no terms");
         return;
-      } else setErrorMessage("no recaptchaValue");
+      } else {
+        setErrorMessage("no recaptchaValue");
+      }
     }
 
     values.recaptchaValue = recaptchaValue;
@@ -142,7 +144,7 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
                 type="checkbox"
                 className={styles.checkHighload}
                 onClick={() => {
-                  terms ? setTerms(false) : setTerms(true);
+                  setTerms((terms) => !terms);
                 }}
               />
               <span className={styles.highload2}></span>
