@@ -1,14 +1,17 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import Link from "next/link";
 import styles from "./Header.module.scss";
-import { Button } from "antd";
-import { signOut } from "next-auth/react";
 import LibertyMeetsLogo from "../../LibertyMeetsLogo";
+import LogOut from "./buttons/logOut";
+import MyProfile from "./buttons/myProfile";
+import CreatePost from "./buttons/createPost";
+import SearchOpportunities from "./buttons/searchOpportunities";
+import LogIn from "./buttons/logIn";
+import SignUp from "./buttons/signUp";
 
-const map = {
+const buttonMap = {
   showSearch: ["", "myFavoritesPosts", "myPosts", "settings", "about"],
   showCreatePost: [
     "",
@@ -65,72 +68,10 @@ export default function Header() {
           </div>
           <div className={styles.navigation}>
             <ul className={styles.navigationItemContainer}>
-              {map.showSearch.includes(url) && (
-                <li className={styles.navigationItem}>
-                  <Link className={styles.navigationItemLink} href={"/posts"}>
-                    <Button className={styles.search}>
-                      <Image
-                        src="/decor/Vector4.svg"
-                        alt=""
-                        width={16}
-                        height={14}
-                        className={styles.vector}
-                      />
-                      <span className={styles.searchText}>
-                        Search Opportunities{" "}
-                      </span>
-                    </Button>
-                  </Link>
-                </li>
-              )}
-              {map.showCreatePost.includes(url) && (
-                <li className={styles.navigationItem}>
-                  <Link
-                    className={styles.navigationItemLink}
-                    href={"/createPost"}
-                  >
-                    <Button className={styles.createPosts}>
-                      <Image
-                        src="/decor/Vector3.svg"
-                        alt=""
-                        width={16}
-                        height={14}
-                        className={styles.vector}
-                      />
-                      <span className={styles.createPostsText}>
-                        Create Post{" "}
-                      </span>
-                    </Button>
-                  </Link>
-                </li>
-              )}
-              {map.showMyProfile.includes(url) && (
-                <li className={styles.navigationItem}>
-                  {" "}
-                  <Link
-                    className={styles.navigationItemLink}
-                    href={"/myFavoritesPosts"}
-                  >
-                    <Button type="text" className={styles.myProfile}>
-                      My Profile
-                    </Button>
-                  </Link>
-                </li>
-              )}
-              {map.showLogOut.includes(url) && (
-                <li className={styles.navigationItem}>
-                  {" "}
-                  <Link className={styles.navigationItemLink} href={"/signin"}>
-                    <Button
-                      type="text"
-                      className={styles.logOut}
-                      onClick={() => signOut()}
-                    >
-                      Log Out
-                    </Button>
-                  </Link>
-                </li>
-              )}
+              {buttonMap.showSearch.includes(url) && <SearchOpportunities />}
+              {buttonMap.showCreatePost.includes(url) && <CreatePost />}
+              {buttonMap.showMyProfile.includes(url) && <MyProfile />}
+              {buttonMap.showLogOut.includes(url) && <LogOut />}
             </ul>
           </div>
         </header>
@@ -143,34 +84,8 @@ export default function Header() {
           </div>
           <div className={styles.navigation}>
             <ul className={styles.navigationItemContainer}>
-              {map.showSignUp.includes(url) && (
-                <li className={styles.navigationItem}>
-                  <Link
-                    className={styles.navigationItemLink}
-                    href={"/registration"}
-                  >
-                    <Button className={styles.signUp}>
-                      <Image
-                        src="/decor/Vector.svg"
-                        alt=""
-                        width={16}
-                        height={14}
-                        className={styles.vector}
-                      />
-                      <span className={styles.signUpText}>Sign Up </span>
-                    </Button>
-                  </Link>
-                </li>
-              )}
-              {map.showLogIn.includes(url) && (
-                <li className={styles.navigationItem}>
-                  <Link className={styles.navigationItemLink} href={"/signin"}>
-                    <Button type="text" className={styles.logIn}>
-                      Log In
-                    </Button>
-                  </Link>
-                </li>
-              )}
+              {buttonMap.showSignUp.includes(url) && <SignUp />}
+              {buttonMap.showLogIn.includes(url) && <LogIn />}
             </ul>
           </div>
         </header>
