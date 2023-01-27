@@ -72,9 +72,9 @@ export default function LandingMain() {
         </div>
         <div className={styles.buttonBlock}>
           <Link className={styles.buttonLearnLink} href={"/about"}>
-            <Button className={styles.buttonLearnMore}>
+            <span className={styles.buttonLearnMore}>
               Learn More About LibertyMeets
-            </Button>
+            </span>
           </Link>
         </div>
       </div>
