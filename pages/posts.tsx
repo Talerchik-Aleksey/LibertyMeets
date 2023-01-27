@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps<PostsPageProps> = async (
   // };
   // await sendEmail("reset-password", emailParams, {user:{name:"MyName"}});
 
-  const appUrl = config.get<string>("appUrl");
+  const appUrl = process.env.NEXTAUTH_URL || config.get<string>("appUrl");
   const postsPerPage = config.get<number>("posts.perPage");
   const session = await getSession({ req: ctx.req });
   let page = Number(ctx.query.page);

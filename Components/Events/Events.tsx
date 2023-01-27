@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { PostType } from "../../types/general";
 import PostsList from "../PostsList";
 import axios from "axios";
+import Header from "../General/Header";
 
 type PropsType = {
   appUrl: string;

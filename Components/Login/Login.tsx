@@ -16,9 +16,7 @@ export default function Login() {
   function goBack() {
     const callback = `${router.query.callbackUrl}`;
     const { pathname } = url.parse(callback);
-    return pathname === undefined
-      ? router.push(`${pathname}`)
-      : router.push("/");
+    return pathname ? router.push(`${pathname}`) : router.push("/");
   }
 
   if (session) {
@@ -31,9 +29,6 @@ export default function Login() {
 
   return (
     <div className={styles.loginWrapper}>
-      <div className={styles.leftBlock}>
-        <RectangleLeft />
-      </div>
       <div className={styles.formBlock}>
         <div className={styles.logoInfo}>
           <div className={styles.goods}>
@@ -63,7 +58,7 @@ export default function Login() {
             colon={false}
             labelAlign="left"
             label="Email"
-            labelCol={{ span: 4 }}
+            labelCol={{ span: 3 }}
             className={styles.username}
           >
             <Input
@@ -85,7 +80,7 @@ export default function Login() {
             label="Password"
             name="password"
             colon={false}
-            labelCol={{ span: 4 }}
+            labelCol={{ span: 3 }}
             labelAlign="left"
             className={styles.password}
             rules={[{ required: true }, { type: "string", min: 4, max: 100 }]}
@@ -139,9 +134,6 @@ export default function Login() {
         <Link className={styles.signUp} href={""}>
           Sign Up For Free!
         </Link>
-      </div>
-      <div className={styles.rightBlock}>
-        <RectangleRight />
       </div>
     </div>
   );
