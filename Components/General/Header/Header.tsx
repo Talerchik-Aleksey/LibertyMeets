@@ -59,37 +59,28 @@ export default function Header() {
 
   return (
     <>
-      {isLogin ? (
-        <header className={styles.header}>
-          <div className={styles.logo}>
-            <Link href={"/"}>
-              <LibertyMeetsLogo />
-            </Link>
-          </div>
-          <div className={styles.navigation}>
+      <header className={styles.header}>
+        <div className={styles.logo}>
+          <Link href={"/"}>
+            <LibertyMeetsLogo />
+          </Link>
+        </div>
+        <div className={styles.navigation}>
+          {isLogin ? (
             <ul className={styles.navigationItemContainer}>
               {buttonMap.showSearch.includes(url) && <SearchOpportunities />}
               {buttonMap.showCreatePost.includes(url) && <CreatePost />}
               {buttonMap.showMyProfile.includes(url) && <MyProfile />}
               {buttonMap.showLogOut.includes(url) && <LogOut />}
             </ul>
-          </div>
-        </header>
-      ) : (
-        <header className={styles.header}>
-          <div className={styles.logo}>
-            <Link href={"/"}>
-              <LibertyMeetsLogo />
-            </Link>
-          </div>
-          <div className={styles.navigation}>
+          ) : (
             <ul className={styles.navigationItemContainer}>
               {buttonMap.showSignUp.includes(url) && <SignUp />}
               {buttonMap.showLogIn.includes(url) && <LogIn />}
             </ul>
-          </div>
-        </header>
-      )}
+          )}
+        </div>
+      </header>
     </>
   );
 }
