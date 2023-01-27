@@ -16,7 +16,7 @@ export default function Login() {
   function goBack() {
     const callback = `${router.query.callbackUrl}`;
     const { pathname } = url.parse(callback);
-    return pathname === undefined
+    return pathname !== undefined
       ? router.push(`${pathname}`)
       : router.push("/");
   }
