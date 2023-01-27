@@ -1,0 +1,186 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px 48px;
+  gap: 20px;
+  background: var(--LibertyMeets-Purple-100);
+  justify-content: space-between;
+
+  @media (max-width: 1100px) {
+    padding: 20px 20px;
+    flex-direction: column;
+  }
+}
+
+.logo img {
+  height: 40px;
+}
+
+.myProfile {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  height: 40px;
+  color: #333333;
+  transition: 0.5s;
+
+  &:hover {
+    transition: 0.5s;
+    color: #921a64 !important;
+  }
+}
+
+.logOut {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  height: 40px;
+  color: #333333;
+  transition: 0.5s;
+
+  &:hover {
+    transition: 0.5s;
+    color: #921a64 !important;
+  }
+}
+
+.createPosts {
+  padding: 8px 16px;
+  gap: 10px;
+  width: 174px;
+  height: 40px;
+  background: #921a64;
+  border-radius: 4px;
+  text-decoration: none;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: none !important;
+  transition: 0.5s;
+
+  &:hover {
+    transition: 0.5s;
+    background: #640674;
+  }
+}
+
+.createPostsText {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #ffffff;
+}
+
+.navigationItemLink {
+  text-decoration: none;
+}
+
+.navigationItem {
+  list-style-type: none;
+}
+
+.navigationItemContainer {
+  display: flex;
+  padding: 0;
+  gap: 25px;
+
+  @media (max-width: 800px) {
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+  }
+}
+
+.search{
+  background: #921A64;
+  border-radius: 4px;
+  text-decoration: none;
+  display: flex;
+  gap:10px;
+  align-items: center;
+  padding: 8px 16px;
+  gap: 10px;
+  width: 263px;
+  height: 40px;
+  border-radius: 4px;
+  transition:0.5s;
+  border:none!important ;
+
+  @media (max-width:1200px) {
+    width: auto;
+  }
+
+  &:hover{
+    transition:0.5s;
+    background: #640674;
+    border:none!important ;
+  }
+}
+
+.searchText{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #FFFFFF;
+
+  @media (max-width:1200px) {
+    font-size: 18px;
+  }
+}
+
+.signUp {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 137px;
+  height: 40px;
+  background: #921a64;
+  border-radius: 4px;
+  padding: 8px 16px;
+  transition: 0.5s;
+  border: none !important;
+
+  &:hover {
+    transition: 0.5s;
+    background: #640674;
+  }
+}
+
+.signUpText {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-transform: capitalize;
+  color: #ffffff;
+}
+
+.logIn {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  height: 40px;
+  color: #333333;
+  transition: 0.5s;
+
+  &:hover {
+    transition: 0.5s;
+    color: #921a64 !important;
+  }
+
+  @media (max-width: 800px) {
+    background: #921a64 !important; ;
+  }
+}
