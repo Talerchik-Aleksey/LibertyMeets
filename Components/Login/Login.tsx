@@ -53,7 +53,7 @@ export default function Login() {
           <Form.Item
             name="email"
             rules={[
-              { required: false },
+              { required: true },
               { type: "email" },
               { type: "string", max: 100 },
             ]}
@@ -85,7 +85,7 @@ export default function Login() {
             labelCol={{ span: 3 }}
             labelAlign="left"
             className={styles.password}
-            rules={[{ required: false }, { type: "string", min: 4, max: 100 }]}
+            rules={[{ required: true }, { type: "string", min: 4, max: 100 }]}
           >
             <Input
               suffix={
