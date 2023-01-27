@@ -10,6 +10,73 @@
   --LibertyMeets-Warning_Accent: #ff8b00;
 }
 
+
+@font-face {
+  font-family: 'ButlerBold';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../public/fonts/Butler-Bold700.woff2')
+    format('woff2');
+}
+
+@font-face {
+  font-family: 'ButlerMedium';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../public/fonts/Butler-Medium600.woff2')
+    format('woff2');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../public/fonts/Nunito-SemiBold600.ttf')
+    format('truetype');
+}
+
+@font-face {
+  font-family: 'InterBold800';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../public/fonts/Inter-ExtraBold.woff2')
+    format('woff2');
+}
+
+@font-face {
+  font-family: 'InterBold700';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../public/fonts/Inter-Bold700.woff2')
+    format('woff2');
+}
+
+
+@font-face {
+  font-family: 'InterMedium';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../public/fonts/Inter-Medium500.woff2')
+    format('woff2');
+}
+
+@font-face {
+  font-family: 'InterRegular';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../public/fonts/Inter-Regular400.woff2')
+    format('woff2');
+}
+@font-face {
+  font-family: 'InterSemiBold';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../public/fonts/Inter-SemiBold600.woff2')
+    format('woff2');
+}
+
+
+
 * {
   margin: 0;
   padding: 0;
