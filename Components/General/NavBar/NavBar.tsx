@@ -1,16 +1,14 @@
 import { Button, Input } from "antd";
 import styles from "./NavBar.module.scss";
 import Image from "next/image";
-import type { Dispatch, SetStateAction } from "react";
 import { CATEGORIES } from "../../../constants/constants";
 
 type NavBarProps = {
-  setCategory: Dispatch<SetStateAction<string | undefined>>;
-  changePageNumber: (page: number) => void;
+  changeCategory: (category: string) => void;
 };
 
 export default function NavBar(props: NavBarProps) {
-  const { setCategory, changePageNumber } = props;
+  const { changeCategory } = props;
 
   return (
     <div className={styles.navbar}>
@@ -20,8 +18,7 @@ export default function NavBar(props: NavBarProps) {
             className={styles.button}
             key={index}
             onClick={() => {
-              setCategory(item);
-              changePageNumber(1);
+              changeCategory(item);
             }}
           >
             {item}
