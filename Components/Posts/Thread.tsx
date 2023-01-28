@@ -37,7 +37,7 @@ export default function Thread({
   return (
     <>
       {messages.map((item) => (
-        <div key={item.id}>
+        <div key={item.id} style={{ margin: "20px" }}>
           <img
             src={`data:image/svg+xml;utf8,${generateFromString(
               `${item.user_id}`

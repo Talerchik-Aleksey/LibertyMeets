@@ -32,7 +32,9 @@ type QueryType = {
 };
 
 export default function SinglePost({ appUrl, post: initialPost }: SinglePostProps) {
+  const [editPost, setEditPost] = useState<boolean>(false);  
   const [showList, setShowList] = useState<boolean>(false);
+  const [showMap, setShowMap] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [post, setPost] = useState<PostType>(initialPost);
   const { data: session } = useSession();
@@ -84,6 +86,10 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
       setErrorMessage((response?.data as ErrorResponse).status);
     }
   }
+
+  const goToEditPage = () => {
+    router.push(`${appUrl}/events/edit/${router.query.postId}`);
+  };
 
   const isAuthor = session ? post?.author_id === session?.user.id : undefined;
   const canEditPost = isAuthor;

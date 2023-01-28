@@ -7,15 +7,14 @@ type PropsType = {
   appUrl: string;
   postId: number;
   isAuthor: boolean | undefined;
-  threadUserId: number | undefined;
+  threadId?: string;
 };
 
 export default function ThreadForm({
   isThreadExists,
   appUrl,
+  threadId,
   postId,
-  isAuthor,
-  threadUserId,
 }: PropsType) {
   const { data: session } = useSession();
 
@@ -27,12 +26,12 @@ export default function ThreadForm({
       await axios.post(
         `${appUrl}/api/threads/reply`,
         { message: values.message },
-        { params: { postId, threadUserId } }
+        { params: { threadId, postId } }
       );
     },
   });
 
-  if (!threadUserId) {
+  if (!threadId && !postId) {
     return null;
   }
 
