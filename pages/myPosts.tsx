@@ -68,7 +68,10 @@ export default function MyPosts({ appUrl, postsPerPage }: PropsType) {
       </div>
       {myPosts.map((item) => (
         <div key={`post ${item.id}`} onClick={() => goToPostPage(item.id)}>
-          {item.event_time} {item.category} {item.title} {item.geo}
+          <p>{item.category}</p>
+          <p>{item.title}</p>
+          <p>{item.geo}</p>
+          <p>{item.event_time.toString()}</p>
           <hr />
         </div>
       ))}

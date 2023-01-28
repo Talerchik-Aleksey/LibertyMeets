@@ -32,7 +32,7 @@ export default function Thread({
         setMessages(res.data.data.messages);
       } catch {}
     })();
-  }, [appUrl, threadId, postId, userId]);
+  }, []);
 
   return (
     <>
@@ -44,6 +44,7 @@ export default function Thread({
             )}`}
             height={15}
             width={15}
+            alt="avatar"
           />
           {item.message}
         </div>

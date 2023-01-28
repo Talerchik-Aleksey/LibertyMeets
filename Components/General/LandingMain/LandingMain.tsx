@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "./LandingMain.module.scss";
-import RectangleRight from "../RectangleRight/RectangleRight";
 import { Button } from "antd";
 import Link from "next/link";
 
@@ -12,15 +11,6 @@ export default function LandingMain() {
     <section className={styles.container}>
       <h1 className={styles.unvisible}>LibertyMeets</h1>
       <div className={styles.titleBlock}>
-        <div className={styles.rectangleLeftBlock}>
-          <Image
-            src="/decor/Rectangle-866.svg"
-            alt=""
-            width={284}
-            height={258}
-            className={styles.rectangleLeft}
-          />
-        </div>
         <div className={styles.logoInfo}>
           <div className={styles.infoBlock}>
             <Image
@@ -46,9 +36,6 @@ export default function LandingMain() {
               Sign Up to Post, and to Search All Opportunities
             </Button>
           </Link>
-        </div>
-        <div className={styles.rectangleRight}>
-          <RectangleRight />
         </div>
       </div>
 
@@ -85,9 +72,9 @@ export default function LandingMain() {
         </div>
         <div className={styles.buttonBlock}>
           <Link className={styles.buttonLearnLink} href={"/about"}>
-            <Button className={styles.buttonLearnMore}>
+            <span className={styles.buttonLearnMore}>
               Learn More About LibertyMeets
-            </Button>
+            </span>
           </Link>
         </div>
       </div>
