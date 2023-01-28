@@ -32,7 +32,7 @@ type QueryType = {
 };
 
 export default function SinglePost({ appUrl, post: initialPost }: SinglePostProps) {
-  const [editPost, setEditPost] = useState<boolean>(false);  
+  const [editPost, setEditPost] = useState<boolean>(false);
   const [showList, setShowList] = useState<boolean>(false);
   const [showMap, setShowMap] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -164,8 +164,8 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
             isThreadExists={false}
             appUrl={appUrl}
             postId={postId}
+            threadId={'1'}
             isAuthor={isAuthor}
-            threadUserId={session?.user.id}
           />
         </>
       )}
