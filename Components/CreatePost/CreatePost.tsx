@@ -8,6 +8,7 @@ import axios from "axios";
 import RememberBlock from "../RememberBlock/RememberBlock";
 import { KEY_LAT, KEY_LNG } from "../../constants/constants";
 import styles from "./CreatePost.module.scss";
+import Link from "next/link";
 
 const { TextArea } = Input;
 const geoLocationOptions = {
@@ -24,7 +25,7 @@ export default function CreatePost(props: CreatePostProps) {
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
   const [isPublic, setIsPublic] = useState<boolean>(true);
-
+  
   const Map = useMemo(
     () =>
       dynamic(() => import("../Map"), {
@@ -98,16 +99,22 @@ export default function CreatePost(props: CreatePostProps) {
   return (
     <div className={styles.container}>
       <div className={styles.arrow}>
-        <Button className={styles.arrowBtn} type="link">
-          <Image
-            src="/decor/arrow-left.svg"
-            alt=""
-            width={45}
-            height={42}
-            className={styles.vector}
-          />
-          <span className={styles.backBtn}>Back</span>
-        </Button>
+        <Link className={styles.backLink} href={""}>
+          <Button
+            className={styles.arrowBtn}
+            type="link"
+            onClick={() => router.push("/posts")}
+          >
+            <Image
+              src="/decor/arrow-left.svg"
+              alt=""
+              width={45}
+              height={42}
+              className={styles.vector}
+            />
+            <span className={styles.backBtn}>Back</span>
+          </Button>
+        </Link>
       </div>
       <div className={styles.createContainer}>
         <Form name="normal_login" onFinish={onFinish} validateTrigger={false}>
@@ -118,8 +125,9 @@ export default function CreatePost(props: CreatePostProps) {
                 className={styles.postTitleText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="Post Title"
+                label="* Post Title"
                 name="title"
+                colon={false}
               >
                 <Input
                   suffix={
@@ -139,9 +147,10 @@ export default function CreatePost(props: CreatePostProps) {
                 className={styles.categoryText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="Category"
+                label="* Category"
                 name="category"
                 initialValue="social"
+                colon={false}
               >
                 <Select className={styles.categorySelect}>
                   <Select.Option
@@ -176,8 +185,9 @@ export default function CreatePost(props: CreatePostProps) {
                 className={styles.descriptionText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="Description"
+                label="* Description"
                 name="description"
+                colon={false}
               >
                 <TextArea
                   maxLength={200}
@@ -199,21 +209,28 @@ export default function CreatePost(props: CreatePostProps) {
             <Image src="/decor/qwe.svg" alt="" width={26} height={26} />
           </div>
           <div className={styles.location}>
-            <span>Location</span>
+            <span>* Location</span>
             <div className={styles.map}>
               <Map lat={lat} lng={lng} />
             </div>
           </div>
           <div className={styles.buttonBlock}>
-            <Button className={styles.cancel}>
-              <Image src="/decor/x.svg" alt="" width={10} height={10} />
-              <span className={styles.cancelBtn}>Cancel</span>
-            </Button>
-            <Form.Item>
-              <Button className={styles.preview} htmlType="submit">
-                <Image src="/decor/eyes.svg" alt="" width={16} height={14} />
-                <span className={styles.previewBtn}>Preview Post</span>
+            <Link className={styles.cancelLink} href={""}>
+              <Button
+                className={styles.cancel}
+                onClick={() => router.push("/posts")}
+              >
+                <Image src="/decor/x.svg" alt="" width={10} height={10} />
+                <span className={styles.cancelBtn}>Cancel</span>
               </Button>
+            </Link>
+            <Form.Item>
+              <Link href={""}>
+                <Button className={styles.preview} htmlType="submit">
+                  <Image src="/decor/eyes.svg" alt="" width={16} height={14} />
+                  <span className={styles.previewBtn}>Preview Post</span>
+                </Button>
+              </Link>
             </Form.Item>
           </div>
           <div className={styles.remember}>
