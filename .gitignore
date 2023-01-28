@@ -38,3 +38,6 @@ next-env.d.ts
 config/local.json
 *.orig
 messages.js
+
+.idea/
+

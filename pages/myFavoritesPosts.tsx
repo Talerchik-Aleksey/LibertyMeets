@@ -89,7 +89,10 @@ export default function MyFavoritesPostsPage({
             star{" "}
           </div>
           <div onClick={() => goToPostPage(item.id)}>
-            {item.category} {item.title} {item.geo} {item.event_time}
+            <p>{item.category}</p>
+            <p>{item.title}</p>
+            <p>{item.geo}</p>
+            <p>{item.event_time.toString()}</p>
             <hr />
           </div>
         </div>

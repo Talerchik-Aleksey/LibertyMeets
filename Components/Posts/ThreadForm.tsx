@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
 
 type PropsType = {
   isThreadExists: boolean;
@@ -20,10 +19,6 @@ export default function ThreadForm({
 }: PropsType) {
   const { data: session } = useSession();
 
-  if(!threadUserId){
-    return(<></>)
-  }
-
   const formik = useFormik({
     initialValues: {
       message: "",
@@ -36,6 +31,10 @@ export default function ThreadForm({
       );
     },
   });
+
+  if (!threadUserId) {
+    return null;
+  }
 
   return (
     <>

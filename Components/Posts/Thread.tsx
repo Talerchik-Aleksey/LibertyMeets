@@ -9,6 +9,7 @@ type PropsType = {
   userId?: number;
 };
 type Message = {
+  id: string;
   message: string;
   user_id: number;
 };
@@ -36,13 +37,14 @@ export default function Thread({
   return (
     <>
       {messages.map((item) => (
-        <div>
+        <div key={item.id}>
           <img
             src={`data:image/svg+xml;utf8,${generateFromString(
               `${item.user_id}`
             )}`}
             height={15}
             width={15}
+            alt="avatar"
           />
           {item.message}
         </div>
