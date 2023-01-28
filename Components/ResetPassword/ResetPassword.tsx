@@ -37,9 +37,6 @@ export default function ResetPassword({ appUrl }: ResetPasswordProps) {
 
   return (
     <div className={styles.onlyEmailWrapper}>
-      <div className={styles.rectangleLeft}>
-        <RectangleLeft />
-      </div>
       <div className={styles.formBlock}>
         <div className={styles.logoInfo}>
           <div className={styles.logo}>
@@ -109,9 +106,7 @@ export default function ResetPassword({ appUrl }: ResetPasswordProps) {
           Go Back to Log In
         </Link>
       </div>
-      <div className={styles.rectangleRight}>
-        <RectangleRight />
-      </div>
+    
     </div>
   );
 }
