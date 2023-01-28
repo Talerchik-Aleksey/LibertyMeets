@@ -2,8 +2,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { connect } from "../../../utils/db";
 import { getSession } from "next-auth/react";
 import { HttpError } from "../../../utils/HttpError";
-import { handleReplyToPost } from "../../../services/reply";
+import {
+  handleReplyToPost,
+  handleReplyToThread,
+} from "../../../services/reply";
 import { getPost } from "../../../services/posts";
+import { getThreadById } from "../../../services/threads";
 
 type ResType = {
   status: string;
@@ -12,7 +16,7 @@ type ResType = {
 
 type QueryType = {
   postId: number | undefined;
-  threadUserId: number | undefined;
+  threadId: string | undefined;
 };
 
 type BodyType = {
@@ -26,7 +30,6 @@ connect();
 // author = post owner, postId
 // stranger = thread starter
 
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResType>
@@ -35,12 +38,6 @@ export default async function handler(
     if (!req.method || req.method! !== "POST") {
       res.status(405);
       return;
-    }
-
-    let { postId } = req.query as QueryType;
-    postId = Number(postId);
-    if (!postId || isNaN(postId)) {
-      throw new HttpError(400, "no postId");
     }
 
     let { message } = req.body as BodyType;
@@ -53,23 +50,38 @@ export default async function handler(
 
     const session = await getSession({ req });
     if (!session) {
-      res.status(401);
-      return;
+      throw new HttpError(401, "Unauthorized");
     }
     const userId = Number(session?.user.id);
 
-    const post = await getPost(postId);
-    if (!post) {
-      res.status(404);
-      return;
-    }
+    let { postId, threadId } = req.query as QueryType;
+    if (threadId) {
+      const thread = await getThreadById(threadId);
 
-    console.log('Before handling', post);
-    await handleReplyToPost(userId, post, message);
+      if (!thread) {
+        throw new HttpError(404, "thread not found");
+      }
+
+      await handleReplyToThread(userId, thread, message);
+    } else if (postId) {
+      postId = Number(postId);
+      if (isNaN(postId)) {
+        throw new HttpError(400, "invalid postId");
+      }
+
+      const post = await getPost(postId);
+      if (!post) {
+        res.status(404);
+        return;
+      }
+
+      await handleReplyToPost(userId, post, message);
+    } else {
+      throw new HttpError(400, "invalid query");
+    }
 
     res.status(200).json({ status: "ok", data: {} });
   } catch (err) {
-    console.log(err);
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;
       res
