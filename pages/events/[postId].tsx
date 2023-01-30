@@ -18,7 +18,7 @@ type PostType = {
   author_id: number;
   title: string;
   geo: string;
-  event_time: Date;
+  createdAt: Date;
   category: string;
   description: string;
   is_public: boolean;
@@ -71,8 +71,9 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
 
   const post = await backendLoader<Posts>(
     () => getPost(postId),
-    ["event_time"]
+    ["created_at"]
   );
+
   if (!post) {
     return {
       notFound: true,
