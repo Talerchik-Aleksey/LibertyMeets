@@ -39,7 +39,7 @@ export default function MyPosts({ appUrl, postsPerPage }: PropsType) {
   }, [page, appUrl]);
 
   const goToPostPage = (post_id: number) => {
-    router.push(`${appUrl}/events/${post_id}`);
+    router.push(`${appUrl}/posts/${post_id}`);
   };
 
   const handleClick = (path: string) => {

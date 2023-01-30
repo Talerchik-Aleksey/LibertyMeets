@@ -13,7 +13,7 @@ import { getPost } from "../../services/posts";
 import { backendLoader } from "../../utils/backend-loader";
 import type { Posts } from "../../models/posts";
 
-type SinglePostProps = { appUrl: string, post: PostType };
+type SinglePostProps = { appUrl: string; post: PostType };
 type ErrorResponse = {
   status: string;
 };
@@ -31,7 +31,10 @@ type QueryType = {
   postId: string;
 };
 
-export default function SinglePost({ appUrl, post: initialPost }: SinglePostProps) {
+export default function SinglePost({
+  appUrl,
+  post: initialPost,
+}: SinglePostProps) {
   const [editPost, setEditPost] = useState<boolean>(false);
   const [showList, setShowList] = useState<boolean>(false);
   const [showMap, setShowMap] = useState<boolean>(false);
@@ -54,7 +57,7 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
 
   const postId = post.id;
 
-  const coordinates = post.geo?.split(',');
+  const coordinates = post.geo?.split(",");
 
   async function deletePost() {
     try {
@@ -88,7 +91,7 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
   }
 
   const goToEditPage = () => {
-    router.push(`${appUrl}/events/edit/${router.query.postId}`);
+    router.push(`${appUrl}/posts/edit/${router.query.postId}`);
   };
 
   const isAuthor = session ? post?.author_id === session?.user.id : undefined;
@@ -112,7 +115,7 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
             </div>
             {showList ? (
               <div>
-                <Link href={`/events/edit/${postId}`}>Edit</Link>
+                <Link href={`/posts/edit/${postId}`}>Edit</Link>
                 <div onClick={() => makePublic(!post?.is_public)}>
                   Make public
                 </div>
@@ -155,16 +158,12 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
         </>
       ) : (
         <>
-          <Thread
-            appUrl={appUrl}
-            userId={session?.user.id}
-            postId={postId}
-          />
+          <Thread appUrl={appUrl} userId={session?.user.id} postId={postId} />
           <ThreadForm
             isThreadExists={false}
             appUrl={appUrl}
             postId={postId}
-            threadId={'1'}
+            threadId={"1"}
             isAuthor={isAuthor}
           />
         </>
@@ -173,7 +172,9 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
   );
 }
 
-export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
+  ctx
+) => {
   const appUrl = config.get<string>("appUrl");
 
   const postId = Number(ctx.query.postId);
@@ -183,7 +184,10 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (ct
     };
   }
 
-  const post = await backendLoader<Posts>(() => getPost(postId), ["event_time"]);
+  const post = await backendLoader<Posts>(
+    () => getPost(postId),
+    ["event_time"]
+  );
   if (!post) {
     return {
       notFound: true,

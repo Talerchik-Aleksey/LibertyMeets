@@ -12,7 +12,7 @@ export default function PostListItem(props: PostListItemProps) {
   const router = useRouter();
 
   const goToPostPage = (post_id: number) => {
-    router.push(`${appUrl}/events/${post_id}`);
+    router.push(`${appUrl}/posts/${post_id}`);
   };
 
   return (
