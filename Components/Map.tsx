@@ -8,6 +8,10 @@ import {
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState } from "react";
 import { DEFAULT_LAT, DEFAULT_LNG } from "../constants/constants";
+import styles from './Map.module.scss';
+import Image from "next/image";
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
 const center = {
   lat: DEFAULT_LAT,
@@ -46,10 +50,15 @@ function LocationMarker(props: MapProps) {
       map.flyTo(position, map.getZoom());
     }
   }, [lat, lng, map]);
+
+  const icon = L.icon({ iconUrl: "/decor/marker.png" });
+  
 // TODO Customize popup
   return position === null ? null : (
-    <Marker position={position}>
+    <Marker position={position} icon={icon}>
+      
       <Popup>
+        
         A pretty CSS3 popup. <br /> Easily customizable.
       </Popup>
     </Marker>
@@ -61,16 +70,18 @@ export default function Map(props: MapProps) {
 
   return (
     <MapContainer
-      center={[DEFAULT_LAT,DEFAULT_LNG]}
+      center={[DEFAULT_LAT, DEFAULT_LNG]}
       zoom={13}
       scrollWheelZoom={false}
       style={{ height: 460, width: 842 }}
+      className={styles.mapContainer}
     >
+      
       <TileLayer
         attribution='<a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <LocationMarker lat={lat} lng={lng} />
+      <LocationMarker lat={lat} lng={lng}></LocationMarker>
     </MapContainer>
   );
 }

@@ -34,7 +34,7 @@ export default function EditPost({ appUrl }: PropsType) {
         setErrorMessage((response?.data as ErrorResponse).status);
       }
     })();
-  }, [appUrl, router]);
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -49,7 +49,7 @@ export default function EditPost({ appUrl }: PropsType) {
       });
       if (req.status === 200) {
         router.push(`${appUrl}/events/${req.data.data.postId}`);
-      } 
+      }
     },
   });
 

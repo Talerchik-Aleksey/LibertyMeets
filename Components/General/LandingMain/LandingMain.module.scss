@@ -5,7 +5,7 @@
 
 .valuesText {
   color: #6f2cff;
-  font-family: 'InterSemiBold';
+  font-family: 'InterSemiBold', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 36px;
@@ -26,7 +26,7 @@
   }
 }
 
-.unvisible {
+.invisible {
   visibility: hidden;
 }
 
@@ -42,7 +42,7 @@
 }
 
 .subtitle {
-  font-family: 'ButlerBold';
+  font-family: 'ButlerBold', sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 72px;
@@ -91,7 +91,7 @@
     height: auto;
     background-size: 179px, 152px;
   }
-  
+
   @media (max-width: 800px) {
     background: none;
   }

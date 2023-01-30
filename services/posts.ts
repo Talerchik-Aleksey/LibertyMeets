@@ -39,8 +39,8 @@ export async function savePostToDb({
 
 export async function getPosts(
   page: number,
-  user: { id: number } | null | undefined,
-  category: string | undefined
+  user?: { id: number } | null | undefined,
+  category?: string | string[] | undefined
 ) {
   if (user) {
     const info = category ? { category } : undefined;
@@ -53,7 +53,18 @@ export async function getPosts(
         as: "favoriteUsers",
         where: { user_id: user.id },
         required: false,
+        attributes: ["id", "user_id", "post_id"],
       },
+      attributes: [
+        "id",
+        "title",
+        "category",
+        "description",
+        "is_public",
+        "geo",
+        "event_time",
+        "author_id",
+      ],
     });
     const count = await Posts.count({
       where: info,
@@ -67,6 +78,16 @@ export async function getPosts(
     where: info,
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * (page - 1),
+    attributes: [
+      "id",
+      "title",
+      "category",
+      "description",
+      "is_public",
+      "geo",
+      "event_time",
+      "author_id",
+    ],
   });
   const count = await Posts.count({ where: info });
   return { count, posts };

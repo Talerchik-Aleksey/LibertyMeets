@@ -29,7 +29,7 @@ export default function AuthorThreads({ appUrl, postId }: PropsType) {
         <div key={`thread-${item.id}`}>
             thread {item.id}
           <Thread appUrl={appUrl} threadId={item.id} />
-          <ThreadForm appUrl={appUrl} isAuthor postId={postId} isThreadExists threadUserId={item.user_id} />
+          <ThreadForm appUrl={appUrl} isAuthor postId={postId} isThreadExists threadId={item.id} />
         </div>
       ))}
     </>
