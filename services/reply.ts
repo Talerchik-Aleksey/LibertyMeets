@@ -1,12 +1,9 @@
 import { HttpError } from "../utils/HttpError";
-import { isAuthorCheck } from "./posts";
-import {
-  createThread,
-  createThreadMessage,
-  getThread,
-} from "./threads";
+import { getPost, isAuthorCheck } from "./posts";
+import { createThread, createThreadMessage, getThread } from "./threads";
 import { sendReplyMessageToThread } from "./email";
 import { Posts } from "../models/posts";
+import { Threads } from "../models/threads";
 
 export const handleReplyToPost = async (
   userId: number,
@@ -19,10 +16,6 @@ export const handleReplyToPost = async (
 
   let thread = await getThread(postId, userId);
   if (!thread) {
-    // if user is stranger:
-    //   - create new thread
-    // if user is post owner:
-    //   - error - post owner cannot create thread by himself
     if (isAuthor) {
       throw new HttpError(418, "author cannot start thread in his post");
     } else {
@@ -30,18 +23,29 @@ export const handleReplyToPost = async (
     }
   }
 
+  await handleReplyToThread(userId, thread, message);
+
+  return true;
+};
+
+export async function handleReplyToThread(
+  userId: number,
+  thread: Threads,
+  message: string
+) {
+  const post = await getPost(thread.post_id);
+  const postId = post!.id;
+  const isAuthor = await isAuthorCheck(userId, postId);
+
   // Check: only thread starter (stranger) OR post owner (author) can make reply
   if (!isAuthor && userId !== thread.user_id) {
     throw new HttpError(403, "Forbidden");
   }
 
   await createThreadMessage(thread!.id, userId, message);
-
   if (isAuthor) {
-    await sendReplyMessageToThread(thread!.user_id, message, thread);
+    await sendReplyMessageToThread(thread.user_id, message, thread);
   } else {
-    await sendReplyMessageToThread(post.author_id, message, thread);
+    await sendReplyMessageToThread(post!.author_id, message, thread);
   }
-
-  return true;
-};
+}

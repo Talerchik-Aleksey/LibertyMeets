@@ -32,7 +32,7 @@ export async function connect(): Promise<Sequelize> {
     pool: options.pool,
     transactionType: "IMMEDIATE" as any,
     models: [Users, Posts, UserPosts, FavoritePosts, Threads, ThreadMessages],
-    logging: false,
+    logging: true,
   });
   return sequelize;
 }

@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { connect } from "../../../utils/db";
-import { getSession } from "next-auth/react";
 import { HttpError } from "../../../utils/HttpError";
-import { getMessages, isUserCanView } from "../../../services/threads";
 
 type ResType = {
   status: string;

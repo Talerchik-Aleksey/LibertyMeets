@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function LandingMain() {
   return (
     <section className={styles.container}>
-      <h1 className={styles.unvisible}>LibertyMeets</h1>
+      <h1 className={styles.invisible}>LibertyMeets</h1>
       <div className={styles.titleBlock}>
         <div className={styles.logoInfo}>
           <div className={styles.infoBlock}>
@@ -26,12 +26,12 @@ export default function LandingMain() {
             LibertyMeets is a classifieds website for finding freedom-friendly
             folks near you.
           </h2>
-          <Link href={"/eventspage"}>
+          <Link href="/posts">
             <Button className={styles.infoBlockButtonPurple}>
               Search Public Opportunities
             </Button>
           </Link>
-          <Link href={"/bycapcha"}>
+          <Link href="/registration">
             <Button className={styles.infoBlockButton}>
               Sign Up to Post, and to Search All Opportunities
             </Button>
@@ -71,7 +71,7 @@ export default function LandingMain() {
           </div>
         </div>
         <div className={styles.buttonBlock}>
-          <Link className={styles.buttonLearnLink} href={"/about"}>
+          <Link className={styles.buttonLearnLink} href="/about">
             <span className={styles.buttonLearnMore}>
               Learn More About LibertyMeets
             </span>
