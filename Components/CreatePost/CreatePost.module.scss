@@ -1,18 +1,30 @@
 .cancel {
   background: #ffffff;
   box-shadow: 0px 1px 2px rgba(31, 41, 55, 0.08);
-  font-family: "Inter";
+  font-family: 'InterRegular';
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
   display: flex;
   align-items: center;
-  color: #921a64;
+  color: #921a64!important;
   padding: 8px 15px;
-  border: 2px solid #921a64;
+  border: 2px solid #921a64!important;
   gap: 10px;
   box-sizing: border-box;
   border-radius: 4px;
+
+  &:hover{
+    background: #EEE9F7;
+  }
+}
+
+.backLink{
+  text-decoration: none;
+}
+
+.cancelLink{
+  text-decoration: none;
 }
 
 .preview {
@@ -20,16 +32,20 @@
   gap: 10px;
   background: #921a64;
   border-radius: 4px;
-  font-family: "Inter";
+  font-family: 'InterRegular';
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
   display: flex;
   align-items: center;
   text-align: center;
-  color: #ffffff;
+  color: #ffffff!important;
   box-sizing: border-box;
-  border: 2px solid #921a64;
+  border: none!important;
+
+  &:hover{
+    background: #640674;
+  }
 }
 
 .buttonBlock {
@@ -39,7 +55,7 @@
 }
 
 .backBtn {
-  font-family: "Inter";
+  font-family: 'InterRegular';
   font-style: normal;
   font-weight: 400;
   font-size: 36px;
@@ -76,6 +92,10 @@
   width: 100%;
 }
 
+.map{
+  margin: 0 auto;
+}
+
 .createContainer {
   display: flex;
   background-color: #fff;
@@ -85,9 +105,12 @@
   gap: 20px;
   box-shadow: 0px 1px 2px rgba(31, 41, 55, 0.08);
   border-radius: 8px;
+  width: 1072px;
+  box-sizing: border-box;
 
   @media (max-width: 1080px) {
     margin: 40px auto;
+    width: auto;
   }
 
   @media (max-width: 600px) {
@@ -96,7 +119,7 @@
 }
 
 .title {
-  font-family: "Butler";
+  font-family: 'ButlerMedium';
   font-weight: 600;
   font-size: 48px;
   color: #000000;
@@ -108,11 +131,12 @@
 .postTitleInput {
   min-width: 889px;
   max-height: 38px !important;
-  border: 1px solid #8f8f8f;
+  border: 1px solid #8f8f8f!important;
 
   @media (max-width: 1080px) {
     min-width: auto;
   }
+
 }
 
 .categorySelect div {
@@ -148,6 +172,7 @@
 
 .location {
   display: flex;
+  padding: 30px 0;
 
   @media (max-width: 1080px) {
     flex-direction: column;
@@ -157,22 +182,6 @@
 
 .switch {
   background: #921a64 !important;
-}
-
-.map {
-  width: 842px;
-  height: 460px;
-  margin: 0 auto;
-
-  @media (max-width: 1080px) {
-    width: 528px;
-    height: 330px;
-  }
-
-  @media (max-width: 600px) {
-    width: 328px;
-    height: 230px;
-  }
 }
 
 .remember {
@@ -191,9 +200,7 @@
 }
 
 .postTitleText div div {
-  @media (max-width: 1080px) {
-    min-width: 80px !important;
-  }
+  min-width: 95px !important;
 
   @media (max-width: 600px) {
     min-width: 300px !important;
@@ -201,9 +208,7 @@
 }
 
 .categoryText div div {
-  @media (max-width: 1080px) {
-    min-width: 80px !important;
-  }
+  min-width: 95px !important;
 
   @media (max-width: 600px) {
     min-width: 300px !important;
@@ -211,9 +216,7 @@
 }
 
 .descriptionText div div {
-  @media (max-width: 1080px) {
-    min-width: 80px !important;
-  }
+  min-width: 95px !important;
 
   @media (max-width: 600px) {
     min-width: 300px !important;

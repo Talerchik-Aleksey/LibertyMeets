@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "./LandingMain.module.scss";
-import RectangleRight from "../RectangleRight/RectangleRight";
 import { Button } from "antd";
 import Link from "next/link";
 
@@ -10,17 +9,8 @@ const inter = Inter({ subsets: ["latin"] });
 export default function LandingMain() {
   return (
     <section className={styles.container}>
-      <h1 className={styles.unvisible}>LibertyMeets</h1>
+      <h1 className={styles.invisible}>LibertyMeets</h1>
       <div className={styles.titleBlock}>
-        <div className={styles.rectangleLeftBlock}>
-          <Image
-            src="/decor/Rectangle-866.svg"
-            alt=""
-            width={284}
-            height={258}
-            className={styles.rectangleLeft}
-          />
-        </div>
         <div className={styles.logoInfo}>
           <div className={styles.infoBlock}>
             <Image
@@ -36,19 +26,16 @@ export default function LandingMain() {
             LibertyMeets is a classifieds website for finding freedom-friendly
             folks near you.
           </h2>
-          <Link href={"/eventspage"}>
+          <Link href="/posts">
             <Button className={styles.infoBlockButtonPurple}>
               Search Public Opportunities
             </Button>
           </Link>
-          <Link href={"/bycapcha"}>
+          <Link href="/registration">
             <Button className={styles.infoBlockButton}>
               Sign Up to Post, and to Search All Opportunities
             </Button>
           </Link>
-        </div>
-        <div className={styles.rectangleRight}>
-          <RectangleRight />
         </div>
       </div>
 
@@ -84,10 +71,10 @@ export default function LandingMain() {
           </div>
         </div>
         <div className={styles.buttonBlock}>
-          <Link className={styles.buttonLearnLink} href={"/about"}>
-            <Button className={styles.buttonLearnMore}>
+          <Link className={styles.buttonLearnLink} href="/about">
+            <span className={styles.buttonLearnMore}>
               Learn More About LibertyMeets
-            </Button>
+            </span>
           </Link>
         </div>
       </div>

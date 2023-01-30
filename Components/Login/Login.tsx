@@ -3,11 +3,9 @@ import Image from "next/image";
 import { signIn, useSession } from "next-auth/react";
 import { Button, Form, Input } from "antd";
 import { useRouter } from "next/router";
-import styles from "./Login.module.scss";
-import RectangleLeft from "../General/RectangleLeft/RectangleLeft";
-import RectangleRight from "../General/RectangleRight/RectangleRight";
 import Link from "next/link";
 import url from "url";
+import styles from "./Login.module.scss";
 
 export default function Login() {
   const router = useRouter();
@@ -16,9 +14,7 @@ export default function Login() {
   function goBack() {
     const callback = `${router.query.callbackUrl}`;
     const { pathname } = url.parse(callback);
-    return pathname === undefined
-      ? router.push(`${pathname}`)
-      : router.push("/");
+    return pathname ? router.push(`${pathname}`) : router.push("/");
   }
 
   if (session) {
@@ -31,9 +27,6 @@ export default function Login() {
 
   return (
     <div className={styles.loginWrapper}>
-      <div className={styles.leftBlock}>
-        <RectangleLeft />
-      </div>
       <div className={styles.formBlock}>
         <div className={styles.logoInfo}>
           <div className={styles.goods}>
@@ -63,7 +56,7 @@ export default function Login() {
             colon={false}
             labelAlign="left"
             label="Email"
-            labelCol={{ span: 4 }}
+            labelCol={{ span: 3 }}
             className={styles.username}
           >
             <Input
@@ -85,7 +78,7 @@ export default function Login() {
             label="Password"
             name="password"
             colon={false}
-            labelCol={{ span: 4 }}
+            labelCol={{ span: 3 }}
             labelAlign="left"
             className={styles.password}
             rules={[{ required: true }, { type: "string", min: 4, max: 100 }]}
@@ -112,7 +105,7 @@ export default function Login() {
               <span className={styles.highload2}></span>
             </label>
 
-            <Link className={styles.forgot} href="/resetPassword">
+            <Link className={styles.forgot} href="/reset-password">
               Forgot password
             </Link>
           </div>
@@ -133,15 +126,12 @@ export default function Login() {
             </Button>
           </Form.Item>
         </Form>
-        <Link className={styles.dontHave} href={"/bycapcha"}>
+        <Link className={styles.dontHave} href="/registration">
           Don’t have an account yet?{" "}
         </Link>
         <Link className={styles.signUp} href={""}>
           Sign Up For Free!
         </Link>
-      </div>
-      <div className={styles.rightBlock}>
-        <RectangleRight />
       </div>
     </div>
   );

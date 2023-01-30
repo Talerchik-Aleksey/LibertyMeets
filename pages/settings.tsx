@@ -7,23 +7,21 @@ import { useState } from "react";
 import { Button } from "antd";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
-import * as Yup from "yup";
+import { z } from "zod";
 
 type SettingsProps = { appUrl: string };
 type ErrorResponse = {
   message: string;
 };
 
-const SettingsSchema = Yup.object().shape({
-  password: Yup.string()
+const SettingsSchema = z.object({
+  username: z.string()
     .min(4, "at least 4 characters")
-    .max(100, "less than 100 characters")
-    .required("Required"),
-  repeatPassword: Yup.string()
+    .max(100, "less than 100 characters"),
+  repeatPassword: z.string()
     .min(4, "at least 4 characters")
-    .max(100, "less than 100 characters")
-    .required("Required"),
-});
+    .max(100, "less than 100 characters"),
+})
 
 export default function Settings({ appUrl }: SettingsProps) {
   const [isUpdatedPassword, setIsUpdatedPassword] = useState<boolean>();
