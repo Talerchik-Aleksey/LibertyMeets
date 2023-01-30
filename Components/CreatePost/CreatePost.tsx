@@ -25,7 +25,7 @@ export default function CreatePost(props: CreatePostProps) {
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
   const [isPublic, setIsPublic] = useState<boolean>(true);
-  
+
   const Map = useMemo(
     () =>
       dynamic(() => import("../Map"), {
@@ -89,11 +89,9 @@ export default function CreatePost(props: CreatePostProps) {
       const req = await axios.post(`${appUrl}/api/posts/create`, values, {
         withCredentials: true,
       });
+
       if (req.status === 200) {
-        alert(req.data.data.postId);
         router.push("/myPosts");
-      } else {
-        alert();
       }
     } catch (e) {
       console.error(e);
