@@ -22,7 +22,7 @@ type PostType = {
   author_id: number;
   title: string;
   geo: string;
-  createdAt: Date;
+  created_at: Date;
   category: string;
   description: string;
   is_public: boolean;
@@ -31,7 +31,10 @@ type QueryType = {
   postId: string;
 };
 
-export default function SinglePost({ appUrl, post: initialPost }: SinglePostProps) {
+export default function SinglePost({
+  appUrl,
+  post: initialPost,
+}: SinglePostProps) {
   const [editPost, setEditPost] = useState<boolean>(false);
   const [showList, setShowList] = useState<boolean>(false);
   const [showMap, setShowMap] = useState<boolean>(false);
@@ -160,7 +163,7 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
             isThreadExists={false}
             appUrl={appUrl}
             postId={postId}
-            threadId={'1'}
+            threadId={"1"}
             isAuthor={isAuthor}
           />
         </>
