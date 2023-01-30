@@ -13,7 +13,7 @@ import { getPost } from "../../services/posts";
 import { backendLoader } from "../../utils/backend-loader";
 import type { Posts } from "../../models/posts";
 
-type SinglePostProps = { appUrl: string, post: PostType };
+type SinglePostProps = { appUrl: string; post: PostType };
 type ErrorResponse = {
   status: string;
 };
@@ -31,7 +31,10 @@ type QueryType = {
   postId: string;
 };
 
-export default function SinglePost({ appUrl, post: initialPost }: SinglePostProps) {
+export default function SinglePost({
+  appUrl,
+  post: initialPost,
+}: SinglePostProps) {
   const [showList, setShowList] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [post, setPost] = useState<PostType>(initialPost);
@@ -52,7 +55,7 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
 
   const postId = post.id;
 
-  const coordinates = post.geo?.split(',');
+  const coordinates = post.geo?.split(",");
 
   async function deletePost() {
     try {
@@ -138,7 +141,11 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
       {coordinates && coordinates.length === 2 ? (
         <div style={{ paddingBottom: 20 }}>
           Location
-          <Map lat={Number(coordinates[0])} lng={Number(coordinates[1])} />
+          <Map
+            lat={Number(coordinates[0])}
+            lng={Number(coordinates[1])}
+            isAllowDrag={false}
+          />
         </div>
       ) : (
         <></>
@@ -149,11 +156,7 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
         </>
       ) : (
         <>
-          <Thread
-            appUrl={appUrl}
-            userId={session?.user.id}
-            postId={postId}
-          />
+          <Thread appUrl={appUrl} userId={session?.user.id} postId={postId} />
           <ThreadForm
             isThreadExists={false}
             appUrl={appUrl}
@@ -167,7 +170,9 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
   );
 }
 
-export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
+  ctx
+) => {
   const appUrl = config.get<string>("appUrl");
 
   const postId = Number(ctx.query.postId);
@@ -177,7 +182,10 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (ct
     };
   }
 
-  const post = await backendLoader<Posts>(() => getPost(postId), ["event_time"]);
+  const post = await backendLoader<Posts>(
+    () => getPost(postId),
+    ["event_time"]
+  );
   if (!post) {
     return {
       notFound: true,
