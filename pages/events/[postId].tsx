@@ -183,8 +183,6 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
     ["created_at"]
   );
 
-  console.log(post);
-
   if (!post) {
     return {
       notFound: true,
