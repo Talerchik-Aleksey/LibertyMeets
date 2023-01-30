@@ -17,12 +17,13 @@ const center = {
 type MapProps = {
   lat: number;
   lng: number;
-  setLat: React.Dispatch<React.SetStateAction<number>>;
-  setLng: React.Dispatch<React.SetStateAction<number>>;
+  setLat?: React.Dispatch<React.SetStateAction<number>>;
+  setLng?: React.Dispatch<React.SetStateAction<number>>;
+  isAllowDrag: boolean;
 };
 
 function LocationMarker(props: MapProps) {
-  const { lat, lng, setLat, setLng } = props;
+  const { lat, lng, setLat, setLng, isAllowDrag } = props;
   const [position, setPosition] = useState({
     lat: center.lat,
     lng: center.lng,
@@ -31,6 +32,14 @@ function LocationMarker(props: MapProps) {
   const eventHandlers = useMemo(
     () => ({
       dragend() {
+        if (!isAllowDrag) {
+          return;
+        }
+
+        if (!setLat || !setLng) {
+          return;
+        }
+
         const marker = markerRef.current;
         if (marker != null) {
           const newPosition = marker.getLatLng();
@@ -81,7 +90,7 @@ function LocationMarker(props: MapProps) {
 }
 
 export default function Map(props: MapProps) {
-  const { lat, lng, setLat, setLng } = props;
+  const { lat, lng, setLat, setLng, isAllowDrag } = props;
 
   return (
     <MapContainer
@@ -94,7 +103,13 @@ export default function Map(props: MapProps) {
         attribution='<a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <LocationMarker lat={lat} lng={lng} setLat={setLat} setLng={setLng} />
+      <LocationMarker
+        lat={lat}
+        lng={lng}
+        setLat={setLat}
+        setLng={setLng}
+        isAllowDrag={isAllowDrag}
+      />
     </MapContainer>
   );
 }
