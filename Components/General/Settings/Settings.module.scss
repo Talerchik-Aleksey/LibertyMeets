@@ -1,0 +1,179 @@
+.container{
+    background-color: #fff;
+    width: 1112px;
+    box-shadow: 0px 1px 2px rgb(31 41 55 / 8%);
+    border-radius: 8px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+
+    @media (max-width:1200px) {
+        width: 100%;
+    }
+}
+.wrap{
+    display: flex;
+    flex-direction: column;
+    margin:50px auto;
+
+    @media (max-width:1200px) {
+        margin: 50px 0;
+    }
+}
+.password div div{
+    min-width: 130px!important;
+
+}
+.input{
+    max-width: 965px;
+    display: flex;
+
+    
+}
+
+.userTitle{
+    font-family: var(--font-inter);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 32px;
+    color: #374151;
+    padding-bottom: 10px;
+}
+
+.signUp{
+    font-family: var(--font-inter);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-transform: capitalize;
+    color: #FFFFFF;
+
+    @media (max-width:500px) {
+        font-size: 16px;
+    }
+}
+
+.btn{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 198px;
+    height: 40px;
+    background: #921A64;
+    border-radius: 4px;
+    padding: 8px 16px;
+    border: none !important;
+
+    @media (max-width:500px) {
+        padding: 6px 5px;
+        justify-content: center;
+
+    }
+    &:hover{
+        background: #640674;
+    }
+}
+
+.buttonBlock{
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 10px;
+}
+
+.password{
+    font-family: var(--font-inter);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 30px;
+    color: #333333;
+}
+
+.deleteBlock{
+    display: flex;
+    margin-top: 100px;
+
+    @media (max-width:1200px) {
+
+        justify-content: center;
+
+    }
+}
+
+.btnDelete{  
+    padding: 8px 16px;
+    display: flex;
+    gap:15px;
+    gap: 10px;
+    width: 218px;
+    height: 40px;
+    background: #D9041E;
+    border-radius: 4px;
+    align-items: center;
+    border: none!important;
+
+    &:hover{
+        background: #960315;
+    }
+}
+
+.deleteText{
+    font-family: var(--font-inter);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #FFFFFF;
+}
+
+.containerMenu{
+    display: flex;
+    justify-content:center;
+
+@media (max-width:700px) {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap:15px;
+}
+    
+}
+
+.button{
+    display: flex;
+    align-items: center;
+    font-family: var(--font-inter);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    width: 190px;
+    height: 40px;
+    display: flex;
+    justify-content:center;
+    background: #f9fafb;
+    border-radius: 4px;
+    border: none!important;
+    box-shadow: none;
+    color:#8F8F8F;
+
+    @media (max-width:600px) {
+        width: auto;
+    }
+
+    &:hover{
+        background: #EEE9F7;
+        color: #921A64!important;
+    }
+}
+
+.profileWrapper{
+    display: flex;
+    gap:5px;
+    flex-direction: column;
+    background: #f9fafb;
+    padding: 50px 0 150px 0;
+    min-height: auto;
+}

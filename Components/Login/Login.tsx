@@ -22,7 +22,8 @@ export default function Login() {
   }
 
   async function onFinish(values: any) {
-    await signIn("credentials", values);
+    // await signIn("credentials", values);
+    await signIn("credentials", { ...values, callbackUrl: '/posts' });
   }
 
   return (

@@ -1,22 +1,18 @@
-import axios, { AxiosError } from "axios";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import config from "config";
 import { GetServerSideProps } from "next";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
-import dynamic from "next/dynamic";
 import ThreadForm from "../../Components/Posts/ThreadForm";
 import Thread from "../../Components/Posts/Thread";
 import AuthorThreads from "../../Components/Posts/AuthorThreads";
 import { getPost } from "../../services/posts";
 import { backendLoader } from "../../utils/backend-loader";
 import type { Posts } from "../../models/posts";
+import MyPost from "../../Components/PostPage/MyPost/MyPost";
+import LivePost from "../../Components/PostPage/LivePost/LivePost";
 
 type SinglePostProps = { appUrl: string; post: PostType };
-type ErrorResponse = {
-  status: string;
-};
+
 type PostType = {
   id: number;
   author_id: number;
@@ -27,148 +23,37 @@ type PostType = {
   description: string;
   is_public: boolean;
 };
-type QueryType = {
-  postId: string;
-};
 
 export default function SinglePost({
   appUrl,
   post: initialPost,
 }: SinglePostProps) {
-  const [editPost, setEditPost] = useState<boolean>(false);
-  const [showList, setShowList] = useState<boolean>(false);
-  const [showMap, setShowMap] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
   const [post, setPost] = useState<PostType>(initialPost);
   const { data: session } = useSession();
-  const router = useRouter();
-  const Map = useMemo(
-    () =>
-      dynamic(() => import("../../Components/Map"), {
-        loading: () => <p>A map is loading</p>,
-        ssr: false,
-      }),
-    []
-  );
-
-  if (!post) {
-    return null;
-  }
-
-  const postId = post.id;
-
-  const coordinates = post.geo?.split(",");
-
-  async function deletePost() {
-    try {
-      const res = await axios.post(`${appUrl}/api/posts/deletePost`, {
-        postId,
-      });
-      if (res.status === 200) {
-        router.push("/myPosts");
-      }
-    } catch (err) {
-      const error = err as AxiosError;
-      const response = error.response;
-      setErrorMessage((response?.data as ErrorResponse).status);
-    }
-  }
-
-  async function makePublic(is_public: boolean) {
-    try {
-      const res = await axios.post(`${appUrl}/api/posts/updatePost`, {
-        postId,
-        is_public,
-      });
-      if (res.status === 200) {
-        setPost({ ...post, is_public } as PostType);
-      }
-    } catch (err) {
-      const error = err as AxiosError;
-      const response = error.response;
-      setErrorMessage((response?.data as ErrorResponse).status);
-    }
-  }
-
-  const goToEditPage = () => {
-    router.push(`${appUrl}/posts/edit/${router.query.postId}`);
-  };
 
   const isAuthor = session ? post?.author_id === session?.user.id : undefined;
-  const canEditPost = isAuthor;
-
-  if (errorMessage) {
-    return <div>{errorMessage}</div>;
-  }
 
   return (
-    <div style={{ height: "897px" }}>
-      <div style={{ display: "flex" }}>
-        <div>My Post</div>
-        {canEditPost ? (
-          <>
-            <div
-              style={{ paddingLeft: 30, paddingRight: 30 }}
-              onClick={() => setShowList(!showList)}
-            >
-              Edit
-            </div>
-            {showList ? (
-              <div>
-                <Link href={`/posts/edit/${postId}`}>Edit</Link>
-                <div onClick={() => makePublic(!post?.is_public)}>
-                  Make public
-                </div>
-                <div onClick={deletePost}>Delete</div>
-              </div>
-            ) : (
-              <></>
-            )}
-          </>
-        ) : (
-          <></>
-        )}
-      </div>
-      <div style={{ paddingBottom: 20 }}>
-        TITLE
-        <div>{post?.title}</div>
-      </div>
-      <div style={{ paddingBottom: 20 }}>
-        CATEGORY
-        <div>{post?.category}</div>
-      </div>
-      <div style={{ paddingBottom: 20 }}>
-        DESCRIPTION
-        <div>{post?.description}</div>
-      </div>
-      <div style={{ paddingBottom: 20 }}>
-        This post is currently {post?.is_public ? "public" : "private"}
-      </div>
-      {coordinates && coordinates.length === 2 ? (
-        <div style={{ paddingBottom: 20 }}>
-          Location
-          <Map lat={Number(coordinates[0])} lng={Number(coordinates[1])} />
-        </div>
-      ) : (
-        <></>
-      )}
+    <>
       {isAuthor ? (
         <>
-          <AuthorThreads appUrl={appUrl} postId={postId} />
+          <MyPost appUrl={appUrl} post={post} />
+          <AuthorThreads appUrl={appUrl} postId={post.id} />
         </>
       ) : (
         <>
-          <Thread appUrl={appUrl} userId={session?.user.id} postId={postId} />
+          <LivePost appUrl={appUrl} post={post} />
+          <Thread appUrl={appUrl} userId={session?.user.id} postId={post.id} />
           <ThreadForm
             isThreadExists={false}
             appUrl={appUrl}
-            postId={postId}
+            postId={post.id}
             threadId={"1"}
             isAuthor={isAuthor}
           />
         </>
       )}
-    </div>
+    </>
   );
 }
 
