@@ -1,5 +1,4 @@
 import { Button, Form, Input } from "antd";
-import layout from "antd/es/layout";
 import styles from "./Settings.module.scss";
 import Image from "next/image";
 import { useState } from "react";
@@ -42,9 +41,8 @@ export default function Settings(props: SettingsProps) {
   async function deleteAccount() {
     try {
       const res = await axios.post(`${appUrl}/api/users/deleteAccount`);
-      console.log("api - " + res.status);
       if (res.status === 200) {
-        signOut({ callbackUrl: "/registration" });
+        signOut({ callbackUrl: "/" });
       }
     } catch (err) {
       const error = err as AxiosError;
@@ -96,24 +94,6 @@ export default function Settings(props: SettingsProps) {
             onFinish={onFinish}
             className={styles.form}
           >
-            {/* <Form.Item
-        name="email"
-        label="E-mail"
-        labelAlign='left'
-        rules={[
-          {
-            type: "email",
-            message: "The input is not valid E-mail!",
-          },
-          {
-            required: false,
-            message: "Please input your E-mail!",
-          },
-        ]}
-      >
-        <Input className={styles.input} />
-      </Form.Item> */}
-
             <Form.Item
               name="password"
               label="Password"
