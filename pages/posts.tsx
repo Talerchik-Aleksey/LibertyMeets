@@ -56,11 +56,13 @@ export const getServerSideProps: GetServerSideProps<PostsPageProps> = async (
     };
   }
 
-  const dataPosts = res.posts.map((item) => item.toJSON());
-  const posts = dataPosts.reduce((posts, post) => {
-    post["event_time"] = post["event_time"].toISOString();
-    return posts;
-  }, dataPosts);
+  const posts = res.posts
+    .map((item) => item.toJSON())
+    .map((item) => {
+      item.event_time = item.event_time.toISOString();
+      return item;
+    });
+
   const count = res.count;
 
   return {
