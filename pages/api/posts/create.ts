@@ -28,7 +28,7 @@ export default async function handler(
     const body = req.body as BodyType;
     const { title, category, description } = body;
 
-    if (!title || !category || !description || !body.isPublic) {
+    if (!title || !category || !description || body.isPublic === undefined) {
       throw new HttpError(400, "invalid body structure");
     }
 
@@ -44,7 +44,7 @@ export default async function handler(
       throw new HttpError(400, "invalid description length");
     }
 
-    const session = await getSession({req})
+    const session = await getSession({ req });
     if (!session) {
       res.status(401);
       return;

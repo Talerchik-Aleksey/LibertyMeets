@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import config from "config";
 import { GetServerSideProps } from "next";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import ThreadForm from "../../Components/Posts/ThreadForm";
@@ -13,7 +13,7 @@ import { getPost } from "../../services/posts";
 import { backendLoader } from "../../utils/backend-loader";
 import type { Posts } from "../../models/posts";
 
-type SinglePostProps = { appUrl: string, post: PostType };
+type SinglePostProps = { appUrl: string; post: PostType };
 type ErrorResponse = {
   status: string;
 };
@@ -22,7 +22,7 @@ type PostType = {
   author_id: number;
   title: string;
   geo: string;
-  event_time: Date;
+  created_at: Date;
   category: string;
   description: string;
   is_public: boolean;
@@ -54,7 +54,7 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
 
   const postId = post.id;
 
-  const coordinates = post.geo?.split(',');
+  const coordinates = post.geo?.split(",");
 
   async function deletePost() {
     try {
@@ -155,11 +155,7 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
         </>
       ) : (
         <>
-          <Thread
-            appUrl={appUrl}
-            userId={session?.user.id}
-            postId={postId}
-          />
+          <Thread appUrl={appUrl} userId={session?.user.id} postId={postId} />
           <ThreadForm
             isThreadExists={false}
             appUrl={appUrl}
@@ -173,7 +169,9 @@ export default function SinglePost({ appUrl, post: initialPost }: SinglePostProp
   );
 }
 
-export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
+  ctx
+) => {
   const appUrl = config.get<string>("appUrl");
 
   const postId = Number(ctx.query.postId);
@@ -183,7 +181,11 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (ct
     };
   }
 
-  const post = await backendLoader<Posts>(() => getPost(postId), ["event_time"]);
+  const post = await backendLoader<Posts>(
+    () => getPost(postId),
+    ["created_at"]
+  );
+
   if (!post) {
     return {
       notFound: true,
