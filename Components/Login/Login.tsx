@@ -26,7 +26,7 @@ export default function Login() {
   }
 
   return (
-    <div className={styles.loginWrapper}>
+    <section className={styles.loginWrapper}>
       <div className={styles.formBlock}>
         <div className={styles.logoInfo}>
           <div className={styles.goods}>
@@ -73,7 +73,6 @@ export default function Login() {
               className={styles.usernameInput}
             />
           </Form.Item>
-
           <Form.Item
             label="Password"
             name="password"
@@ -104,7 +103,6 @@ export default function Login() {
               <input type="checkbox" className={styles.checkHighload} />
               <span className={styles.highload2}></span>
             </label>
-
             <Link className={styles.forgot} href="/reset-password">
               Forgot password
             </Link>
@@ -133,6 +131,6 @@ export default function Login() {
           Sign Up For Free!
         </Link>
       </div>
-    </div>
+    </section>
   );
 }

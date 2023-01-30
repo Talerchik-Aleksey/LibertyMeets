@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import config from "config";
 import { GetServerSideProps } from "next";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import ThreadForm from "../../Components/Posts/ThreadForm";
@@ -22,7 +22,7 @@ type PostType = {
   author_id: number;
   title: string;
   geo: string;
-  event_time: Date;
+  created_at: Date;
   category: string;
   description: string;
   is_public: boolean;
@@ -186,8 +186,9 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
 
   const post = await backendLoader<Posts>(
     () => getPost(postId),
-    ["event_time"]
+    ["created_at"]
   );
+
   if (!post) {
     return {
       notFound: true,
