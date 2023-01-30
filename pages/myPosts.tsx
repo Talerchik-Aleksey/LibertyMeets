@@ -12,7 +12,7 @@ type PostType = {
   title: string;
   is_favorite?: boolean;
   geo: string;
-  event_time: Date;
+  created_at: Date;
   category: string;
   favoriteUsers: { id: number }[];
 };
@@ -68,7 +68,7 @@ export default function MyPosts({ appUrl, postsPerPage }: PropsType) {
       </div>
       {myPosts.map((item) => (
         <div key={`post ${item.id}`} onClick={() => goToPostPage(item.id)}>
-          {item.event_time} {item.category} {item.title} {item.geo}
+          {item.created_at} {item.category} {item.title} {item.geo}
           <hr />
         </div>
       ))}

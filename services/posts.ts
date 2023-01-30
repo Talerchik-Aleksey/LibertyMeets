@@ -3,7 +3,6 @@ import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
 import { PostType } from "../types/general";
 import config from "config";
-import { HttpError } from "../utils/HttpError";
 import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
 import { Transaction } from "sequelize";
@@ -32,7 +31,6 @@ export async function savePostToDb({
     description: post.description,
     is_public: post.isPublic,
     geo: geo,
-    event_time: new Date(),
   });
 
   await UserPosts.create({ user_id: user.id, post_id: createdPost.id });
@@ -119,8 +117,8 @@ export async function getPost(postId: number) {
       "description",
       "is_public",
       "geo",
-      "event_time",
       "author_id",
+      "created_at",
     ],
   });
 

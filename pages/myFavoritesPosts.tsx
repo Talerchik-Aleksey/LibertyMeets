@@ -11,7 +11,7 @@ type PostType = {
   title: string;
   is_favorite?: boolean;
   geo: string;
-  event_time: Date;
+  created_at: Date;
   category: string;
   favoriteUsers: { id: number }[];
 };
@@ -89,7 +89,7 @@ export default function MyFavoritesPostsPage({
             star{" "}
           </div>
           <div onClick={() => goToPostPage(item.id)}>
-            {item.category} {item.title} {item.geo} {item.event_time}
+            {item.category} {item.title} {item.geo} {item.created_at}
             <hr />
           </div>
         </div>

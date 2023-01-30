@@ -35,7 +35,7 @@ export default function PostListItem(props: PostListItemProps) {
         </div>
       )}
       <div onClick={() => goToPostPage(post.id)}>
-        {post.category} {post.title} {post.geo} {post.event_time}
+        {post.category} {post.title} {post.geo} {post.created_at}
         <hr />
       </div>
     </>
