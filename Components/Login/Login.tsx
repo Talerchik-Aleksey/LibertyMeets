@@ -127,7 +127,7 @@ export default function Login() {
         <Link className={styles.dontHave} href="/registration">
           Don’t have an account yet?{" "}
         </Link>
-        <Link className={styles.signUp} href={""}>
+        <Link className={styles.signUp} href={"/registration"}>
           Sign Up For Free!
         </Link>
       </div>

@@ -38,7 +38,7 @@ export default function PostListItem(props: PostListItemProps) {
         <p>{post.category}</p>
         <p>{post.title}</p>
         <p>{post.geo}</p>
-        <p>{post.event_time.toString()}</p>
+        <p>{post.created_at.toString()}</p>
         <hr />
       </div>
     </>

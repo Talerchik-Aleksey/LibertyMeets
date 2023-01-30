@@ -71,7 +71,7 @@ export default function MyPosts({ appUrl, postsPerPage }: PropsType) {
           <p>{item.category}</p>
           <p>{item.title}</p>
           <p>{item.geo}</p>
-          <p>{item.event_time.toString()}</p>
+          <p>{item.created_at.toString()}</p>
           <hr />
         </div>
       ))}
