@@ -7,7 +7,10 @@ import { Model } from "sequelize-typescript";
  * @param fn
  * @param dateFields
  */
-export async function backendLoader<T extends Model>(fn: () => Promise<T|null>, dateFields: string[]): Promise<T|null> {
+export async function backendLoader<T extends Model>(
+  fn: () => Promise<T | null>,
+  dateFields: string[]
+): Promise<T | null> {
   try {
     const entity = await fn();
     if (!entity) {
