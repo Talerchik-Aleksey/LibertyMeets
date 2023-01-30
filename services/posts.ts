@@ -62,7 +62,7 @@ export async function getPosts(
         "description",
         "is_public",
         "geo",
-        "event_time",
+        "created_at",
         "author_id",
       ],
     });
@@ -85,7 +85,7 @@ export async function getPosts(
       "description",
       "is_public",
       "geo",
-      "event_time",
+      "created_at",
       "author_id",
     ],
   });
