@@ -225,12 +225,11 @@ export default function CreatePost(props: CreatePostProps) {
               </Button>
             </Link>
             <Form.Item>
-              <Link href={""}>
                 <Button className={styles.preview} htmlType="submit">
                   <Image src="/decor/eyes.svg" alt="" width={16} height={14} />
                   <span className={styles.previewBtn}>Preview Post</span>
                 </Button>
-              </Link>
+              
             </Form.Item>
           </div>
           <div className={styles.remember}>

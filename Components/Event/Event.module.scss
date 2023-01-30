@@ -8,10 +8,13 @@
 .container {
   display: flex;
   align-items: center;
-  width: 1112px;
   padding: 18px 15px;
   justify-content: space-between;
   transition: 0.5s;
+
+  @media (max-width: 1250px) {
+    width: auto;
+  }
 
   @media (max-width: 800px) {
     align-items: center;
@@ -36,8 +39,7 @@
 }
 
 .info {
-  max-width: 800px;
-  min-width: 800px;
+  width: auto;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -47,8 +49,9 @@
   font-size: 16px;
   color: #333333;
 
-  @media (max-width: 1200px) {
-    max-width: 600px;
+  @media (max-width: 1250px) {
+    max-width: auto;
+    min-width: auto;
   }
 
   @media (max-width: 1000px) {
@@ -80,7 +83,6 @@
   }
 
   @media (max-width: 600px) {
-    white-space: unset;
     text-align: right;
   }
 }
