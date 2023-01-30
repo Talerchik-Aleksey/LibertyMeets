@@ -50,10 +50,7 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
   }
 
   return (
-    <div className={styles.signUpWrapper}>
-      <div className={styles.rectangleLeft}>
-        <RectangleLeft />
-      </div>
+    <section className={styles.registarationWrapper}>
       <div className={styles.formBlock}>
         <div className={styles.logoInfo}>
           <div className={styles.logo}>
@@ -132,13 +129,14 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
               <span className={styles.checkboxText}>
                 {" "}
                 I have read the{" "}
-                <a
+                <Link
                   target="_blank"
                   href={`${appUrl}/terms`}
                   rel="noopener noreferrer"
+                  className={styles.termsLink}
                 >
                   Terms & Privacy Policy
-                </a>
+                </Link>
               </span>
               <input
                 type="checkbox"
@@ -151,7 +149,7 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
             </label>
 
             <div className={styles.capchaBlock}>
-              <ReCAPTCHA sitekey={recaptchaKey} ref={recaptchaRef} />
+              <ReCAPTCHA sitekey={recaptchaKey} ref={recaptchaRef} className={styles.capcha} />
             </div>
           </div>
 
@@ -177,9 +175,6 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
           I already have an account!
         </Link>
       </div>
-      <div className={styles.rectangleRight}>
-        <RectangleRight />
-      </div>
-    </div>
+    </section>
   );
 }
