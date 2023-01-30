@@ -56,11 +56,9 @@ export default function MyPosts({
   async function movePost(postId: number) {
     const res = await axios.post(`${appUrl}/api/favorites/${postId}`);
     if (res.status === 200) {
-      // const currentPosts = posts.filter((item) => item.id !== postId);
-      // setPosts(currentPosts);
       router.push({
         pathname: `${appUrl}/myFavoritesPosts`,
-        query: { page: current },
+        query: { page: 1 },
       });
     }
   }
