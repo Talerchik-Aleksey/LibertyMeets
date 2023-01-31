@@ -8,8 +8,9 @@ import {
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { DEFAULT_LAT, DEFAULT_LNG } from "../constants/constants";
-import styles from './Map.module.scss';
-import 'leaflet/dist/leaflet.css';
+import styles from "./Map.module.scss";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 
 const center = {
   lat: DEFAULT_LAT,
@@ -77,16 +78,17 @@ function LocationMarker(props: MapProps) {
     }
   }, [lat, lng, map]);
 
-  // TODO Customize popup
+  const icon = L.icon({ iconUrl: "/decor/marker.png" });
+
   return position === null ? null : (
     <Marker
       draggable={true}
       position={position}
       eventHandlers={eventHandlers}
       ref={markerRef}
+      icon={icon}
     >
       <Popup>
-        
         A pretty CSS3 popup. <br /> Easily customizable.
       </Popup>
     </Marker>
@@ -104,7 +106,6 @@ export default function Map(props: MapProps) {
       style={{ height: 460, width: 842 }}
       className={styles.mapContainer}
     >
-      
       <TileLayer
         attribution='<a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
