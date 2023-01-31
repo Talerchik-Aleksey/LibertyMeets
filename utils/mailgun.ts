@@ -54,7 +54,6 @@ export async function sendEmail(
     `${template}/subject`,
     templateProps
   );
-  console.log(subject);
   params.subject = subject;
 
   const rawBody = await renderEmailTemplate(`${template}/body`, templateProps);
