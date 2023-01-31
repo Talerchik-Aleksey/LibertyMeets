@@ -30,13 +30,19 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 100px 0;
   gap: 40px;
   padding: 30px 10px;
   align-items: center;
+  margin: 0 10px;
 
-  @media (max-width: 500px) {
+  @media (max-width: 1000px) {
+    width: 100%;
     padding: 0;
+  }
+
+  @media (max-width: 400px) {
+    width: 100%;
+    margin: 0;
   }
 }
 
@@ -50,10 +56,12 @@
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  padding-bottom: 15px;
 }
 
 .buttonDay{
-  margin: 15px ;
+  margin: 15px 0 15px 15px;
+
 }
 
 .eventsContainer {
@@ -72,16 +80,10 @@
   }
 
   @media (max-width: 1050px) {
-    width: 800px;
-  }
-
-  @media (max-width: 850px) {
-    width: 600px;
-  }
-  
-  @media (max-width: 650px) {
     width: 100%;
   }
+
+
 }
 
 .wrap {
