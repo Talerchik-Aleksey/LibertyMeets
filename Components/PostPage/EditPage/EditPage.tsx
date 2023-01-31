@@ -9,24 +9,32 @@ import { useEffect } from "react";
 const { TextArea } = Input;
 
 type EditPostProps = { appUrl: string; post: PostType };
-type PostType = {};
+type PostType = {
+  id: number;
+  author_id: number;
+  title: string;
+  geo: string;
+  created_at: Date;
+  category: string;
+  description: string;
+  is_public: boolean;
+};
 
 export default function EditPage(props: EditPostProps) {
-  const { appUrl } = props;
+  const appUrl = props.appUrl;
   const router = useRouter();
-  const postPageId = router.asPath.split("/")[3];
+  const postPageId = props.post.id;
 
   useEffect(() => {}, []);
 
   async function onFinish(values: any) {
-    console.log(values);
     values.id = postPageId;
     const req = await axios.post(`${appUrl}/api/posts/edit`, values, {
       withCredentials: true,
     });
     if (req.status === 200) {
       alert(req.data.data.postId);
-      router.push("/myPosts");
+      router.push(`/posts/${postPageId}`);
     } else {
       alert();
     }
@@ -38,7 +46,7 @@ export default function EditPage(props: EditPostProps) {
         <Button
           className={styles.arrowBtn}
           type="link"
-          onClick={() => router.push(`/events/${postPageId}`)}
+          onClick={() => router.push(`/posts/${postPageId}`)}
         >
           <Image
             src="/decor/arrow-left.svg"
@@ -62,6 +70,7 @@ export default function EditPage(props: EditPostProps) {
                 label="Post Title"
                 name="title"
                 colon={false}
+                initialValue={props.post.title}
                 rules={[{ required: false }, { type: "string", max: 100 }]}
               >
                 <Input
@@ -84,7 +93,7 @@ export default function EditPage(props: EditPostProps) {
                 labelCol={{ span: 2 }}
                 label="Category"
                 name="category"
-                initialValue="social"
+                initialValue={props.post.category}
                 colon={false}
               >
                 <Select className={styles.categorySelect}>
@@ -123,6 +132,7 @@ export default function EditPage(props: EditPostProps) {
                 label="Description"
                 name="description"
                 colon={false}
+                initialValue={props.post.description}
                 rules={[{ required: false }, { type: "string", max: 200 }]}
               >
                 <TextArea
@@ -145,11 +155,9 @@ export default function EditPage(props: EditPostProps) {
               <span className={styles.cancelBtn}>Cancel</span>
             </Button>
             <Form.Item>
-              <Link href={""}>
-                <Button className={styles.preview} htmlType="submit">
-                  <span className={styles.previewBtn}>Edit Post</span>
-                </Button>
-              </Link>
+              <Button className={styles.preview} htmlType="submit">
+                <span className={styles.previewBtn}>Edit Post</span>
+              </Button>
             </Form.Item>
           </div>
           <div className={styles.remember}></div>
