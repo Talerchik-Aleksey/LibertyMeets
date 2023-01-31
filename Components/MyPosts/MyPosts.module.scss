@@ -28,7 +28,7 @@
 .button {
   display: flex;
   align-items: center;
-  font-family: var(--font-inter);
+  font-family: 'InterRegular';
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -58,7 +58,7 @@
   flex-direction: column;
   background: #f9fafb;
   padding: 50px 0 150px 0;
-  min-height: auto;
+  min-height: 100vh;
 }
 
 .containerMenu {
