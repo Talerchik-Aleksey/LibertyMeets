@@ -13,7 +13,7 @@ type PostType = {
   author_id: number;
   title: string;
   geo: string;
-  createdAt: Date;
+  created_at: Date;
   category: string;
   description: string;
   is_public: boolean;
