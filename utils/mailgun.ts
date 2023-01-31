@@ -20,10 +20,9 @@ function concatRecipients(list: recipientType[]) {
 
 async function renderEmailTemplate(ejsFileName: string, params: any) {
   console.log("params", params);
-  const htmlFile = `${process.cwd()}/${config.get(
+  const htmlFile = `${process.cwd()}${config.get(
     "emails.templatesDir"
   )}/${ejsFileName}.ejs`;
-
   const result = await ejs.renderFile(htmlFile, params);
 
   return result as string;
@@ -43,7 +42,6 @@ const props = config.get<{
 type HeadersSetupEntry = [string, string];
 type HeadersSetup = Array<HeadersSetupEntry>;
 
-
 export async function sendEmail(
   template: string,
   paramsArg: paramsType,
@@ -56,6 +54,7 @@ export async function sendEmail(
     `${template}/subject`,
     templateProps
   );
+  console.log(subject);
   params.subject = subject;
 
   const rawBody = await renderEmailTemplate(`${template}/body`, templateProps);
