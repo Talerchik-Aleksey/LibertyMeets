@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps<
   const posts = res.posts
     .map((item) => item.toJSON())
     .map((item) => {
-      item.event_time = item.event_time.toISOString();
+      item.created_at = item.created_at.toISOString();
       item.is_favorite = true;
       return item;
     });

@@ -58,7 +58,7 @@ export const getServerSideProps: GetServerSideProps<MyPostsPageProps> = async (
   const posts = res.userPosts
     .map((item) => item.toJSON())
     .map((item) => {
-      item.event_time = item.event_time.toISOString();
+      item.created_at = item.created_at.toISOString();
       return item;
     });
 

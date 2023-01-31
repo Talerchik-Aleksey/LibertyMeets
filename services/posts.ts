@@ -129,7 +129,7 @@ export async function getFavoritesPosts(
       "description",
       "is_public",
       "geo",
-      "event_time",
+      "created_at",
       "author_id",
     ],
   });
@@ -169,7 +169,7 @@ export async function getUserPosts(page: number, userId: number) {
       "description",
       "is_public",
       "geo",
-      "event_time",
+      "created_at",
       "author_id",
     ],
   });

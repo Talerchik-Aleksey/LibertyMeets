@@ -7,7 +7,7 @@ export type PostType = {
   id: number;
   title: string;
   is_favorite?: boolean;
-  event_time: Date;
+  created_at: Date;
   category: string;
   geo: string;
   favoriteUsers: { id: number }[];

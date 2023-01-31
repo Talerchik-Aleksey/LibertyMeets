@@ -76,44 +76,49 @@ export default function MyPosts({
           <Button className={styles.button}>Settings</Button>
         </Link>
       </div>
-      <div className={styles.profileContainer}>
-        <div className={styles.container}>
-          {posts.map((item) => (
-            <EventForMyPosts key={item.id} post={item} movePost={movePost} />
-          ))}
+      {posts.length === 0 ? (
+        // eslint-disable-next-line react/no-unescaped-entities
+        <div>You don't have posts</div>
+      ) : (
+        <div className={styles.profileContainer}>
+          <div className={styles.container}>
+            {posts.map((item) => (
+              <EventForMyPosts key={item.id} post={item} movePost={movePost} />
+            ))}
+          </div>
+          <Pagination
+            className={styles.pagination}
+            current={current}
+            onChange={changePageNumber}
+            total={totalCount}
+            defaultPageSize={postsPerPage}
+            itemRender={(page, type, element) => {
+              return (
+                <>
+                  {page === current ? (
+                    <span
+                      className="active"
+                      style={{
+                        display: "inline-block",
+                        backgroundColor: "#921A64",
+                        borderRadius: "50px",
+                        width: "32px",
+                        height: "32px",
+                        color: "#ffffff",
+                        fontSize: "14px",
+                      }}
+                    >
+                      {element}
+                    </span>
+                  ) : (
+                    <div>{element}</div>
+                  )}
+                </>
+              );
+            }}
+          />
         </div>
-        <Pagination
-          className={styles.pagination}
-          current={current}
-          onChange={changePageNumber}
-          total={totalCount}
-          defaultPageSize={postsPerPage}
-          itemRender={(page, type, element) => {
-            return (
-              <>
-                {page === current ? (
-                  <span
-                    className="active"
-                    style={{
-                      display: "inline-block",
-                      backgroundColor: "#921A64",
-                      borderRadius: "50px",
-                      width: "32px",
-                      height: "32px",
-                      color: "#ffffff",
-                      fontSize: "14px",
-                    }}
-                  >
-                    {element}
-                  </span>
-                ) : (
-                  <div>{element}</div>
-                )}
-              </>
-            );
-          }}
-        />
-      </div>
+      )}
     </div>
   );
 }
