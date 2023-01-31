@@ -76,25 +76,21 @@ export class Posts extends Model {
   geo!: string;
 
   @AllowNull(false)
-  @Column(DataType.DATE)
-  event_time!: Date;
-
-  @AllowNull(false)
   @Default(true)
   @Column(DataType.BOOLEAN)
   is_enabled!: boolean;
 
   @CreatedAt
   @Column
-  createdAt!: Date;
+  created_at!: Date;
 
   @UpdatedAt
   @Column
-  updatedAt!: Date;
+  updated_at!: Date;
 
   @DeletedAt
   @Column
-  deletedAt!: Date;
+  deleted_at!: Date;
 
   @HasMany(() => FavoritePosts, { foreignKey: "post_id" })
   favoriteUsers?: FavoritePosts[];

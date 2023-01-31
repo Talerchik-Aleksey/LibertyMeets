@@ -31,7 +31,6 @@ export async function savePostToDb({
     description: post.description,
     is_public: post.isPublic,
     geo: geo,
-    event_time: new Date(),
   });
 
   await UserPosts.create({ user_id: user.id, post_id: createdPost.id });
@@ -63,7 +62,7 @@ export async function getPosts(
         "description",
         "is_public",
         "geo",
-        "event_time",
+        "created_at",
         "author_id",
       ],
     });
@@ -86,7 +85,7 @@ export async function getPosts(
       "description",
       "is_public",
       "geo",
-      "event_time",
+      "created_at",
       "author_id",
     ],
   });
@@ -149,8 +148,8 @@ export async function getPost(postId: number) {
       "description",
       "is_public",
       "geo",
-      "event_time",
       "author_id",
+      "created_at",
     ],
   });
 

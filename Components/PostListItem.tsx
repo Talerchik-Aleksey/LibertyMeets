@@ -12,7 +12,7 @@ export default function PostListItem(props: PostListItemProps) {
   const router = useRouter();
 
   const goToPostPage = (post_id: number) => {
-    router.push(`${appUrl}/events/${post_id}`);
+    router.push(`${appUrl}/posts/${post_id}`);
   };
 
   return (
@@ -38,7 +38,7 @@ export default function PostListItem(props: PostListItemProps) {
         <p>{post.category}</p>
         <p>{post.title}</p>
         <p>{post.geo}</p>
-        <p>{post.event_time.toString()}</p>
+        <p>{post.created_at.toString()}</p>
         <hr />
       </div>
     </>
