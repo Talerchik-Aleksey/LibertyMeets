@@ -114,7 +114,7 @@ export default function MyPost(props: PostProps) {
           </div>
           {showList ? (
             <div>
-              <Link href={`/events/edit/${postId}`}>Edit</Link>
+              <Link href={`/posts/edit/${postId}`}>Edit</Link>
               <div onClick={() => makePublic(!post?.is_public)}>
                 Make public
               </div>
