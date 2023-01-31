@@ -25,6 +25,18 @@ export async function saveUserToDatabase(user: UserType) {
   await Users.create(userToSave);
 }
 
+export async function changeEnabledForUser(token: string) {
+  const isTokenExist = await isRightEmailToken(token);
+  if (!isTokenExist) {
+    throw new HttpError(404, "Token not found");
+  }
+
+  await Users.update(
+    { is_enabled: true },
+    { where: { email_verification_token: token } }
+  );
+}
+
 export async function isEmailAlreadyUsed(email: string): Promise<boolean> {
   const users = await Users.findAll({
     where: {
@@ -111,6 +123,16 @@ export async function isRightToken(token: string): Promise<boolean> {
   const users = await Users.findAll({
     where: {
       reset_pwd_token: token,
+    },
+  });
+
+  return users.length > 0;
+}
+
+export async function isRightEmailToken(token: string): Promise<boolean> {
+  const users = await Users.findAll({
+    where: {
+      email_verification_token: token,
     },
   });
 

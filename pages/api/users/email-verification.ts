@@ -1,5 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { isRightToken } from "../../../services/users";
+import {
+  changeEnabledForUser,
+  isRightEmailToken,
+} from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 
@@ -20,12 +23,14 @@ export default async function handler(
       throw new HttpError(400, "no token");
     }
 
-    const isUsed = await isRightToken(token);
+    const isUsed = await isRightEmailToken(token);
 
     if (!isUsed) {
       res.status(204).json({ message: "this email not recognised" });
       return;
     }
+
+    await changeEnabledForUser(token);
     res.status(200).json({ message: "success" });
   } catch (err) {
     if (err instanceof HttpError) {
