@@ -12,6 +12,13 @@
   line-height: 100%;
 }
 
+.container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .purpleBlock {
   background-color: var(--LibertyMeets-Purple-900);
   color: var(--LibertyMeets-Background);
@@ -72,7 +79,6 @@
 }
 
 .titleBlock {
-  width: 100%;
   display: flex;
   min-height: 754px;
   background: url('../../../public/decor/Rectangle-866.svg'),url('../../../public/decor/Rectangle-865.svg');
@@ -125,7 +131,7 @@
 
   @media (max-width: 600px) {
     font-size: 25px;
-    padding: 0 20px;
+    padding: 0;
     width: 90%;
   }
 }
