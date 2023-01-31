@@ -4,12 +4,8 @@ import { compareSync, hashSync } from "bcryptjs";
 import config from "config";
 import { Users } from "../models/users";
 import { connect } from "../utils/db";
-import { Posts } from "../models/posts";
 import { FavoritePosts } from "../models/favoritePosts";
-import { Sequelize } from "sequelize-typescript";
 import { Transaction } from "sequelize";
-import { Threads } from "../models/threads";
-import { ThreadMessages } from "../models/threadMessages";
 import { UserPosts } from "../models/usersPosts";
 import shortid from "shortid";
 
@@ -56,6 +52,20 @@ export async function getUser(userId: number) {
 export async function fillToken(email: string, reset_pwd_token: string) {
   await Users.update(
     { reset_pwd_token },
+    {
+      where: {
+        email,
+      },
+    }
+  );
+}
+
+export async function fillEmailToken(
+  email: string,
+  email_verification_token: string
+) {
+  await Users.update(
+    { email_verification_token },
     {
       where: {
         email,

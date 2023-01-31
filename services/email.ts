@@ -2,7 +2,7 @@ import config from "config";
 import { Threads } from "../models/threads";
 import { HttpError } from "../utils/HttpError";
 import { sendEmail } from "../utils/mailgun";
-import { getUser } from "./users";
+import { findUser, getUser, getUserByCredentials } from "./users";
 
 export async function sendReplyMessage(userId: number, message: string) {
   const user = await getUser(userId);
@@ -49,6 +49,7 @@ export async function sendReplyMessageToThread(
     ]
   );
 }
+
 export async function sendResetPasswordLink(
   userId: number,
   message: string,
@@ -64,6 +65,23 @@ export async function sendResetPasswordLink(
       to: {
         name: undefined,
         email: user.email,
+      },
+    },
+    { message, url }
+  );
+}
+
+export async function sendVarificationByEmail(
+  email: string,
+  message: string,
+  url: string
+) {
+  await sendEmail(
+    "varification",
+    {
+      to: {
+        name: undefined,
+        email: email,
       },
     },
     { message, url }
