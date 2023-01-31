@@ -9,6 +9,7 @@
   position: fixed;
   width: 100%;
   box-sizing: border-box;
+  z-index: 9999;
 
   @media (max-width: 1100px) {
     padding: 20px 20px;

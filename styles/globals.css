@@ -84,6 +84,7 @@
 
 html,body{
   min-height: 100%;
+  position: relative;
 }
 
 .wrapper{
@@ -94,6 +95,7 @@ html,body{
 }
 
 .main {
+  padding-top: 84px;
   flex-grow: 1;
   min-height: calc(100vh - 188px);
 }

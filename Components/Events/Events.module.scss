@@ -30,12 +30,19 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 100px 0;
   gap: 40px;
   padding: 30px 10px;
+  align-items: center;
+  margin: 0 10px;
 
-  @media (max-width: 500px) {
+  @media (max-width: 1000px) {
+    width: 100%;
     padding: 0;
+  }
+
+  @media (max-width: 400px) {
+    width: 100%;
+    margin: 0;
   }
 }
 
@@ -49,6 +56,12 @@
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  padding-bottom: 15px;
+}
+
+.buttonDay{
+  margin: 15px 0 15px 15px;
+
 }
 
 .eventsContainer {
@@ -56,14 +69,21 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
-  align-items: center;
+  align-items: center;  
   background: #ffffff;
-  padding: 15px;
   box-shadow: 0px 1px 2px rgba(31, 41, 55, 0.08);
+  width: 1112px;
+  box-sizing: border-box;
 
-  @media (max-width: 600px) {
-    padding: 15px 0;
+  @media (max-width: 1250px) {
+    width: 1000px;
   }
+
+  @media (max-width: 1050px) {
+    width: 100%;
+  }
+
+
 }
 
 .wrap {
