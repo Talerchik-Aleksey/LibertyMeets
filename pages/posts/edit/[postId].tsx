@@ -48,7 +48,7 @@ export default function EditPost({ appUrl }: PropsType) {
         withCredentials: true,
       });
       if (req.status === 200) {
-        router.push(`${appUrl}/events/${req.data.data.postId}`);
+        router.push(`${appUrl}/posts/${req.data.data.postId}`);
       }
     },
   });

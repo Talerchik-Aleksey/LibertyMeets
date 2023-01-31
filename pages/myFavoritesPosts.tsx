@@ -63,7 +63,7 @@ export default function MyFavoritesPostsPage({
   };
 
   const goToPostPage = (post_id: number) => {
-    router.push(`${appUrl}/events/${post_id}`);
+    router.push(`${appUrl}/posts/${post_id}`);
   };
 
   return (
