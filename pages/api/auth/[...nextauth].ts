@@ -3,6 +3,8 @@ import CredentialProvider from "next-auth/providers/credentials";
 import { getUserByCredentials } from "../../../services/users";
 import { DEFAULT_LAT, DEFAULT_LNG } from "../../../constants/constants";
 
+const secret = process.env.NEXTAUTH_SECRET! as string;
+
 export default NextAuth({
   providers: [
     CredentialProvider({
@@ -40,7 +42,7 @@ export default NextAuth({
     session: ({ session, token }) => {
       if (token) {
         session.user!.id = token.id as number;
-        session.user!.email = token.email || "missing No";
+        session.user!.email = token.email as string;
         session.user!.lat = token.lat as number;
         session.user!.lng = token.lng as number;
       }
@@ -48,10 +50,10 @@ export default NextAuth({
       return session;
     },
   },
-  secret: "test",
-  jwt: {
-    secret: "test",
-  },
+  secret,
+  // jwt: {
+  //   secret: "test",
+  // },
   pages: {
     signIn: "/signin",
   },
