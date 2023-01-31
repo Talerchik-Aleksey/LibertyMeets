@@ -10,6 +10,7 @@ import CreatePost from "./buttons/createPost";
 import SearchOpportunities from "./buttons/searchOpportunities";
 import LogIn from "./buttons/logIn";
 import SignUp from "./buttons/signUp";
+import Image from "next/image";
 
 const buttonMap = {
   showSearch: ["", "myFavoritesPosts", "myPosts", "settings", "about"],
@@ -48,6 +49,8 @@ const buttonMap = {
 export default function Header() {
   const { data: session } = useSession();
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [unvisible, setUnvisible] = useState<boolean>(true);
   const router = useRouter();
   const url = router.route.split("/")[1];
 
@@ -64,8 +67,24 @@ export default function Header() {
           <Link href={"/"}>
             <LibertyMeetsLogo />
           </Link>
+          <div
+            className={styles.burgerButton}
+            onClick={() => setVisible(!visible)}>
+            {visible ?
+              <Image 
+                src="/decor/close.svg" 
+                alt=""
+                width={60} 
+                height={60} /> :
+              <Image
+                src="/decor/menu.svg"
+                alt=""
+                width={60}
+                height={60} />}
+          </div>
         </div>
-        <div className={styles.navigation}>
+
+        <div className={visible ? styles.visible : styles.navigation}>
           {isLogin ? (
             <ul className={styles.navigationItemContainer}>
               {buttonMap.showSearch.includes(url) && <SearchOpportunities />}
