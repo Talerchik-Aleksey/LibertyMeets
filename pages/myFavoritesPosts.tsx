@@ -11,7 +11,7 @@ type PostType = {
   title: string;
   is_favorite?: boolean;
   geo: string;
-  event_time: Date;
+  created_at: Date;
   category: string;
   favoriteUsers: { id: number }[];
 };

@@ -106,7 +106,7 @@ export default function Events({
     posts: PostType[],
     filterFn: (date: Date) => boolean
   ) {
-    return posts.filter((post) => filterFn(new Date(post.event_time)));
+    return posts.filter((post) => filterFn(new Date(post.created_at)));
   }
 
   return (

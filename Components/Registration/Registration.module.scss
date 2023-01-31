@@ -1,29 +1,44 @@
 .logoImage {
   width: 426px;
   height: 75px;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
 
   @media (max-width: 800px) {
-    width: 340px;
+    width: 330px;
   }
 }
 
-.signUpWrapper {
+.registarationWrapper {
   display: flex;
+  min-height: 100vh;
+  height: 897px;
   align-items: center;
   justify-content: center;
   position: relative;
-  min-height: calc(100vh - 188px);
+  background: url('../../public/decor/Rectangle-864.svg'),url('../../public/decor/Rectangle-865.svg');
+  background-repeat: no-repeat;
+  background-position: bottom 70px left , top 76px right;
+  background-size: 469px, 212px;
 
-  @media (max-width: 800px) {
-    min-height: calc(100vh - 252px);
-    padding: 30px 0;
+  @media (max-width:1300px) {
+    background-size: 369px, 172px;
+    background-position: bottom 0 left , top 0 right;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width:1080px) {
+    height: auto;
+    background-size: 299px, 172px;        
+  }
+
+  @media (max-width:800px) {
+    padding: 30px 0;
+    background:unset;
+  }
+        
+  @media (max-width:600px) {
     height: auto;
     padding: 50px 0;
-  }
+  } 
 }
 
 .formBlock {
@@ -31,39 +46,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 15px;
 }
 
 .email label {
   font-size: 16px !important;
-  width: 190px !important;
 }
 
 .password label {
   font-size: 16px !important;
-  width: 190px !important;
 }
 
-.rectangleLeft {
-  width: 469px;
-  position: absolute;
-  left: 0;
-  bottom: 60px;
-
-  @media (max-width: 1280px) {
-    display: none;
-  }
+.email div div {
+  min-width: 90px !important;
 }
 
-.rectangleRight {
-  width: 212px;
-  position: absolute;
-  right: 0;
-  top: 70px;
-
-  @media (max-width: 1280px) {
-    display: none;
-  }
+.password div div{
+  min-width: 90px !important;
 }
 
 .logo {
@@ -133,8 +132,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  padding-bottom: 20px;
+  gap: 30px;
+  padding: 10px 0;
 }
 
 .checkbox {
@@ -144,18 +143,18 @@
 .signUp {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }
 
 .capchaBlock {
   display: flex;
   align-items: center;
   gap: 15px;
-}
+  margin-left: 50px;
 
-.recapcha {
-  height: 62px;
-  width: 62px;
-  background-color: rgb(169, 250, 243);
+  @media (max-width:576px) {
+    margin:0;
+  }
 }
 
 .container {
@@ -164,7 +163,7 @@
   padding-left: 35px;
   cursor: pointer;
   user-select: none;
-  margin-left: 20px;
+  margin-left: 70px;
 
   @media (max-width: 570px) {
     margin: 0;
@@ -177,14 +176,13 @@
 
 .highload2 {
   position: absolute;
-  top: 0;
+  top: 4px;
   left: 0;
   height: 19px;
   width: 19px;
   background-color: #ffffff;
   border: 1px solid #921a64;
   border-radius: 2px;
-  padding: 1px;
 }
 
 .container .checkHighload:checked ~ .highload2 {
@@ -218,10 +216,6 @@
   font-size: 16px;
   line-height: 30px;
   color: #333333;
-
-  @media (max-width: 800px) {
-    font-size: 18px;
-  }
 }
 
 .checkboxTerms {
@@ -274,9 +268,17 @@
 }
 
 .email {
-  padding-bottom: 20px;
+  margin-bottom: 30px;
 }
 
-.password {
-  padding-bottom: 20px;
+.termsLink{
+  color: #921a64;
+}
+
+.form {
+  min-width: 440px;
+
+  @media (max-width: 800px) {
+    min-width: auto;
+  }
 }
