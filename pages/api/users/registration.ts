@@ -1,12 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { v4 } from "uuid";
-import { sendVarificationByEmail } from "../../../services/email";
+import { sendVerificationByEmail } from "../../../services/email";
 import { Siteverify } from "../../../services/recaptcha";
-import {
-  fillEmailToken,
-  fillToken,
-  saveUserToDatabase,
-} from "../../../services/users";
+import { fillEmailToken, saveUserToDatabase } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { validateEmail } from "../../../utils/stringUtils";
@@ -62,7 +58,7 @@ export default async function handler(
       throw new HttpError(404, "Web site not found");
     }
 
-    await sendVarificationByEmail(email, email_verification_token, url);
+    await sendVerificationByEmail(email, email_verification_token, url);
     res.status(200).json({ message: "success registration" });
   } catch (err) {
     if (err instanceof HttpError) {
