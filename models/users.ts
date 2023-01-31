@@ -52,16 +52,16 @@ export class Users extends Model {
 
   @CreatedAt
   @Column
-  createdAt!: Date;
+  created_at!: Date;
 
   @UpdatedAt
   @Column
-  updatedAt!: Date;
+  updated_at!: Date;
 
   @DeletedAt
   @Column
-  deletedAt!: Date;
+  deleted_at!: Date;
 
-  @HasMany(() => FavoritePosts, { foreignKey: 'user_id' })
+  @HasMany(() => FavoritePosts, { foreignKey: "user_id" })
   favoritePosts?: FavoritePosts[];
 }

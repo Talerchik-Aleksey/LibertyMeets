@@ -40,15 +40,15 @@ export class FavoritePosts extends Model {
 
   @CreatedAt
   @Column
-  createdAt!: Date;
+  created_at!: Date;
 
   @UpdatedAt
   @Column
-  updatedAt!: Date;
+  updated_at!: Date;
 
   @DeletedAt
   @Column
-  deletedAt!: Date;
+  deleted_at!: Date;
 
   @BelongsTo(() => Posts)
   post?: Posts;
