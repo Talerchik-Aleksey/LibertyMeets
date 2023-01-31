@@ -121,6 +121,16 @@ export async function getFavoritesPosts(
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * (page - 1),
     where: { id: ids },
+    attributes: [
+      "id",
+      "title",
+      "category",
+      "description",
+      "is_public",
+      "geo",
+      "created_at",
+      "author_id",
+    ],
   });
 
   return { posts, count: ids.length };
@@ -151,6 +161,16 @@ export async function getUserPosts(page: number, userId: number) {
     where: { author_id: userId },
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * (page - 1),
+    attributes: [
+      "id",
+      "title",
+      "category",
+      "description",
+      "is_public",
+      "geo",
+      "created_at",
+      "author_id",
+    ],
   });
 
   const count = await Posts.count({ where: { author_id: userId } });
