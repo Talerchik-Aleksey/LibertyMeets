@@ -1,11 +1,9 @@
 import Image from "next/image";
-import { Inter } from "@next/font/google";
 import styles from "./LandingMain.module.scss";
 import { Button } from "antd";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
 const textMap = [
   "a New Job",
   "for Trivia Night",
@@ -41,15 +39,11 @@ export default function LandingMain() {
             LibertyMeets is a classifieds website for finding freedom-friendly
             folks near you.
           </h2>
-          <Link href="/posts">
-            <Button className={styles.infoBlockButtonPurple}>
+          <Link className={styles.infoBlockButtonPurple} href="/posts">  
               Search Public Opportunities
-            </Button>
           </Link>
-          <Link href="/registration">
-            <Button className={styles.infoBlockButton}>
+          <Link className={styles.infoBlockButton} href="/registration">
               Sign Up to Post, and to Search All Opportunities
-            </Button>
           </Link>
         </div>
       </div>
