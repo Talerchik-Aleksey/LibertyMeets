@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { PostType } from "../../types/general";
 import EventForMyPosts from "../EventForMyPosts/EventForMyPosts";
+import Navigation from "../General/MyProfileNavigation/Navigation";
 import styles from "./MyPosts.module.scss";
 
 type MyPostsProps = {
@@ -64,23 +65,13 @@ export default function MyPosts({
   }
 
   return (
-    <div className={styles.profileWrapper}>
-      <div className={styles.containerMenu}>
-        <Link className={styles.event} href={"/my-favorites"}>
-          <Button className={styles.button}>My Favorites</Button>
-        </Link>
-        <Link className={styles.event} href={"/myPosts"}>
-          <Button className={styles.button}>My Posts</Button>
-        </Link>
-        <Link className={styles.event} href={"/settings"}>
-          <Button className={styles.button}>Settings</Button>
-        </Link>
-      </div>
+    <section className={styles.profileWrapper}>
+      <Navigation />
       {posts.length === 0 ? (
         // eslint-disable-next-line react/no-unescaped-entities
         <div>You don't have posts</div>
       ) : (
-        <div className={styles.profileContainer}>
+        <section className={styles.profileContainer}>
           <div className={styles.container}>
             {posts.map((item) => (
               <EventForMyPosts key={item.id} post={item} movePost={movePost} />
@@ -91,6 +82,8 @@ export default function MyPosts({
             current={current}
             onChange={changePageNumber}
             total={totalCount}
+            showLessItems={true}
+            responsive={true}
             defaultPageSize={postsPerPage}
             itemRender={(page, type, element) => {
               return (
@@ -101,9 +94,7 @@ export default function MyPosts({
                       style={{
                         display: "inline-block",
                         backgroundColor: "#921A64",
-                        borderRadius: "50px",
-                        width: "32px",
-                        height: "32px",
+                        borderRadius: "50%",
                         color: "#ffffff",
                         fontSize: "14px",
                       }}
@@ -117,8 +108,8 @@ export default function MyPosts({
               );
             }}
           />
-        </div>
+        </section>
       )}
-    </div>
+    </section>
   );
 }

@@ -19,15 +19,13 @@ export default function MyFavoritesPageProps({
   count,
 }: MyFavoritesPageProps) {
   return (
-    <>
-      <MyPosts
-        appUrl={appUrl}
-        postsPerPage={postsPerPage}
-        initialPosts={posts}
-        initialCount={count}
-        postsIsFavorites={true}
-      />
-    </>
+    <MyPosts
+      appUrl={appUrl}
+      postsPerPage={postsPerPage}
+      initialPosts={posts}
+      initialCount={count}
+      postsIsFavorites={true}
+    />
   );
 }
 
