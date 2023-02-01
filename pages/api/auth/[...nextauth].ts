@@ -27,6 +27,7 @@ export default NextAuth({
     jwt: ({ token, user }) => {
       if (user) {
         const isEven = +user.id % 2;
+
         if (isEven) {
           token.lat = DEFAULT_LAT;
           token.lng = DEFAULT_LNG;

@@ -6,8 +6,13 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import url from "url";
 import styles from "./Login.module.scss";
+import axios, { AxiosError } from "axios";
 
-export default function Login() {
+type PropsType = {
+  appUrl: string;
+};
+
+export default function Login({ appUrl }: PropsType) {
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -23,7 +28,19 @@ export default function Login() {
 
   async function onFinish(values: any) {
     // await signIn("credentials", values);
-    await signIn("credentials", { ...values, callbackUrl: '/posts' });
+    try {
+      const req = await axios.get(`${appUrl}/api/users/check-account-status`, {
+        params: { email: (values as { email: string }).email },
+      });
+
+      if (req.status === 200) {
+        console.log(values);
+        await signIn("credentials", { ...values, callbackUrl: "/posts" });
+      }
+    } catch (err) {
+      const error = err as AxiosError;
+      console.error(error);
+    }
   }
 
   return (

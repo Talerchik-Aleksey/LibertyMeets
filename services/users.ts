@@ -61,6 +61,20 @@ export async function getUser(userId: number) {
   return founfUser;
 }
 
+export async function getUserStatus(email: string) {
+  const user = await findUser(email);
+  if (!user) {
+    throw new HttpError(400, "User not found");
+  }
+
+  const userStatus = Users.findOne({
+    attributes: ["is_enabled"],
+    where: { id: user.id },
+  });
+
+  return userStatus;
+}
+
 export async function fillToken(email: string, reset_pwd_token: string) {
   await Users.update(
     { reset_pwd_token },
