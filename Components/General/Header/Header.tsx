@@ -14,34 +14,29 @@ import SignUp from "./buttons/signUp";
 import Image from "next/image";
 
 const buttonMap = {
-  showSearch: ["", "myFavoritesPosts", "myPosts", "settings", "about"],
-  showCreatePost: [
-    "",
-    "posts",
-    "myFavoritesPosts",
-    "myPosts",
-    "settings",
-    "about",
-  ],
+  showSearch: ["", "my-favorites", "myPosts", "settings", "about"],
+  showCreatePost: ["", "posts", "my-favorites", "myPosts", "settings", "about"],
   showMyProfile: [
     "",
     "posts",
-    "myFavoritesPosts",
+    "my-favorites",
     "myPosts",
     "settings",
     "createPost",
     "about",
     "posts/[postId]",
+    "posts/edit/[postId]",
   ],
   showLogOut: [
     "",
     "posts",
-    "myFavoritesPosts",
+    "my-favorites",
     "myPosts",
     "settings",
     "createPost",
     "about",
     "posts/[postId]",
+    "posts/edit/[postId]",
   ],
   showLogIn: ["", "registration", "about", "posts"],
   showSignUp: ["signin", "about", "posts"],
@@ -51,7 +46,7 @@ export default function Header() {
   const { data: session } = useSession();
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
-  const [unvisible, setUnvisible] = useState<boolean>(true);
+  // const [unvisible, setUnvisible] = useState<boolean>(true);
   const router: NextRouter = useRouter();
   const url: Array<string> = router.route.split("/");
   const page: string = url.slice(1, url.length).join("/");
