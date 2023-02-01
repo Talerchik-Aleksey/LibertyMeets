@@ -2,6 +2,7 @@ import config from "config";
 import { Threads } from "../models/threads";
 import { HttpError } from "../utils/HttpError";
 import { sendEmail } from "../utils/mailgun";
+import { simpleTextToHtml } from "../utils/html";
 import { getUser } from "./users";
 
 export async function sendReplyMessage(userId: number, message: string) {
@@ -42,7 +43,7 @@ export async function sendReplyMessageToThread(
         email: user.email,
       },
     },
-    { message },
+    { message: simpleTextToHtml(message) },
     [
       ["In-Reply-To", `<${thread.id}@${baseDomain}>`],
       ["References", `<${thread.id}@${baseDomain}>`],
