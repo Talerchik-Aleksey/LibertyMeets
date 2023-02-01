@@ -53,13 +53,13 @@ export async function sendReplyMessageToThread(
 
 export async function sendResetPasswordLink(
   userId: number,
-  message: string,
-  url: string
+  resetToken: string
 ) {
   const user = await getUser(userId);
   if (!user) {
     throw new HttpError(404, "user not found");
   }
+
   await sendEmail(
     "reset-password",
     {
@@ -68,7 +68,7 @@ export async function sendResetPasswordLink(
         email: user.email,
       },
     },
-    { message, url }
+    { resetToken }
   );
 }
 

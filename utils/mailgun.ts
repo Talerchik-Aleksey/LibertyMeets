@@ -42,20 +42,27 @@ const props = config.get<{
 type HeadersSetupEntry = [string, string];
 type HeadersSetup = Array<HeadersSetupEntry>;
 
+type templatePropsType = {
+  resetToken?: string;
+  [index: string]: any;
+};
+
 export async function sendEmail(
   template: string,
   paramsArg: paramsType,
-  templateProps: any,
+  templateProps: templatePropsType,
   headers: HeadersSetup = []
 ) {
   const params = { ...props, ...paramsArg, subject: "" };
 
+  console.log(templateProps);
   const subject = await renderEmailTemplate(
     `${template}/subject`,
     templateProps
   );
   params.subject = subject;
 
+  templateProps.url = `${process.env.NEXTAUTH_URL}/reset-password/verify/${templateProps.resetToken}`;
   const rawBody = await renderEmailTemplate(`${template}/body`, templateProps);
   const body = rawBody.trim();
 
