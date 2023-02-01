@@ -1,23 +1,23 @@
 import { GetServerSideProps } from "next";
 import config from "config";
-import { getFavoritesPosts } from "../services/posts";
+import { getFavoritePosts } from "../services/posts";
 import { getSession } from "next-auth/react";
 import MyPosts from "../Components/MyPosts/MyPosts";
 import { PostType } from "../types/general";
 
-type MyFavoritesPostsPageProps = {
+type MyFavoritesPageProps = {
   appUrl: string;
   postsPerPage: number;
   posts: PostType[];
   count: number;
 };
 
-export default function MyFavoritesPostsPageProps({
+export default function MyFavoritesPageProps({
   appUrl,
   postsPerPage,
   posts,
   count,
-}: MyFavoritesPostsPageProps) {
+}: MyFavoritesPageProps) {
   return (
     <>
       <MyPosts
@@ -32,7 +32,7 @@ export default function MyFavoritesPostsPageProps({
 }
 
 export const getServerSideProps: GetServerSideProps<
-  MyFavoritesPostsPageProps
+  MyFavoritesPageProps
 > = async (ctx) => {
   const appUrl = process.env.NEXTAUTH_URL || config.get<string>("appUrl");
   const postsPerPage = config.get<number>("posts.perPage");
@@ -49,7 +49,7 @@ export const getServerSideProps: GetServerSideProps<
     page = 1;
   }
 
-  const res = await getFavoritesPosts(page, session.user);
+  const res = await getFavoritePosts(page, session.user);
   if (!res) {
     return {
       notFound: true,
