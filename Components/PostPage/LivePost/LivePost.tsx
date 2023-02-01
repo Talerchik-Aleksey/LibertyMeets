@@ -20,6 +20,7 @@ type PostProps = { appUrl: string; post: PostType };
 
 export default function LivePost(props: PostProps) {
   const [open, setOpen] = useState(false);
+  const [share, setShare] = useState<Boolean>();
   const [post, setPost] = useState<PostType>(props.post);
   const appUrl = props.appUrl;
   const router = useRouter();
@@ -121,7 +122,13 @@ export default function LivePost(props: PostProps) {
           <></>
         )}
         <div className={styles.buttonBlock}>
-          <Button className={styles.shareBtn}>
+          <Button
+            className={styles.shareBtn}
+            onClick={() => {
+              setShare(true);
+              setOpen(true);
+            }}
+          >
             <Image
               src="/decor/share.svg"
               alt=""
@@ -131,7 +138,13 @@ export default function LivePost(props: PostProps) {
             />
             <span className={styles.shareBtnText}>Share</span>
           </Button>
-          <Button className={styles.replyBtn} onClick={() => setOpen(true)}>
+          <Button
+            className={styles.replyBtn}
+            onClick={() => {
+              setShare(false);
+              setOpen(true);
+            }}
+          >
             <Image
               src="/decor/arrow2.svg"
               alt=""
@@ -142,6 +155,8 @@ export default function LivePost(props: PostProps) {
             <span className={styles.replyBtnText}>Reply </span>
           </Button>
 
+          <Modal></Modal>
+
           <Modal
             centered
             open={open}
@@ -151,24 +166,30 @@ export default function LivePost(props: PostProps) {
             footer={null}
             className={styles.modal}
           >
-            <div className={styles.modalContainer}>
-              <span className={styles.modalTitle}>Reply by Email</span>
-              <Form.Item
-                name={["user", "email"]}
-                label="* Email Client"
-                rules={[{ type: "email" }]}
-                className={styles.emailItem}
-              >
-                <Input placeholder={"G-mail"} />
-              </Form.Item>
-              <span className={styles.adress}>
-                Or copy and paste posters address into your email:
-                <br />
-                <strong>e570bd5f166a3@libertymeets.com </strong>
-              </span>
-              <Button className={styles.copyBtn}>Copy</Button>
-              <RememberBlock />
-            </div>
+            {share ? (
+              <div className={styles.modalContainer}>
+                <span className={styles.modalTitle}>Social Sharing</span>
+              </div>
+            ) : (
+              <div className={styles.modalContainer}>
+                <span className={styles.modalTitle}>Reply by Email</span>
+                <Form.Item
+                  name={["user", "email"]}
+                  label="* Email Client"
+                  rules={[{ type: "email" }]}
+                  className={styles.emailItem}
+                >
+                  <Input placeholder={"G-mail"} />
+                </Form.Item>
+                <span className={styles.adress}>
+                  Or copy and paste posters address into your email:
+                  <br />
+                  <strong>e570bd5f166a3@libertymeets.com </strong>
+                </span>
+                <Button className={styles.copyBtn}>Copy</Button>
+                <RememberBlock />
+              </div>
+            )}
           </Modal>
         </div>
       </div>
