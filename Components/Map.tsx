@@ -6,12 +6,11 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { DEFAULT_LAT, DEFAULT_LNG } from "../constants/constants";
-import styles from './Map.module.scss';
-import Image from "next/image";
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import styles from "./Map.module.scss";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 
 const center = {
   lat: DEFAULT_LAT,
@@ -21,14 +20,42 @@ const center = {
 type MapProps = {
   lat: number;
   lng: number;
+  setLat?: React.Dispatch<React.SetStateAction<number>>;
+  setLng?: React.Dispatch<React.SetStateAction<number>>;
+  isAllowDrag: boolean;
 };
 
 function LocationMarker(props: MapProps) {
-  const { lat, lng } = props;
-  const [position, setPosition] = useState<{
-    lat: number;
-    lng: number;
-  }>(center);
+  const { lat, lng, setLat, setLng, isAllowDrag } = props;
+  const [position, setPosition] = useState({
+    lat: center.lat,
+    lng: center.lng,
+  });
+  const markerRef = useRef<any>(null);
+  const eventHandlers = useMemo(
+    () => ({
+      dragend() {
+        if (!isAllowDrag) {
+          return;
+        }
+
+        if (!setLat || !setLng) {
+          return;
+        }
+
+        const marker = markerRef.current;
+        if (marker != null) {
+          const newPosition = marker.getLatLng();
+          setPosition((currentPosition) => {
+            setLat(newPosition.lat);
+            setLng(newPosition.lng);
+            return newPosition;
+          });
+        }
+      },
+    }),
+    []
+  );
 
   const map = useMapEvents({
     click() {
@@ -52,13 +79,16 @@ function LocationMarker(props: MapProps) {
   }, [lat, lng, map]);
 
   const icon = L.icon({ iconUrl: "/decor/marker.png" });
-  
-// TODO Customize popup
+
   return position === null ? null : (
-    <Marker position={position} icon={icon}>
-      
+    <Marker
+      draggable={true}
+      position={position}
+      eventHandlers={eventHandlers}
+      ref={markerRef}
+      icon={icon}
+    >
       <Popup>
-        
         A pretty CSS3 popup. <br /> Easily customizable.
       </Popup>
     </Marker>
@@ -66,7 +96,7 @@ function LocationMarker(props: MapProps) {
 }
 
 export default function Map(props: MapProps) {
-  const { lat, lng } = props;
+  const { lat, lng, setLat, setLng, isAllowDrag } = props;
 
   return (
     <MapContainer
@@ -76,12 +106,17 @@ export default function Map(props: MapProps) {
       style={{ height: 460, width: 842 }}
       className={styles.mapContainer}
     >
-      
       <TileLayer
         attribution='<a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <LocationMarker lat={lat} lng={lng}></LocationMarker>
+      <LocationMarker
+        lat={lat}
+        lng={lng}
+        setLat={setLat}
+        setLng={setLng}
+        isAllowDrag={isAllowDrag}
+      />
     </MapContainer>
   );
 }

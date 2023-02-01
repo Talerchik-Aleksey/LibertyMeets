@@ -11,7 +11,7 @@ type PostType = {
   author_id: number;
   title: string;
   geo: string;
-  createdAt: Date;
+  created_at: Date;
   category: string;
   description: string;
   is_public: boolean;
@@ -111,7 +111,11 @@ export default function LivePost(props: PostProps) {
         {coordinates && coordinates.length === 2 ? (
           <div style={{ paddingBottom: 20 }}>
             Location
-            <Map lat={Number(coordinates[0])} lng={Number(coordinates[1])} />
+            <Map
+              lat={Number(coordinates[0])}
+              lng={Number(coordinates[1])}
+              isAllowDrag={false}
+            />
           </div>
         ) : (
           <></>

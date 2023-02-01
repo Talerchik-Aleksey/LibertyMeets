@@ -149,7 +149,11 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
             </label>
 
             <div className={styles.capchaBlock}>
-              <ReCAPTCHA sitekey={recaptchaKey} ref={recaptchaRef} className={styles.capcha} />
+              <ReCAPTCHA
+                sitekey={recaptchaKey}
+                ref={recaptchaRef}
+                className={styles.capcha}
+              />
             </div>
           </div>
 

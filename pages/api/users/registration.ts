@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { v4 } from "uuid";
+import { sendVerificationByEmail } from "../../../services/email";
 import { Siteverify } from "../../../services/recaptcha";
-import { saveUserToDatabase } from "../../../services/users";
+import { fillEmailToken, saveUserToDatabase } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { validateEmail } from "../../../utils/stringUtils";
@@ -47,7 +49,16 @@ export default async function handler(
       throw new HttpError(422, "Invalid captcha code");
     }
 
+    const email_verification_token = v4();
     await saveUserToDatabase({ email, password });
+    await fillEmailToken(email, email_verification_token);
+
+    const url = process.env.NEXTAUTH_URL;
+    if (!url) {
+      throw new HttpError(404, "Web site not found");
+    }
+
+    await sendVerificationByEmail(email, email_verification_token, url);
     res.status(200).json({ message: "success registration" });
   } catch (err) {
     if (err instanceof HttpError) {

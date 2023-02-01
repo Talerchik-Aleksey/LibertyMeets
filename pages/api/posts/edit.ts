@@ -36,7 +36,7 @@ export default async function handler(
       throw new HttpError(400, "invalid body structure");
     }
 
-    if (title.length < 4 || title.length > 28) {
+    if (title.length < 4 || title.length > 100) {
       throw new HttpError(400, "invalid title length");
     }
 

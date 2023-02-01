@@ -3,7 +3,7 @@ import { Threads } from "../models/threads";
 import { getPost } from "./posts";
 import { getThreadById } from "./threads";
 import { findUser } from "./users";
-import { handleReplyToPost } from "./reply";
+import { handleReplyToThread } from "./reply";
 import { getTextMessageFromEmailPayload } from "../utils/mailgun-payload";
 import { extractThreadIdFromHeaderStr } from "../utils/mime-headers";
 
@@ -50,7 +50,7 @@ const processReplyToThread = async (thread: Threads, payload: MailgunIncomingMes
     return null;
   }
 
-  await handleReplyToPost(user.id, post, message);
+  await handleReplyToThread(user.id, thread, message);
 };
 
 

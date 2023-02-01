@@ -50,7 +50,7 @@ export default function EventSingleRow(props: EventSingleRowProps) {
           ) : (
             <></>
           )}
-          <div className={styles.info}>{post.description}</div>
+          <div className={styles.info}>{post.title}</div>
         </Link>
       </div>
       <div className={styles.location}>

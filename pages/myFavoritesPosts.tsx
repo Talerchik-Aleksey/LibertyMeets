@@ -1,118 +1,77 @@
 import { GetServerSideProps } from "next";
 import config from "config";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useRouter } from "next/router";
-import { Button, Pagination } from "antd";
+import { getFavoritesPosts } from "../services/posts";
+import { getSession } from "next-auth/react";
+import MyPosts from "../Components/MyPosts/MyPosts";
+import { PostType } from "../types/general";
 
-type PropsType = { appUrl: string; postsPerPage: number };
-type PostType = {
-  id: number;
-  title: string;
-  is_favorite?: boolean;
-  geo: string;
-  created_at: Date;
-  category: string;
-  favoriteUsers: { id: number }[];
+type MyFavoritesPostsPageProps = {
+  appUrl: string;
+  postsPerPage: number;
+  posts: PostType[];
+  count: number;
 };
 
-export default function MyFavoritesPostsPage({
+export default function MyFavoritesPostsPageProps({
   appUrl,
   postsPerPage,
-}: PropsType) {
-  const [posts, setPosts] = useState<PostType[]>([]);
-  const [totalCount, setTotalCount] = useState<number>(0);
-  const router = useRouter();
-
-  let page = 1;
-  const queryPage = router.query.page;
-  if (queryPage && +queryPage) {
-    page = +queryPage;
-  }
-
-  useEffect(() => {
-    (async () => {
-      const res = await axios.get(`${appUrl}/api/favorites`, {
-        params: { page },
-      });
-      res.data.data.posts.forEach(
-        (item: { is_favorite: boolean }) => (item.is_favorite = true)
-      );
-      setPosts(res.data.data.posts);
-      setTotalCount(res.data.data.count);
-    })();
-  }, [page, appUrl]);
-
-  const changePageNumber = (page: number) => {
-    router.push({
-      pathname: `${appUrl}/myFavoritesPosts`,
-      query: { page },
-    });
-  };
-
-  async function movePost(postId: number) {
-    const res = await axios.post(`${appUrl}/api/favorites/${postId}`);
-    if (res.status === 200) {
-      const currentPosts = posts.filter((item) => item.id !== postId);
-      setPosts(currentPosts);
-    }
-  }
-
-  const handleClick = (path: string) => {
-    router.push(`${appUrl}/${path}`);
-  };
-
-  const goToPostPage = (post_id: number) => {
-    router.push(`${appUrl}/posts/${post_id}`);
-  };
-
+  posts,
+  count,
+}: MyFavoritesPostsPageProps) {
   return (
     <>
-      <div>
-        <Button type="text" onClick={() => handleClick("myFavoritesPosts")}>
-          My Favorites
-        </Button>
-        <Button type="text" onClick={() => handleClick("myPosts")}>
-          My Posts
-        </Button>
-        <Button type="text" onClick={() => handleClick("settings")}>
-          Settings
-        </Button>
-      </div>
-      {posts.map((item) => (
-        <div key={`post ${item.id}`}>
-          <div
-            onClick={() => {
-              movePost(item.id);
-            }}
-          >
-            star{" "}
-          </div>
-          <div onClick={() => goToPostPage(item.id)}>
-            <p>{item.category}</p>
-            <p>{item.title}</p>
-            <p>{item.geo}</p>
-            <p>{item.created_at.toString()}</p>
-            <hr />
-          </div>
-        </div>
-      ))}
-      <Pagination
-        current={page}
-        total={totalCount}
-        defaultPageSize={postsPerPage}
-        showSizeChanger={false}
-        onChange={changePageNumber}
+      <MyPosts
+        appUrl={appUrl}
+        postsPerPage={postsPerPage}
+        initialPosts={posts}
+        initialCount={count}
+        postsIsFavorites={true}
       />
     </>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const appUrl = config.get<string>("appUrl");
+export const getServerSideProps: GetServerSideProps<
+  MyFavoritesPostsPageProps
+> = async (ctx) => {
+  const appUrl = process.env.NEXTAUTH_URL || config.get<string>("appUrl");
   const postsPerPage = config.get<number>("posts.perPage");
 
+  const session = await getSession({ req: ctx.req });
+  if (!session) {
+    return {
+      notFound: true,
+    };
+  }
+
+  let page = Number(ctx.query.page);
+  if (isNaN(page)) {
+    page = 1;
+  }
+
+  const res = await getFavoritesPosts(page, session.user);
+  if (!res) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const posts = res.posts
+    .map((item) => item.toJSON())
+    .map((item) => {
+      item.created_at = item.created_at.toISOString();
+      item.is_favorite = true;
+      return item;
+    });
+
+  const count = res.count;
+
   return {
-    props: { appUrl, postsPerPage },
+    props: {
+      appUrl,
+      postsPerPage,
+      posts,
+      count,
+    },
   };
 };
