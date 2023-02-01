@@ -34,9 +34,10 @@ export default function EventForMyPosts({
           </div>
           <div className={styles.label}>{post.category}</div>
           <div className={styles.info}>{post.description}</div>
-          <div className={styles.location}>{post.geo}</div>
+          
         </Link>
-      </div>
+        
+      </div><div className={styles.location}>{post.geo}</div>
       {/* <div className={styles.location}>{post.geo}</div> */}
     </div>
   );
