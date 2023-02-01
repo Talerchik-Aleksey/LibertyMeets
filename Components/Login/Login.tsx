@@ -26,9 +26,14 @@ export default function Login({ appUrl }: PropsType) {
     goBack();
   }
 
-  async function onFinish(values: any) {
+  async function onFinish(values: unknown) {
     // await signIn("credentials", values);
     try {
+      if (typeof values !== "object" || !values || !("email" in values)) {
+        console.log("Information not found");
+        return;
+      }
+
       const req = await axios.get(`${appUrl}/api/users/check-account-status`, {
         params: { email: (values as { email: string }).email },
       });
