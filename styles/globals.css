@@ -11,7 +11,7 @@
 }
 
 @font-face {
-  font-family: 'ButlerBold';
+  font-family: 'Butler';
   font-style: normal;
   font-weight: 700;
   src: url('/static/fonts/Butler-Bold700.woff2')
@@ -19,7 +19,7 @@
 }
 
 @font-face {
-  font-family: 'ButlerMedium';
+  font-family: 'Butler';
   font-style: normal;
   font-weight: 600;
   src: url('/static/fonts/Butler-Medium600.woff2')
@@ -35,7 +35,7 @@
 }
 
 @font-face {
-  font-family: 'InterBold800';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
   src: url('/static/fonts/Inter-ExtraBold.woff2')
@@ -43,7 +43,7 @@
 }
 
 @font-face {
-  font-family: 'InterBold700';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
   src: url('/static/fonts/Inter-Bold700.woff2')
@@ -52,7 +52,7 @@
 
 
 @font-face {
-  font-family: 'InterMedium';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
   src: url('/static/fonts/Inter-Medium500.woff2')
@@ -60,7 +60,7 @@
 }
 
 @font-face {
-  font-family: 'InterRegular';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   src: url('/static/fonts/Inter-Regular400.woff2')
@@ -68,7 +68,7 @@
 }
 
 @font-face {
-  font-family: 'InterSemiBold';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
   src: url('/static/fonts/Inter-SemiBold600.woff2')
