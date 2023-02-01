@@ -111,7 +111,11 @@ export default function LivePost(props: PostProps) {
         {coordinates && coordinates.length === 2 ? (
           <div style={{ paddingBottom: 20 }}>
             Location
-            <Map lat={Number(coordinates[0])} lng={Number(coordinates[1])} />
+            <Map
+              lat={Number(coordinates[0])}
+              lng={Number(coordinates[1])}
+              isAllowDrag={false}
+            />
           </div>
         ) : (
           <></>
