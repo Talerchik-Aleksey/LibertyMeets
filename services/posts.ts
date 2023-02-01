@@ -106,7 +106,7 @@ export async function changeFavoritePost(userId: number, postId: number) {
   }
 }
 
-export async function getFavoritesPosts(
+export async function getFavoritePosts(
   page: number,
   user: { id: number } | null | undefined
 ) {
