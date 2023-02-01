@@ -6,7 +6,7 @@ export default function MyProfile() {
   return (
     <li className={styles.navigationItem}>
       {" "}
-      <Link className={styles.navigationItemLink} href={"/myFavoritesPosts"}>
+      <Link className={styles.navigationItemLink} href={"/my-favorites"}>
         <Button type="text" className={styles.myProfile}>
           My Profile
         </Button>

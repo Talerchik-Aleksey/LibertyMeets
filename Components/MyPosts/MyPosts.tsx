@@ -43,7 +43,7 @@ export default function MyPosts({
     setCurrent(page);
     if (postsIsFavorites) {
       router.push({
-        pathname: `${appUrl}/myFavoritesPosts`,
+        pathname: `${appUrl}/my-favorites`,
         query: { page },
       });
       return;
@@ -58,7 +58,7 @@ export default function MyPosts({
     const res = await axios.post(`${appUrl}/api/favorites/${postId}`);
     if (res.status === 200) {
       router.push({
-        pathname: `${appUrl}/myFavoritesPosts`,
+        pathname: `${appUrl}/my-favorites`,
         query: { page: 1 },
       });
     }
