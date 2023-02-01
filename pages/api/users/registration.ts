@@ -59,7 +59,7 @@ export default async function handler(
       throw new HttpError(404, "Web site not found");
     }
 
-    const verificationUrl = `${process.env.NEXTAUTH_URL}/reset-password/verify/${email_verification_token}`;
+    const verificationUrl = `${process.env.NEXTAUTH_URL}/account/verification/${email_verification_token}`;
     const supportEmail = config.get<string>("emails.supportEmail");
 
     await sendVerificationByEmail(email, verificationUrl, supportEmail);
