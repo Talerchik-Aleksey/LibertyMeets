@@ -3,6 +3,7 @@ import { fillToken, findUser } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { v4 } from "uuid";
+import { sendResetPasswordLink } from "../../../services/email";
 
 type ResType = {
   message: string;
@@ -33,15 +34,24 @@ export default async function handler(
 
     const foundUser = await findUser(email);
 
+    const url = process.env.NEXTAUTH_URL;
+    if (!url) {
+      throw new HttpError(404, "Web site not found");
+    }
+
     if (foundUser) {
       const reset_pwd_token = v4();
       await fillToken(email, reset_pwd_token);
-      res.status(200).json({ message: "success create reset token", token: reset_pwd_token });
+      await sendResetPasswordLink(foundUser.id, reset_pwd_token, url);
+      res.status(200).json({
+        message: "success create reset token",
+        token: reset_pwd_token,
+      });
       return;
     }
 
     if (!foundUser) {
-      res.status(403).json({ message: "email is not exists"});
+      res.status(403).json({ message: "email is not exists" });
       return;
     }
   } catch (err) {

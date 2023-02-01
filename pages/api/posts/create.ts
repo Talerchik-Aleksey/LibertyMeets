@@ -49,7 +49,6 @@ export default async function handler(
       res.status(401);
       return;
     }
-
     const post = await savePostToDb({ user: session.user, post: body });
     res.status(200).json({ status: "ok", data: { postId: post.id } });
   } catch (err) {

@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
+import { handleWebhook } from "../../../services/webhook";
 
 type ResType = {
   status: string;
@@ -24,6 +25,7 @@ export default async function handler(
     }
 
     console.log(req.body);
+    await handleWebhook(req.body);
 
     res.status(200).json({ status: "ok", data: {} });
   } catch (err) {

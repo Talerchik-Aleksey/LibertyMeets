@@ -31,6 +31,11 @@ export class Users extends Model {
   @Column(DataType.STRING)
   email!: string;
 
+  @AllowNull(true)
+  @Default("")
+  @Column(DataType.STRING)
+  email_verification_token: string | undefined;
+
   @AllowNull(false)
   @Column(DataType.STRING)
   password!: string;
@@ -46,22 +51,22 @@ export class Users extends Model {
   is_admin!: boolean;
 
   @AllowNull(false)
-  @Default(true)
+  @Default(false)
   @Column(DataType.BOOLEAN)
   is_enabled!: boolean;
 
   @CreatedAt
   @Column
-  createdAt!: Date;
+  created_at!: Date;
 
   @UpdatedAt
   @Column
-  updatedAt!: Date;
+  updated_at!: Date;
 
   @DeletedAt
   @Column
-  deletedAt!: Date;
+  deleted_at!: Date;
 
-  @HasMany(() => FavoritePosts, { foreignKey: 'user_id' })
+  @HasMany(() => FavoritePosts, { foreignKey: "user_id" })
   favoritePosts?: FavoritePosts[];
 }
