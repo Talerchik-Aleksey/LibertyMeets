@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import Navigation from "../MyProfileNavigation/Navigation";
 
 type ErrorResponse = {
   message: string;
@@ -53,32 +54,7 @@ export default function Settings(props: SettingsProps) {
 
   return (
     <div className={styles.profileWrapper}>
-      <div className={styles.containerMenu}>
-        <Button
-          className={styles.button}
-          onClick={() => {
-            router.push(`${appUrl}/myFavoritesPosts`);
-          }}
-        >
-          My Favorites
-        </Button>
-        <Button
-          className={styles.button}
-          onClick={() => {
-            router.push(`${appUrl}/myPosts`);
-          }}
-        >
-          My Posts
-        </Button>
-        <Button
-          className={styles.button}
-          onClick={() => {
-            router.push(`${appUrl}/settings`);
-          }}
-        >
-          Settings
-        </Button>
-      </div>
+      <Navigation />
       <div className={styles.wrap}>
         <div className={styles.container}>
           <span className={styles.userTitle}>User Details</span>

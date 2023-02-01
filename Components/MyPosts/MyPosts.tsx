@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { PostType } from "../../types/general";
 import EventForMyPosts from "../EventForMyPosts/EventForMyPosts";
+import Navigation from "../General/MyProfileNavigation/Navigation";
 import styles from "./MyPosts.module.scss";
 
 type MyPostsProps = {
@@ -65,17 +66,7 @@ export default function MyPosts({
 
   return (
     <div className={styles.profileWrapper}>
-      <div className={styles.containerMenu}>
-        <Link className={styles.event} href={"/myFavoritesPosts"}>
-          <Button className={styles.button}>My Favorites</Button>
-        </Link>
-        <Link className={styles.event} href={"/myPosts"}>
-          <Button className={styles.button}>My Posts</Button>
-        </Link>
-        <Link className={styles.event} href={"/settings"}>
-          <Button className={styles.button}>Settings</Button>
-        </Link>
-      </div>
+      <Navigation />
       {posts.length === 0 ? (
         // eslint-disable-next-line react/no-unescaped-entities
         <div>You don't have posts</div>
