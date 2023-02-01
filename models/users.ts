@@ -34,7 +34,7 @@ export class Users extends Model {
   @AllowNull(true)
   @Default("")
   @Column(DataType.STRING)
-  email_verification_token: string | undefined;
+  // email_verification_token: string | undefined;
 
   @AllowNull(false)
   @Column(DataType.STRING)
