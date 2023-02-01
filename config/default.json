@@ -19,8 +19,8 @@
     "public_recaptcha_key": "",
     "recaptcha_key": ""
   },
-
   "emails": {
+    "supportEmail": "support@libertymeets.com",
     "templatesDir": "/emails",
     "replySetup": {
       "baseDomain": "mg.example.com"

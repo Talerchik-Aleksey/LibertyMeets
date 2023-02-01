@@ -53,7 +53,8 @@ export async function sendReplyMessageToThread(
 
 export async function sendResetPasswordLink(
   userId: number,
-  resetToken: string
+  resetUrl: string,
+  supportEmail: string
 ) {
   const user = await getUser(userId);
   if (!user) {
@@ -68,14 +69,14 @@ export async function sendResetPasswordLink(
         email: user.email,
       },
     },
-    { resetToken }
+    { resetUrl, supportEmail }
   );
 }
 
 export async function sendVerificationByEmail(
   email: string,
-  message: string,
-  url: string
+  resetUrl: string,
+  supportEmail: string
 ) {
   await sendEmail(
     "verification",
@@ -85,6 +86,6 @@ export async function sendVerificationByEmail(
         email: email,
       },
     },
-    { message, url }
+    { resetUrl, supportEmail }
   );
 }
