@@ -110,7 +110,7 @@ export default function Events({
   }
 
   return (
-    <div className={styles.eventsPageContainer}>
+    <section className={styles.eventsPageContainer}>
       <div className={styles.navigation}>
         <NavBar
           changeCategory={changeCategory}
@@ -192,6 +192,6 @@ export default function Events({
           <AddListing />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
