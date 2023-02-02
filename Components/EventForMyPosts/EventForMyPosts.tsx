@@ -28,7 +28,7 @@ export default function EventForMyPosts({
         ) : (
           <></>
         )}
-        <Link className={styles.link} href={`/events/${post.id}`}>
+        <Link className={styles.link} href={`/posts/${post.id}`}>
           <div className={styles.date}>
             {moment(post.created_at).format("MMM D, YYYY")}
           </div>
