@@ -6,7 +6,6 @@ export type UserType = {
 export type PostType = {
   id: number;
   title: string;
-  is_enabled: string;
   is_favorite?: boolean;
   created_at: Date;
   category: string;

@@ -26,6 +26,7 @@ export default function Login({ appUrl }: PropsType) {
     if (!session.user.is_enabled) {
       router.push("/auth/activate");
     }
+    router.push("/posts");
   }
 
   async function onFinish(values: unknown) {
