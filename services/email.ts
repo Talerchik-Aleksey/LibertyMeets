@@ -53,13 +53,14 @@ export async function sendReplyMessageToThread(
 
 export async function sendResetPasswordLink(
   userId: number,
-  message: string,
-  url: string
+  resetUrl: string,
+  supportEmail: string
 ) {
   const user = await getUser(userId);
   if (!user) {
     throw new HttpError(404, "user not found");
   }
+
   await sendEmail(
     "reset-password",
     {
@@ -68,14 +69,14 @@ export async function sendResetPasswordLink(
         email: user.email,
       },
     },
-    { message, url }
+    { resetUrl, supportEmail }
   );
 }
 
 export async function sendVerificationByEmail(
   email: string,
-  message: string,
-  url: string
+  resetUrl: string,
+  supportEmail: string
 ) {
   await sendEmail(
     "verification",
@@ -85,6 +86,6 @@ export async function sendVerificationByEmail(
         email: email,
       },
     },
-    { message, url }
+    { resetUrl, supportEmail }
   );
 }

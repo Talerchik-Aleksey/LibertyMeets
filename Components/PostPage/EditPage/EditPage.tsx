@@ -58,7 +58,7 @@ export default function EditPage(props: EditPostProps) {
           <span className={styles.backBtn}>Back</span>
         </Button>
       </div>
-      <div className={styles.createContainer}>
+      <div className={styles.editContainer}>
         <Form name="normal_login" onFinish={onFinish}>
           <div className={styles.title}>Edit Post</div>
           <div className={styles.inputContainer}>
@@ -99,25 +99,25 @@ export default function EditPage(props: EditPostProps) {
                 <Select className={styles.categorySelect}>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="social"
+                    value="Social"
                   >
                     Social
                   </Select.Option>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="volunteer"
+                    value="Volunteer"
                   >
                     Volunteer
                   </Select.Option>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="professional"
+                    value="Professional"
                   >
                     Professional
                   </Select.Option>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="campaigns"
+                    value="Campaigns"
                   >
                     Сampaigns
                   </Select.Option>
@@ -155,12 +155,11 @@ export default function EditPage(props: EditPostProps) {
               <span className={styles.cancelBtn}>Cancel</span>
             </Button>
             <Form.Item>
-              <Button className={styles.preview} htmlType="submit">
-                <span className={styles.previewBtn}>Edit Post</span>
+              <Button className={styles.edit} htmlType="submit">
+                <span className={styles.editBtn}>Edit Post</span>
               </Button>
             </Form.Item>
           </div>
-          <div className={styles.remember}></div>
         </Form>
       </div>
     </div>

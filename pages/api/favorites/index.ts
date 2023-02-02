@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getFavoritesPosts } from "../../../services/posts";
+import { getFavoritePosts } from "../../../services/posts";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { getSession } from "next-auth/react";
@@ -36,7 +36,7 @@ export default async function handler(
       return;
     }
 
-    const { posts, count } = await getFavoritesPosts(page, session?.user);
+    const { posts, count } = await getFavoritePosts(page, session?.user);
     res.status(200).json({ status: "ok", data: { posts, count } });
   } catch (err) {
     if (err instanceof HttpError) {
