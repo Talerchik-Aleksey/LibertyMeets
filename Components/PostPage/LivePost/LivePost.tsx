@@ -121,7 +121,7 @@ export default function LivePost(props: PostProps) {
         ) : (
           <></>
         )}
-        <div className={styles.buttonBlock}>
+        {/* <div className={styles.buttonBlock}>
           <Button
             className={styles.shareBtn}
             onClick={() => {
@@ -191,7 +191,7 @@ export default function LivePost(props: PostProps) {
               </div>
             )}
           </Modal>
-        </div>
+        </div> */}
       </div>
     </div>
   );

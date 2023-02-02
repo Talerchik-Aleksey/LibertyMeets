@@ -188,7 +188,7 @@ export default function MyPost(props: PostProps) {
         ) : (
           <></>
         )}
-        <div className={styles.buttonBlock}>
+        {/* <div className={styles.buttonBlock}>
           <Button className={styles.shareBtn}>
             <Image
               src="/decor/share.svg"
@@ -199,7 +199,7 @@ export default function MyPost(props: PostProps) {
             />
             <span className={styles.shareBtnText}>Share</span>
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
