@@ -117,7 +117,7 @@ export default function MyPost(props: PostProps) {
           <Select
             value={"Edit"}
             style={{
-              width: "22%",
+              width: "20%",
             }}
             showArrow={false}
             placement={"bottomLeft"}
@@ -167,7 +167,7 @@ export default function MyPost(props: PostProps) {
 
         <div className={styles.titleBlock}>
           <span className={styles.title}>title</span>
-          <span className={styles.titleText}>{post.title}</span>
+          <div className={styles.titleText}>{post.title}</div>
         </div>
         <div className={styles.categoryBlock}>
           <span className={styles.category}>Category</span>
