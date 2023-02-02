@@ -38,7 +38,7 @@ export default function SinglePost({
       {isAuthor ? (
         <>
           <MyPost appUrl={appUrl} post={post} />
-          <AuthorThreads appUrl={appUrl} postId={post.id} />
+          {/* <AuthorThreads appUrl={appUrl} postId={post.id} /> */}
         </>
       ) : (
         <>
@@ -50,7 +50,7 @@ export default function SinglePost({
             postId={post.id}
             threadId={"1"}
             isAuthor={isAuthor}
-          />
+          /> */}
         </>
       )}
     </>
