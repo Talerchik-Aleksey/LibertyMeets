@@ -42,9 +42,9 @@ export default function LivePost(props: PostProps) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.arrow}>
+      <div className={styles.backBlock}>
         <Button
-          className={styles.arrowBtn}
+          className={styles.backButton}
           type="link"
           onClick={() => router.push(`${appUrl}/posts`)}
         >
@@ -55,11 +55,11 @@ export default function LivePost(props: PostProps) {
             height={42}
             className={styles.backImage}
           />
-          <span className={styles.backBtn}>Back</span>
+          <span className={styles.backButtonText}>Back</span>
         </Button>
       </div>
       <div className={styles.livePostContainer}>
-        <div style={{ display: "flex" }}>
+        <div >
           <span className={styles.livePostTitle}>Live Post</span>
         </div>
 
@@ -69,8 +69,8 @@ export default function LivePost(props: PostProps) {
         </div>
         <div className={styles.categoryBlock}>
           <span className={styles.category}>Category</span>
-          <div className={styles.categoryBtn}>
-            <span className={styles.categoryBtnText}>{post.category}</span>
+          <div className={styles.categoryButton}>
+            <span className={styles.categoryButtonText}>{post.category}</span>
           </div>
         </div>
         <div className={styles.descriptionBlock}>
@@ -109,18 +109,20 @@ export default function LivePost(props: PostProps) {
             />
           </Tooltip>
         </div>
-        {coordinates && coordinates.length === 2 ? (
-          <div style={{ paddingBottom: 20 }}>
-            Location
-            <Map
+        <div className={styles.cardBlock}>
+          {coordinates && coordinates.length === 2 ? (
+            <>
+            <span className={styles.location}>location</span>
+              <Map
               lat={Number(coordinates[0])}
               lng={Number(coordinates[1])}
               isAllowDrag={false}
-            />
+              />
+            </>
+          ) : (
+            <></>
+          )}
           </div>
-        ) : (
-          <></>
-        )}
         {/* <div className={styles.buttonBlock}>
           <Button
             className={styles.shareBtn}
