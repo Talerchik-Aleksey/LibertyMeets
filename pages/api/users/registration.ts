@@ -6,6 +6,7 @@ import { fillEmailToken, saveUserToDatabase } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { validateEmail } from "../../../utils/stringUtils";
+import config from "config";
 
 type ResType = {
   message: string;
@@ -58,7 +59,10 @@ export default async function handler(
       throw new HttpError(404, "Web site not found");
     }
 
-    await sendVerificationByEmail(email, email_verification_token, url);
+    const verificationUrl = `${process.env.NEXTAUTH_URL}/account/verification/${email_verification_token}`;
+    const supportEmail = config.get<string>("emails.supportEmail");
+
+    await sendVerificationByEmail(email, verificationUrl, supportEmail);
     res.status(200).json({ message: "success registration" });
   } catch (err) {
     if (err instanceof HttpError) {

@@ -4,6 +4,7 @@ import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { v4 } from "uuid";
 import { sendResetPasswordLink } from "../../../services/email";
+import config from "config";
 
 type ResType = {
   message: string;
@@ -34,19 +35,20 @@ export default async function handler(
 
     const foundUser = await findUser(email);
 
-    const url = process.env.NEXTAUTH_URL;
-    if (!url) {
-      throw new HttpError(404, "Web site not found");
-    }
-
     if (foundUser) {
       const reset_pwd_token = v4();
       await fillToken(email, reset_pwd_token);
-      await sendResetPasswordLink(foundUser.id, reset_pwd_token, url);
+
+      const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password/verify/${reset_pwd_token}`;
+      const supportEmail = config.get<string>("emails.supportEmail");
+
+      await sendResetPasswordLink(foundUser.id, resetUrl, supportEmail);
+
       res.status(200).json({
         message: "success create reset token",
         token: reset_pwd_token,
       });
+
       return;
     }
 
