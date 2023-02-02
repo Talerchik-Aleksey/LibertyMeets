@@ -30,11 +30,13 @@ export async function changeEnabledForUser(token: string) {
   if (!isTokenExist) {
     throw new HttpError(404, "Token not found");
   }
-
+  const user = getUserByToken(token);
   await Users.update(
-    { is_enabled: true },
+    { is_enabled: true, email_verification_token: null },
     { where: { email_verification_token: token } }
   );
+
+  return user;
 }
 
 export async function isEmailAlreadyUsed(email: string): Promise<boolean> {
@@ -64,6 +66,7 @@ export async function getUser(userId: number) {
 export async function getUserByToken(email_verification_token: string) {
   const founfUser = await Users.findAll({
     where: { email_verification_token },
+    attributes: ["email", "password"],
   });
 
   return founfUser;
@@ -138,7 +141,7 @@ export async function isRightToken(token: string): Promise<boolean> {
 }
 
 export async function isRightEmailToken(token: string): Promise<boolean> {
-  const users = await Users.findOne({
+  const users = await Users.findAll({
     where: {
       email_verification_token: token,
     },

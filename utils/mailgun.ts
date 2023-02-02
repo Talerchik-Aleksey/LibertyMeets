@@ -96,5 +96,4 @@ export async function sendEmail(
 
   console.log("data", data);
   const res = await mailgun.messages().send(data);
-  console.log(res);
 }

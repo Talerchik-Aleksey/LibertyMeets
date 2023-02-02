@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import {
   changeEnabledForUser,
-  getUserByToken,
   isRightEmailToken,
 } from "../../../services/users";
 import { connect } from "../../../utils/db";
@@ -31,8 +30,8 @@ export default async function handler(
       return;
     }
 
-    await changeEnabledForUser(token);
-    const user = await getUserByToken(token);
+    const user = await changeEnabledForUser(token);
+
     res.status(200).json({ message: "success", user });
   } catch (err) {
     if (err instanceof HttpError) {
