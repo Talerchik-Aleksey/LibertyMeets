@@ -10,17 +10,16 @@ const secret = process.env.NEXTAUTH_SECRET! as string;
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   const cookies = parseCookies({ req });
-  let maxAge = config.get<number>("token.short");
-  console.log(req.body);
+  let maxAge = config.get<number>("token.short") * 24 * 60 * 60;
 
   if (cookies["remember-me"] && cookies["remember-me"] === "true") {
-    maxAge = config.get<number>("token.long");
+    maxAge = config.get<number>("token.long") * 24 * 60 * 60;
   } else if (req.body.rememberMe) {
     maxAge =
       req.body.rememberMe === "true"
-        ? config.get<number>("token.long")
-        : config.get<number>("token.short");
-    console.log(maxAge);
+        ? config.get<number>("token.long") * 24 * 60 * 60
+        : config.get<number>("token.short") * 24 * 60 * 60;
+
     setCookie({ res }, "remember-me", req.body.rememberMe, {
       maxAge,
       path: "/",
@@ -46,7 +45,8 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       }),
     ],
     callbacks: {
-      jwt: ({ token, user }) => {
+      jwt: async (params: any) => {
+        const { token, user } = params;
         if (user) {
           const isEven = +user.id % 2;
           if (isEven) {
@@ -58,18 +58,17 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
           }
           token.id = user.id;
           token.email = user.email;
-          token.liveTime = new Date();
         }
         return token;
       },
-      session: ({ session, token }) => {
+      session: ({ session, token }: { session: any; token: any }) => {
         if (token) {
           session.user!.id = token.id as number;
           session.user!.email = token.email as string;
           session.user!.lat = token.lat as number;
           session.user!.lng = token.lng as number;
         }
-        session.expires = "2023-03-04T16:03:400Z";
+
         return session;
       },
     },
