@@ -10,8 +10,8 @@ export default function AddListing() {
         No Further Opportunities Meet This Criteria
       </div>
       <div className={styles.title}>Add Your Listing</div>
-      <Link className={styles.link} href={"/createPost"}>
-        <Button className={styles.createPost}>
+      <Link className={styles.createPost} href={"/createPost"}>
+        
           <Image
             src="/decor/Vector3.svg"
             alt=""
@@ -20,7 +20,7 @@ export default function AddListing() {
             className={styles.vector}
           />
           <span className={styles.buttonText}>Create Post</span>
-        </Button>
+      
       </Link>
     </div>
   );

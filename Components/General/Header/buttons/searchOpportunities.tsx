@@ -6,8 +6,8 @@ import Image from "next/image";
 export default function SearchOpportunities() {
   return (
     <li className={styles.navigationItem}>
-      <Link className={styles.navigationItemLink} href={"/posts"}>
-        <Button className={styles.search}>
+      <Link className={styles.search} href={"/posts"}>
+        
           <Image
             src="/decor/Vector4.svg"
             alt=""
@@ -16,7 +16,7 @@ export default function SearchOpportunities() {
             className={styles.vector}
           />
           <span className={styles.searchText}>Search Opportunities </span>
-        </Button>
+        
       </Link>
     </li>
   );

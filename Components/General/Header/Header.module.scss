@@ -58,10 +58,8 @@
 }
 
 .createPosts {
-  padding: 8px 16px;
+  padding: 8px 18px;
   gap: 10px;
-  width: 174px;
-  height: 40px;
   background: #921a64;
   border-radius: 4px;
   text-decoration: none;
@@ -70,6 +68,7 @@
   align-items: center;
   border: none !important;
   transition: 0.5s;
+  white-space: nowrap;
 
   &:hover {
     transition: 0.5s;
@@ -140,13 +139,12 @@
   display: flex;
   gap:10px;
   align-items: center;
-  padding: 8px 16px;
+  padding: 8px 18px;
   gap: 10px;
-  width: 263px;
-  height: 40px;
   border-radius: 4px;
   transition:0.5s;
   border:none!important ;
+  white-space: nowrap;
 
   &:hover{
     transition:0.5s;
