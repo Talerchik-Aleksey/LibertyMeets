@@ -50,7 +50,6 @@ export async function sendEmail(
 ) {
   const params = { ...props, ...paramsArg, subject: "" };
 
-  console.log(templateProps);
   const subject = await renderEmailTemplate(
     `${template}/subject`,
     templateProps
