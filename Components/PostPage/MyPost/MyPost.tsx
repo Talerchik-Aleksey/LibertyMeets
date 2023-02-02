@@ -46,8 +46,6 @@ export default function MyPost(props: PostProps) {
     return null;
   }
 
-  console.log(post.is_blocked);
-
   const coordinates = post.geo?.split(",");
 
   const postId = post.id;
@@ -128,7 +126,7 @@ export default function MyPost(props: PostProps) {
             className={styles.select}
             bordered={false}
           >
-            <Option className={styles.optionContainer}>
+            <Option className={styles.optionContainer} key="edit">
               <Link href={`/posts/edit/${postId}`}>
                 <div className={styles.option}>
                   <Image
@@ -142,7 +140,7 @@ export default function MyPost(props: PostProps) {
                 </div>
               </Link>
             </Option>
-            <Option className={styles.optionContainer}>
+            <Option className={styles.optionContainer} key="public">
               <div
                 className={styles.option}
                 onClick={() => makePublic(!post?.is_public)}
@@ -157,8 +155,8 @@ export default function MyPost(props: PostProps) {
                 Make Post Public
               </div>
             </Option>
-            <Option className={styles.optionContainer}>
-              <div className={styles.option}>
+            <Option className={styles.optionContainer} key="delete">
+              <div className={styles.option} onClick={deletePost}>
                 <Image
                   src="/decor/trash.svg"
                   alt=""
