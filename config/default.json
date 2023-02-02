@@ -9,6 +9,10 @@
     "database": "liberty"
   },
   "secretKey": "test",
+  "token": {
+    "short": 10,
+    "long": 1000
+  },
   "hash": {
     "saltLength": 10
   },

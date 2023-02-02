@@ -8,6 +8,7 @@ declare module "next-auth" {
       email: string;
       lat: number;
       lng: number;
+      liveTime: Date;
     };
   }
 
@@ -16,5 +17,6 @@ declare module "next-auth" {
     email: string;
     password: string;
     reset_pwd_token: string;
+    liveTime: Date;
   }
 }
