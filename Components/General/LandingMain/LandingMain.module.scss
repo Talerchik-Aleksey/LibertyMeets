@@ -59,13 +59,20 @@
   text-decoration-line: underline;
   color: #6f2cff;
   mix-blend-mode: normal;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: 5px;
+  text-underline-offset: 6px;
+  width: 480px;
 
   @media (max-width: 1250px) {
     font-size: 60px;
+    width: 410px;
   }
 
   @media (max-width: 800px) {
     font-size: 40px;
+    width: 270px;
+    text-align: center;
   }
 }
 
@@ -104,7 +111,7 @@
 }
 
 .logoImage {
-  margin-top: 7px;
+  margin-top: 3px;
   width: 426px;
   height: 75px;
 
