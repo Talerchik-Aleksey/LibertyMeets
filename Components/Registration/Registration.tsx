@@ -6,8 +6,6 @@ import { Button, Form, Input } from "antd";
 import axios, { AxiosError } from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import { createRef, useState } from "react";
-import RectangleLeft from "../General/RectangleLeft/RectangleLeft";
-import RectangleRight from "../General/RectangleRight/RectangleRight";
 
 type PropsType = { appUrl: string; recaptchaKey: string };
 
