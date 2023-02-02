@@ -61,6 +61,14 @@ export async function getUser(userId: number) {
   return founfUser;
 }
 
+export async function getUserByToken(email_verification_token: string) {
+  const founfUser = await Users.findAll({
+    where: { email_verification_token },
+  });
+
+  return founfUser;
+}
+
 export async function fillToken(email: string, reset_pwd_token: string) {
   await Users.update(
     { reset_pwd_token },
@@ -130,7 +138,7 @@ export async function isRightToken(token: string): Promise<boolean> {
 }
 
 export async function isRightEmailToken(token: string): Promise<boolean> {
-  const users = await Users.findAll({
+  const users = await Users.findOne({
     where: {
       email_verification_token: token,
     },
