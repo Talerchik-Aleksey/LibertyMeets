@@ -39,19 +39,19 @@ export default function SinglePost({
       {isAuthor ? (
         <>
           <MyPost appUrl={appUrl} post={post} />
-          <AuthorThreads appUrl={appUrl} postId={post.id} />
+          {/* <AuthorThreads appUrl={appUrl} postId={post.id} /> */}
         </>
       ) : (
         <>
           <LivePost appUrl={appUrl} post={post} />
-          <Thread appUrl={appUrl} userId={session?.user.id} postId={post.id} />
-          <ThreadForm
+          {/* <Thread appUrl={appUrl} userId={session?.user.id} postId={post.id} /> */}
+          {/* <ThreadForm
             isThreadExists={false}
             appUrl={appUrl}
             postId={post.id}
             threadId={"1"}
             isAuthor={isAuthor}
-          />
+          /> */}
         </>
       )}
     </>

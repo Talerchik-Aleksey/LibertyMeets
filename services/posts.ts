@@ -171,6 +171,7 @@ export async function getUserPosts(page: number, userId: number) {
       "geo",
       "created_at",
       "author_id",
+      "is_blocked",
     ],
   });
 
