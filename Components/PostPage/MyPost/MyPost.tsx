@@ -9,6 +9,10 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 const { Option } = Select;
 
+type PostProps = { appUrl: string; post: PostType };
+type ErrorResponse = {
+  status: string;
+};
 type PostType = {
   id: number;
   author_id: number;
@@ -18,10 +22,7 @@ type PostType = {
   category: string;
   description: string;
   is_public: boolean;
-};
-type PostProps = { appUrl: string; post: PostType };
-type ErrorResponse = {
-  status: string;
+  is_blocked: boolean;
 };
 
 export default function MyPost(props: PostProps) {
@@ -105,6 +106,7 @@ export default function MyPost(props: PostProps) {
         </Button>
       </div>
       <div className={styles.myPostContainer}>
+        {post.is_blocked && <div>This post is blocked by admin</div>}
         <div className={styles.topBlock}>
           <span className={styles.myPostTitle}>My Post</span>
           <Image
@@ -124,7 +126,7 @@ export default function MyPost(props: PostProps) {
             className={styles.select}
             bordered={false}
           >
-            <Option className={styles.optionContainer}>
+            <Option className={styles.optionContainer} key="edit">
               <Link href={`/posts/edit/${postId}`}>
                 <div className={styles.option}>
                   <Image
@@ -135,10 +137,14 @@ export default function MyPost(props: PostProps) {
                     className={styles.edit}
                   />
                   Edit
-                </div></Link>
+                </div>
+              </Link>
             </Option>
-            <Option className={styles.optionContainer}>
-              <div className={styles.option} onClick={() => makePublic(!post?.is_public)}>
+            <Option className={styles.optionContainer} key="public">
+              <div
+                className={styles.option}
+                onClick={() => makePublic(!post?.is_public)}
+              >
                 <Image
                   src="/decor/eye3.svg"
                   alt=""
@@ -149,8 +155,8 @@ export default function MyPost(props: PostProps) {
                 Make Post Public
               </div>
             </Option>
-            <Option className={styles.optionContainer}>
-              <div className={styles.option}>
+            <Option className={styles.optionContainer} key="delete">
+              <div className={styles.option} onClick={deletePost}>
                 <Image
                   src="/decor/trash.svg"
                   alt=""
@@ -162,7 +168,6 @@ export default function MyPost(props: PostProps) {
               </div>
             </Option>
           </Select>
-
         </div>
 
         <div className={styles.titleBlock}>
@@ -186,19 +191,31 @@ export default function MyPost(props: PostProps) {
           }}
         >
           {post.is_public ? (
-            <Image src="/decor/eye4.svg" alt="" width={32} height={27} className={styles.publicityImage} />
+            <Image
+              src="/decor/eye5.svg"
+              alt=""
+              width={36}
+              height={36}
+              className={styles.publicityImage}
+            />
           ) : (
-            <Image src="/decor/eye5.svg" alt="" width={36} height={36} className={styles.publicityImage} />
+            <Image
+              src="/decor/eye4.svg"
+              alt=""
+              width={32}
+              height={27}
+              className={styles.publicityImage}
+            />
           )}
           <span
             className={
-              post.is_public ? styles.currently : styles.currentlyActive
+              post.is_public ? styles.currentlyActive : styles.currently
             }
           >
             This Post Is Currently
           </span>
           <span
-            className={post.is_public ? styles.public : styles.publicActive}
+            className={post.is_public ? styles.publicActive : styles.public}
           >
             {post.is_public ? "Public" : "Private"}
           </span>
@@ -219,11 +236,13 @@ export default function MyPost(props: PostProps) {
         <div className={styles.cardBlock}>
           {coordinates && coordinates.length === 2 ? (
             <>
-            <span className={styles.location}>location</span>
-            <Map
-              lat={Number(coordinates[0])}
-              lng={Number(coordinates[1])}
-              isAllowDrag={false} /></>
+              <span className={styles.location}>location</span>
+              <Map
+                lat={Number(coordinates[0])}
+                lng={Number(coordinates[1])}
+                isAllowDrag={false}
+              />
+            </>
           ) : (
             <></>
           )}
