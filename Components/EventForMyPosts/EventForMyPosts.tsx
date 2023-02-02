@@ -28,16 +28,14 @@ export default function EventForMyPosts({
         ) : (
           <></>
         )}
-        <Link className={styles.link} href={`/events/${post.id}`}>
+        <Link className={styles.link} href={`/posts/${post.id}`}>
           <div className={styles.date}>
             {moment(post.created_at).format("MMM D, YYYY")}
           </div>
           <div className={styles.label}>{post.category}</div>
-          <div className={styles.info}>{post.description}</div>
-          
+          <div className={styles.info}>{post.title}</div>
         </Link>
-        
-      </div><div className={styles.location}>{post.geo}</div>
+      </div>
       {/* <div className={styles.location}>{post.geo}</div> */}
     </div>
   );
