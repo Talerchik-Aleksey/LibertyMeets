@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { signIn, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { Button, Form, Input } from "antd";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -22,25 +22,21 @@ export default function Login({ appUrl }: PropsType) {
     return pathname ? router.push(`${pathname}`) : router.push("/");
   }
 
-  if (session) {
-    goBack();
-  }
-
   async function onFinish(values: unknown) {
     // await signIn("credentials", values);
     try {
-      if (typeof values !== "object" || !values || !("email" in values)) {
-        console.log("Information not found");
+      if (typeof values !== "object") {
         return;
       }
 
-      const req = await axios.get(`${appUrl}/api/users/check-account-status`, {
-        params: { email: (values as { email: string }).email },
-      });
+      await signIn("credentials", { ...values });
 
-      if (req.status === 200) {
-        console.log(values);
-        await signIn("credentials", { ...values, callbackUrl: "/posts" });
+      if (session) {
+        console.log(session.user);
+        if (!session.user.is_enabled) {
+          router.push("/auth/activate");
+        }
+        router.push("/posts");
       }
     } catch (err) {
       const error = err as AxiosError;
