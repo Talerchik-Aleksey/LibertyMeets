@@ -1,29 +1,14 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { Button, Form, Input } from "antd";
-import { useRouter } from "next/router";
 import Link from "next/link";
-import url from "url";
 import styles from "./Login.module.scss";
 
 export default function Login() {
-  const router = useRouter();
-  const { data: session } = useSession();
   const [isRemember, setIsRemember] = useState(false);
 
-  function goBack() {
-    const callback = `${router.query.callbackUrl}`;
-    const { pathname } = url.parse(callback);
-    return pathname ? router.push(`${pathname}`) : router.push("/");
-  }
-
-  if (session) {
-    console.log(session);
-  }
-
   async function onFinish(values: any) {
-    // await signIn("credentials", values);
     values.rememberMe = isRemember;
     await signIn("credentials", { ...values, callbackUrl: "/posts" });
   }
