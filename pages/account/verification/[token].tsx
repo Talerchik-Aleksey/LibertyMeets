@@ -18,7 +18,6 @@ export default function ChangeAccountStatePage({
       const req = await axios.post(`${appUrl}/api/users/email-verification`, {
         token: router.query.token,
       });
-      console.log(req);
 
       if (req.status !== 200) {
         setIsError(true);
