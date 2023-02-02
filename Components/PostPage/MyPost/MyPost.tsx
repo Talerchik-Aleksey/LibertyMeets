@@ -87,7 +87,7 @@ export default function MyPost(props: PostProps) {
   }
 
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <div className={styles.backBlock}>
         <Button
           className={styles.backButton}
@@ -229,6 +229,6 @@ export default function MyPost(props: PostProps) {
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

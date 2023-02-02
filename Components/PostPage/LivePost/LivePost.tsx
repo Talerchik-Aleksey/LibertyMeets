@@ -41,7 +41,7 @@ export default function LivePost(props: PostProps) {
   const coordinates = post.geo?.split(",");
 
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <div className={styles.arrow}>
         <Button
           className={styles.arrowBtn}
@@ -193,6 +193,6 @@ export default function LivePost(props: PostProps) {
           </Modal>
         </div> */}
       </div>
-    </div>
+    </section>
   );
 }
