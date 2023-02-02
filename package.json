@@ -17,6 +17,7 @@
     "bcryptjs": "^2.4.3",
     "config": "^3.3.8",
     "ejs": "^3.1.8",
+    "email-validator": "^2.0.4",
     "formik": "^2.2.9",
     "generate-avatar": "^1.4.10",
     "mailgun-js": "^0.22.0",
