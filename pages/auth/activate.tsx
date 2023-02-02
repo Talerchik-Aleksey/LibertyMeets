@@ -1,4 +1,12 @@
+import { signOut, useSession } from "next-auth/react";
+
 export default function ActivatePage() {
+  const { data: session } = useSession();
+
+  if (session) {
+    signOut();
+  }
+
   return (
     <>
       <h2>Error</h2>

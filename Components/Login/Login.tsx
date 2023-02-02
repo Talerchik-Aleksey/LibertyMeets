@@ -22,6 +22,12 @@ export default function Login({ appUrl }: PropsType) {
     return pathname ? router.push(`${pathname}`) : router.push("/");
   }
 
+  if (session) {
+    if (!session.user.is_enabled) {
+      router.push("/auth/activate");
+    }
+  }
+
   async function onFinish(values: unknown) {
     // await signIn("credentials", values);
     try {
@@ -30,14 +36,6 @@ export default function Login({ appUrl }: PropsType) {
       }
 
       await signIn("credentials", { ...values });
-
-      if (session) {
-        console.log(session.user);
-        if (!session.user.is_enabled) {
-          router.push("/auth/activate");
-        }
-        router.push("/posts");
-      }
     } catch (err) {
       const error = err as AxiosError;
       console.error(error);
