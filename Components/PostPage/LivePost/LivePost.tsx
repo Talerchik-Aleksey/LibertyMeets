@@ -2,7 +2,7 @@ import styles from "./LivePost.module.scss";
 import Image from "next/image";
 import { Button, Form, Input, Modal, Tooltip } from "antd";
 import { useState, useMemo } from "react";
-import RememberBlock from "../../RememberBlock/RememberBlock";
+// import RememberBlock from "../../RememberBlock/RememberBlock";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 
@@ -19,8 +19,8 @@ type PostType = {
 type PostProps = { appUrl: string; post: PostType };
 
 export default function LivePost(props: PostProps) {
-  const [open, setOpen] = useState(false);
-  const [share, setShare] = useState<Boolean>();
+  // const [open, setOpen] = useState(false);
+  // const [share, setShare] = useState<Boolean>();
   const [post, setPost] = useState<PostType>(props.post);
   const appUrl = props.appUrl;
   const router = useRouter();
