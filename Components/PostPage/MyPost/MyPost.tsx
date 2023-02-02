@@ -17,6 +17,7 @@ type PostType = {
   category: string;
   description: string;
   is_public: boolean;
+  is_enabled: boolean;
 };
 type PostProps = { appUrl: string; post: PostType };
 type ErrorResponse = {
@@ -104,6 +105,7 @@ export default function MyPost(props: PostProps) {
         </Button>
       </div>
       <div className={styles.livePostContainer}>
+        {!post.is_enabled && <div>This post is blocked by admin</div>}
         <div style={{ display: "flex" }}>
           <span className={styles.livePostTitle}>My Post</span>
           <div

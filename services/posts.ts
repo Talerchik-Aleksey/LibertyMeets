@@ -150,6 +150,7 @@ export async function getPost(postId: number) {
       "geo",
       "author_id",
       "created_at",
+      "is_enabled",
     ],
   });
 
