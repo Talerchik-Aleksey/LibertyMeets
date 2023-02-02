@@ -8,12 +8,13 @@ declare module "next-auth" {
       email: string;
       lat: number;
       lng: number;
-      liveTime: Date;
+      is_enabled: boolean;
     };
   }
 
   interface DefaultUser {
     id: number;
+    is_enabled: boolean;
     email: string;
     password: string;
     reset_pwd_token: string;
