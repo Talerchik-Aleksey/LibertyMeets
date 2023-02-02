@@ -43,7 +43,7 @@ export default function SinglePost({
       ) : (
         <>
           <LivePost appUrl={appUrl} post={post} />
-          <Thread appUrl={appUrl} userId={session?.user.id} postId={post.id} />
+          {/* <Thread appUrl={appUrl} userId={session?.user.id} postId={post.id} /> */}
           {/* <ThreadForm
             isThreadExists={false}
             appUrl={appUrl}
