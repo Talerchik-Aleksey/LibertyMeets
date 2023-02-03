@@ -18,6 +18,9 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
   const [terms, setTerms] = useState<boolean>(false);
   const recaptchaRef = createRef<ReCAPTCHA>();
   const router = useRouter();
+  const passwordRegex = new RegExp(
+    "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+  );
 
   async function onFinish(values: any) {
     const recaptchaValue = recaptchaRef.current?.getValue();
@@ -105,7 +108,14 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
             labelCol={{ span: 5 }}
             className={styles.password}
             labelAlign="left"
-            rules={[{ required: true }, { type: "string", min: 4, max: 100 }]}
+            rules={[
+              { required: true, message: "Please input your password!" },
+              {
+                pattern: passwordRegex,
+                message:
+                  "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
+              },
+            ]}
           >
             <Input
               suffix={
