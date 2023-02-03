@@ -52,6 +52,10 @@ export async function getPosts(
       where: info,
       limit: PAGE_SIZE,
       offset: PAGE_SIZE * (page - 1),
+      order: [
+        ["created_at", "DESC"],
+        ["title", "ASC"],
+      ],
       include: {
         model: FavoritePosts,
         as: "favoriteUsers",
@@ -82,6 +86,10 @@ export async function getPosts(
 
   const posts = await Posts.findAll({
     where: info,
+    order: [
+      ["created_at", "DESC"],
+      ["title", "ASC"],
+    ],
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * (page - 1),
     attributes: [
