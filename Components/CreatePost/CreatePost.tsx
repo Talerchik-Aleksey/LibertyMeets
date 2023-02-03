@@ -80,8 +80,6 @@ export default function CreatePost(props: CreatePostProps) {
     );
   }, [session]);
 
-  console.log();
-
   const router = useRouter();
   async function onFinish(values: any) {
     try {
