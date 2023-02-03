@@ -5,6 +5,7 @@ import { useState, useMemo } from "react";
 // import RememberBlock from "../../RememberBlock/RememberBlock";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+import ThreadForm from "../../Posts/ThreadForm";
 
 type PostType = {
   id: number;
@@ -19,8 +20,8 @@ type PostType = {
 type PostProps = { appUrl: string; post: PostType };
 
 export default function LivePost(props: PostProps) {
-  // const [open, setOpen] = useState(false);
-  // const [share, setShare] = useState<Boolean>();
+  const [open, setOpen] = useState(false);
+  const [share, setShare] = useState<Boolean>();
   const [post, setPost] = useState<PostType>(props.post);
   const appUrl = props.appUrl;
   const router = useRouter();
@@ -123,7 +124,18 @@ export default function LivePost(props: PostProps) {
             <></>
           )}
         </div>
-        {/* <div className={styles.buttonBlock}>
+        {/* */}
+
+        <div className={styles.buttonBlock}>
+
+          <ThreadForm
+            appUrl={appUrl} postId={post.id}
+            isThreadExists={false}
+            threadId={''}
+            isAuthor={false}
+          />
+
+          {/*
           <Button
             className={styles.shareBtn}
             onClick={() => {
@@ -156,6 +168,7 @@ export default function LivePost(props: PostProps) {
             />
             <span className={styles.replyBtnText}>Reply </span>
           </Button>
+          */}
 
           <Modal></Modal>
 
@@ -189,11 +202,13 @@ export default function LivePost(props: PostProps) {
                   <strong>e570bd5f166a3@libertymeets.com </strong>
                 </span>
                 <Button className={styles.copyBtn}>Copy</Button>
-                <RememberBlock />
+                {/*<RememberBlock />*/}
               </div>
             )}
           </Modal>
-        </div> */}
+        </div>
+
+        {/* */}
       </div>
     </section>
   );
