@@ -231,7 +231,7 @@ export default function CreatePost(props: CreatePostProps) {
                 lng={lng}
                 setLat={setLat}
                 setLng={setLng}
-                isAllowDrag={true}
+                isAllowClick={true}
               />
             </div>
           </div>
