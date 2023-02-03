@@ -55,9 +55,12 @@
 .eventsSubBlock {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 15px;
   width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
 }
+
 
 .buttonDay{
   margin: 15px 0 15px 15px;
