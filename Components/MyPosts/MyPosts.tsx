@@ -15,6 +15,7 @@ type MyPostsProps = {
   initialPosts: PostType[];
   initialCount: number;
   postsIsFavorites?: boolean;
+  activePage: string;
 };
 
 export default function MyPosts({
@@ -23,6 +24,7 @@ export default function MyPosts({
   initialPosts,
   initialCount,
   postsIsFavorites,
+  activePage,
 }: MyPostsProps) {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [totalCount, setTotalCount] = useState<number>(initialCount);
@@ -67,7 +69,7 @@ export default function MyPosts({
 
   return (
     <section className={styles.profileWrapper}>
-      <Navigation />
+      <Navigation activePage={activePage} />
       {posts.length === 0 ? (
         // eslint-disable-next-line react/no-unescaped-entities
         <LackOfPosts />

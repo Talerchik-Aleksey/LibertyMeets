@@ -24,6 +24,7 @@ export default function MyPostsPage({
       postsPerPage={postsPerPage}
       initialPosts={posts}
       initialCount={count}
+      activePage="My Posts"
     />
   );
 }
