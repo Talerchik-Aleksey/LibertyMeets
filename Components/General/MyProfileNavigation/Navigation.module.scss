@@ -25,6 +25,28 @@
   }
 }
 
+.activeButton {
+  display: flex;
+  align-items: center;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  width: 190px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  border-radius: 4px;
+  border: none !important;
+  box-shadow: none;
+  background: #eee9f7;
+  color: #921a64 !important;
+
+  @media (max-width: 600px) {
+    width: auto;
+  }
+}
+
 .containerMenu {
   display: flex;
   justify-content: center;

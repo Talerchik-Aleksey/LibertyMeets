@@ -4,19 +4,17 @@ import Image from "next/image";
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/router";
 import Navigation from "../MyProfileNavigation/Navigation";
 
 type ErrorResponse = {
   message: string;
 };
-type SettingsProps = { appUrl: string };
+type SettingsProps = { appUrl: string; activePage: string };
 
 export default function Settings(props: SettingsProps) {
-  const { appUrl } = props;
+  const appUrl = props.appUrl;
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isUpdatedPassword, setIsUpdatedPassword] = useState<boolean>();
-  const router = useRouter();
 
   async function onFinish(values: any) {
     if (values.password !== values.repeatPassword) {
@@ -54,7 +52,7 @@ export default function Settings(props: SettingsProps) {
 
   return (
     <section className={styles.profileWrapper}>
-      <Navigation />
+      <Navigation activePage={props.activePage} />
       <div className={styles.wrap}>
         <div className={styles.container}>
           <span className={styles.userTitle}>User Details</span>

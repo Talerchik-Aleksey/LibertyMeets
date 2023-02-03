@@ -5,7 +5,7 @@ import Settings from "../Components/General/Settings/Settings";
 type SettingsProps = { appUrl: string };
 
 export default function SettingsPage({ appUrl }: SettingsProps) {
-  return <Settings appUrl={appUrl} />;
+  return <Settings appUrl={appUrl} activePage="Settings" />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

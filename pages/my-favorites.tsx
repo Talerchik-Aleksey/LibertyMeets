@@ -25,6 +25,7 @@ export default function MyFavoritesPageProps({
       initialPosts={posts}
       initialCount={count}
       postsIsFavorites={true}
+      activePage="My Favorites"
     />
   );
 }
