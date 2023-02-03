@@ -31,7 +31,6 @@ export default function ResetPassword({ appUrl }: ResetPasswordProps) {
       }
     }
   }
-  console.log("generateLink <-------", generateLink);
 
   return (
     <section className={styles.resetPasswordWrapper}>
@@ -102,7 +101,7 @@ export default function ResetPassword({ appUrl }: ResetPasswordProps) {
         <Link className={styles.goBack} href={"/signin"}>
           Go Back to Log In
         </Link>
-      </div>    
+      </div>
     </section>
   );
 }

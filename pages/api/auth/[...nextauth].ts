@@ -1,12 +1,18 @@
 import NextAuth, { DefaultUser } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { getUserByCredentials } from "../../../services/users";
+import { findUser, getUserByCredentials } from "../../../services/users";
 import { DEFAULT_LAT, DEFAULT_LNG } from "../../../constants/constants";
 import { NextApiRequest, NextApiResponse } from "next";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import config from "config";
 
 const secret = process.env.NEXTAUTH_SECRET! as string;
+
+const decodeV4 = (v4String: string): string => {
+  const uuid = v4String.slice(0, 36);
+  const hexEncodedPart = v4String.slice(36);
+  return Buffer.from(hexEncodedPart, "hex").toString();
+};
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   const cookies = parseCookies({ req });
@@ -29,6 +35,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   const options = {
     providers: [
       CredentialsProvider({
+        id: "creadentials",
         name: "credentials",
         credentials: {
           email: { label: "Email", type: "text", placeholder: "email" },
@@ -40,6 +47,24 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
           }
 
           const user = await getUserByCredentials(credentials);
+          return user as unknown as DefaultUser | null;
+        },
+      }),
+      CredentialsProvider({
+        id: "autoCredentials",
+        name: "autoCredentials",
+        credentials: {
+          token: { label: "Token", type: "text", placeholder: "token" },
+        },
+        async authorize(credentials) {
+          if (!credentials) {
+            return null;
+          }
+
+          const { token } = credentials;
+          const decodedEmail = decodeV4(token);
+          const user = await findUser(decodedEmail);
+
           return user as unknown as DefaultUser | null;
         },
       }),

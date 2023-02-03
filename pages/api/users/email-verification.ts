@@ -22,7 +22,6 @@ export default async function handler(
     if (!token) {
       throw new HttpError(400, "no token");
     }
-
     const isUsed = await isRightEmailToken(token);
 
     if (!isUsed) {
