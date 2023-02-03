@@ -45,7 +45,7 @@ export default function ThreadForm({
   }
 
   return (
-    <Form onFinish={handleSubmit} form={form}>
+    <Form onFinish={handleSubmit} form={form} className={styles.messageForm}>
       <Form.Item
         className={styles.descriptionText}
         labelAlign={"left"}
