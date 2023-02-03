@@ -20,10 +20,9 @@ function concatRecipients(list: recipientType[]) {
 
 async function renderEmailTemplate(ejsFileName: string, params: any) {
   console.log("params", params);
-  const htmlFile = `${process.cwd()}/${config.get(
+  const htmlFile = `${process.cwd()}${config.get(
     "emails.templatesDir"
   )}/${ejsFileName}.ejs`;
-
   const result = await ejs.renderFile(htmlFile, params);
 
   return result as string;
@@ -42,7 +41,6 @@ const props = config.get<{
 
 type HeadersSetupEntry = [string, string];
 type HeadersSetup = Array<HeadersSetupEntry>;
-
 
 export async function sendEmail(
   template: string,
@@ -98,5 +96,4 @@ export async function sendEmail(
 
   console.log("data", data);
   const res = await mailgun.messages().send(data);
-  console.log(res);
 }

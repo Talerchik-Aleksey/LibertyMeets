@@ -3,8 +3,6 @@ import Image from "next/image";
 import { Button, Form, Input } from "antd";
 import { useRouter } from "next/router";
 import styles from "./ChangePassword.module.scss";
-import RectangleLeft from "../General/RectangleLeft/RectangleLeft";
-import RectangleRight from "../General/RectangleRight/RectangleRight";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -51,10 +49,7 @@ export default function ChangePassword({ appUrl }: ChangePasswordProps) {
   return (
     <>
       {isRightUser ? (
-        <div className={styles.loginWrapper}>
-          <div className={styles.leftBlock}>
-            <RectangleLeft />
-          </div>
+        <section className={styles.changeWrapper}>
           <div className={styles.formBlock}>
             <div className={styles.logoInfo}>
               <div className={styles.goods}>
@@ -147,10 +142,7 @@ export default function ChangePassword({ appUrl }: ChangePasswordProps) {
               </Form.Item>
             </Form>
           </div>
-          <div className={styles.rightBlock}>
-            <RectangleRight />
-          </div>
-        </div>
+        </section>
       ) : (
         <></>
       )}

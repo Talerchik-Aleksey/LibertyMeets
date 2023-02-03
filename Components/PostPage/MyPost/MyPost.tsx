@@ -1,13 +1,18 @@
 import styles from "./MyPost.module.scss";
 import Image from "next/image";
-import { Button, Tooltip } from "antd";
+import { Button, Select, Tooltip } from "antd";
 import { useState, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+const { Option } = Select;
 
+type PostProps = { appUrl: string; post: PostType };
+type ErrorResponse = {
+  status: string;
+};
 type PostType = {
   id: number;
   author_id: number;
@@ -17,10 +22,7 @@ type PostType = {
   category: string;
   description: string;
   is_public: boolean;
-};
-type PostProps = { appUrl: string; post: PostType };
-type ErrorResponse = {
-  status: string;
+  is_blocked: boolean;
 };
 
 export default function MyPost(props: PostProps) {
@@ -86,10 +88,10 @@ export default function MyPost(props: PostProps) {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.arrow}>
+    <section className={styles.container}>
+      <div className={styles.backBlock}>
         <Button
-          className={styles.arrowBtn}
+          className={styles.backButton}
           type="link"
           onClick={() => router.push(`${appUrl}/myPosts`)}
         >
@@ -100,39 +102,82 @@ export default function MyPost(props: PostProps) {
             height={42}
             className={styles.backImage}
           />
-          <span className={styles.backBtn}>Back</span>
+          <span className={styles.backButtonText}>Back</span>
         </Button>
       </div>
-      <div className={styles.livePostContainer}>
-        <div style={{ display: "flex" }}>
-          <span className={styles.livePostTitle}>My Post</span>
-          <div
-            style={{ paddingLeft: 30, paddingRight: 30 }}
-            onClick={() => setShowList(!showList)}
+      <div className={styles.myPostContainer}>
+        {post.is_blocked && <div>This post is blocked by admin</div>}
+        <div className={styles.topBlock}>
+          <span className={styles.myPostTitle}>My Post</span>
+          <Image
+            src="/decor/EditDots.svg"
+            alt=""
+            width={6}
+            height={25}
+            className={styles.editSvg}
+          />
+          <Select
+            value={"Edit"}
+            style={{
+              width: "20%",
+            }}
+            showArrow={false}
+            placement={"bottomLeft"}
+            className={styles.select}
+            bordered={false}
           >
-            Edit
-          </div>
-          {showList ? (
-            <div>
-              <Link href={`/events/edit/${postId}`}>Edit</Link>
-              <div onClick={() => makePublic(!post?.is_public)}>
-                Make public
+            <Option className={styles.optionContainer} key="edit">
+              <Link href={`/posts/edit/${postId}`}>
+                <div className={styles.option}>
+                  <Image
+                    src="/decor/editPensil.svg"
+                    alt=""
+                    width={14}
+                    height={14}
+                    className={styles.edit}
+                  />
+                  Edit
+                </div>
+              </Link>
+            </Option>
+            <Option className={styles.optionContainer} key="public">
+              <div
+                className={styles.option}
+                onClick={() => makePublic(!post?.is_public)}
+              >
+                <Image
+                  src="/decor/eye3.svg"
+                  alt=""
+                  width={16}
+                  height={16}
+                  className={styles.eye}
+                />
+                Make Post Public
               </div>
-              <div onClick={deletePost}>Delete</div>
-            </div>
-          ) : (
-            <></>
-          )}
+            </Option>
+            <Option className={styles.optionContainer} key="delete">
+              <div className={styles.option} onClick={deletePost}>
+                <Image
+                  src="/decor/trash.svg"
+                  alt=""
+                  width={14}
+                  height={16}
+                  className={styles.delete}
+                />
+                Delete
+              </div>
+            </Option>
+          </Select>
         </div>
 
         <div className={styles.titleBlock}>
           <span className={styles.title}>title</span>
-          <span className={styles.titleText}>{post.title}</span>
+          <div className={styles.titleText}>{post.title}</div>
         </div>
         <div className={styles.categoryBlock}>
           <span className={styles.category}>Category</span>
-          <div className={styles.categoryBtn}>
-            <span className={styles.categoryBtnText}>{post.category}</span>
+          <div className={styles.categoryButton}>
+            <div className={styles.categoryButtonText}>{post.category}</div>
           </div>
         </div>
         <div className={styles.descriptionBlock}>
@@ -146,19 +191,31 @@ export default function MyPost(props: PostProps) {
           }}
         >
           {post.is_public ? (
-            <Image src="/decor/eye4.svg" alt="" width={32} height={27} />
+            <Image
+              src="/decor/eye5.svg"
+              alt=""
+              width={36}
+              height={36}
+              className={styles.publicityImage}
+            />
           ) : (
-            <Image src="/decor/eye5.svg" alt="" width={36} height={36} />
+            <Image
+              src="/decor/eye4.svg"
+              alt=""
+              width={32}
+              height={27}
+              className={styles.publicityImage}
+            />
           )}
           <span
             className={
-              post.is_public ? styles.currently : styles.currentlyActive
+              post.is_public ? styles.currentlyActive : styles.currently
             }
           >
             This Post Is Currently
           </span>
           <span
-            className={post.is_public ? styles.public : styles.publicActive}
+            className={post.is_public ? styles.publicActive : styles.public}
           >
             {post.is_public ? "Public" : "Private"}
           </span>
@@ -176,27 +233,21 @@ export default function MyPost(props: PostProps) {
             />
           </Tooltip>
         </div>
-        {coordinates && coordinates.length === 2 ? (
-          <div style={{ paddingBottom: 20 }}>
-            Location
-            <Map lat={Number(coordinates[0])} lng={Number(coordinates[1])} />
-          </div>
-        ) : (
-          <></>
-        )}
-        <div className={styles.buttonBlock}>
-          <Button className={styles.shareBtn}>
-            <Image
-              src="/decor/share.svg"
-              alt=""
-              width={16}
-              height={16}
-              className={styles.shareIcon}
-            />
-            <span className={styles.shareBtnText}>Share</span>
-          </Button>
+        <div className={styles.cardBlock}>
+          {coordinates && coordinates.length === 2 ? (
+            <>
+              <span className={styles.location}>location</span>
+              <Map
+                lat={Number(coordinates[0])}
+                lng={Number(coordinates[1])}
+                isAllowDrag={false}
+              />
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

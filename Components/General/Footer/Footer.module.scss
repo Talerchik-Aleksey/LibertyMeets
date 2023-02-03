@@ -4,9 +4,10 @@
   align-items: center;
   padding: 16px 48px;
   gap: 40px;
-  background: var(--LibertyMeets-Purple-100);
+  background: #EEE9F7;
   justify-content: space-between;
   flex: 0 0 auto;
+  box-sizing: border-box;
 
   @media (max-width: 800px) {
     flex-direction: column;
@@ -35,7 +36,7 @@
 
 .clickableText {
   color: var(--LibertyMeets-UtilityBlack);
-  font-family: 'InterRegular';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -44,7 +45,7 @@
 }
 
 .liberty {
-  font-family: 'InterRegular';
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -56,6 +57,10 @@
 }
 
 .clickableText:hover {
-  color: var(--LibertyMeets-Purple-500);
+  color: #921A64;
   cursor: pointer;
+}
+
+.linkAbout{
+  text-decoration: none;
 }

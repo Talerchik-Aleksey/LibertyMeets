@@ -25,7 +25,7 @@ export default function CreatePost(props: CreatePostProps) {
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
   const [isPublic, setIsPublic] = useState<boolean>(true);
-  
+
   const Map = useMemo(
     () =>
       dynamic(() => import("../Map"), {
@@ -82,22 +82,24 @@ export default function CreatePost(props: CreatePostProps) {
 
   const router = useRouter();
   async function onFinish(values: any) {
-    values.lat = lat;
-    values.lng = lng;
-    values.isPublic = isPublic;
-    const req = await axios.post(`${appUrl}/api/posts/create`, values, {
-      withCredentials: true,
-    });
-    if (req.status === 200) {
-      alert(req.data.data.postId);
-      router.push("/myPosts");
-    } else {
-      alert();
+    try {
+      values.lat = lat;
+      values.lng = lng;
+      values.is_public = isPublic;
+      const req = await axios.post(`${appUrl}/api/posts/create`, values, {
+        withCredentials: true,
+      });
+
+      if (req.status === 200) {
+        router.push("/myPosts");
+      }
+    } catch (e) {
+      console.error(e);
     }
   }
 
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <div className={styles.arrow}>
         <Link className={styles.backLink} href={""}>
           <Button
@@ -117,7 +119,11 @@ export default function CreatePost(props: CreatePostProps) {
         </Link>
       </div>
       <div className={styles.createContainer}>
-        <Form name="normal_login" onFinish={onFinish} validateTrigger={false}>
+        <Form
+          name="normal_login"
+          onFinish={onFinish}
+          initialValues={{ remember: true }}
+        >
           <div className={styles.title}>Create Post</div>
           <div className={styles.inputContainer}>
             <div className={styles.postTitle}>
@@ -125,9 +131,13 @@ export default function CreatePost(props: CreatePostProps) {
                 className={styles.postTitleText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="* Post Title"
+                label="Post Title"
                 name="title"
                 colon={false}
+                rules={[
+                  { required: true },
+                  { type: "string", min: 4, max: 100 },
+                ]}
               >
                 <Input
                   suffix={
@@ -147,10 +157,11 @@ export default function CreatePost(props: CreatePostProps) {
                 className={styles.categoryText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="* Category"
+                label="Category"
                 name="category"
                 initialValue="social"
                 colon={false}
+                rules={[{ required: true }]}
               >
                 <Select className={styles.categorySelect}>
                   <Select.Option
@@ -185,9 +196,13 @@ export default function CreatePost(props: CreatePostProps) {
                 className={styles.descriptionText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="* Description"
+                label="Description"
                 name="description"
                 colon={false}
+                rules={[
+                  { required: true },
+                  { type: "string", min: 4, max: 200 },
+                ]}
               >
                 <TextArea
                   maxLength={200}
@@ -211,26 +226,28 @@ export default function CreatePost(props: CreatePostProps) {
           <div className={styles.location}>
             <span>* Location</span>
             <div className={styles.map}>
-              <Map lat={lat} lng={lng} />
+              <Map
+                lat={lat}
+                lng={lng}
+                setLat={setLat}
+                setLng={setLng}
+                isAllowDrag={true}
+              />
             </div>
           </div>
           <div className={styles.buttonBlock}>
-            <Link className={styles.cancelLink} href={""}>
-              <Button
-                className={styles.cancel}
-                onClick={() => router.push("/posts")}
-              >
-                <Image src="/decor/x.svg" alt="" width={10} height={10} />
-                <span className={styles.cancelBtn}>Cancel</span>
-              </Button>
-            </Link>
+            <Button
+              className={styles.cancel}
+              onClick={() => router.push("/posts")}
+            >
+              <Image src="/decor/x.svg" alt="" width={10} height={10} />
+              <span className={styles.cancelBtn}>Cancel</span>
+            </Button>
             <Form.Item>
-              <Link href={""}>
-                <Button className={styles.preview} htmlType="submit">
-                  <Image src="/decor/eyes.svg" alt="" width={16} height={14} />
-                  <span className={styles.previewBtn}>Preview Post</span>
-                </Button>
-              </Link>
+              <Button className={styles.preview} htmlType="submit">
+                {/* <Image src="/decor/eyes.svg" alt="" width={16} height={14} /> */}
+                <span className={styles.previewBtn}>Create Post</span>
+              </Button>
             </Form.Item>
           </div>
           <div className={styles.remember}>
@@ -238,6 +255,6 @@ export default function CreatePost(props: CreatePostProps) {
           </div>
         </Form>
       </div>
-    </div>
+    </section>
   );
 }

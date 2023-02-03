@@ -9,6 +9,10 @@
     "database": "liberty"
   },
   "secretKey": "test",
+  "token": {
+    "sessionLifetimeSec": 864000,
+    "sessionExtendedLifetimeSec": 86400000
+  },
   "hash": {
     "saltLength": 10
   },
@@ -19,8 +23,8 @@
     "public_recaptcha_key": "",
     "recaptcha_key": ""
   },
-
   "emails": {
+    "supportEmail": "support@libertymeets.com",
     "templatesDir": "/emails",
     "replySetup": {
       "baseDomain": "mg.example.com"

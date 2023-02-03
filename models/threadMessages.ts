@@ -45,16 +45,16 @@ export class ThreadMessages extends Model {
 
   @CreatedAt
   @Column
-  createdAt!: Date;
+  created_at!: Date;
 
   @UpdatedAt
   @Column
-  updatedAt!: Date;
+  updated_at!: Date;
 
   @DeletedAt
   @Column
-  deletedAt!: Date;
+  deleted_at!: Date;
 
-  @BelongsTo(()=>Threads, "thread_id")
-  thread?:string
+  @BelongsTo(() => Threads, "thread_id")
+  thread?: string;
 }

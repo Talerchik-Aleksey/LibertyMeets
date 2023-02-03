@@ -28,11 +28,11 @@ export default async function handler(
     const body = req.body as BodyType;
     const { title, category, description } = body;
 
-    if (!title || !category || !description || body.isPublic === undefined) {
+    if (!title || !category || !description || body.is_public === undefined) {
       throw new HttpError(400, "invalid body structure");
     }
 
-    if (title.length < 4 || title.length > 28) {
+    if (title.length < 4 || title.length > 100) {
       throw new HttpError(400, "invalid title length");
     }
 
@@ -40,7 +40,7 @@ export default async function handler(
       throw new HttpError(400, "invalid category");
     }
 
-    if (description.length < 4 || description.length > 1024) {
+    if (description.length < 4 || description.length > 200) {
       throw new HttpError(400, "invalid description length");
     }
 
@@ -49,7 +49,6 @@ export default async function handler(
       res.status(401);
       return;
     }
-
     const post = await savePostToDb({ user: session.user, post: body });
     res.status(200).json({ status: "ok", data: { postId: post.id } });
   } catch (err) {

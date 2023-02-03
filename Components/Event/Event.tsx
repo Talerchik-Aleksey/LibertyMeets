@@ -44,13 +44,13 @@ export default function EventSingleRow(props: EventSingleRowProps) {
             />
           </div>
         )}
-        <Link className={styles.link} href={`/events/${post.id}`}>
+        <Link className={styles.link} href={`/posts/${post.id}`}>
           {isViewForAllCategory ? (
             <div className={styles.label}>{post.category}</div>
           ) : (
             <></>
           )}
-          <div className={styles.info}>{post.description}</div>
+          <div className={styles.info}>{post.title}</div>
         </Link>
       </div>
       <div className={styles.location}>

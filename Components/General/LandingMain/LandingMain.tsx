@@ -1,16 +1,28 @@
 import Image from "next/image";
-import { Inter } from "@next/font/google";
 import styles from "./LandingMain.module.scss";
 import { Button } from "antd";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+const textMap = [
+  "a New Job",
+  "for Trivia Night",
+  "to Take Action",
+  "the Neighbors",
+];
 
 export default function LandingMain() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    setTimeout(() => {
+      index != 3 ? setIndex(index + 1) : setIndex(0);
+    }, 5000);
+  }, [index]);
+
   return (
     <section className={styles.container}>
-      <h1 className={styles.invisible}>LibertyMeets</h1>
-      <div className={styles.titleBlock}>
+      <section className={styles.titleBlock}>
         <div className={styles.logoInfo}>
           <div className={styles.infoBlock}>
             <Image
@@ -20,26 +32,21 @@ export default function LandingMain() {
               height={75}
               className={styles.logoImage}
             />
-            <span className={styles.subtitle}>a New Job</span>
+            <span className={styles.subtitle}>{textMap[index]}</span>
           </div>
           <h2 className={styles.description}>
             LibertyMeets is a classifieds website for finding freedom-friendly
             folks near you.
           </h2>
-          <Link href="/posts">
-            <Button className={styles.infoBlockButtonPurple}>
-              Search Public Opportunities
-            </Button>
+          <Link className={styles.infoBlockButtonPurple} href="/posts">
+            Search Public Opportunities
           </Link>
-          <Link href="/registration">
-            <Button className={styles.infoBlockButton}>
-              Sign Up to Post, and to Search All Opportunities
-            </Button>
+          <Link className={styles.infoBlockButton} href="/registration">
+            Sign Up to Post, and to Search All Opportunities
           </Link>
         </div>
-      </div>
-
-      <div className={styles.valuesBlock}>
+      </section>
+      <section className={styles.valuesBlock}>
         <span className={styles.valuesTitle}> Our Values</span>
         <div className={styles.valuesContainer}>
           <div className={styles.valuesItem}>
@@ -77,8 +84,8 @@ export default function LandingMain() {
             </span>
           </Link>
         </div>
-      </div>
-      <div className={styles.purpleBlock}>
+      </section>
+      <section className={styles.purpleBlock}>
         <Image
           src="/decor/Frame-36732.png"
           alt="Frame-36732"
@@ -98,7 +105,7 @@ export default function LandingMain() {
           <br />
           <span className={styles.quote}>Bob & Jessica Smith</span>
         </article>
-      </div>
+      </section>
     </section>
   );
 }

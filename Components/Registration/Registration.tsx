@@ -6,8 +6,6 @@ import { Button, Form, Input } from "antd";
 import axios, { AxiosError } from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import { createRef, useState } from "react";
-import RectangleLeft from "../General/RectangleLeft/RectangleLeft";
-import RectangleRight from "../General/RectangleRight/RectangleRight";
 
 type PropsType = { appUrl: string; recaptchaKey: string };
 
@@ -46,6 +44,7 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
       const error = err as AxiosError;
       const response = error.response;
       setErrorMessage((response?.data as ErrorResponse).message);
+      recaptchaRef.current?.reset();
     }
   }
 
@@ -149,7 +148,11 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
             </label>
 
             <div className={styles.capchaBlock}>
-              <ReCAPTCHA sitekey={recaptchaKey} ref={recaptchaRef} className={styles.capcha} />
+              <ReCAPTCHA
+                sitekey={recaptchaKey}
+                ref={recaptchaRef}
+                className={styles.capcha}
+              />
             </div>
           </div>
 

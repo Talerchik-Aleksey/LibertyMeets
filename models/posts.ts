@@ -92,6 +92,11 @@ export class Posts extends Model {
   @Column
   deleted_at!: Date;
 
+  @AllowNull(false)
+  @Default(false)
+  @Column(DataType.BOOLEAN)
+  is_blocked!: boolean;
+
   @HasMany(() => FavoritePosts, { foreignKey: "post_id" })
   favoriteUsers?: FavoritePosts[];
 

@@ -1,60 +1,120 @@
 import NextAuth, { DefaultUser } from "next-auth";
-import CredentialProvider from "next-auth/providers/credentials";
-import { getUserByCredentials } from "../../../services/users";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { findUser, getUserByCredentials } from "../../../services/users";
 import { DEFAULT_LAT, DEFAULT_LNG } from "../../../constants/constants";
+import { NextApiRequest, NextApiResponse } from "next";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
+import config from "config";
 
 const secret = process.env.NEXTAUTH_SECRET! as string;
 
-export default NextAuth({
-  providers: [
-    CredentialProvider({
-      name: "credentials",
-      credentials: {
-        email: { label: "Email", type: "text", placeholder: "email" },
-        password: { label: "Password", type: "password" },
+const decodeV4 = (v4String: string): string => {
+  const uuid = v4String.slice(0, 36);
+  const hexEncodedPart = v4String.slice(36);
+  return Buffer.from(hexEncodedPart, "hex").toString();
+};
+
+export default async function auth(req: NextApiRequest, res: NextApiResponse) {
+  const cookies = parseCookies({ req });
+  let maxAge = config.get<number>("token.sessionLifetimeSec");
+
+  if (cookies["remember-me"] && cookies["remember-me"] === "true") {
+    maxAge = config.get<number>("token.sessionExtendedLifetimeSec");
+  } else if (req.body.rememberMe) {
+    maxAge =
+      req.body.rememberMe === "true"
+        ? config.get<number>("token.sessionExtendedLifetimeSec")
+        : config.get<number>("token.sessionLifetimeSec");
+
+    setCookie({ res }, "remember-me", req.body.rememberMe, {
+      maxAge,
+      path: "/",
+    });
+  }
+
+  const options = {
+    providers: [
+      CredentialsProvider({
+        id: "creadentials",
+        name: "credentials",
+        credentials: {
+          email: { label: "Email", type: "text", placeholder: "email" },
+          password: { label: "Password", type: "password" },
+        },
+        async authorize(credentials) {
+          if (!credentials) {
+            return null;
+          }
+
+          const user = await getUserByCredentials(credentials);
+          return user as unknown as DefaultUser | null;
+        },
+      }),
+      CredentialsProvider({
+        id: "autoCredentials",
+        name: "autoCredentials",
+        credentials: {
+          token: { label: "Token", type: "text", placeholder: "token" },
+        },
+        async authorize(credentials) {
+          if (!credentials) {
+            return null;
+          }
+
+          const { token } = credentials;
+          const decodedEmail = decodeV4(token);
+          const user = await findUser(decodedEmail);
+
+          return user as unknown as DefaultUser | null;
+        },
+      }),
+    ],
+    callbacks: {
+      jwt: async (params: any) => {
+        const { token, user } = params;
+        if (user) {
+          const isEven = +user.id % 2;
+          if (isEven) {
+            token.lat = DEFAULT_LAT;
+            token.lng = DEFAULT_LNG;
+          } else {
+            token.lat = null;
+            token.lng = null;
+          }
+          token.id = user.id;
+          token.email = user.email;
+        }
+        return token;
       },
-      async authorize(credentials) {
-        if (!credentials) {
-          return null;
+      session: ({ session, token }: { session: any; token: any }) => {
+        if (token) {
+          session.user!.id = token.id as number;
+          session.user!.email = token.email as string;
+          session.user!.lat = token.lat as number;
+          session.user!.lng = token.lng as number;
         }
 
-        const user = await getUserByCredentials(credentials);
-        return user as unknown as DefaultUser | null;
+        return session;
       },
-    }),
-  ],
-  callbacks: {
-    jwt: ({ token, user }) => {
-      if (user) {
-        const isEven = +user.id % 2;
-        if (isEven) {
-          token.lat = DEFAULT_LAT;
-          token.lng = DEFAULT_LNG;
-        } else {
-          token.lat = null;
-          token.lng = null;
-        }
-        token.id = user.id;
-        token.email = user.email;
-      }
-      return token;
     },
-    session: ({ session, token }) => {
-      if (token) {
-        session.user!.id = token.id as number;
-        session.user!.email = token.email as string;
-        session.user!.lat = token.lat as number;
-        session.user!.lng = token.lng as number;
-      }
+    events: {
+      async signOut() {
+        destroyCookie({ res }, "remember-me", {
+          path: "/",
+        });
+      },
+    },
+    secret,
+    session: {
+      maxAge,
+    },
+    jwt: {
+      maxAge,
+    },
+    pages: {
+      signIn: "/signin",
+    },
+  };
 
-      return session;
-    },
-  },
-  secret,
-  // jwt: {
-  //   secret: "test",
-  // },
-  pages: {
-    signIn: "/signin",
-  },
-});
+  return NextAuth(req, res, options);
+}

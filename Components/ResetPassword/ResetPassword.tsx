@@ -3,8 +3,6 @@ import Image from "next/image";
 import { Button, Form, Input } from "antd";
 import { useRouter } from "next/router";
 import styles from "./ResetPassword.module.scss";
-import RectangleLeft from "../General/RectangleLeft/RectangleLeft";
-import RectangleRight from "../General/RectangleRight/RectangleRight";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
 
@@ -33,7 +31,6 @@ export default function ResetPassword({ appUrl }: ResetPasswordProps) {
       }
     }
   }
-  console.log("generateLink <-------", generateLink);
 
   return (
     <section className={styles.resetPasswordWrapper}>
@@ -104,7 +101,7 @@ export default function ResetPassword({ appUrl }: ResetPasswordProps) {
         <Link className={styles.goBack} href={"/signin"}>
           Go Back to Log In
         </Link>
-      </div>    
+      </div>
     </section>
   );
 }

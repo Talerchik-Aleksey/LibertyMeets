@@ -23,10 +23,10 @@ export default async function handler(
     const isUsed = await isRightToken(token);
 
     if (!isUsed) {
-      res.status(204).json({ message: "this email not recognised"});
+      res.status(204).json({ message: "this email not recognised" });
       return;
     }
-    res.status(200).json({ message: "success"});
+    res.status(200).json({ message: "success" });
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;
