@@ -31,6 +31,8 @@ export async function savePostToDb({
     description: post.description,
     is_public: post.is_public,
     geo: geo,
+    lat: post.lat,
+    lng: post.lng,
   });
 
   await UserPosts.create({ user_id: user.id, post_id: createdPost.id });

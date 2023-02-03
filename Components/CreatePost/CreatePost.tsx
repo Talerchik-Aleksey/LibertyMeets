@@ -83,14 +83,23 @@ export default function CreatePost(props: CreatePostProps) {
   const router = useRouter();
   async function onFinish(values: any) {
     try {
+      if (session?.user.lat !== lat || session?.user.lng !== lng) {
+        await axios.post(
+          `${appUrl}/api/users/update`,
+          { location: [lat, lng] },
+          {
+            withCredentials: true,
+          }
+        );
+      }
       values.lat = lat;
       values.lng = lng;
       values.is_public = isPublic;
-      const req = await axios.post(`${appUrl}/api/posts/create`, values, {
+      const res = await axios.post(`${appUrl}/api/posts/create`, values, {
         withCredentials: true,
       });
 
-      if (req.status === 200) {
+      if (res.status === 200) {
         router.push("/myPosts");
       }
     } catch (e) {

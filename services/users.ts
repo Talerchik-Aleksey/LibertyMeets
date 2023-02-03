@@ -190,3 +190,7 @@ export async function deleteAccount(userId: number, t: Transaction) {
     return error;
   }
 }
+
+export async function changeLocation(userId: number, lat: number, lng: number) {
+  await Users.update({ lat, lng }, { where: { id: userId } });
+}
