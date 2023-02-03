@@ -59,7 +59,7 @@ export default function LivePost(props: PostProps) {
         </Button>
       </div>
       <div className={styles.livePostContainer}>
-        <div >
+        <div>
           <span className={styles.livePostTitle}>Live Post</span>
         </div>
 
@@ -112,17 +112,17 @@ export default function LivePost(props: PostProps) {
         <div className={styles.cardBlock}>
           {coordinates && coordinates.length === 2 ? (
             <>
-            <span className={styles.location}>location</span>
+              <span className={styles.location}>location</span>
               <Map
-              lat={Number(coordinates[0])}
-              lng={Number(coordinates[1])}
-              isAllowDrag={false}
+                lat={Number(coordinates[0])}
+                lng={Number(coordinates[1])}
+                isAllowClick={false}
               />
             </>
           ) : (
             <></>
           )}
-          </div>
+        </div>
         {/* <div className={styles.buttonBlock}>
           <Button
             className={styles.shareBtn}
