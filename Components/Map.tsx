@@ -69,11 +69,7 @@ function LocationMarker(props: MapProps) {
   });
 
   return position === null ? null : (
-    <Marker position={position} ref={markerRef} icon={icon}>
-      <Popup>
-        A pretty CSS3 popup. <br /> Easily customizable.
-      </Popup>
-    </Marker>
+    <Marker position={position} ref={markerRef} icon={icon} />
   );
 }
 
