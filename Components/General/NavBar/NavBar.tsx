@@ -11,7 +11,7 @@ type NavBarProps = {
 export default function NavBar(props: NavBarProps) {
   const { changeCategory } = props;
   const router = useRouter();
-  const pop = {
+  const categoryList = {
     "undefined ": "All",
     "social ": "Social",
     "volunteer ": "Volunteer",
@@ -25,8 +25,9 @@ export default function NavBar(props: NavBarProps) {
         {CATEGORIES.map((item, index) => (
           <Button
             className={
-              pop[`${router.query.category?.toString() as keyof object} `] ===
-              item
+              categoryList[
+                `${router.query.category?.toString() as keyof object} `
+              ] === item
                 ? styles.activeButton
                 : styles.button
             }
