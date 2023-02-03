@@ -28,7 +28,6 @@ export default function ChangeAccountStatePage({
       }
 
       setTimeout(async () => {
-        console.log("Timer");
         await signIn("autoCredentials", {
           ...{ token },
           callbackUrl: "/posts",

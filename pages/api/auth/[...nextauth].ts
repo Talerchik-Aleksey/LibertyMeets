@@ -42,7 +42,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
           password: { label: "Password", type: "password" },
         },
         async authorize(credentials) {
-          console.log("auth1");
           if (!credentials) {
             return null;
           }
@@ -58,17 +57,14 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
           token: { label: "Token", type: "text", placeholder: "token" },
         },
         async authorize(credentials) {
-          console.log("auth2");
           if (!credentials) {
             return null;
           }
 
           const { token } = credentials;
-
           const decodedEmail = decodeV4(token);
-          console.log(decodedEmail);
-
           const user = await findUser(decodedEmail);
+
           return user as unknown as DefaultUser | null;
         },
       }),

@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuidv4 } from "uuid";
-
 import { sendVerificationByEmail } from "../../../services/email";
 import { Siteverify } from "../../../services/recaptcha";
 import { fillEmailToken, saveUserToDatabase } from "../../../services/users";
@@ -57,7 +56,6 @@ export default async function handler(
     }
 
     const email_verification_token = v4(email);
-    console.log(email_verification_token);
     await saveUserToDatabase({ email, password });
     await fillEmailToken(email, email_verification_token);
 

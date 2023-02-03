@@ -60,15 +60,6 @@ export async function getUser(userId: number) {
   return founfUser;
 }
 
-export async function getUserByToken(email_verification_token: string) {
-  const founfUser = await Users.findAll({
-    where: { email_verification_token },
-    attributes: ["email", "password"],
-  });
-
-  return founfUser;
-}
-
 export async function fillToken(email: string, reset_pwd_token: string) {
   await Users.update(
     { reset_pwd_token },
@@ -84,7 +75,6 @@ export async function fillEmailToken(
   email: string,
   email_verification_token: string
 ) {
-  console.log("new token ----->", email_verification_token);
   await Users.update(
     { email_verification_token },
     {
