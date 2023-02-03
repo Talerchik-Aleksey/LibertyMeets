@@ -17,7 +17,7 @@ export default function Footer() {
             About LibertyMeets
           </div>
         </Link>
-        <div className={styles.liberty}>LibertyMeets ©️ 2022</div>
+        <div className={styles.liberty}>LibertyMeets ©️ 2023</div>
       </div>
     </footer>
   );
