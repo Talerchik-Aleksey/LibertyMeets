@@ -7,6 +7,7 @@ import { PostType } from "../../types/general";
 import EventForMyPosts from "../EventForMyPosts/EventForMyPosts";
 import Navigation from "../General/MyProfileNavigation/Navigation";
 import styles from "./MyPosts.module.scss";
+import LackOfPosts from "../LackOfPosts/LackOfPosts";
 
 type MyPostsProps = {
   appUrl: string;
@@ -69,7 +70,7 @@ export default function MyPosts({
       <Navigation />
       {posts.length === 0 ? (
         // eslint-disable-next-line react/no-unescaped-entities
-        <div>You don't have posts</div>
+        <LackOfPosts />
       ) : (
         <section className={styles.profileContainer}>
           <div className={styles.container}>
