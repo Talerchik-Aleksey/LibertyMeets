@@ -6,7 +6,7 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect, useState, useMemo, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { DEFAULT_LAT, DEFAULT_LNG } from "../constants/constants";
 import styles from "./Map.module.scss";
 import "leaflet/dist/leaflet.css";
@@ -22,44 +22,29 @@ type MapProps = {
   lng: number;
   setLat?: React.Dispatch<React.SetStateAction<number>>;
   setLng?: React.Dispatch<React.SetStateAction<number>>;
-  isAllowDrag: boolean;
+  isAllowClick: boolean;
 };
 
 function LocationMarker(props: MapProps) {
-  const { lat, lng, setLat, setLng, isAllowDrag } = props;
+  const { lat, lng, setLat, setLng, isAllowClick } = props;
   const [position, setPosition] = useState({
     lat: center.lat,
     lng: center.lng,
   });
   const markerRef = useRef<any>(null);
-  const eventHandlers = useMemo(
-    () => ({
-      dragend() {
-        if (!isAllowDrag) {
-          return;
-        }
-
-        if (!setLat || !setLng) {
-          return;
-        }
-
-        const marker = markerRef.current;
-        if (marker != null) {
-          const newPosition = marker.getLatLng();
-          setPosition((currentPosition) => {
-            setLat(newPosition.lat);
-            setLng(newPosition.lng);
-            return newPosition;
-          });
-        }
-      },
-    }),
-    []
-  );
 
   const map = useMapEvents({
-    click() {
+    load() {
       map.locate();
+    },
+    click(e: any) {
+      if (isAllowClick === false || !setLng || !setLat) {
+        return;
+      }
+      const { lat, lng } = e.latlng;
+      setLat(lat);
+      setLng(lng);
+      setPosition(e.latlng);
     },
     locationfound(e: any) {
       setPosition(e.latlng);
@@ -78,16 +63,13 @@ function LocationMarker(props: MapProps) {
     }
   }, [lat, lng, map]);
 
-  const icon = L.icon({ iconUrl: "/decor/marker.png" });
+  const icon = L.icon({
+    iconUrl: "/decor/marker.png",
+    iconAnchor: [64 / 2, 64],
+  });
 
   return position === null ? null : (
-    <Marker
-      draggable={true}
-      position={position}
-      eventHandlers={eventHandlers}
-      ref={markerRef}
-      icon={icon}
-    >
+    <Marker position={position} ref={markerRef} icon={icon}>
       <Popup>
         A pretty CSS3 popup. <br /> Easily customizable.
       </Popup>
@@ -96,13 +78,13 @@ function LocationMarker(props: MapProps) {
 }
 
 export default function Map(props: MapProps) {
-  const { lat, lng, setLat, setLng, isAllowDrag } = props;
+  const { lat, lng, setLat, setLng, isAllowClick } = props;
 
   return (
     <MapContainer
       center={[DEFAULT_LAT, DEFAULT_LNG]}
       zoom={13}
-      scrollWheelZoom={false}
+      scrollWheelZoom={true}
       style={{ height: 460, width: 842 }}
       className={styles.mapContainer}
     >
@@ -115,7 +97,7 @@ export default function Map(props: MapProps) {
         lng={lng}
         setLat={setLat}
         setLng={setLng}
-        isAllowDrag={isAllowDrag}
+        isAllowClick={isAllowClick}
       />
     </MapContainer>
   );
