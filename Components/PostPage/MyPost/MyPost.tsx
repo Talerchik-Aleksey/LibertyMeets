@@ -221,7 +221,9 @@ export default function MyPost(props: PostProps) {
 
           <Tooltip
             placement="top"
-            title={"Maintenance technician at apartment building"}
+            title={
+              "Setting this post to public lets users that are not asigned in see this post."
+            }
           >
             <Image
               src="/decor/qwe.svg"
