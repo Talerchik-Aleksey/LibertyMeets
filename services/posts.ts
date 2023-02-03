@@ -44,8 +44,8 @@ export async function getPosts(
 ) {
   if (user) {
     const info = category
-      ? { category, is_enabled: true }
-      : { is_enabled: true };
+      ? { category, is_blocked: false }
+      : { is_blocked: false };
     const posts = await Posts.findAll({
       where: info,
       limit: PAGE_SIZE,
@@ -75,8 +75,8 @@ export async function getPosts(
   }
 
   const info = category
-    ? { is_public: true, category, is_enabled: true }
-    : { is_public: true, is_enabled: true };
+    ? { is_public: true, category, is_blocked: false }
+    : { is_public: true, is_blocked: false };
 
   const posts = await Posts.findAll({
     where: info,
@@ -124,7 +124,7 @@ export async function getFavoritePosts(
   const posts = await Posts.findAll({
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * (page - 1),
-    where: { id: ids, is_enabled: true },
+    where: { id: ids, is_blocked: false },
     attributes: [
       "id",
       "title",
