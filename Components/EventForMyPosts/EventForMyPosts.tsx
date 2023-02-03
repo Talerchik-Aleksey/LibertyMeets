@@ -35,7 +35,7 @@ export default function EventForMyPosts({
             {moment(post.created_at).format("MMM DD, YYYY")}
           </div>
           <div className={styles.label}>{post.category}</div>
-          <div className={styles.info}>{post.description}</div>
+          <div className={styles.info}>{post.title}</div>
         </div>
         <div className={styles.rightBlock}>
           {post.is_blocked && (
