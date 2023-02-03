@@ -29,7 +29,7 @@ export async function savePostToDb({
     title: post.title,
     category: post.category,
     description: post.description,
-    is_public: post.isPublic,
+    is_public: post.is_public,
     geo: geo,
   });
 
@@ -154,6 +154,7 @@ export async function getPost(postId: number) {
       "geo",
       "author_id",
       "created_at",
+      "is_blocked",
     ],
   });
 
@@ -174,6 +175,7 @@ export async function getUserPosts(page: number, userId: number) {
       "geo",
       "created_at",
       "author_id",
+      "is_blocked",
     ],
   });
 

@@ -99,7 +99,7 @@ export default function CreatePost(props: CreatePostProps) {
   }
 
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <div className={styles.arrow}>
         <Link className={styles.backLink} href={""}>
           <Button
@@ -249,6 +249,6 @@ export default function CreatePost(props: CreatePostProps) {
           </div>
         </Form>
       </div>
-    </div>
+    </section>
   );
 }

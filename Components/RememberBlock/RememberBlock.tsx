@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function RememberBlock() {
   return (
-    <div className={styles.rememberWrapper}>
+    <section className={styles.rememberWrapper}>
       <Image
         src="/decor/remember.svg"
         alt=""
@@ -17,6 +17,6 @@ export default function RememberBlock() {
         information in the post title or description. And if you are meeting
         with strangers, please do so in a public place.
       </p>
-    </div>
+    </section>
   );
 }

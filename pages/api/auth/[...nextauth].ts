@@ -36,6 +36,7 @@ export default NextAuth({
         }
         token.id = user.id;
         token.email = user.email;
+        token.is_enabled = user.is_enabled;
       }
       return token;
     },
@@ -45,6 +46,7 @@ export default NextAuth({
         session.user!.email = token.email as string;
         session.user!.lat = token.lat as number;
         session.user!.lng = token.lng as number;
+        session.user!.is_enabled = token.is_enabled as boolean;
       }
 
       return session;
