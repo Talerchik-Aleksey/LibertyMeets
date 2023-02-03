@@ -32,7 +32,7 @@ export default function EventForMyPosts({
       <Link className={styles.link} href={`/posts/${post.id}`}>        
           <div className={styles.leftBlock}>
             <div className={styles.date}>
-              {moment(post.created_at).format("MMM D, YYYY")}
+              {moment(post.created_at).format("MMM DD, YYYY")}
             </div>
             <div className={styles.label}>{post.category}</div>
             <div className={styles.info}>{post.description}</div>
