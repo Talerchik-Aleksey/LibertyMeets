@@ -22,13 +22,22 @@ export default function ThreadForm({
   const [form] = Form.useForm();
 
   async function handleSubmit(values: any) {
-    await axios.post(
+    const res = await axios.post(
       `${appUrl}/api/threads/reply`,
       { message: values.message },
       { params: { threadId, postId } }
     );
 
-    form.setFieldsValue({ message: "Your reply has been sent to Post author" });
+    if (res.status === 200) {
+      form.setFieldsValue({
+        message: "Your reply has been sent to Post author",
+      });
+      return;
+    }
+    form.setFieldsValue({
+      message:
+        "Sorry, your reply was not sent. Please try again later or contact support for assistance.",
+    });
   }
 
   if (!threadId && !postId) {
