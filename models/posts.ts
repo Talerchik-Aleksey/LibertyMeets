@@ -80,6 +80,14 @@ export class Posts extends Model {
   @Column(DataType.BOOLEAN)
   is_enabled!: boolean;
 
+  @AllowNull(true)
+  @Column(DataType.DECIMAL)
+  lat!: number;
+
+  @AllowNull(true)
+  @Column(DataType.DECIMAL)
+  lng!: number;
+
   @CreatedAt
   @Column
   created_at!: Date;

@@ -73,13 +73,15 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       jwt: async (params: any) => {
         const { token, user } = params;
         if (user) {
-          const isEven = +user.id % 2;
-          if (isEven) {
-            token.lat = DEFAULT_LAT;
-            token.lng = DEFAULT_LNG;
+          if (user.lat) {
+            token.lat = +user.lat;
           } else {
-            token.lat = null;
-            token.lng = null;
+            token.lat = DEFAULT_LAT;
+          }
+          if (user.lng) {
+            token.lng = +user.lng;
+          } else {
+            token.lng = DEFAULT_LNG;
           }
           token.id = user.id;
           token.email = user.email;
