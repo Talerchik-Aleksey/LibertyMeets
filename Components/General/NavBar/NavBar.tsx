@@ -2,6 +2,7 @@ import { Button, Input } from "antd";
 import styles from "./NavBar.module.scss";
 import Image from "next/image";
 import { CATEGORIES } from "../../../constants/constants";
+import { useRouter } from "next/router";
 
 type NavBarProps = {
   changeCategory: (category: string) => void;
@@ -9,13 +10,27 @@ type NavBarProps = {
 
 export default function NavBar(props: NavBarProps) {
   const { changeCategory } = props;
+  const router = useRouter();
+  const categoryList = {
+    "undefined ": "All",
+    "social ": "Social",
+    "volunteer ": "Volunteer",
+    "professional ": "Professional",
+    "campaigns ": "Campaigns",
+  };
 
   return (
     <div className={styles.navbar}>
       <div className={styles.tabs}>
         {CATEGORIES.map((item, index) => (
           <Button
-            className={styles.button}
+            className={
+              categoryList[
+                `${router.query.category?.toString() as keyof object} `
+              ] === item
+                ? styles.activeButton
+                : styles.button
+            }
             key={index}
             onClick={() => {
               changeCategory(item);

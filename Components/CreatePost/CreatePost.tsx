@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button, Form, Input, Select, Switch } from "antd";
+import { Button, Form, Input, Select, Switch, Tooltip } from "antd";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
@@ -230,7 +230,12 @@ export default function CreatePost(props: CreatePostProps) {
               onChange={() => setIsPublic(!isPublic)}
             />
             <span>Set To {isPublic ? "Public" : "Private"}?</span>
-            <Image src="/decor/qwe.svg" alt="" width={26} height={26} />
+            <Tooltip
+              placement="top"
+              title={"Maintenance technician at apartment building"}
+            >
+              <Image src="/decor/qwe.svg" alt="" width={26} height={26} />
+            </Tooltip>
           </div>
           <div className={styles.location}>
             <span>* Location</span>

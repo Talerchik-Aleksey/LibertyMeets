@@ -145,7 +145,7 @@ export default function Events({
                 (date) => !isTomorrow(date) && !isToday(date)
               ).length > 0 && (
                 <div className={styles.eventsSubBlockTitle}>
-                  <span className={styles.buttonDay}>Soon</span>
+                  <span className={styles.buttonDay}>Earlier</span>
                 </div>
               )}
               <PostsList
