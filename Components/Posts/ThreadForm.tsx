@@ -1,6 +1,4 @@
 import axios from "axios";
-import {useFormik} from "formik";
-import {useSession} from "next-auth/react";
 import styles from "../PostPage/LivePost/LivePost.module.scss";
 import Image from "next/image";
 import { Button, Form, Input } from "antd";
@@ -21,27 +19,24 @@ export default function ThreadForm({
   threadId,
   postId,
 }: PropsType) {
-  const { data: session } = useSession();
+  const [form] = Form.useForm();
 
-  const formik = useFormik({
-    initialValues: {
-      message: "",
-    },
-    onSubmit: async (values) => {
-      await axios.post(
-        `${appUrl}/api/threads/reply`,
-        {message: values.message},
-        {params: {threadId, postId}}
-      );
-    },
-  });
+  async function handleSubmit(values: any) {
+    await axios.post(
+      `${appUrl}/api/threads/reply`,
+      { message: values.message },
+      { params: { threadId, postId } }
+    );
+
+    form.setFieldsValue({ message: "Your reply has been sent to Post author" });
+  }
 
   if (!threadId && !postId) {
     return null;
   }
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <Form onFinish={handleSubmit} form={form}>
       <Form.Item
         className={styles.descriptionText}
         labelAlign={"left"}
@@ -56,15 +51,11 @@ export default function ThreadForm({
           autoSize={{ minRows: 7, maxRows: 7 }}
           showCount={true}
           rows={7}
-          onChange={formik.handleChange}
           size={"small"}
           className={styles.descriptionTextarea}
         />
       </Form.Item>
-      <Button
-        className={styles.replyBtn}
-        htmlType="submit"
-      >
+      <Button className={styles.replyBtn} htmlType="submit">
         <Image
           src="/decor/arrow2.svg"
           alt=""
@@ -74,6 +65,6 @@ export default function ThreadForm({
         />
         <span className={styles.replyBtnText}>Reply</span>
       </Button>
-    </form>
+    </Form>
   );
 }
