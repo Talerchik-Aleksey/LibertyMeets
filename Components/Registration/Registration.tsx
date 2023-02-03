@@ -44,6 +44,7 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
       const error = err as AxiosError;
       const response = error.response;
       setErrorMessage((response?.data as ErrorResponse).message);
+      recaptchaRef.current?.reset();
     }
   }
 
