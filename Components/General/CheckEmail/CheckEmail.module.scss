@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    background: #f9fafb;
+    background: #FFFAE6;
 }
 
 .message{
@@ -17,8 +17,7 @@
     width: 40%;
     text-align: center;
 
-    @media (max-width:500px) {
-        width: 60%;
-        font-size: 36px;
+    @media (max-width:800px) {
+        width: 80%;
     }
 }
