@@ -39,8 +39,6 @@ export default function LivePost(props: PostProps) {
     return null;
   }
 
-  console.log(post.is_public);
-
   const coordinates = post.geo?.split(",");
 
   return (
