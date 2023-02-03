@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { v4 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
+
 import { sendVerificationByEmail } from "../../../services/email";
 import { Siteverify } from "../../../services/recaptcha";
 import { fillEmailToken, saveUserToDatabase } from "../../../services/users";
@@ -7,6 +8,7 @@ import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { validateEmail } from "../../../utils/stringUtils";
 import config from "config";
+import { Buffer } from "buffer";
 
 type ResType = {
   message: string;
@@ -19,6 +21,10 @@ type BodyType = {
 };
 
 connect();
+
+const v4 = (email: string): string => {
+  return uuidv4() + Buffer.from(email).toString("hex");
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -50,7 +56,8 @@ export default async function handler(
       throw new HttpError(422, "Invalid captcha code");
     }
 
-    const email_verification_token = v4();
+    const email_verification_token = v4(email);
+    console.log(email_verification_token);
     await saveUserToDatabase({ email, password });
     await fillEmailToken(email, email_verification_token);
 

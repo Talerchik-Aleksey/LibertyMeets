@@ -22,9 +22,10 @@ export default async function handler(
     if (!token) {
       throw new HttpError(400, "no token");
     }
-
+    console.log("token --------> ", token);
     const isUsed = await isRightEmailToken(token);
 
+    console.log("isUsed --------> ", isUsed);
     if (!isUsed) {
       res.status(204).json({ message: "this email not recognised" });
       return;

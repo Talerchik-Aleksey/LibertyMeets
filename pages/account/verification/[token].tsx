@@ -1,6 +1,7 @@
 import axios from "axios";
 import config from "config";
 import { GetServerSideProps } from "next";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import AccountToken from "../../../Components/General/AccountStatus/AccountToken";
@@ -13,10 +14,12 @@ export default function ChangeAccountStatePage({
   const [isError, setIsError] = useState<boolean>(false);
 
   const router = useRouter();
+  const token = router.query.token;
+
   useEffect(() => {
     (async () => {
       const req = await axios.post(`${appUrl}/api/users/email-verification`, {
-        token: router.query.token,
+        token: token,
       });
 
       if (req.status !== 200) {
@@ -25,15 +28,14 @@ export default function ChangeAccountStatePage({
       }
 
       setTimeout(async () => {
-        //const values = req.data.user[0];
-        //await signIn("credentials", {
-        //  ...values,
-        //  callbackUrl: "/posts",
-        //});
-        router.push("/signin");
+        console.log("Timer");
+        await signIn("autoCredentials", {
+          ...{ token },
+          callbackUrl: "/posts",
+        });
       }, 5000);
     })();
-  }, [appUrl, router]);
+  }, [appUrl, router, token]);
 
   return isError ? (
     <AccountToken isError={true} />

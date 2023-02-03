@@ -84,6 +84,7 @@ export async function fillEmailToken(
   email: string,
   email_verification_token: string
 ) {
+  console.log("new token ----->", email_verification_token);
   await Users.update(
     { email_verification_token },
     {
