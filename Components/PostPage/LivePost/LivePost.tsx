@@ -39,6 +39,8 @@ export default function LivePost(props: PostProps) {
     return null;
   }
 
+  console.log(post.is_public);
+
   const coordinates = post.geo?.split(",");
 
   return (
@@ -80,19 +82,19 @@ export default function LivePost(props: PostProps) {
         </div>
         <div className={styles.publicity}>
           {post.is_public ? (
-            <Image src="/decor/eye4.svg" alt="" width={32} height={27} />
-          ) : (
             <Image src="/decor/eye5.svg" alt="" width={36} height={36} />
+          ) : (
+            <Image src="/decor/eye4.svg" alt="" width={32} height={27} />
           )}
           <span
             className={
-              post.is_public ? styles.currently : styles.currentlyActive
+              post.is_public ? styles.currentlyActive : styles.currently
             }
           >
             This Post Is Currently
           </span>
           <span
-            className={post.is_public ? styles.public : styles.publicActive}
+            className={post.is_public ? styles.publicActive : styles.public}
           >
             {post.is_public ? "Public" : "Private"}
           </span>
@@ -127,11 +129,11 @@ export default function LivePost(props: PostProps) {
         {/* */}
 
         <div className={styles.buttonBlock}>
-
           <ThreadForm
-            appUrl={appUrl} postId={post.id}
+            appUrl={appUrl}
+            postId={post.id}
             isThreadExists={false}
-            threadId={''}
+            threadId={""}
             isAuthor={false}
           />
 
