@@ -1,5 +1,5 @@
 import NextAuth, { DefaultUser } from "next-auth";
-import CredentialProvider from "next-auth/providers/credentials";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { getUserByCredentials } from "../../../services/users";
 import { DEFAULT_LAT, DEFAULT_LNG } from "../../../constants/constants";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -10,15 +10,15 @@ const secret = process.env.NEXTAUTH_SECRET! as string;
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   const cookies = parseCookies({ req });
-  let maxAge = config.get<number>("token.short") * 24 * 60 * 60;
+  let maxAge = config.get<number>("token.sessionLifetimeSec");
 
   if (cookies["remember-me"] && cookies["remember-me"] === "true") {
-    maxAge = config.get<number>("token.long") * 24 * 60 * 60;
+    maxAge = config.get<number>("token.sessionExtendedLifetimeSec");
   } else if (req.body.rememberMe) {
     maxAge =
       req.body.rememberMe === "true"
-        ? config.get<number>("token.long") * 24 * 60 * 60
-        : config.get<number>("token.short") * 24 * 60 * 60;
+        ? config.get<number>("token.sessionExtendedLifetimeSec")
+        : config.get<number>("token.sessionLifetimeSec");
 
     setCookie({ res }, "remember-me", req.body.rememberMe, {
       maxAge,
@@ -28,7 +28,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 
   const options = {
     providers: [
-      CredentialProvider({
+      CredentialsProvider({
         name: "credentials",
         credentials: {
           email: { label: "Email", type: "text", placeholder: "email" },
