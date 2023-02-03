@@ -33,10 +33,7 @@ export default function EditPage(props: EditPostProps) {
       withCredentials: true,
     });
     if (req.status === 200) {
-      alert(req.data.data.postId);
       router.push(`/posts/${postPageId}`);
-    } else {
-      alert();
     }
   }
 

@@ -46,6 +46,7 @@ export default function ThreadForm({
         className={styles.descriptionText}
         labelAlign={"left"}
         labelCol={{ span: 2 }}
+        name="message"
         colon={false}
         initialValue={""}
         rules={[{ required: false }, { type: "string", max: 200 }]}
