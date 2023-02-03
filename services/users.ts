@@ -25,18 +25,15 @@ export async function saveUserToDatabase(user: UserType) {
   await Users.create(userToSave);
 }
 
-export async function changeEnabledForUser(token: string) {
+export async function changeEnabledForUser(token: string): Promise<void> {
   const isTokenExist = await isRightEmailToken(token);
   if (!isTokenExist) {
     throw new HttpError(404, "Token not found");
   }
-  const user = getUserByToken(token);
   await Users.update(
     { is_enabled: true, email_verification_token: null },
     { where: { email_verification_token: token } }
   );
-
-  return user;
 }
 
 export async function isEmailAlreadyUsed(email: string): Promise<boolean> {

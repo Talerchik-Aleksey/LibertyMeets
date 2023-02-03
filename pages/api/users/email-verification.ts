@@ -30,9 +30,9 @@ export default async function handler(
       return;
     }
 
-    const user = await changeEnabledForUser(token);
+    await changeEnabledForUser(token);
 
-    res.status(200).json({ message: "success", user });
+    res.status(200).json({ message: "success" });
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;
