@@ -29,18 +29,22 @@ export default function EventForMyPosts({
           <></>
         )}
       </div>
-      <Link className={styles.link} href={`/posts/${post.id}`}>        
-          <div className={styles.leftBlock}>
-            <div className={styles.date}>
-              {moment(post.created_at).format("MMM DD, YYYY")}
+      <Link className={styles.link} href={`/posts/${post.id}`}>
+        <div className={styles.leftBlock}>
+          <div className={styles.date}>
+            {moment(post.created_at).format("MMM DD, YYYY")}
+          </div>
+          <div className={styles.label}>{post.category}</div>
+          <div className={styles.info}>{post.title}</div>
+        </div>
+        <div className={styles.rightBlock}>
+          {post.is_blocked && (
+            <div className={styles.blocked}>
+              <span className={styles.blockedText}>blocked</span>{" "}
             </div>
-            <div className={styles.label}>{post.category}</div>
-            <div className={styles.info}>{post.description}</div>
-          </div>
-          <div className={styles.rightBlock}>
-            {!post.is_blocked && <div className={styles.blocked}><span className={styles.blockedText}>blocked</span> </div>}
-            <div className={styles.location}>{post.geo}</div>
-          </div>
+          )}
+          <div className={styles.location}>{post.geo}</div>
+        </div>
       </Link>
     </div>
   );

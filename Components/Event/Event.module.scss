@@ -43,6 +43,13 @@
   align-items: center;
 }
 
+.leftBlock{
+  display: flex;
+  font-display: row;
+  gap:10px;
+  align-items: center;
+}
+
 .info {
   max-width: 600px;
   white-space: nowrap;
