@@ -14,6 +14,7 @@ export default function EventSingleRow(props: EventSingleRowProps) {
 
   return (
     <div className={styles.container}>
+
       <div className={styles.star}>
         {post.favoriteUsers?.length > 0 || post.is_favorite ? (
           <div
@@ -47,24 +48,20 @@ export default function EventSingleRow(props: EventSingleRowProps) {
       </div>
 
       <Link className={styles.link} href={`/posts/${post.id}`}>
-<div className={styles.leftBlock}>
+        <div className={styles.leftBlock}>
+          {isViewForAllCategory ? (
+            <div className={styles.label}>{post.category}</div>
+          ) : (
+            <></>
+          )}
+          <div className={styles.info}>{post.title}</div>
 
-        {isViewForAllCategory ? (
-          <div className={styles.label}>{post.category}</div>
-        ) : (
-          <></>
-        )}
-        <div className={styles.info}>{post.title}</div>
-</div>
-
-<div className={styles.rightBlock}>
-
-        <div className={styles.location}>
-          {/* (Fairfax, VA) */}
-          {post.geo}
         </div>
-      </div>  
-        </Link>
+        <div className={styles.rightBlock}>
+          <div className={styles.location}>
+            {/* (Fairfax, VA) */}
+            {post.geo}
+          </div>  </div></Link>
     </div>
   );
 }
