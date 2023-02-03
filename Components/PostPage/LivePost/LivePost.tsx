@@ -116,7 +116,8 @@ export default function LivePost(props: PostProps) {
               <Map
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
-                isAllowClick={false} />
+                isAllowClick={false}
+              />
             </>
           ) : (
             <></>
@@ -196,5 +197,4 @@ export default function LivePost(props: PostProps) {
       </div>
     </section>
   );
-}
 }
