@@ -26,7 +26,6 @@ type PostType = {
 };
 
 export default function MyPost(props: PostProps) {
-  const [showList, setShowList] = useState<boolean>(false);
   const [post, setPost] = useState<PostType>(props.post);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { data: session } = useSession();
@@ -240,7 +239,7 @@ export default function MyPost(props: PostProps) {
               <Map
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
-                isAllowDrag={false}
+                isAllowClick={false}
               />
             </>
           ) : (
