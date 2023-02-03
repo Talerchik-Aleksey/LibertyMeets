@@ -35,7 +35,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   const options = {
     providers: [
       CredentialsProvider({
-        id: "creadentials",
+        id: "credentials",
         name: "credentials",
         credentials: {
           email: { label: "Email", type: "text", placeholder: "email" },
