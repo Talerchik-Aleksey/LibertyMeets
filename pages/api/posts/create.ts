@@ -28,7 +28,7 @@ export default async function handler(
     const body = req.body as BodyType;
     const { title, category, description } = body;
 
-    if (!title || !category || !description || body.isPublic === undefined) {
+    if (!title || !category || !description || body.is_public === undefined) {
       throw new HttpError(400, "invalid body structure");
     }
 

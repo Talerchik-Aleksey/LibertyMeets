@@ -22,8 +22,7 @@ export default function LandingMain() {
 
   return (
     <section className={styles.container}>
-      <h1 className={styles.invisible}>LibertyMeets</h1>
-      <div className={styles.titleBlock}>
+      <section className={styles.titleBlock}>
         <div className={styles.logoInfo}>
           <div className={styles.infoBlock}>
             <Image
@@ -39,16 +38,15 @@ export default function LandingMain() {
             LibertyMeets is a classifieds website for finding freedom-friendly
             folks near you.
           </h2>
-          <Link className={styles.infoBlockButtonPurple} href="/posts">  
-              Search Public Opportunities
+          <Link className={styles.infoBlockButtonPurple} href="/posts">
+            Search Public Opportunities
           </Link>
           <Link className={styles.infoBlockButton} href="/registration">
-              Sign Up to Post, and to Search All Opportunities
+            Sign Up to Post, and to Search All Opportunities
           </Link>
         </div>
-      </div>
-
-      <div className={styles.valuesBlock}>
+      </section>
+      <section className={styles.valuesBlock}>
         <span className={styles.valuesTitle}> Our Values</span>
         <div className={styles.valuesContainer}>
           <div className={styles.valuesItem}>
@@ -86,8 +84,8 @@ export default function LandingMain() {
             </span>
           </Link>
         </div>
-      </div>
-      <div className={styles.purpleBlock}>
+      </section>
+      <section className={styles.purpleBlock}>
         <Image
           src="/decor/Frame-36732.png"
           alt="Frame-36732"
@@ -107,7 +105,7 @@ export default function LandingMain() {
           <br />
           <span className={styles.quote}>Bob & Jessica Smith</span>
         </article>
-      </div>
+      </section>
     </section>
   );
 }

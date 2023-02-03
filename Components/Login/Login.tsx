@@ -1,29 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { Button, Form, Input } from "antd";
-import { useRouter } from "next/router";
 import Link from "next/link";
-import url from "url";
 import styles from "./Login.module.scss";
 
 export default function Login() {
-  const router = useRouter();
-  const { data: session } = useSession();
-
-  function goBack() {
-    const callback = `${router.query.callbackUrl}`;
-    const { pathname } = url.parse(callback);
-    return pathname ? router.push(`${pathname}`) : router.push("/");
-  }
-
-  if (session) {
-    goBack();
-  }
+  const [isRemember, setIsRemember] = useState(false);
 
   async function onFinish(values: any) {
-    // await signIn("credentials", values);
-    await signIn("credentials", { ...values, callbackUrl: '/posts' });
+    values.rememberMe = isRemember;
+    await signIn("credentials", { ...values, callbackUrl: "/posts" });
   }
 
   return (
@@ -101,7 +88,11 @@ export default function Login() {
           <div className={styles.box}>
             <label className={styles.container}>
               <span className={styles.checkboxText}>Remember me</span>
-              <input type="checkbox" className={styles.checkHighload} />
+              <input
+                type="checkbox"
+                className={styles.checkHighload}
+                onClick={() => setIsRemember(!isRemember)}
+              />
               <span className={styles.highload2}></span>
             </label>
             <Link className={styles.forgot} href="/reset-password">
