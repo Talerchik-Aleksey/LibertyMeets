@@ -85,7 +85,7 @@ export default function CreatePost(props: CreatePostProps) {
     try {
       values.lat = lat;
       values.lng = lng;
-      values.isPublic = isPublic;
+      values.is_public = isPublic;
       const req = await axios.post(`${appUrl}/api/posts/create`, values, {
         withCredentials: true,
       });
@@ -134,7 +134,10 @@ export default function CreatePost(props: CreatePostProps) {
                 label="Post Title"
                 name="title"
                 colon={false}
-                rules={[{ required: true }, { type: "string", max: 100 }]}
+                rules={[
+                  { required: true },
+                  { type: "string", min: 4, max: 100 },
+                ]}
               >
                 <Input
                   suffix={
@@ -196,7 +199,10 @@ export default function CreatePost(props: CreatePostProps) {
                 label="Description"
                 name="description"
                 colon={false}
-                rules={[{ required: true }, { type: "string", max: 200 }]}
+                rules={[
+                  { required: true },
+                  { type: "string", min: 4, max: 200 },
+                ]}
               >
                 <TextArea
                   maxLength={200}
@@ -239,8 +245,8 @@ export default function CreatePost(props: CreatePostProps) {
             </Button>
             <Form.Item>
               <Button className={styles.preview} htmlType="submit">
-                <Image src="/decor/eyes.svg" alt="" width={16} height={14} />
-                <span className={styles.previewBtn}>Preview Post</span>
+                {/* <Image src="/decor/eyes.svg" alt="" width={16} height={14} /> */}
+                <span className={styles.previewBtn}>Create Post</span>
               </Button>
             </Form.Item>
           </div>
