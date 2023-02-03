@@ -230,7 +230,6 @@ export default function CreatePost(props: CreatePostProps) {
               onChange={() => setIsPublic(!isPublic)}
             />
             <span>Set To {isPublic ? "Public" : "Private"}?</span>
-
             <Tooltip
               placement="top"
               title={"Maintenance technician at apartment building"}
