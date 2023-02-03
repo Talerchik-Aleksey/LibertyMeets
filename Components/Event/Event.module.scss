@@ -8,35 +8,39 @@
 .container {
   display: flex;
   align-items: center;
-  padding: 18px 15px;
-  justify-content: space-between;
-  transition: 0.5s;
+  height: 56px;
+  border-radius: 4px;
+  max-width: 100%;
+  padding: 0 10px;
+  gap:10px;
   margin: 0 15px 15px 15px;
 
-  @media (max-width: 1250px) {
+  @media (max-width: 800px) {
     width: auto;
   }
 
-  @media (max-width: 800px) {
-    align-items: center;
-  }
-
   &:hover {
-    transition: 0.5s;
-    background-color: #eee9f7;
-    border-radius: 4px;
+    background: #eee9f7;
   }
 }
 
-.leftBlock {
+.leftBlock{
   display: flex;
-  gap: 15px;
   align-items: center;
+  gap:10px;
+}
+.rightBlock{
+  display: flex;
+  gap:10px;
+  align-items: center;
+}
 
-  @media (max-width: 700px) {
-    width: 100%;
-    justify-content: flex-start;
-  }
+.star {
+  display: flex;
+  justify-content: flex-start;
+  flex-grow: 1;
+  max-width: 20px;
+  align-items: center;
 }
 
 .info {
@@ -91,6 +95,7 @@
 
   @media (max-width: 600px) {
     text-align: right;
+    max-width: 80px;
   }
 }
 
@@ -119,8 +124,13 @@
 }
 
 .link {
-  display: flex;
   cursor: pointer;
   text-decoration: none;
-  gap: 10px;
+  display: flex;
+  flex-grow: 0;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
 }
+
