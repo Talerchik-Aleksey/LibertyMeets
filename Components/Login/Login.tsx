@@ -1,46 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { Button, Form, Input } from "antd";
-import { useRouter } from "next/router";
 import Link from "next/link";
-import url from "url";
 import styles from "./Login.module.scss";
-import axios, { AxiosError } from "axios";
 
-type PropsType = {
-  appUrl: string;
-};
+export default function Login() {
+  const [isRemember, setIsRemember] = useState(false);
 
-export default function Login({ appUrl }: PropsType) {
-  const router = useRouter();
-  const { data: session } = useSession();
-
-  function goBack() {
-    const callback = `${router.query.callbackUrl}`;
-    const { pathname } = url.parse(callback);
-    return pathname ? router.push(`${pathname}`) : router.push("/");
-  }
-
-  if (session) {
-    if (!session.user.is_enabled) {
-      router.push("/auth/activate");
-    }
-    router.push("/posts");
-  }
-
-  async function onFinish(values: unknown) {
-    // await signIn("credentials", values);
-    try {
-      if (typeof values !== "object") {
-        return;
-      }
-
-      await signIn("credentials", { ...values });
-    } catch (err) {
-      const error = err as AxiosError;
-      console.error(error);
-    }
+  async function onFinish(values: any) {
+    values.rememberMe = isRemember;
+    await signIn("credentials", { ...values, callbackUrl: "/posts" });
   }
 
   return (
@@ -118,7 +88,11 @@ export default function Login({ appUrl }: PropsType) {
           <div className={styles.box}>
             <label className={styles.container}>
               <span className={styles.checkboxText}>Remember me</span>
-              <input type="checkbox" className={styles.checkHighload} />
+              <input
+                type="checkbox"
+                className={styles.checkHighload}
+                onClick={() => setIsRemember(!isRemember)}
+              />
               <span className={styles.highload2}></span>
             </label>
             <Link className={styles.forgot} href="/reset-password">

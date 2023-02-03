@@ -18,5 +18,6 @@ declare module "next-auth" {
     email: string;
     password: string;
     reset_pwd_token: string;
+    liveTime: Date;
   }
 }

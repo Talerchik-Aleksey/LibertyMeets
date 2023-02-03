@@ -9,6 +9,10 @@
     "database": "liberty"
   },
   "secretKey": "test",
+  "token": {
+    "sessionLifetimeSec": 864000,
+    "sessionExtendedLifetimeSec": 86400000
+  },
   "hash": {
     "saltLength": 10
   },
