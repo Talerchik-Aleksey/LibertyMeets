@@ -93,6 +93,28 @@
     }
 }
 
+.activeButton{
+    display: flex;
+    align-items: center;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    gap: 8px;
+    padding: 8px 36px;
+    border-radius: 4px;
+    border: none;
+    box-shadow: none;
+    color: #921A64!important;
+    background: #EEE9F7!important;
+    border-color: unset!important;
+
+    @media (max-width:1200px) {
+        font-size: 16px;
+        padding: 5px 18px;
+    }
+}
+
 .tabs{
     display: flex;
     gap:10px;
