@@ -41,7 +41,7 @@ export default function EditPage(props: EditPostProps) {
   }
 
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <div className={styles.arrow}>
         <Button
           className={styles.arrowBtn}
@@ -162,6 +162,6 @@ export default function EditPage(props: EditPostProps) {
           </div>
         </Form>
       </div>
-    </div>
+    </section>
   );
 }

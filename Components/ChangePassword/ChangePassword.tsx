@@ -49,7 +49,7 @@ export default function ChangePassword({ appUrl }: ChangePasswordProps) {
   return (
     <>
       {isRightUser ? (
-        <div className={styles.loginWrapper}>
+        <section className={styles.changeWrapper}>
           <div className={styles.formBlock}>
             <div className={styles.logoInfo}>
               <div className={styles.goods}>
@@ -142,7 +142,7 @@ export default function ChangePassword({ appUrl }: ChangePasswordProps) {
               </Form.Item>
             </Form>
           </div>
-        </div>
+        </section>
       ) : (
         <></>
       )}

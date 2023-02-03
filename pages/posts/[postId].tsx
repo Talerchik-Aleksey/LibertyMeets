@@ -22,6 +22,7 @@ type PostType = {
   category: string;
   description: string;
   is_public: boolean;
+  is_blocked: boolean;
 };
 
 export default function SinglePost({

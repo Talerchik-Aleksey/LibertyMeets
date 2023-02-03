@@ -53,7 +53,7 @@ export default function Settings(props: SettingsProps) {
   }
 
   return (
-    <div className={styles.profileWrapper}>
+    <section className={styles.profileWrapper}>
       <Navigation />
       <div className={styles.wrap}>
         <div className={styles.container}>
@@ -150,6 +150,6 @@ export default function Settings(props: SettingsProps) {
           </Button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
