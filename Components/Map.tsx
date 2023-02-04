@@ -78,8 +78,8 @@ export default function Map(props: MapProps) {
 
   return (
     <MapContainer
-      center={[DEFAULT_LAT, DEFAULT_LNG]}
-      zoom={13}
+      center={[lat, lng]}
+      zoom={15}
       scrollWheelZoom={true}
       style={{ height: 460, width: 842 }}
       className={styles.mapContainer}

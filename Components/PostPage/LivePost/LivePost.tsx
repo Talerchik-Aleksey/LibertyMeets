@@ -6,6 +6,7 @@ import { useState, useMemo } from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import ThreadForm from "../../Posts/ThreadForm";
+import { CovertStringCoordinates } from "../../../utils/covnverterForCoordinates";
 
 type PostType = {
   id: number;
@@ -39,7 +40,7 @@ export default function LivePost(props: PostProps) {
     return null;
   }
 
-  const coordinates = post.geo?.split(",");
+  const coordinates = CovertStringCoordinates(post.geo);
 
   return (
     <section className={styles.container}>

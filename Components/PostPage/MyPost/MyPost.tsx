@@ -7,6 +7,7 @@ import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
+import { CovertStringCoordinates } from "../../../utils/covnverterForCoordinates";
 const { Option } = Select;
 
 type PostProps = { appUrl: string; post: PostType };
@@ -45,7 +46,7 @@ export default function MyPost(props: PostProps) {
     return null;
   }
 
-  const coordinates = post.geo?.split(",");
+  const coordinates = CovertStringCoordinates(post.geo);
 
   const postId = post.id;
 
