@@ -78,40 +78,6 @@ export default function LivePost(props: PostProps) {
           <span className={styles.description}>Description</span>
           <p className={styles.descriptionText}>{post.description}</p>
         </div>
-        <div className={styles.publicity}>
-          {post.is_public ? (
-            <Image src="/decor/eye5.svg" alt="" width={36} height={36} />
-          ) : (
-            <Image src="/decor/eye4.svg" alt="" width={32} height={27} />
-          )}
-          <span
-            className={
-              post.is_public ? styles.currentlyActive : styles.currently
-            }
-          >
-            This Post Is Currently
-          </span>
-          <span
-            className={post.is_public ? styles.publicActive : styles.public}
-          >
-            {post.is_public ? "Public" : "Private"}
-          </span>
-
-          <Tooltip
-            placement="top"
-            title={
-              "Setting this post to public lets users that are not asigned in see this post."
-            }
-          >
-            <Image
-              src="/decor/qwe.svg"
-              alt=""
-              width={36}
-              height={36}
-              className={styles.question}
-            />
-          </Tooltip>
-        </div>
         <div className={styles.cardBlock}>
           {coordinates && coordinates.length === 2 ? (
             <>
