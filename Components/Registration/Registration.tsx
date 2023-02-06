@@ -112,6 +112,7 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
               { required: true, message: "Please input your password!" },
               {
                 pattern: passwordRegex,
+                max: 100,
                 message:
                   "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
               },
