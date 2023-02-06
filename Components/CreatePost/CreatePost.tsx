@@ -35,10 +35,16 @@ export default function CreatePost(props: CreatePostProps) {
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
   const [isPublic, setIsPublic] = useState<boolean>(true);
-  const [locationName, setLocationName] = useState<string>("USA");
+  const [locationName, setLocationName] = useState<string>(
+    "59th St, Flushing, NY 11378, США"
+  );
   const [postalCode, setPostalCode] = useState<string>("");
-  const [geocodeResult, setGeocodeResult] = useState<Location[]>([]);
-  const [isFirstNavigation, setIsFirstNavigation] = useState<boolean>(true);
+  const [geocodeResult, setGeocodeResult] = useState<Location[]>([
+    /*{
+      formatted_address: "59th St, Flushing, NY 11378, США",
+      geometry: { location: { lat: 1, lng: 1 } },
+    },*/
+  ]);
   const postalRegex = new RegExp("^[0-9]{5}(?:-[0-9]{4})?$");
   const locationRegex = new RegExp(/^[a-zA-Z0-9,.!:/\s]+$/);
 
@@ -100,10 +106,24 @@ export default function CreatePost(props: CreatePostProps) {
   const router = useRouter();
 
   async function onFinish(values: any) {
+    console.log(values);
+    const location = geocodeResult.find(
+      (result) => result.formatted_address === values.location
+    );
     try {
       values.lat = lat;
       values.lng = lng;
       values.is_public = isPublic;
+      values.lacation_name = location?.formatted_address;
+      values.city = location?.address_components.find((component) =>
+        component.types.includes("locality")
+      )?.long_name;
+      values.zip_code = location?.address_components.find((component) =>
+        component.types.includes("postal_code")
+      )?.long_name;
+      values.state = location?.address_components.find((component) =>
+        component.types.includes("administrative_area_level_1")
+      )?.long_name;
       const res = await axios.post(`${appUrl}/api/posts/create`, values, {
         withCredentials: true,
       });
@@ -283,7 +303,6 @@ export default function CreatePost(props: CreatePostProps) {
                 setLat={setLat}
                 setLng={setLng}
                 isAllowClick={false}
-                l
               />
             </div>
           </div>

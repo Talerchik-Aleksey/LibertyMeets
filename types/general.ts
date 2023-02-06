@@ -20,4 +20,5 @@ export type PostType = {
   city: string;
   state: string;
   location_name: string;
+  zip_code: string;
 };
