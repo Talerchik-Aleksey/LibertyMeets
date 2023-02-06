@@ -156,37 +156,41 @@ export default function Events({
               />
             </div>
           </div>
-          <Pagination
-            className={styles.pagination}
-            current={current}
-            onChange={changePageNumber}
-            total={totalCount}
-            defaultPageSize={postsPerPage}
-            showLessItems={true}
-            responsive={true}
-            itemRender={(page, type, element) => {
-              return (
-                <>
-                  {page === current ? (
-                    <span
-                      className="active"
-                      style={{
-                        display: "inline-block",
-                        backgroundColor: "#921A64",
-                        borderRadius: "50%",
-                        color: "#ffffff",
-                        fontSize: "14px",
-                      }}
-                    >
-                      {element}
-                    </span>
-                  ) : (
-                    <div>{element}</div>
-                  )}
-                </>
-              );
-            }}
-          />
+          {postsPerPage >= totalCount ? (
+            <></>
+          ) : (
+            <Pagination
+              className={styles.pagination}
+              current={current}
+              onChange={changePageNumber}
+              total={totalCount}
+              defaultPageSize={postsPerPage}
+              showLessItems={true}
+              responsive={true}
+              itemRender={(page, type, element) => {
+                return (
+                  <>
+                    {page === current ? (
+                      <span
+                        className="active"
+                        style={{
+                          display: "inline-block",
+                          backgroundColor: "#921A64",
+                          borderRadius: "50%",
+                          color: "#ffffff",
+                          fontSize: "14px",
+                        }}
+                      >
+                        {element}
+                      </span>
+                    ) : (
+                      <div>{element}</div>
+                    )}
+                  </>
+                );
+              }}
+            />
+          )}
           <AddListing />
         </div>
       </div>
