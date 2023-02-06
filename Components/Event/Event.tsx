@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { PostType } from "../../types/general";
 import styles from "./Event.module.scss";
 
@@ -12,11 +11,10 @@ type EventSingleRowProps = {
 
 export default function EventSingleRow(props: EventSingleRowProps) {
   const { post, changeStar, isViewForAllCategory } = props;
-  const router = useRouter();
-  const pathname = router.pathname;
 
   return (
     <div className={styles.container}>
+
       <div className={styles.star}>
         {post.favoriteUsers?.length > 0 || post.is_favorite ? (
           <div
@@ -49,10 +47,7 @@ export default function EventSingleRow(props: EventSingleRowProps) {
         )}
       </div>
 
-      <Link
-        className={styles.link}
-        href={`/posts/${post.id}/?fromUrl=${pathname}`}
-      >
+      <Link className={styles.link} href={`/posts/${post.id}`}>
         <div className={styles.leftBlock}>
           {isViewForAllCategory ? (
             <div className={styles.label}>{post.category}</div>
@@ -60,14 +55,13 @@ export default function EventSingleRow(props: EventSingleRowProps) {
             <></>
           )}
           <div className={styles.info}>{post.title}</div>
+
         </div>
         <div className={styles.rightBlock}>
           <div className={styles.location}>
             {/* (Fairfax, VA) */}
             {post.geo}
-          </div>{" "}
-        </div>
-      </Link>
+          </div>  </div></Link>
     </div>
   );
 }

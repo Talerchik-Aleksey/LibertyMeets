@@ -112,7 +112,9 @@ export default function Events({
   return (
     <section className={styles.eventsPageContainer}>
       <div className={styles.navigation}>
-        <NavBar changeCategory={changeCategory} />
+        <NavBar
+          changeCategory={changeCategory}
+        />
       </div>
       <div className={styles.wrap}>
         <div className={styles.container}>
