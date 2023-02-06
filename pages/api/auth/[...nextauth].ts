@@ -47,7 +47,14 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
           }
 
           const user = await getUserByCredentials(credentials);
-          return user as unknown as DefaultUser | null;
+
+          if (!user) {
+            return null;
+          }
+
+          return user.is_enabled
+            ? (user as unknown as DefaultUser | null)
+            : null;
         },
       }),
       CredentialsProvider({
@@ -73,14 +80,11 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       jwt: async (params: any) => {
         const { token, user } = params;
         if (user) {
-          if (user.lat) {
+          if (user.lat && user.lng) {
             token.lat = +user.lat;
-          } else {
-            token.lat = DEFAULT_LAT;
-          }
-          if (user.lng) {
             token.lng = +user.lng;
           } else {
+            token.lat = DEFAULT_LAT;
             token.lng = DEFAULT_LNG;
           }
           token.id = user.id;

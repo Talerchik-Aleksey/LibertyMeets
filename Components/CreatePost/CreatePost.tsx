@@ -83,15 +83,6 @@ export default function CreatePost(props: CreatePostProps) {
   const router = useRouter();
   async function onFinish(values: any) {
     try {
-      if (session?.user.lat !== lat || session?.user.lng !== lng) {
-        await axios.post(
-          `${appUrl}/api/users/update`,
-          { location: [lat, lng] },
-          {
-            withCredentials: true,
-          }
-        );
-      }
       values.lat = lat;
       values.lng = lng;
       values.is_public = isPublic;
@@ -241,6 +232,9 @@ export default function CreatePost(props: CreatePostProps) {
             <span>* Location</span>
             <div className={styles.map}>
               <Map
+                appUrl={appUrl}
+                userLat={session?.user.lat}
+                userLng={session?.user.lng}
                 lat={lat}
                 lng={lng}
                 setLat={setLat}

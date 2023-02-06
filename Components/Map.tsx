@@ -1,16 +1,11 @@
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-  useMapEvents,
-} from "react-leaflet";
+import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useState, useRef } from "react";
 import { DEFAULT_LAT, DEFAULT_LNG } from "../constants/constants";
 import styles from "./Map.module.scss";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import axios from "axios";
 
 const center = {
   lat: DEFAULT_LAT,
@@ -18,6 +13,9 @@ const center = {
 };
 
 type MapProps = {
+  appUrl: string;
+  userLat: number | undefined;
+  userLng: number | undefined;
   lat: number;
   lng: number;
   setLat?: React.Dispatch<React.SetStateAction<number>>;
@@ -26,7 +24,8 @@ type MapProps = {
 };
 
 function LocationMarker(props: MapProps) {
-  const { lat, lng, setLat, setLng, isAllowClick } = props;
+  const { appUrl, userLat, userLng, lat, lng, setLat, setLng, isAllowClick } =
+    props;
   const [position, setPosition] = useState({
     lat: center.lat,
     lng: center.lng,
@@ -53,15 +52,29 @@ function LocationMarker(props: MapProps) {
   });
 
   useEffect(() => {
-    if (lat && lng) {
-      const position = {
-        lat,
-        lng,
-      };
-      setPosition(position);
-      map.flyTo(position, map.getZoom());
-    }
-  }, [lat, lng, map]);
+    (async () => {
+      if (lat && lng) {
+        const position = {
+          lat,
+          lng,
+        };
+        setPosition(position);
+        map.flyTo(position, map.getZoom());
+        if (
+          userLat?.toFixed(2) !== lat.toFixed(2) ||
+          userLng?.toFixed(2) !== lng.toFixed(2)
+        ) {
+          await axios.post(
+            `${appUrl}/api/users/update`,
+            { location: [lat, lng] },
+            {
+              withCredentials: true,
+            }
+          );
+        }
+      }
+    })();
+  }, [appUrl, lat, lng, map, userLat, userLng]);
 
   const icon = L.icon({
     iconUrl: "/decor/marker.png",
@@ -74,12 +87,13 @@ function LocationMarker(props: MapProps) {
 }
 
 export default function Map(props: MapProps) {
-  const { lat, lng, setLat, setLng, isAllowClick } = props;
+  const { appUrl, userLat, userLng, lat, lng, setLat, setLng, isAllowClick } =
+    props;
 
   return (
     <MapContainer
-      center={[DEFAULT_LAT, DEFAULT_LNG]}
-      zoom={13}
+      center={[lat, lng]}
+      zoom={15}
       scrollWheelZoom={true}
       style={{ height: 460, width: 842 }}
       className={styles.mapContainer}
@@ -89,6 +103,9 @@ export default function Map(props: MapProps) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <LocationMarker
+        appUrl={appUrl}
+        userLat={userLat}
+        userLng={userLng}
         lat={lat}
         lng={lng}
         setLat={setLat}

@@ -9,24 +9,32 @@ import { useEffect, useState } from "react";
 type ChangePasswordProps = { appUrl: string };
 
 export default function ChangePassword({ appUrl }: ChangePasswordProps) {
-  const [isRightUser, setIsRightUser] = useState<boolean>(false);
+  const passwordRegex = new RegExp(
+    "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+  );
+  const [isPasswordsEqual, setIsPasswordsEqual] = useState<boolean>(true);
+
   const router = useRouter();
   useEffect(() => {
     (async () => {
       const req = await axios.post(`${appUrl}/api/users/verification`, {
         token: router.query.token,
       });
-      if (req.status === 200) {
-        setIsRightUser(true);
-      } else {
+      if (req.status !== 200) {
         router.push("/reset-password/expired-token");
       }
     })();
   }, [appUrl, router]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsPasswordsEqual(true);
+    }, 10_000);
+  });
+
   async function onFinish(values: any) {
     if (values.password !== values.repeatPassword) {
-      alert("repeatPassword");
+      setIsPasswordsEqual(false);
       return;
     }
 
@@ -48,104 +56,115 @@ export default function ChangePassword({ appUrl }: ChangePasswordProps) {
 
   return (
     <>
-      {isRightUser ? (
-        <section className={styles.changeWrapper}>
-          <div className={styles.formBlock}>
-            <div className={styles.logoInfo}>
-              <div className={styles.goods}>
-                <Image
-                  src="/decor/Unframed.svg"
-                  alt=""
-                  width={238}
-                  height={280}
-                  className={styles.logoImage}
-                />
-              </div>
+      <section className={styles.changeWrapper}>
+        <div className={styles.formBlock}>
+          <div className={styles.logoInfo}>
+            <div className={styles.goods}>
+              <Image
+                src="/decor/Unframed.svg"
+                alt=""
+                width={238}
+                height={280}
+                className={styles.logoImage}
+              />
             </div>
-            <Form
-              name="normal_login"
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              className={styles.form}
-              validateTrigger={false}
+          </div>
+          <Form
+            name="normal_login"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            className={styles.form}
+            validateTrigger={false}
+          >
+            <Form.Item
+              label="Password"
+              name="password"
+              colon={false}
+              labelCol={{ span: 4 }}
+              labelAlign="left"
+              className={styles.password}
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your new password!",
+                },
+                {
+                  max: 100,
+                  pattern: passwordRegex,
+                  message:
+                    "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
+                },
+              ]}
             >
-              <Form.Item
-                label="Password"
-                name="password"
-                colon={false}
-                labelCol={{ span: 4 }}
-                labelAlign="left"
-                className={styles.password}
-                rules={[
-                  { required: true },
-                  { type: "string", min: 4, max: 100 },
-                ]}
-              >
-                <Input
-                  suffix={
-                    <Image
-                      src="/decor/lock.svg"
-                      alt=""
-                      width={20}
-                      height={20}
-                      className={styles.vector}
-                    />
-                  }
-                  type="password"
-                  placeholder="Password"
-                  className={styles.inputPassword}
-                />
-              </Form.Item>
-
-              <Form.Item
-                label="Password"
-                name="repeatPassword"
-                colon={false}
-                labelCol={{ span: 4 }}
-                labelAlign="left"
-                className={styles.password}
-                rules={[
-                  { required: true },
-                  { type: "string", min: 4, max: 100 },
-                ]}
-              >
-                <Input
-                  suffix={
-                    <Image
-                      src="/decor/lock.svg"
-                      alt=""
-                      width={20}
-                      height={20}
-                      className={styles.vector}
-                    />
-                  }
-                  type="password"
-                  placeholder="Password"
-                  className={styles.inputPassword}
-                />
-              </Form.Item>
-              <Form.Item className={styles.logIn}>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className={styles.buttonLogIns}
-                >
+              <Input
+                suffix={
                   <Image
-                    src="/decor/login.svg"
+                    src="/decor/lock.svg"
                     alt=""
                     width={20}
                     height={20}
                     className={styles.vector}
                   />
-                  <span className={styles.buttonLogInsText}>Reset</span>
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
-        </section>
-      ) : (
-        <></>
-      )}
+                }
+                type="password"
+                placeholder="Password"
+                className={styles.inputPassword}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label="Password"
+              name="repeatPassword"
+              colon={false}
+              labelCol={{ span: 4 }}
+              labelAlign="left"
+              className={styles.password}
+              rules={[
+                { required: true, message: "Please repeat your password!" },
+                {
+                  max: 100,
+                  pattern: passwordRegex,
+                  message:
+                    "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
+                },
+              ]}
+            >
+              <Input
+                suffix={
+                  <Image
+                    src="/decor/lock.svg"
+                    alt=""
+                    width={20}
+                    height={20}
+                    className={styles.vector}
+                  />
+                }
+                type="password"
+                placeholder="Password"
+                className={styles.inputPassword}
+              />
+            </Form.Item>
+            <Form.Item className={styles.logIn}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className={styles.buttonLogIns}
+              >
+                <Image
+                  src="/decor/login.svg"
+                  alt=""
+                  width={20}
+                  height={20}
+                  className={styles.vector}
+                />
+                <span className={styles.buttonLogInsText}>Reset</span>
+              </Button>
+            </Form.Item>
+            {isPasswordsEqual ||
+              "The new passwords you have entered do not match. Please ensure that both the new password and repeat password fields contain the same text, then try again. If you continue to have trouble, please reach out to our support team for assistance."}
+          </Form>
+        </div>
+      </section>
     </>
   );
 }
