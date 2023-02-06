@@ -21,6 +21,34 @@
     }
 }
 
+.blockedTitle{
+    font-family: 'Butler';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 100%;
+    text-transform: capitalize;
+    color: #FF8B00;
+
+    @media (max-width:700px) {
+        font-size: 34px;
+        padding: 0 20px;
+        text-align: center;
+    }
+}
+
+.blockedWrapper{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 30px 0 40px 0;
+    background: #FFFAE6;
+    border-top: 8px solid #FF8B00;
+    border-radius: 8px;
+}
+
 .backBlock{
     margin: 20px 0 0 50px;
 
@@ -41,6 +69,7 @@
 }
 
 .backImage{
+    
     @media (max-width:600px) {
         width: 35px;
     }
@@ -212,21 +241,21 @@
 }
 
 .currentlyActive{
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 20px;
-        line-height: 24px;
-        text-transform: capitalize;
-        color: #8F8F8F;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    text-transform: capitalize;
+    color: #8F8F8F;
 
-        &:hover{
-            color: #921A64;
-        }
-        @media (max-width:600px) {
-            font-size: 16px;
-        }
+    &:hover{
+        color: #921A64;
+    }
 
+    @media (max-width:600px) {
+        font-size: 16px;
+    }
 }
 
 .public{
@@ -300,7 +329,24 @@
 
 .select{
     position: absolute;
-    right: -155px;
+    right: -145px;
+    background:url('./../../../public/decor/EditDots.svg');
+    background-repeat: no-repeat;
+
+    & div span{
+        font-family: 'Inter'!important;
+        font-style: normal!important;
+        font-weight: 400;
+        font-size: 20px!important;
+        line-height: 30px;
+        color: #8F8F8F;
+        padding-left: 8px!important;
+        box-sizing: border-box;
+
+        @media (max-width:600px) {
+            font-size: 17px!important;
+        }
+    }
 
     @media (max-width:1400px) {
         left:5px;
@@ -308,36 +354,8 @@
     }
 
     @media (max-width:600px) {
-        width: 50%!important;
+        width: 57%!important;
         left:10px;
-    }
-}
-
-.select div span{
-    font-family: 'Inter'!important;
-    font-style: normal!important;
-    font-weight: 400;
-    font-size: 20px!important;
-    line-height: 30px;
-    color: #8F8F8F;
-
-    @media (max-width:600px) {
-        font-size: 17px!important;
-    }
-}
-
-
-.editSvg{
-    position: absolute;
-    right: 55px;
-    top:3px;
-
-    @media (max-width:1400px) {
-        left:0;
-    }
-
-    @media (max-width:600px) {
-        left:3px;
     }
 }
 
@@ -386,12 +404,14 @@
     font-size: 14px;
     line-height: 24px;
     color: #8F8F8F;
+
     &:hover{
         color: #921A64!important;
     }
 }
 
 .optionContainer{
+    
     &:hover{
         background-color: #EFEFF4!important;
     }

@@ -17,4 +17,7 @@ export type PostType = {
   lng: number;
   is_blocked: boolean;
   author_id: number;
+  city: string;
+  state: string;
+  location_name: string;
 };

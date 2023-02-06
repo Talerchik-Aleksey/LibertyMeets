@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "./EventForMyPosts.module.scss";
 import Link from "next/link";
 import moment from "moment";
+import Location from "../Location/Location";
 
 type EventForMyPostsProps = {
   post: PostType;
@@ -18,7 +19,7 @@ export default function EventForMyPosts({
       <div className={styles.star}>
         {post.is_favorite ? (
           <Image
-            src="/decor/Icon.svg"
+            src="/decor/starFaiv.svg"
             alt=""
             width={20}
             height={20}
@@ -43,7 +44,7 @@ export default function EventForMyPosts({
               <span className={styles.blockedText}>blocked</span>{" "}
             </div>
           )}
-          <div className={styles.location}>{post.geo}</div>
+          <Location post={post} />
         </div>
       </Link>
     </div>

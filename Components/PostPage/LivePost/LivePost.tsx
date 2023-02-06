@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import ThreadForm from "../../Posts/ThreadForm";
 import { CovertStringCoordinates } from "../../../utils/covnverterForCoordinates";
+import { useSession } from "next-auth/react";
 
 type PostType = {
   id: number;
@@ -25,6 +26,7 @@ export default function LivePost(props: PostProps) {
   const [share, setShare] = useState<Boolean>();
   const [post, setPost] = useState<PostType>(props.post);
   const appUrl = props.appUrl;
+  const { data: session } = useSession();
   const router = useRouter();
 
   const Map = useMemo(
@@ -84,6 +86,9 @@ export default function LivePost(props: PostProps) {
             <>
               <span className={styles.location}>location</span>
               <Map
+                appUrl={appUrl}
+                userLat={session?.user.lat}
+                userLng={session?.user.lng}
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
                 isAllowClick={false}
@@ -171,13 +176,10 @@ export default function LivePost(props: PostProps) {
                   <strong>e570bd5f166a3@libertymeets.com </strong>
                 </span>
                 <Button className={styles.copyBtn}>Copy</Button>
-                {/*<RememberBlock />*/}
               </div>
             )}
           </Modal>
         </div>
-
-        {/* */}
       </div>
     </section>
   );

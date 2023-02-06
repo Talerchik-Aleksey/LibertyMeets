@@ -60,6 +60,9 @@ function LocationMarker(props: MapProps) {
         };
         setPosition(position);
         map.flyTo(position, map.getZoom());
+        if (!userLat || !userLng) {
+          return;
+        }
         if (
           userLat?.toFixed(2) !== lat.toFixed(2) ||
           userLng?.toFixed(2) !== lng.toFixed(2)

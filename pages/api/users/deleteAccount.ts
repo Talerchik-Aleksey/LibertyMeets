@@ -2,16 +2,14 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { deleteAccount } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
-import config from "config";
-import { getToken } from "next-auth/jwt";
 import { deletePosts } from "../../../services/posts";
+import { getSession } from "next-auth/react";
 
 type ResType = {
   message: string;
 };
 
 const sequelize = connect();
-const KEY = config.get<string>("secretKey");
 
 export default async function handler(
   req: NextApiRequest,
@@ -26,19 +24,19 @@ export default async function handler(
         return;
       }
 
-      const token = await getToken({ req, secret: KEY });
+      const session = await getSession({ req });
 
-      if (!token) {
-        throw new HttpError(400, "user does not valid");
+      if (!session) {
+        throw new HttpError(400, "user not valid");
       }
 
-      const resDelPosts = await deletePosts(token.id as number, t);
+      const resDelPosts = await deletePosts(session?.user.id as number, t);
       if (resDelPosts) {
         res.status(500).json({ message: resDelPosts.message });
         return;
       }
 
-      const resDelAcc = await deleteAccount(token.id as number, t);
+      const resDelAcc = await deleteAccount(session?.user.id as number, t);
       if (resDelAcc) {
         res.status(500).json({ message: resDelAcc.message });
         return;

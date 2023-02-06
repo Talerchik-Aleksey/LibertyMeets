@@ -1,4 +1,8 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Modal } from "antd";
+import {
+  ExclamationCircleFilled,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
 import styles from "./Settings.module.scss";
 import Image from "next/image";
 import { useState } from "react";
@@ -18,6 +22,22 @@ export default function Settings(props: SettingsProps) {
   const passwordRegex = new RegExp(
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
   );
+
+  const { confirm } = Modal;
+
+  const showDeleteConfirm = () => {
+    confirm({
+      title: "Are you sure you want to delete your account?",
+      icon: <QuestionCircleOutlined />,
+      content: "All your posts will also be deleted",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        deleteAccount();
+      },
+    });
+  };
 
   async function onFinish(values: any) {
     if (values.password !== values.repeatPassword) {
@@ -141,7 +161,7 @@ export default function Settings(props: SettingsProps) {
               height={16}
               className={styles.vector}
             />
-            <span className={styles.deleteText} onClick={deleteAccount}>
+            <span className={styles.deleteText} onClick={showDeleteConfirm}>
               Delete Account?
             </span>
           </Button>
