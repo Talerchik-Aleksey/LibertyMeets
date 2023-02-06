@@ -10,7 +10,7 @@ import dynamic from "next/dynamic";
 import { CovertStringCoordinates } from "../../../utils/covnverterForCoordinates";
 const { Option } = Select;
 
-type PostProps = { appUrl: string; post: PostType };
+type PostProps = { appUrl: string; post: PostType; fromUrl: string };
 type ErrorResponse = {
   status: string;
 };
@@ -31,6 +31,7 @@ export default function MyPost(props: PostProps) {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { data: session } = useSession();
   const appUrl = props.appUrl;
+  const fromUrl = props.fromUrl;
   const router = useRouter();
 
   const Map = useMemo(
@@ -93,7 +94,7 @@ export default function MyPost(props: PostProps) {
         <Button
           className={styles.backButton}
           type="link"
-          onClick={() => router.push(`${appUrl}/myPosts`)}
+          onClick={() => router.push(`${appUrl}/${fromUrl}`)}
         >
           <Image
             src="/decor/arrow-left.svg"
