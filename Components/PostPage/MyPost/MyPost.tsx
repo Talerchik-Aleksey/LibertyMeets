@@ -106,7 +106,20 @@ export default function MyPost(props: PostProps) {
         </Button>
       </div>
       <div className={styles.myPostContainer}>
-        {post.is_blocked && <div>This post is blocked by admin</div>}
+        {post.is_blocked && <div className={styles.blockedPost}>
+        <div className={styles.blockedWrapper}>
+              <Image
+                src="/decor/remember.svg"
+                alt=""
+                width={45}
+                height={41}
+              />
+      <span className={styles.blockedTitle}>This post blocked by admin!</span>
+      
+    </div>
+
+          
+          </div>}
         <div className={styles.topBlock}>
           <span className={styles.myPostTitle}>My Post</span>
           <Image
@@ -242,8 +255,7 @@ export default function MyPost(props: PostProps) {
               <Map
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
-                isAllowClick={false}
-              />
+                isAllowClick={false} appUrl={""} userLat={undefined} userLng={undefined}              />
             </>
           ) : (
             <></>
