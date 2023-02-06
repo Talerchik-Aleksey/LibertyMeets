@@ -1,5 +1,13 @@
 import Image from "next/image";
-import { Button, Form, Input, Select, Switch, Tooltip } from "antd";
+import {
+  AutoComplete,
+  Button,
+  Form,
+  Input,
+  Select,
+  Switch,
+  Tooltip,
+} from "antd";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
@@ -25,6 +33,8 @@ export default function CreatePost(props: CreatePostProps) {
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
   const [isPublic, setIsPublic] = useState<boolean>(true);
+  const postalRegex = new RegExp("^[0-9]{5}(?:-[0-9]{4})?$");
+  const locationRegex = new RegExp(/^[a-zA-Z0-9,.!:/\s]+$/);
 
   const Map = useMemo(
     () =>
@@ -97,6 +107,12 @@ export default function CreatePost(props: CreatePostProps) {
       console.error(e);
     }
   }
+
+  const options = [
+    { value: "Burns Bay Road" },
+    { value: "Downing Street" },
+    { value: "Wall Street" },
+  ];
 
   return (
     <section className={styles.container}>
@@ -243,6 +259,52 @@ export default function CreatePost(props: CreatePostProps) {
               />
             </div>
           </div>
+          <Form.Item
+            className={styles.postTitleText}
+            labelAlign={"left"}
+            labelCol={{ span: 4 }}
+            label="City or neighborhood"
+            name="location"
+            colon={false}
+            rules={[
+              { required: false },
+              {
+                type: "string",
+                pattern: locationRegex,
+                message:
+                  "Invalid location format. Only letters, numbers, and symbols",
+              },
+            ]}
+          >
+            <AutoComplete
+              options={options}
+              filterOption={(inputValue, option) =>
+                option!.value
+                  .toUpperCase()
+                  .indexOf(inputValue.toUpperCase()) !== -1
+              }
+            />
+          </Form.Item>
+
+          <Form.Item
+            className={styles.postTitleText}
+            labelAlign={"left"}
+            labelCol={{ span: 2 }}
+            label="Postal code"
+            name="postal"
+            colon={false}
+            rules={[
+              { required: true },
+              {
+                type: "string",
+                pattern: postalRegex,
+                message:
+                  "Invalid postal code. Please enter a valid US postal code",
+              },
+            ]}
+          >
+            <Input className={styles.postTitleInput} />
+          </Form.Item>
           <div className={styles.buttonBlock}>
             <Button
               className={styles.cancel}
