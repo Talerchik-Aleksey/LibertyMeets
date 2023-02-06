@@ -195,27 +195,30 @@ export default function MyPost(props: PostProps) {
         </div>
         <div
           className={styles.publicity}
-          onClick={() => {
-            isAuthor && makePublic(!post.is_public);
-          }}
+
         >
-          {post.is_public ? (
-            <Image
-              src="/decor/eye5.svg"
-              alt=""
-              width={36}
-              height={36}
-              className={styles.publicityImage}
-            />
-          ) : (
-            <Image
-              src="/decor/eye4.svg"
-              alt=""
-              width={32}
-              height={27}
-              className={styles.publicityImage}
-            />
-          )}
+          <div
+            onClick={() => {
+              isAuthor && makePublic(!post.is_public);
+            }}>
+            {post.is_public ? (
+              <Image
+                src="/decor/eye5.svg"
+                alt=""
+                width={36}
+                height={36}
+                className={styles.publicityImage}
+              />
+            ) : (
+              <Image
+                src="/decor/eye4.svg"
+                alt=""
+                width={36}
+                height={36}
+                className={styles.publicityImage}
+              />
+            )}
+          </div>
           <span
             className={
               post.is_public ? styles.currentlyActive : styles.currently
@@ -230,7 +233,7 @@ export default function MyPost(props: PostProps) {
           </span>
 
           <Tooltip
-            placement="top"
+            trigger={'hover'}
             title={
               "Setting this post to public lets users that are not asigned in see this post."
             }
