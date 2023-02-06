@@ -1,9 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { changePasswordByUserId, isPasswordUsed } from "../../../services/users";
+import {
+  changePasswordByUserId,
+  isPasswordUsed,
+} from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
-import config from "config";
-import { getToken } from "next-auth/jwt";
+import { getSession } from "next-auth/react";
 
 type ResType = {
   message: string;
@@ -15,7 +17,6 @@ type BodyType = {
 };
 
 connect();
-const KEY = config.get<string>("secretKey");
 
 export default async function handler(
   req: NextApiRequest,
@@ -32,19 +33,23 @@ export default async function handler(
     if (!password) {
       throw new HttpError(400, "no password");
     }
-    const token = await getToken({ req, secret: KEY });
 
-    if (!token) {
+    const session = await getSession({ req });
+
+    if (!session) {
       throw new HttpError(400, "user does not valid");
     }
 
-    const isUsedPassword = await isPasswordUsed(token.id as number, password);
+    const isUsedPassword = await isPasswordUsed(
+      session.user.id as number,
+      password
+    );
 
     if (isUsedPassword) {
       throw new HttpError(400, "password used");
     }
 
-    await changePasswordByUserId( token.id as number, password );
+    await changePasswordByUserId(session.user.id as number, password);
     res.status(200).json({ message: "success change password" });
   } catch (err) {
     if (err instanceof HttpError) {
