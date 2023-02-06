@@ -47,7 +47,14 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
           }
 
           const user = await getUserByCredentials(credentials);
-          return user as unknown as DefaultUser | null;
+
+          if (!user) {
+            return null;
+          }
+
+          return user.is_enabled
+            ? (user as unknown as DefaultUser | null)
+            : null;
         },
       }),
       CredentialsProvider({
