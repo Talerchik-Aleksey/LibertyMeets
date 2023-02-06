@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { PostType } from "../../types/general";
+import Location from "../Location/Location";
 import styles from "./Event.module.scss";
 
 type EventSingleRowProps = {
@@ -62,11 +63,7 @@ export default function EventSingleRow(props: EventSingleRowProps) {
           <div className={styles.info}>{post.title}</div>
         </div>
         <div className={styles.rightBlock}>
-          <div className={styles.location}>
-            {post.location_name
-              ? `${post.location_name}`
-              : `${post.city}, ${post.state}`}
-          </div>
+          <Location post={post} />
         </div>
       </Link>
     </div>

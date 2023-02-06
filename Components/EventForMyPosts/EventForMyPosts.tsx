@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "./EventForMyPosts.module.scss";
 import Link from "next/link";
 import moment from "moment";
+import Location from "../Location/Location";
 
 type EventForMyPostsProps = {
   post: PostType;
@@ -43,11 +44,7 @@ export default function EventForMyPosts({
               <span className={styles.blockedText}>blocked</span>{" "}
             </div>
           )}
-          <div className={styles.location}>
-            {post.location_name
-              ? `${post.location_name}`
-              : `${post.city}, ${post.state}`}
-          </div>
+          <Location post={post} />
         </div>
       </Link>
     </div>
