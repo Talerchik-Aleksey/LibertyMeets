@@ -113,29 +113,18 @@ export default function MyPost(props: PostProps) {
         </Button>
       </div>
       <div className={styles.myPostContainer}>
-        {post.is_blocked && <div className={styles.blockedPost}>
-        <div className={styles.blockedWrapper}>
-              <Image
-                src="/decor/remember.svg"
-                alt=""
-                width={45}
-                height={41}
-              />
-      <span className={styles.blockedTitle}>This post blocked by admin!</span>
-      
-    </div>
-
-          
-          </div>}
+        {post.is_blocked && (
+          <div className={styles.blockedPost}>
+            <div className={styles.blockedWrapper}>
+              <Image src="/decor/remember.svg" alt="" width={45} height={41} />
+              <span className={styles.blockedTitle}>
+                This post blocked by admin!
+              </span>
+            </div>
+          </div>
+        )}
         <div className={styles.topBlock}>
           <span className={styles.myPostTitle}>My Post</span>
-          <Image
-            src="/decor/EditDots.svg"
-            alt=""
-            width={6}
-            height={25}
-            className={styles.editSvg}
-          />
           <Select
             value={"Edit"}
             style={{
@@ -172,7 +161,7 @@ export default function MyPost(props: PostProps) {
                   height={16}
                   className={styles.eye}
                 />
-                Make Post Public
+                Make Post {post.is_public ? "Private" : "Public"}
               </div>
             </Option>
             <Option className={styles.optionContainer} key="delete">
@@ -206,27 +195,30 @@ export default function MyPost(props: PostProps) {
         </div>
         <div
           className={styles.publicity}
-          onClick={() => {
-            isAuthor && makePublic(!post.is_public);
-          }}
+
         >
-          {post.is_public ? (
-            <Image
-              src="/decor/eye5.svg"
-              alt=""
-              width={36}
-              height={36}
-              className={styles.publicityImage}
-            />
-          ) : (
-            <Image
-              src="/decor/eye4.svg"
-              alt=""
-              width={32}
-              height={27}
-              className={styles.publicityImage}
-            />
-          )}
+          <div
+            onClick={() => {
+              isAuthor && makePublic(!post.is_public);
+            }}>
+            {post.is_public ? (
+              <Image
+                src="/decor/eye5.svg"
+                alt=""
+                width={36}
+                height={36}
+                className={styles.publicityImage}
+              />
+            ) : (
+              <Image
+                src="/decor/eye4.svg"
+                alt=""
+                width={36}
+                height={36}
+                className={styles.publicityImage}
+              />
+            )}
+          </div>
           <span
             className={
               post.is_public ? styles.currentlyActive : styles.currently
@@ -241,7 +233,7 @@ export default function MyPost(props: PostProps) {
           </span>
 
           <Tooltip
-            placement="top"
+            trigger={'hover'}
             title={
               "Setting this post to public lets users that are not asigned in see this post."
             }
@@ -260,6 +252,9 @@ export default function MyPost(props: PostProps) {
             <>
               <span className={styles.location}>location</span>
               <Map
+                appUrl={appUrl}
+                userLat={session?.user.lat}
+                userLng={session?.user.lng}
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
                 isAllowClick={false}

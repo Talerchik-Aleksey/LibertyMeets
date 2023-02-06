@@ -33,14 +33,14 @@ export default function SinglePost({
   const [post, setPost] = useState<PostType>(initialPost);
   const { data: session } = useSession();
   const router = useRouter();
-  const fromUrl = router.query.fromUrl;
+  const fromUrl = router.query.fromUrl?.toString();
   const isAuthor = session ? post?.author_id === session?.user.id : undefined;
 
   return (
     <>
       {isAuthor ? (
         <>
-          <MyPost appUrl={appUrl} post={post} fromUrl={fromUrl} />
+          <MyPost appUrl={appUrl} post={post} fromUrl={String(fromUrl)} />
           {/* <AuthorThreads appUrl={appUrl} postId={post.id} /> */}
         </>
       ) : (
