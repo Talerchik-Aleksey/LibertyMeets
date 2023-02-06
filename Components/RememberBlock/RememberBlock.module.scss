@@ -1,6 +1,6 @@
 .rememberWrapper {
   max-width: 840px;
-  height: 333px;
+  height: auto;
   background: #fffae6;
   border-top: 8px solid #ff8b00;
   border-radius: 8px;
@@ -8,6 +8,7 @@
   flex-direction: column;
   align-items: center;
   gap: 15px;
+  padding-bottom: 20px;
 }
 
 .title {
