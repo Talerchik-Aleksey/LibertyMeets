@@ -171,13 +171,10 @@ export default function LivePost(props: PostProps) {
                   <strong>e570bd5f166a3@libertymeets.com </strong>
                 </span>
                 <Button className={styles.copyBtn}>Copy</Button>
-                {/*<RememberBlock />*/}
               </div>
             )}
           </Modal>
         </div>
-
-        {/* */}
       </div>
     </section>
   );
