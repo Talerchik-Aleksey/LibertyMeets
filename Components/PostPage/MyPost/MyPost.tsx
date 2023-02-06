@@ -125,13 +125,6 @@ export default function MyPost(props: PostProps) {
         )}
         <div className={styles.topBlock}>
           <span className={styles.myPostTitle}>My Post</span>
-          <Image
-            src="/decor/EditDots.svg"
-            alt=""
-            width={6}
-            height={25}
-            className={styles.editSvg}
-          />
           <Select
             value={"Edit"}
             style={{
