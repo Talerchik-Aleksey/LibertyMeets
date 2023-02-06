@@ -17,6 +17,8 @@ import RememberBlock from "../RememberBlock/RememberBlock";
 import { KEY_LAT, KEY_LNG } from "../../constants/constants";
 import styles from "./CreatePost.module.scss";
 import Link from "next/link";
+import { Location } from "../../services/geocodeSearch";
+import getLocations from "../../services/geocodeSearch";
 
 const { TextArea } = Input;
 const geoLocationOptions = {
@@ -33,6 +35,10 @@ export default function CreatePost(props: CreatePostProps) {
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
   const [isPublic, setIsPublic] = useState<boolean>(true);
+  const [locationName, setLocationName] = useState<string>("USA");
+  const [postalCode, setPostalCode] = useState<string>("");
+  const [geocodeResult, setGeocodeResult] = useState<Location[]>([]);
+  const [isFirstNavigation, setIsFirstNavigation] = useState<boolean>(true);
   const postalRegex = new RegExp("^[0-9]{5}(?:-[0-9]{4})?$");
   const locationRegex = new RegExp(/^[a-zA-Z0-9,.!:/\s]+$/);
 
@@ -83,6 +89,7 @@ export default function CreatePost(props: CreatePostProps) {
         return;
       }
     }
+
     navigator.geolocation.getCurrentPosition(
       success,
       error,
@@ -91,6 +98,7 @@ export default function CreatePost(props: CreatePostProps) {
   }, [session]);
 
   const router = useRouter();
+
   async function onFinish(values: any) {
     try {
       values.lat = lat;
@@ -108,11 +116,28 @@ export default function CreatePost(props: CreatePostProps) {
     }
   }
 
-  const options = [
-    { value: "Burns Bay Road" },
-    { value: "Downing Street" },
-    { value: "Wall Street" },
-  ];
+  useEffect(() => {
+    try {
+      if (locationName) {
+        getLocations(locationName).then((result) => {
+          console.log("locName-", result);
+          if (result) {
+            setGeocodeResult(result.locations);
+          }
+        });
+      }
+      if (postalCode) {
+        getLocations(postalCode).then((result) => {
+          console.log("postal ->", result);
+          if (result) {
+            setGeocodeResult(result.locations);
+          }
+        });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, [locationName, postalCode]);
 
   return (
     <section className={styles.container}>
@@ -255,7 +280,8 @@ export default function CreatePost(props: CreatePostProps) {
                 lng={lng}
                 setLat={setLat}
                 setLng={setLng}
-                isAllowClick={true}
+                isAllowClick={false}
+                l
               />
             </div>
           </div>
@@ -277,12 +303,14 @@ export default function CreatePost(props: CreatePostProps) {
             ]}
           >
             <AutoComplete
-              options={options}
-              filterOption={(inputValue, option) =>
-                option!.value
-                  .toUpperCase()
-                  .indexOf(inputValue.toUpperCase()) !== -1
-              }
+              dataSource={geocodeResult.map(
+                (result) => result.formatted_address
+              )}
+              onChange={(value) => {
+                setLocationName(value);
+                setLat(geocodeResult[0].geometry.location.lat);
+                setLng(geocodeResult[0].geometry.location.lng);
+              }}
             />
           </Form.Item>
 
@@ -303,7 +331,10 @@ export default function CreatePost(props: CreatePostProps) {
               },
             ]}
           >
-            <Input className={styles.postTitleInput} />
+            <Input
+              className={styles.postTitleInput}
+              onChange={(e) => setPostalCode(e.target.value)}
+            />
           </Form.Item>
           <div className={styles.buttonBlock}>
             <Button
