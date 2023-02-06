@@ -10,6 +10,7 @@ import { backendLoader } from "../../utils/backend-loader";
 import type { Posts } from "../../models/posts";
 import MyPost from "../../Components/PostPage/MyPost/MyPost";
 import LivePost from "../../Components/PostPage/LivePost/LivePost";
+import { useRouter } from "next/router";
 
 type SinglePostProps = { appUrl: string; post: PostType };
 
@@ -31,14 +32,15 @@ export default function SinglePost({
 }: SinglePostProps) {
   const [post, setPost] = useState<PostType>(initialPost);
   const { data: session } = useSession();
-
+  const router = useRouter();
+  const fromUrl = router.query.fromUrl;
   const isAuthor = session ? post?.author_id === session?.user.id : undefined;
 
   return (
     <>
       {isAuthor ? (
         <>
-          <MyPost appUrl={appUrl} post={post} />
+          <MyPost appUrl={appUrl} post={post} fromUrl={fromUrl} />
           {/* <AuthorThreads appUrl={appUrl} postId={post.id} /> */}
         </>
       ) : (

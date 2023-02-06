@@ -10,7 +10,7 @@ import dynamic from "next/dynamic";
 import { CovertStringCoordinates } from "../../../utils/covnverterForCoordinates";
 const { Option } = Select;
 
-type PostProps = { appUrl: string; post: PostType };
+type PostProps = { appUrl: string; post: PostType; fromUrl: string };
 type ErrorResponse = {
   status: string;
 };
@@ -26,11 +26,18 @@ type PostType = {
   is_blocked: boolean;
 };
 
+const availableFromUrl = ["posts", "myPosts"];
+
 export default function MyPost(props: PostProps) {
   const [post, setPost] = useState<PostType>(props.post);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { data: session } = useSession();
-  const appUrl = props.appUrl;
+  let appUrl = props.appUrl;
+  if (props.fromUrl in availableFromUrl) {
+    appUrl = "/posts";
+  }
+  const fromUrl = props.fromUrl;
+
   const router = useRouter();
 
   const Map = useMemo(
@@ -93,7 +100,7 @@ export default function MyPost(props: PostProps) {
         <Button
           className={styles.backButton}
           type="link"
-          onClick={() => router.push(`${appUrl}/myPosts`)}
+          onClick={() => router.push(`${appUrl}/${fromUrl}`)}
         >
           <Image
             src="/decor/arrow-left.svg"
@@ -106,7 +113,20 @@ export default function MyPost(props: PostProps) {
         </Button>
       </div>
       <div className={styles.myPostContainer}>
-        {post.is_blocked && <div>This post is blocked by admin</div>}
+        {post.is_blocked && <div className={styles.blockedPost}>
+        <div className={styles.blockedWrapper}>
+              <Image
+                src="/decor/remember.svg"
+                alt=""
+                width={45}
+                height={41}
+              />
+      <span className={styles.blockedTitle}>This post blocked by admin!</span>
+      
+    </div>
+
+          
+          </div>}
         <div className={styles.topBlock}>
           <span className={styles.myPostTitle}>My Post</span>
           <Image
