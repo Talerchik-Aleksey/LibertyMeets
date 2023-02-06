@@ -13,7 +13,7 @@ type EventSingleRowProps = {
 export default function EventSingleRow(props: EventSingleRowProps) {
   const { post, changeStar, isViewForAllCategory } = props;
   const router = useRouter();
-  const pathname = router.pathname;
+  const pathname = router.pathname.slice(1);
 
   return (
     <div className={styles.container}>

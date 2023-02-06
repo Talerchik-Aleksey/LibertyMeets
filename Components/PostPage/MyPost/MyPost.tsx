@@ -26,12 +26,18 @@ type PostType = {
   is_blocked: boolean;
 };
 
+const availableFromUrl = ["posts", "myPosts"];
+
 export default function MyPost(props: PostProps) {
   const [post, setPost] = useState<PostType>(props.post);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { data: session } = useSession();
-  const appUrl = props.appUrl;
+  let appUrl = props.appUrl;
+  if (props.fromUrl in availableFromUrl) {
+    appUrl = "/posts";
+  }
   const fromUrl = props.fromUrl;
+
   const router = useRouter();
 
   const Map = useMemo(
