@@ -1,6 +1,5 @@
-import { Button, Pagination } from "antd";
+import { Pagination } from "antd";
 import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { PostType } from "../../types/general";
@@ -80,37 +79,41 @@ export default function MyPosts({
               <EventForMyPosts key={item.id} post={item} movePost={movePost} />
             ))}
           </div>
-          <Pagination
-            className={styles.pagination}
-            current={current}
-            onChange={changePageNumber}
-            total={totalCount}
-            showLessItems={true}
-            responsive={true}
-            defaultPageSize={postsPerPage}
-            itemRender={(page, type, element) => {
-              return (
-                <>
-                  {page === current ? (
-                    <span
-                      className="active"
-                      style={{
-                        display: "inline-block",
-                        backgroundColor: "#921A64",
-                        borderRadius: "50%",
-                        color: "#ffffff",
-                        fontSize: "14px",
-                      }}
-                    >
-                      {element}
-                    </span>
-                  ) : (
-                    <div>{element}</div>
-                  )}
-                </>
-              );
-            }}
-          />
+          {postsPerPage >= totalCount ? (
+            <></>
+          ) : (
+            <Pagination
+              className={styles.pagination}
+              current={current}
+              onChange={changePageNumber}
+              total={totalCount}
+              showLessItems={true}
+              responsive={true}
+              defaultPageSize={postsPerPage}
+              itemRender={(page, type, element) => {
+                return (
+                  <>
+                    {page === current ? (
+                      <span
+                        className="active"
+                        style={{
+                          display: "inline-block",
+                          backgroundColor: "#921A64",
+                          borderRadius: "50%",
+                          color: "#ffffff",
+                          fontSize: "14px",
+                        }}
+                      >
+                        {element}
+                      </span>
+                    ) : (
+                      <div>{element}</div>
+                    )}
+                  </>
+                );
+              }}
+            />
+          )}
         </section>
       )}
     </section>
