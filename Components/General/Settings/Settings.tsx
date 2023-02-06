@@ -15,6 +15,9 @@ export default function Settings(props: SettingsProps) {
   const appUrl = props.appUrl;
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isUpdatedPassword, setIsUpdatedPassword] = useState<boolean>();
+  const passwordRegex = new RegExp(
+    "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+  );
 
   async function onFinish(values: any) {
     if (values.password !== values.repeatPassword) {
@@ -78,9 +81,14 @@ export default function Settings(props: SettingsProps) {
               rules={[
                 {
                   required: true,
-                  message: "Please input your password!",
+                  message: "Please input your new password!",
                 },
-                { type: "string", min: 4, max: 100 },
+                {
+                  max: 100,
+                  pattern: passwordRegex,
+                  message:
+                    "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
+                },
               ]}
               hasFeedback
             >
@@ -97,22 +105,13 @@ export default function Settings(props: SettingsProps) {
               labelAlign="left"
               className={styles.password}
               rules={[
+                { required: true, message: "Please repeat your password!" },
                 {
-                  required: true,
-                  message: "Please confirm your password!",
+                  max: 100,
+                  pattern: passwordRegex,
+                  message:
+                    "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
                 },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error(
-                        "The two passwords that you entered do not match!"
-                      )
-                    );
-                  },
-                }),
               ]}
             >
               <Input.Password className={styles.input} />
