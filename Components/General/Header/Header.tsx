@@ -38,8 +38,15 @@ const buttonMap = {
     "posts/[postId]",
     "posts/edit/[postId]",
   ],
-  showLogIn: ["", "registration", "about", "posts", "reset-password"],
-  showSignUp: ["signin", "about", "posts", "reset-password"],
+  showLogIn: [
+    "",
+    "registration",
+    "about",
+    "posts",
+    "reset-password",
+    "posts/[postId]",
+  ],
+  showSignUp: ["signin", "about", "posts", "reset-password", "posts/[postId]"],
 };
 
 export default function Header() {
