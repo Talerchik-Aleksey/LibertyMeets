@@ -24,9 +24,9 @@ export default function Settings(props: SettingsProps) {
 
   const showDeleteConfirm = () => {
     confirm({
-      title: "Are you sure delete this account?",
+      title: "Are you sure you want to delete your account?",
       icon: <QuestionCircleOutlined />,
-      content: "All your posts will be deleted as well",
+      content: "All your posts will also be deleted",
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
