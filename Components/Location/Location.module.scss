@@ -1,0 +1,19 @@
+.location {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: #8f8f8f;
+  white-space: nowrap;
+
+  @media (max-width: 800px) {
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (max-width: 600px) {
+    text-align: right;
+    max-width: 80px;
+  }
+}
