@@ -106,7 +106,7 @@
 }
 
 .categoryButton {
-  padding: 8px 47px;
+  padding: 8px 47px!important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -115,9 +115,9 @@
   width: min-content;
 
   @media (max-width:600px) {
-        width: min-content;
-        height: min-content;
-        padding: 3px 20px;
+    width: min-content;
+    height: min-content;
+    padding: 3px 20px;
   }
 }
 
