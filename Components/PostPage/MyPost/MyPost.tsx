@@ -113,20 +113,16 @@ export default function MyPost(props: PostProps) {
         </Button>
       </div>
       <div className={styles.myPostContainer}>
-        {post.is_blocked && <div className={styles.blockedPost}>
-        <div className={styles.blockedWrapper}>
-              <Image
-                src="/decor/remember.svg"
-                alt=""
-                width={45}
-                height={41}
-              />
-      <span className={styles.blockedTitle}>This post blocked by admin!</span>
-      
-    </div>
-
-          
-          </div>}
+        {post.is_blocked && (
+          <div className={styles.blockedPost}>
+            <div className={styles.blockedWrapper}>
+              <Image src="/decor/remember.svg" alt="" width={45} height={41} />
+              <span className={styles.blockedTitle}>
+                This post blocked by admin!
+              </span>
+            </div>
+          </div>
+        )}
         <div className={styles.topBlock}>
           <span className={styles.myPostTitle}>My Post</span>
           <Image
@@ -172,7 +168,7 @@ export default function MyPost(props: PostProps) {
                   height={16}
                   className={styles.eye}
                 />
-                Make Post Public
+                Make Post {post.is_public ? "Private" : "Public"}
               </div>
             </Option>
             <Option className={styles.optionContainer} key="delete">
@@ -260,6 +256,9 @@ export default function MyPost(props: PostProps) {
             <>
               <span className={styles.location}>location</span>
               <Map
+                appUrl={appUrl}
+                userLat={session?.user.lat}
+                userLng={session?.user.lng}
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
                 isAllowClick={false}

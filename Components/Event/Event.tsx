@@ -25,7 +25,7 @@ export default function EventSingleRow(props: EventSingleRowProps) {
             }}
           >
             <Image
-              src="/decor/Icon.svg"
+              src="/decor/starFaiv.svg"
               alt=""
               width={20}
               height={20}
@@ -39,7 +39,7 @@ export default function EventSingleRow(props: EventSingleRowProps) {
             }}
           >
             <Image
-              src="/decor/Icon2.svg"
+              src="/decor/starNoFaiv.svg"
               alt=""
               width={20}
               height={20}
