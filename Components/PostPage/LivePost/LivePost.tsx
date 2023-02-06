@@ -86,7 +86,7 @@ export default function LivePost(props: PostProps) {
               <Map
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
-                isAllowClick={false} appUrl={""} userLat={undefined} userLng={undefined}              />
+              />
             </>
           ) : (
             <></>
@@ -170,13 +170,10 @@ export default function LivePost(props: PostProps) {
                   <strong>e570bd5f166a3@libertymeets.com </strong>
                 </span>
                 <Button className={styles.copyBtn}>Copy</Button>
-                {/*<RememberBlock />*/}
               </div>
             )}
           </Modal>
         </div>
-
-        {/* */}
       </div>
     </section>
   );

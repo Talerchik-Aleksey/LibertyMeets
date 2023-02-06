@@ -255,7 +255,7 @@ export default function MyPost(props: PostProps) {
               <Map
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
-                isAllowClick={false} appUrl={""} userLat={undefined} userLng={undefined}              />
+              />
             </>
           ) : (
             <></>
