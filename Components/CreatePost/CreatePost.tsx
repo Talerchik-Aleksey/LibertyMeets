@@ -223,7 +223,9 @@ export default function CreatePost(props: CreatePostProps) {
             <span>Set To {isPublic ? "Public" : "Private"}?</span>
             <Tooltip
               placement="top"
-              title={"Maintenance technician at apartment building"}
+              title={
+                "Setting this post to public lets users that are not signed in see this post."
+              }
             >
               <Image src="/decor/qwe.svg" alt="" width={26} height={26} />
             </Tooltip>
