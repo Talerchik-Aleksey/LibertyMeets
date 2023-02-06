@@ -247,6 +247,9 @@ export default function MyPost(props: PostProps) {
             <>
               <span className={styles.location}>location</span>
               <Map
+                appUrl={appUrl}
+                userLat={session?.user.lat}
+                userLng={session?.user.lng}
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
                 isAllowClick={false}
