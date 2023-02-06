@@ -63,9 +63,10 @@ export default function EventSingleRow(props: EventSingleRowProps) {
         </div>
         <div className={styles.rightBlock}>
           <div className={styles.location}>
-            {/* (Fairfax, VA) */}
-            {post.geo}
-          </div>{" "}
+            {post.location_name
+              ? `${post.location_name}`
+              : `${post.city}, ${post.state}`}
+          </div>
         </div>
       </Link>
     </div>

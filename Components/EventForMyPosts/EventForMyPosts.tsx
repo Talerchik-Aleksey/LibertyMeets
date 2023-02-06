@@ -43,7 +43,11 @@ export default function EventForMyPosts({
               <span className={styles.blockedText}>blocked</span>{" "}
             </div>
           )}
-          <div className={styles.location}>{post.geo}</div>
+          <div className={styles.location}>
+            {post.location_name
+              ? `${post.location_name}`
+              : `${post.city}, ${post.state}`}
+          </div>
         </div>
       </Link>
     </div>

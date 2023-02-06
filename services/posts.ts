@@ -72,6 +72,9 @@ export async function getPosts(
         "geo",
         "created_at",
         "author_id",
+        "city",
+        "state",
+        "location_name",
       ],
     });
     const count = await Posts.count({
@@ -144,6 +147,9 @@ export async function getFavoritePosts(
       "geo",
       "created_at",
       "author_id",
+      "city",
+      "state",
+      "location_name",
     ],
   });
 
@@ -186,6 +192,9 @@ export async function getUserPosts(page: number, userId: number) {
       "created_at",
       "author_id",
       "is_blocked",
+      "city",
+      "state",
+      "location_name",
     ],
   });
 
