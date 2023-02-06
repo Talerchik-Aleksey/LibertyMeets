@@ -18,7 +18,7 @@ export default function EventForMyPosts({
       <div className={styles.star}>
         {post.is_favorite ? (
           <Image
-            src="/decor/Icon.svg"
+            src="/decor/starFaiv.svg"
             alt=""
             width={20}
             height={20}
