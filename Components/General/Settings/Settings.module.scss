@@ -10,7 +10,12 @@
     gap:10px;
 
     @media (max-width:1200px) {
-        width: 100%;
+        width: auto;
+        margin: 0 20px;
+    }
+
+    @media (max-width:600px) {
+        margin: 0 10px;
     }
 }
 
@@ -24,8 +29,25 @@
     }
 }
 
-.password div div{
-    min-width: 150px!important;
+.password{
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 30px;
+    color: #333333;
+
+    & div div{
+        min-width: 150px!important;
+    }
+
+    & div div label{
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 30px;
+        color: #333333;
+    }
 }
 
 .input{
@@ -36,6 +58,7 @@
     &:active{
         border-color: #921A64!important;
     }
+
     &:hover{
         border-color: #921A64!important;
     } 
@@ -81,7 +104,6 @@
     @media (max-width:500px) {
         padding: 6px 5px;
         justify-content: center;
-
     }
 
     &:hover{
@@ -93,15 +115,12 @@
     display: flex;
     justify-content: flex-end;
     padding: 5px 10px;
+
+    @media (max-width:600px) {
+        justify-content: center;
+    }
 }
 
-.password{
-    font-family: 'Inter';
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 30px;
-    color: #333333;
-}
 
 .deleteBlock{
     display: flex;
@@ -184,11 +203,3 @@
     min-height: 100vh;
 }
 
-.password div div label{
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 30px;
-    color: #333333;
-}
