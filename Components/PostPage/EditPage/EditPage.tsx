@@ -24,7 +24,7 @@ export default function EditPage(props: EditPostProps) {
   const appUrl = props.appUrl;
   const router = useRouter();
   const postPageId = props.post.id;
-
+  const fromUrl = router.query.fromUrl;
   useEffect(() => {}, []);
 
   async function onFinish(values: any) {
@@ -33,7 +33,7 @@ export default function EditPage(props: EditPostProps) {
       withCredentials: true,
     });
     if (req.status === 200) {
-      router.push(`/posts/${postPageId}`);
+      router.push(`/posts/${postPageId}/?fromUrl=${fromUrl}`);
     }
   }
 
@@ -43,7 +43,9 @@ export default function EditPage(props: EditPostProps) {
         <Button
           className={styles.arrowBtn}
           type="link"
-          onClick={() => router.push(`/posts/${postPageId}`)}
+          onClick={() =>
+            router.push(`/posts/${postPageId}/?fromUrl=${fromUrl}`)
+          }
         >
           <Image
             src="/decor/arrow-left.svg"

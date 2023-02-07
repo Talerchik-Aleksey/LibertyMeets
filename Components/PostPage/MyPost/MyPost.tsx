@@ -136,7 +136,7 @@ export default function MyPost(props: PostProps) {
             bordered={false}
           >
             <Option className={styles.optionContainer} key="edit">
-              <Link href={`/posts/edit/${postId}`}>
+              <Link href={`/posts/edit/${postId}/?fromUrl=${fromUrl}`}>
                 <div className={styles.option}>
                   <Image
                     src="/decor/editPensil.svg"
@@ -193,14 +193,12 @@ export default function MyPost(props: PostProps) {
           <span className={styles.description}>Description</span>
           <p className={styles.descriptionText}>{post.description}</p>
         </div>
-        <div
-          className={styles.publicity}
-
-        >
+        <div className={styles.publicity}>
           <div
             onClick={() => {
               isAuthor && makePublic(!post.is_public);
-            }}>
+            }}
+          >
             {post.is_public ? (
               <Image
                 src="/decor/eye5.svg"
@@ -233,7 +231,7 @@ export default function MyPost(props: PostProps) {
           </span>
 
           <Tooltip
-            trigger={'hover'}
+            trigger={"hover"}
             title={
               "Setting this post to public lets users that are not asigned in see this post."
             }
