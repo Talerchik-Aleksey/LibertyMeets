@@ -39,14 +39,10 @@ export default function CreatePost(props: CreatePostProps) {
     "59th St, Flushing, NY 11378, США"
   );
   const [postalCode, setPostalCode] = useState<string>("");
-  const [geocodeResult, setGeocodeResult] = useState<Location[]>([
-    /*{
-      formatted_address: "59th St, Flushing, NY 11378, США",
-      geometry: { location: { lat: 1, lng: 1 } },
-    },*/
-  ]);
+  const [geocodeResult, setGeocodeResult] = useState<Location[]>([]);
   const postalRegex = new RegExp("^[0-9]{5}(?:-[0-9]{4})?$");
   const locationRegex = new RegExp(/^[a-zA-Z0-9,.!:/\s]+$/);
+  const router = useRouter();
 
   const Map = useMemo(
     () =>
@@ -56,6 +52,61 @@ export default function CreatePost(props: CreatePostProps) {
       }),
     []
   );
+
+  async function onFinish(values: any) {
+    try {
+      values.lat = lat;
+      values.lng = lng;
+      values.is_public = isPublic;
+      const posibleLocations = await getLocations(values.location_name);
+      if (posibleLocations) {
+        const location = posibleLocations.locations.find(
+          (result) => result.formatted_address === values.location_name
+        );
+
+        if (!location) {
+          return;
+        }
+
+        values.city = location.address_components.find((component) =>
+          component.types.includes("locality")
+        )?.long_name;
+        const route = location.address_components.find((components) =>
+          components.types.includes("route")
+        )?.long_name;
+        const street_number = location.address_components.find((components) =>
+          components.types.includes("street_number")
+        )?.long_name;
+        values.street = `${street_number} ${route}`;
+        values.state = location.address_components.find((component) =>
+          component.types.includes("administrative_area_level_1")
+        )?.long_name;
+        console.log(values);
+      }
+
+      const res = await axios.post(`${appUrl}/api/posts/create`, values, {
+        withCredentials: true,
+      });
+
+      if (res.status === 200) {
+        router.push("/myPosts");
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  useEffect(() => {
+    try {
+      getLocations(postalCode).then((result) => {
+        if (result) {
+          setGeocodeResult(result.locations);
+        }
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }, [postalCode]);
 
   function success(position: {
     coords: { latitude: number; longitude: number };
@@ -102,62 +153,6 @@ export default function CreatePost(props: CreatePostProps) {
       geoLocationOptions
     );
   }, [session]);
-
-  const router = useRouter();
-
-  async function onFinish(values: any) {
-    const location = geocodeResult.find(
-      (result) => result.formatted_address === values.location_name
-    );
-    console.log(values.lacation_name);
-    try {
-      values.lat = lat;
-      values.lng = lng;
-      values.is_public = isPublic;
-
-      if (!location) {
-        return;
-      }
-
-      values.city = location.address_components.find((component) =>
-        component.types.includes("locality")
-      )?.long_name;
-      const route = location.address_components.find((components) =>
-        components.types.includes("route")
-      )?.long_name;
-      const street_number = location.address_components.find((components) =>
-        components.types.includes("street_number")
-      )?.long_name;
-      values.street = `${street_number} ${route}`;
-      values.state = location.address_components.find((component) =>
-        component.types.includes("administrative_area_level_1")
-      )?.long_name;
-      console.log(values);
-
-      const res = await axios.post(`${appUrl}/api/posts/create`, values, {
-        withCredentials: true,
-      });
-
-      if (res.status === 200) {
-        router.push("/myPosts");
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  useEffect(() => {
-    try {
-      getLocations(locationName + postalCode).then((result) => {
-        console.log("locName-", result);
-        if (result) {
-          setGeocodeResult(result.locations);
-        }
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  }, [locationName, postalCode]);
 
   return (
     <section className={styles.container}>
@@ -327,7 +322,7 @@ export default function CreatePost(props: CreatePostProps) {
               dataSource={geocodeResult.map(
                 (result) => result.formatted_address
               )}
-              onChange={(value) => {
+              onSelect={(value) => {
                 setLocationName(value);
                 setLat(geocodeResult[0].geometry.location.lat);
                 setLng(geocodeResult[0].geometry.location.lng);
