@@ -35,9 +35,6 @@ export default function CreatePost(props: CreatePostProps) {
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
   const [isPublic, setIsPublic] = useState<boolean>(true);
-  const [locationName, setLocationName] = useState<string>(
-    "59th St, Flushing, NY 11378, США"
-  );
   const [postalCode, setPostalCode] = useState<string>("");
   const [geocodeResult, setGeocodeResult] = useState<Location[]>([]);
   const postalRegex = new RegExp("^[0-9]{5}(?:-[0-9]{4})?$");
@@ -101,6 +98,8 @@ export default function CreatePost(props: CreatePostProps) {
       getLocations(postalCode).then((result) => {
         if (result) {
           setGeocodeResult(result.locations);
+          setLat(result.locations[0].geometry.location.lat);
+          setLng(result.locations[0].geometry.location.lng);
         }
       });
     } catch (e) {
@@ -322,11 +321,6 @@ export default function CreatePost(props: CreatePostProps) {
               dataSource={geocodeResult.map(
                 (result) => result.formatted_address
               )}
-              onSelect={(value) => {
-                setLocationName(value);
-                setLat(geocodeResult[0].geometry.location.lat);
-                setLng(geocodeResult[0].geometry.location.lng);
-              }}
             />
           </Form.Item>
 
