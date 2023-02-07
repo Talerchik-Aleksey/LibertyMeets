@@ -33,9 +33,19 @@ const getLocations = async (
     Geocode.setApiKey(apiKey);
     Geocode.setRegion("us");
 
-    const response = await Geocode.fromAddress(`${searchTerm}`);
+    const response: { results: Array<Location> } = await Geocode.fromAddress(
+      `${searchTerm}`
+    );
 
-    return { locations: response.results };
+    const locationsInUSA = response.results.filter((location) =>
+      location.formatted_address.includes("USA")
+    );
+
+    if (locationsInUSA.length === 0) {
+      return null;
+    }
+
+    return { locations: locationsInUSA };
   } catch (e) {
     return null;
   }
