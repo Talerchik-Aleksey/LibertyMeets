@@ -50,6 +50,34 @@ export default function CreatePost(props: CreatePostProps) {
     []
   );
 
+  function fillLocationData(values: any, location: Location | undefined) {
+    if (!location) {
+      return values;
+    }
+    values.city =
+      location.address_components.find((component) =>
+        component.types.includes("locality")
+      )?.long_name || null;
+    const route =
+      location.address_components.find((components) =>
+        components.types.includes("route")
+      )?.long_name || null;
+    const street_number =
+      location.address_components.find((components) =>
+        components.types.includes("street_number")
+      )?.long_name || null;
+    if (street_number === undefined || route === undefined) {
+      values.street = `${street_number} ${route}`;
+    }
+
+    values.state =
+      location.address_components.find((component) =>
+        component.types.includes("administrative_area_level_1")
+      )?.long_name || null;
+
+    return values;
+  }
+
   async function onFinish(values: any) {
     try {
       values.lat = lat;
@@ -60,25 +88,7 @@ export default function CreatePost(props: CreatePostProps) {
         const location = posibleLocations.locations.find(
           (result) => result.formatted_address === values.location_name
         );
-
-        if (!location) {
-          return;
-        }
-
-        values.city = location.address_components.find((component) =>
-          component.types.includes("locality")
-        )?.long_name;
-        const route = location.address_components.find((components) =>
-          components.types.includes("route")
-        )?.long_name;
-        const street_number = location.address_components.find((components) =>
-          components.types.includes("street_number")
-        )?.long_name;
-        values.street = `${street_number} ${route}`;
-        values.state = location.address_components.find((component) =>
-          component.types.includes("administrative_area_level_1")
-        )?.long_name;
-        console.log(values);
+        fillLocationData(values, location);
       }
 
       const res = await axios.post(`${appUrl}/api/posts/create`, values, {
