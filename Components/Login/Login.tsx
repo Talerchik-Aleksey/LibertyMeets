@@ -4,10 +4,12 @@ import { getSession, signIn } from "next-auth/react";
 import { Button, Form, Input, message } from "antd";
 import Link from "next/link";
 import styles from "./Login.module.scss";
+import { useRouter } from "next/router";
 
 export default function Login() {
   const [isRemember, setIsRemember] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const router = useRouter();
 
   const error = () => {
     messageApi.open({
@@ -20,9 +22,13 @@ export default function Login() {
     });
   };
   useEffect(() => {
-    localStorage.getItem("error") === "true" && error();
-    localStorage.removeItem("error");
-  }, []);
+    (async () => {
+      const session = await getSession();
+      session?.user && router.push("/posts");
+      localStorage.getItem("error") === "true" && error();
+      localStorage.removeItem("error");
+    })();
+  });
 
   async function onFinish(values: any) {
     values.rememberMe = isRemember;
