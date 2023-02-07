@@ -3,7 +3,7 @@
   flex-direction: row;
   align-items: center;
   padding: 20px 48px;
-  gap: 20px;
+  /* gap: 20px; */
   background: var(--LibertyMeets-Purple-100);
   justify-content: space-between;
   position: fixed;
@@ -17,7 +17,7 @@
   }
 }
 
-.logo{
+.logo {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -28,7 +28,7 @@
 }
 
 .myProfile {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -43,7 +43,7 @@
 }
 
 .logOut {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -75,40 +75,40 @@
     background: #640674;
   }
 
-  @media (max-width:1100px) {
+  @media (max-width: 1100px) {
     background: none;
-    color:#333333;
+    color: #333333;
     box-shadow: none;
     justify-content: center;
     width: auto;
 
-    &:hover{
-      color: #921a64 !important;;
+    &:hover {
+      color: #921a64 !important;
       background: none;
     }
   }
 }
 
-.createPosts img{
-  @media (max-width:1100px) {
+.createPosts img {
+  @media (max-width: 1100px) {
     display: none;
   }
 }
 
 .createPostsText {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
   color: #ffffff;
 
-  @media (max-width:1100px) {
-    color:#333333;
-    font-family: 'Inter';
+  @media (max-width: 1100px) {
+    color: #333333;
+    font-family: "Inter";
 
-    &:hover{
-      color: #921a64 !important;;
+    &:hover {
+      color: #921a64 !important;
     }
   }
 }
@@ -132,55 +132,55 @@
   }
 }
 
-.search{
-  background: #921A64;
+.search {
+  background: #921a64;
   border-radius: 4px;
   text-decoration: none;
   display: flex;
-  gap:10px;
+  gap: 10px;
   align-items: center;
   padding: 8px 18px;
   gap: 10px;
   border-radius: 4px;
-  transition:0.5s;
-  border:none!important ;
+  transition: 0.5s;
+  border: none !important ;
   white-space: nowrap;
 
-  &:hover{
-    transition:0.5s;
+  &:hover {
+    transition: 0.5s;
     background: #640674;
-    border:none!important ;
+    border: none !important ;
   }
 
-  @media (max-width:1100px) {
-    background: none;        
+  @media (max-width: 1100px) {
+    background: none;
     box-shadow: none;
     justify-content: center;
     width: auto;
 
-    &:hover{
-      color: #921a64 !important;;
+    &:hover {
+      color: #921a64 !important;
       background: none;
     }
   }
 }
 
-.search img{
-  @media (max-width:1100px) {
-  display: none;
+.search img {
+  @media (max-width: 1100px) {
+    display: none;
   }
 }
 
-.searchText{
-  font-family: 'Inter';
+.searchText {
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
-  color: #FFFFFF;
+  color: #ffffff;
 
-  @media (max-width:1100px) {
-    color:#333333;
+  @media (max-width: 1100px) {
+    color: #333333;
   }
 }
 
@@ -203,7 +203,7 @@
 }
 
 .signUpText {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -216,7 +216,7 @@
 }
 
 .logIn {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 700;
   font-size: 20px;
@@ -230,22 +230,21 @@
   }
 }
 
-.navigation{
-
-  @media (max-width:1100px) {
-    display: none;    
+.navigation {
+  @media (max-width: 1100px) {
+    display: none;
   }
 }
 
-.visible{
+.visible {
   display: flex;
   z-index: 99;
 }
 
-.burgerButton{
+.burgerButton {
   display: none;
 
-  @media (max-width:1100px) {
+  @media (max-width: 1100px) {
     display: block;
   }
 }

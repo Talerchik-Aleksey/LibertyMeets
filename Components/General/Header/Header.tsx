@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { NextRouter } from "next/router";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -57,6 +57,12 @@ export default function Header() {
   const router: NextRouter = useRouter();
   const url: Array<string> = router.route.split("/");
   const page: string = url.slice(1, url.length).join("/");
+  const ref = useRef<HTMLDivElement>(null);
+  const handleClickOutside = (event: MouseEvent) => {
+    if (ref.current && !ref.current.contains(event.target as Node)) {
+      setVisible(false);
+    }
+  };
 
   useEffect(() => {
     if (session) {
@@ -64,9 +70,16 @@ export default function Header() {
     }
   }, [session]);
 
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
-      <header className={styles.header}>
+      <header className={styles.header} ref={ref}>
         <div className={styles.logo}>
           <Link href={"/"}>
             <LibertyMeetsLogo />
@@ -85,7 +98,10 @@ export default function Header() {
 
         <div className={visible ? styles.visible : styles.navigation}>
           {isLogin ? (
-            <ul className={styles.navigationItemContainer}>
+            <ul
+              className={styles.navigationItemContainer}
+              onClick={(e) => setVisible(false)}
+            >
               {buttonMap.showSearch.indexOf(page) !== -1 && (
                 <SearchOpportunities />
               )}
@@ -94,7 +110,10 @@ export default function Header() {
               {buttonMap.showLogOut.indexOf(page) !== -1 && <LogOut />}
             </ul>
           ) : (
-            <ul className={styles.navigationItemContainer}>
+            <ul
+              className={styles.navigationItemContainer}
+              onClick={(e) => setVisible(false)}
+            >
               {buttonMap.showSignUp.indexOf(page) !== -1 && <SignUp />}
               {buttonMap.showLogIn.indexOf(page) !== -1 && <LogIn />}
             </ul>
