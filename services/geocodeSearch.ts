@@ -17,6 +17,7 @@ export interface Location {
 }
 
 const apiKey = process.env.GEOCODE;
+const filterCountry = process.env.FILTER_COUNTRY;
 
 export interface LocationSearchResult {
   locations: Location[];
@@ -38,7 +39,7 @@ const getLocations = async (
     );
 
     const locationsInUSA = response.results.filter((location) =>
-      location.formatted_address.includes("USA")
+      location.formatted_address.includes(filterCountry || "USA")
     );
 
     if (locationsInUSA.length === 0) {
