@@ -1,6 +1,7 @@
 import styles from "./MyPost.module.scss";
 import Image from "next/image";
-import { Button, Select, Tooltip } from "antd";
+import { Button, Select, Tooltip, Modal } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import { useState, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import axios, { AxiosError } from "axios";
@@ -74,6 +75,22 @@ export default function MyPost(props: PostProps) {
       setErrorMessage((response?.data as ErrorResponse).status);
     }
   }
+
+  const { confirm } = Modal;
+
+  const showDeleteConfirm = () => {
+    confirm({
+      title: "Are you sure you want to delete your post?",
+      icon: <QuestionCircleOutlined />,
+      content: "All information associated with post will also be deleted",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        deletePost();
+      },
+    });
+  };
 
   async function deletePost() {
     try {
@@ -165,7 +182,7 @@ export default function MyPost(props: PostProps) {
               </div>
             </Option>
             <Option className={styles.optionContainer} key="delete">
-              <div className={styles.option} onClick={deletePost}>
+              <div className={styles.option} onClick={showDeleteConfirm}>
                 <Image
                   src="/decor/trash.svg"
                   alt=""
