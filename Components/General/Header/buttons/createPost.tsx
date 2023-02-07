@@ -7,7 +7,6 @@ export default function CreatePost() {
   return (
     <li className={styles.navigationItem}>
       <Link className={styles.createPosts} href={"/createPost"}>
-    
           <Image
             src="/decor/Vector3.svg"
             alt=""
@@ -16,7 +15,6 @@ export default function CreatePost() {
             className={styles.vector}
           />
           <span className={styles.createPostsText}>Create Post </span>
-
       </Link>
     </li>
   );

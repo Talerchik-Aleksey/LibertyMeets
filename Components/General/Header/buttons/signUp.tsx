@@ -13,7 +13,7 @@ export default function SignUp() {
             alt=""
             width={16}
             height={14}
-            className={styles.vector}
+            className={styles.signUpImage}
           />
           <span className={styles.signUpText}>Sign Up </span>
         </Button>

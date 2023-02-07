@@ -33,6 +33,11 @@ export async function savePostToDb({
     geo: geo,
     lat: post.lat,
     lng: post.lng,
+    location_name: post.location_name,
+    city: post.city,
+    zip: post.zip,
+    state: post.state,
+    street: post.street,
   });
 
   await UserPosts.create({ user_id: user.id, post_id: createdPost.id });
