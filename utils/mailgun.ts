@@ -48,20 +48,19 @@ export async function sendEmail(
   templateProps: any,
   headers: HeadersSetup = []
 ) {
-  const params = { ...props, ...paramsArg, subject: "" };
+  const params = { ...props, ...paramsArg };
 
   const subject = await renderEmailTemplate(
     `${template}/subject`,
     templateProps
   );
-  params.subject = subject;
 
   const rawBody = await renderEmailTemplate(`${template}/body`, templateProps);
   const body = rawBody.trim();
 
   const data: any = {
     from: solveRecipientName(params.from),
-    subject: subject || params.subject || "",
+    subject: subject || "",
     html: body,
   };
 

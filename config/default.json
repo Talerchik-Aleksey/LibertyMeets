@@ -17,7 +17,7 @@
     "saltLength": 10
   },
   "posts": {
-    "perPage": 2
+    "perPage": 10
   },
   "recaptcha": {
     "public_recaptcha_key": "",

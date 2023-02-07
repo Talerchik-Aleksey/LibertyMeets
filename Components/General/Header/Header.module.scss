@@ -105,7 +105,7 @@
 
   @media (max-width:1100px) {
     color:#333333;
-    font-family: 'Inter';
+    font-weight: 700;
 
     &:hover{
       color: #921a64 !important;;
@@ -181,6 +181,11 @@
 
   @media (max-width:1100px) {
     color:#333333;
+    font-weight: 700;
+
+    &:hover{
+      color: #921A64;
+    }
   }
 }
 
@@ -200,6 +205,23 @@
     transition: 0.5s;
     background: #640674;
   }
+
+  @media (max-width:1100px) {
+    background: none;
+    box-shadow: none!important;
+    justify-content: center;
+
+    &:hover{
+      background: none;
+    }
+  }
+}
+
+.signUpImage{
+
+  @media (max-width:1100px) {
+    display: none;
+  }
 }
 
 .signUpText {
@@ -213,6 +235,17 @@
   text-align: center;
   text-transform: capitalize;
   color: #ffffff;
+
+  @media (max-width:1100px) {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    color: #333333;
+    &:hover{
+      color: #921A64;
+    }
+  }
 }
 
 .logIn {

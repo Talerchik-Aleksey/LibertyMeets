@@ -23,6 +23,16 @@
     background: #eee9f7;
     color: #921a64 !important;
   }
+
+  @media (max-width: 600px) {
+    width: auto;
+    font-size: 18px;
+    background: none;
+
+    &:hover{
+      background: none;
+    }
+  }
 }
 
 .activeButton {
@@ -44,6 +54,8 @@
 
   @media (max-width: 600px) {
     width: auto;
+    font-size: 18px;
+    background: none;
   }
 }
 
@@ -54,12 +66,10 @@
 
   @media (max-width: 700px) {
     flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 15px;
   }
 }
 
-.event {
-    text-decoration: none;
+.navigationItem {
+  text-decoration: none;
 }
   
