@@ -16,7 +16,7 @@ export default function Navigation(activePage: NavigationProps) {
     <div className={styles.containerMenu}>
       {NavigationMap.map((item) => (
         <Link
-          className={styles.event}
+          className={styles.navigationItem}
           href={`${links[item as keyof Object]}`}
           key={item}
         >
