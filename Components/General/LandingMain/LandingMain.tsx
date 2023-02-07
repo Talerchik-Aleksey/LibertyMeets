@@ -13,14 +13,14 @@ const textMap = [
 
 export default function LandingMain() {
   const [index, setIndex] = useState(0);
-  const [isLogin, setIsLogin] = useState<Boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<Boolean>(false);
 
-  const checkLogin = async () => {
+  const checkAuthenticated = async () => {
     const session = await getSession();
-    session?.user && setIsLogin(true);
+    session?.user && setIsAuthenticated(true);
   };
 
-  checkLogin();
+  checkAuthenticated();
 
   useEffect(() => {
     setTimeout(() => {
@@ -49,7 +49,7 @@ export default function LandingMain() {
           <Link className={styles.infoBlockButtonPurple} href="/posts">
             Search Public Opportunities
           </Link>
-          {!isLogin && (
+          {!isAuthenticated && (
             <Link className={styles.infoBlockButton} href="/registration">
               Sign Up to Post, and to Search All Opportunities
             </Link>
