@@ -5,7 +5,8 @@ import { useRouter } from "next/router";
 import { Button, Form, Input } from "antd";
 import axios, { AxiosError } from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
-import { createRef, useState } from "react";
+import { createRef, useEffect, useState } from "react";
+import { getSession } from "next-auth/react";
 
 type PropsType = { appUrl: string; recaptchaKey: string };
 
@@ -21,6 +22,13 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
   const passwordRegex = new RegExp(
     "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
   );
+
+  useEffect(() => {
+    (async () => {
+      const session = await getSession();
+      session?.user && router.push("/posts");
+    })();
+  });
 
   async function onFinish(values: any) {
     const recaptchaValue = recaptchaRef.current?.getValue();
