@@ -1,4 +1,3 @@
-import { Pagination } from "antd";
 import { useState, useEffect } from "react";
 import AddListing from "../AddListing/AddListing";
 import NavBar from "../General/NavBar/NavBar";
@@ -8,6 +7,7 @@ import { useRouter } from "next/router";
 import { PostType } from "../../types/general";
 import PostsList from "../PostsList";
 import axios from "axios";
+import { PaginationForPosts } from "../General/Pagination/Pagination";
 
 type PropsType = {
   appUrl: string;
@@ -110,7 +110,7 @@ export default function Events({
   }
 
   return (
-    <section className={styles.eventsPageContainer}>
+    <div className={styles.eventsPageContainer}>
       <div className={styles.navigation}>
         <NavBar changeCategory={changeCategory} />
       </div>
@@ -143,7 +143,7 @@ export default function Events({
                 (date) => !isTomorrow(date) && !isToday(date)
               ).length > 0 && (
                 <div className={styles.eventsSubBlockTitle}>
-                  <span className={styles.buttonDay}>Earlier</span>
+                  <span className={styles.buttonDay}>Soon</span>
                 </div>
               )}
               <PostsList
@@ -156,44 +156,16 @@ export default function Events({
               />
             </div>
           </div>
-          {postsPerPage >= totalCount ? (
-            <></>
-          ) : (
-            <Pagination
-              className={styles.pagination}
-              current={current}
-              onChange={changePageNumber}
-              total={totalCount}
-              defaultPageSize={postsPerPage}
-              showLessItems={true}
-              responsive={true}
-              itemRender={(page, type, element) => {
-                return (
-                  <>
-                    {page === current ? (
-                      <span
-                        className="active"
-                        style={{
-                          display: "inline-block",
-                          backgroundColor: "#921A64",
-                          borderRadius: "50%",
-                          color: "#ffffff",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {element}
-                      </span>
-                    ) : (
-                      <div>{element}</div>
-                    )}
-                  </>
-                );
-              }}
-            />
-          )}
+          <PaginationForPosts
+            category={category}
+            totalCount={totalCount}
+            appUrl={appUrl}
+            postsPerPage={postsPerPage}
+            changePage={changePageNumber}
+          />
           <AddListing />
         </div>
       </div>
-    </section>
+    </div>
   );
 }
