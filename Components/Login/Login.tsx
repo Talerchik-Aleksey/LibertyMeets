@@ -72,7 +72,7 @@ export default function Login() {
               ]}
               colon={false}
               labelAlign="left"
-              label="Email"
+              label="E-mail"
               labelCol={{ span: 3 }}
               className={styles.username}
             >
