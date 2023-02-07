@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { PostType } from "../../types/general";
 import Location from "../Location/Location";
 import styles from "./Event.module.scss";
+import { getSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 type EventSingleRowProps = {
   post: PostType;
@@ -15,40 +17,50 @@ export default function EventSingleRow(props: EventSingleRowProps) {
   const { post, changeStar, isViewForAllCategory } = props;
   const router = useRouter();
   const pathname = router.pathname.slice(1);
+  const [isLogin, setIsLogin] = useState<Boolean>(false);
+
+  useEffect(() => {
+    (async () => {
+      const session = await getSession();
+      session?.user && setIsLogin(true);
+    })();
+  });
 
   return (
     <div className={styles.container}>
-      <div className={styles.star}>
-        {post.favoriteUsers?.length > 0 || post.is_favorite ? (
-          <div
-            onClick={() => {
-              changeStar(post.id);
-            }}
-          >
-            <Image
-              src="/decor/starFaiv.svg"
-              alt=""
-              width={20}
-              height={20}
-              className={styles.vector}
-            />
-          </div>
-        ) : (
-          <div
-            onClick={() => {
-              changeStar(post.id);
-            }}
-          >
-            <Image
-              src="/decor/starNoFaiv.svg"
-              alt=""
-              width={20}
-              height={20}
-              className={styles.vector}
-            />
-          </div>
-        )}
-      </div>
+      {isLogin && (
+        <div className={styles.star}>
+          {post.favoriteUsers?.length > 0 || post.is_favorite ? (
+            <div
+              onClick={() => {
+                changeStar(post.id);
+              }}
+            >
+              <Image
+                src="/decor/starFaiv.svg"
+                alt=""
+                width={20}
+                height={20}
+                className={styles.vector}
+              />
+            </div>
+          ) : (
+            <div
+              onClick={() => {
+                changeStar(post.id);
+              }}
+            >
+              <Image
+                src="/decor/starNoFaiv.svg"
+                alt=""
+                width={20}
+                height={20}
+                className={styles.vector}
+              />
+            </div>
+          )}
+        </div>
+      )}
 
       <Link
         className={styles.link}
