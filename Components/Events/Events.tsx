@@ -110,7 +110,7 @@ export default function Events({
   }
 
   return (
-    <div className={styles.eventsPageContainer}>
+    <section className={styles.eventsPageContainer}>
       <div className={styles.navigation}>
         <NavBar changeCategory={changeCategory} />
       </div>
@@ -143,7 +143,7 @@ export default function Events({
                 (date) => !isTomorrow(date) && !isToday(date)
               ).length > 0 && (
                 <div className={styles.eventsSubBlockTitle}>
-                  <span className={styles.buttonDay}>Soon</span>
+                  <span className={styles.buttonDay}>Earlier</span>
                 </div>
               )}
               <PostsList
@@ -156,16 +156,20 @@ export default function Events({
               />
             </div>
           </div>
-          <PaginationForPosts
-            category={category}
-            totalCount={totalCount}
-            appUrl={appUrl}
-            postsPerPage={postsPerPage}
-            changePage={changePageNumber}
-          />
+          {postsPerPage >= totalCount ? (
+            <></>
+          ) : (
+            <PaginationForPosts
+              category={category}
+              totalCount={totalCount}
+              appUrl={appUrl}
+              postsPerPage={postsPerPage}
+              changePage={changePageNumber}
+            />
+          )}
           <AddListing />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
