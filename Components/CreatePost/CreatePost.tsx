@@ -106,24 +106,34 @@ export default function CreatePost(props: CreatePostProps) {
   const router = useRouter();
 
   async function onFinish(values: any) {
-    console.log(values);
     const location = geocodeResult.find(
-      (result) => result.formatted_address === values.location
+      (result) => result.formatted_address === values.location_name
     );
+    console.log(values.lacation_name);
     try {
       values.lat = lat;
       values.lng = lng;
       values.is_public = isPublic;
-      values.lacation_name = location?.formatted_address;
-      values.city = location?.address_components.find((component) =>
+
+      if (!location) {
+        return;
+      }
+
+      values.city = location.address_components.find((component) =>
         component.types.includes("locality")
       )?.long_name;
-      values.zip_code = location?.address_components.find((component) =>
-        component.types.includes("postal_code")
+      const route = location.address_components.find((components) =>
+        components.types.includes("route")
       )?.long_name;
-      values.state = location?.address_components.find((component) =>
+      const street_number = location.address_components.find((components) =>
+        components.types.includes("street_number")
+      )?.long_name;
+      values.street = `${street_number} ${route}`;
+      values.state = location.address_components.find((component) =>
         component.types.includes("administrative_area_level_1")
       )?.long_name;
+      console.log(values);
+
       const res = await axios.post(`${appUrl}/api/posts/create`, values, {
         withCredentials: true,
       });
@@ -138,22 +148,12 @@ export default function CreatePost(props: CreatePostProps) {
 
   useEffect(() => {
     try {
-      if (locationName) {
-        getLocations(locationName).then((result) => {
-          console.log("locName-", result);
-          if (result) {
-            setGeocodeResult(result.locations);
-          }
-        });
-      }
-      if (postalCode) {
-        getLocations(postalCode).then((result) => {
-          console.log("postal ->", result);
-          if (result) {
-            setGeocodeResult(result.locations);
-          }
-        });
-      }
+      getLocations(locationName + postalCode).then((result) => {
+        console.log("locName-", result);
+        if (result) {
+          setGeocodeResult(result.locations);
+        }
+      });
     } catch (e) {
       console.error(e);
     }
@@ -311,7 +311,7 @@ export default function CreatePost(props: CreatePostProps) {
             labelAlign={"left"}
             labelCol={{ span: 4 }}
             label="City or neighborhood"
-            name="location"
+            name="location_name"
             colon={false}
             rules={[
               { required: false },
@@ -340,7 +340,7 @@ export default function CreatePost(props: CreatePostProps) {
             labelAlign={"left"}
             labelCol={{ span: 2 }}
             label="Postal code"
-            name="postal"
+            name="zip"
             colon={false}
             rules={[
               { required: true },
