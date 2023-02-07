@@ -49,7 +49,7 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
     try {
       const req = await axios.post(`${appUrl}/api/users/registration`, values);
       if (req.status === 200) {
-        router.push("/signin");
+        router.push("/auth/activate");
       }
     } catch (err) {
       const error = err as AxiosError;
