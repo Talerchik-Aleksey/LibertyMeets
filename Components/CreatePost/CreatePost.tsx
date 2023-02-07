@@ -219,8 +219,9 @@ export default function CreatePost(props: CreatePostProps) {
             <Switch
               className={styles.switch}
               onChange={() => setIsPublic(!isPublic)}
+              style={isPublic? {backgroundColor:'#8f8f8f'}: {backgroundColor:'#921a64'}}
             />
-            <span>Set To {isPublic ? "Public" : "Private"}?</span>
+            <span>Set To Public?</span>
             <Tooltip
               placement="top"
               title={
