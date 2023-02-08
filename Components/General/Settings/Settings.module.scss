@@ -1,4 +1,4 @@
-.container{
+.container {
     background-color: #fff;
     width: 1112px;
     box-shadow: 0px 1px 2px rgb(31 41 55 / 8%);
@@ -7,7 +7,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap:10px;
+    gap: 10px;
 
     @media (max-width:1200px) {
         width: auto;
@@ -19,28 +19,28 @@
     }
 }
 
-.wrap{
+.wrap {
     display: flex;
     flex-direction: column;
-    margin:50px auto;
+    margin: 50px auto;
 
     @media (max-width:1200px) {
         margin: 50px 0;
     }
 }
 
-.password{
+.password {
     font-family: 'Inter';
     font-weight: 400;
     font-size: 16px;
     line-height: 30px;
     color: #333333;
 
-    & div div{
-        min-width: 150px!important;
+    & div div {
+        min-width: 150px !important;
     }
 
-    & div div label{
+    & div div label {
         font-family: 'Inter';
         font-style: normal;
         font-weight: 400;
@@ -50,22 +50,22 @@
     }
 }
 
-.input{
+.input {
     max-width: 965px;
-    display: flex;   
+    display: flex;
     border: 1px solid #8F8F8F;
 
-    &:active{
-        border-color: #921A64!important;
+    &:active {
+        border-color: #921A64 !important;
     }
 
-    &:hover{
-        border-color: #921A64!important;
-    } 
+    &:hover {
+        border-color: #921A64 !important;
+    }
 }
 
-.userTitle{
-    font-family:'Inter';
+.userTitle {
+    font-family: 'Inter';
     font-weight: 500;
     font-size: 20px;
     line-height: 32px;
@@ -73,7 +73,7 @@
     padding-bottom: 10px;
 }
 
-.signUp{
+.save {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
@@ -84,13 +84,9 @@
     text-align: center;
     text-transform: capitalize;
     color: #FFFFFF;
-
-    @media (max-width:500px) {
-        font-size: 16px;
-    }
 }
 
-.btn{
+.btn {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -102,16 +98,16 @@
     border: none !important;
 
     @media (max-width:500px) {
-        padding: 6px 5px;
+        width: auto;
         justify-content: center;
     }
 
-    &:hover{
+    &:hover {
         background: #640674;
     }
 }
 
-.buttonBlock{
+.buttonBlock {
     display: flex;
     justify-content: flex-end;
     padding: 5px 10px;
@@ -122,7 +118,7 @@
 }
 
 
-.deleteBlock{
+.deleteBlock {
     display: flex;
     margin-top: 100px;
 
@@ -131,24 +127,24 @@
     }
 }
 
-.btnDelete{  
+.btnDelete {
     padding: 8px 16px;
     display: flex;
-    gap:15px;
+    gap: 15px;
     gap: 10px;
     width: 218px;
     height: 40px;
     background: #D9041E;
     border-radius: 4px;
     align-items: center;
-    border: none!important;
+    border: none !important;
 
-    &:hover{
+    &:hover {
         background: #960315;
     }
 }
 
-.deleteText{
+.deleteText {
     font-family: 'Inter';
     font-weight: 400;
     font-size: 20px;
@@ -156,18 +152,18 @@
     color: #FFFFFF;
 }
 
-.containerMenu{
+.containerMenu {
     display: flex;
-    justify-content:center;
+    justify-content: center;
 
     @media (max-width:700px) {
         flex-wrap: wrap;
         justify-content: space-around;
-        gap:15px;
+        gap: 15px;
     }
 }
 
-.button{
+.button {
     display: flex;
     align-items: center;
     font-family: 'Inter';
@@ -177,29 +173,28 @@
     width: 190px;
     height: 40px;
     display: flex;
-    justify-content:center;
+    justify-content: center;
     background: #f9fafb;
     border-radius: 4px;
-    border: none!important;
+    border: none !important;
     box-shadow: none;
-    color:#8F8F8F;
+    color: #8F8F8F;
 
     @media (max-width:600px) {
         width: auto;
     }
 
-    &:hover{
+    &:hover {
         background: #EEE9F7;
-        color: #921A64!important;
+        color: #921A64 !important;
     }
 }
 
-.profileWrapper{
+.profileWrapper {
     display: flex;
-    gap:5px;
+    gap: 5px;
     flex-direction: column;
     background: #f9fafb;
     padding: 50px 0 0 0;
     min-height: 100vh;
 }
-

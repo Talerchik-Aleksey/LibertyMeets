@@ -120,7 +120,13 @@ export default function CreatePost(props: CreatePostProps) {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
+  const [isFirstLocationSet, setIsFirstLocationSet] = useState<boolean>(true);
+
   useEffect(() => {
+    if (!isFirstLocationSet) {
+      return;
+    }
+
     let lat;
     let lng;
     let lsLat;
@@ -145,6 +151,7 @@ export default function CreatePost(props: CreatePostProps) {
         return;
       }
     }
+    setIsFirstLocationSet(false);
 
     navigator.geolocation.getCurrentPosition(
       success,
@@ -305,53 +312,50 @@ export default function CreatePost(props: CreatePostProps) {
               />
             </div>
           </div>
-          <Form.Item>
-            <Row gutter={19}>
-              <Col span={12}>
-                <Form.Item
-                  label="City or neighborhood"
-                  name="location_name"
-                  colon={true}
-                >
-                  <Input className={styles.postTitleInput} />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  label="Postal code"
-                  name="zip"
-                  colon={false}
-                  rules={[
-                    { required: true },
-                    {
-                      type: "string",
-                      pattern: postalRegex,
-                      message:
-                        "Invalid postal code. Please enter a valid US postal code",
-                    },
-                    {
-                      validator: async (_, value) => {
-                        const geocodeResult = await getLocations(value);
-                        const locations = geocodeResult?.locations;
-                        if (locations && locations.length === 1) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject(
-                          "Value not found in geocode result"
-                        );
-                      },
-                    },
-                  ]}
-                  help={geocodeResult?.map(
-                    (result) => result.formatted_address
-                  )}
-                >
-                  <Input
-                    onChange={(event) => setPostalCode(event.target.value)}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
+          <Form.Item className={styles.locationContainer}>
+            <Form.Item
+              label="City or neighborhood"
+              name="location_name"
+              colon={true}
+              className={styles.city}
+            >
+              <Input className={styles.cityInput} />
+            </Form.Item>
+            <Form.Item
+              label="Postal code"
+              name="zip"
+              colon={false}
+              className={styles.zipCode}
+              rules={[
+                { required: true },
+                {
+                  type: "string",
+                  pattern: postalRegex,
+                  message:
+                    "Invalid postal code. Please enter a valid US postal code",
+                },
+                {
+                  validator: async (_, value) => {
+                    const geocodeResult = await getLocations(value);
+                    const locations = geocodeResult?.locations;
+                    if (locations && locations.length === 1) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(
+                      "Value not found in geocode result"
+                    );
+                  },
+                },
+              ]}
+              help={geocodeResult?.map(
+                (result) => result.formatted_address
+              )}
+            >
+              <Input
+                className={styles.zipCodeInput}
+                onChange={(event) => setPostalCode(event.target.value)}
+              />
+            </Form.Item>
           </Form.Item>
           <div className={styles.buttonBlock}>
             <Button

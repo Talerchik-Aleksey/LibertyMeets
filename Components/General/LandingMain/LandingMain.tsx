@@ -65,6 +65,7 @@ export default function LandingMain() {
               alt="Liberty"
               width={161}
               height={161}
+              className={styles.valuesItemImage}
             />
             <span className={styles.valuesText}>Liberty</span>
           </div>
@@ -74,6 +75,7 @@ export default function LandingMain() {
               alt="Liberty"
               width={161}
               height={161}
+              className={styles.valuesItemImage}
             />
             <span className={styles.valuesText}>Community</span>
           </div>
@@ -83,6 +85,7 @@ export default function LandingMain() {
               alt="Liberty"
               width={161}
               height={161}
+              className={styles.valuesItemImage}
             />
             <span className={styles.valuesText}>Privacy</span>
           </div>

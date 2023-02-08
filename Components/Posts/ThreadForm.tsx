@@ -89,7 +89,7 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
           className={styles.messageForm}
         >
           <Form.Item
-            className={styles.descriptionText}
+            className={styles.textboxArea}
             labelAlign={"left"}
             labelCol={{ span: 2 }}
             name="message"

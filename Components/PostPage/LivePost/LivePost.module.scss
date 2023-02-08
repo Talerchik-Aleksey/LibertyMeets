@@ -131,6 +131,7 @@
     font-size: 17px;
   }
 }
+
 .title {
   font-family: "Inter";
   font-weight: 600;
@@ -245,6 +246,7 @@
   &:hover {
     color: #921a64;
   }
+
   @media (max-width: 600px) {
     font-size: 16px;
   }
@@ -280,6 +282,7 @@
   align-items: center;
   text-transform: capitalize;
   color: #921a64;
+
   @media (max-width: 600px) {
     font-size: 16px;
   }
@@ -366,6 +369,7 @@
   align-items: center;
   text-transform: capitalize;
   color: #921a64;
+
   @media (max-width: 600px) {
     font-size: 16px;
   }
@@ -441,6 +445,7 @@
   background: #921a64;
   border-radius: 4.00301px;
   border: none !important;
+
   &:hover {
     background: #640674;
   }
@@ -524,8 +529,13 @@
 
 .messageForm {
   width: 100%;
+  padding-top: 20px;
 
-  & > button {
+  &>button {
     float: right;
   }
+}
+
+.textboxArea {
+  margin: inset auto;
 }

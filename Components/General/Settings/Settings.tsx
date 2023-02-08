@@ -1,6 +1,5 @@
 import { Button, Form, Input, Modal } from "antd";
 import {
-  ExclamationCircleFilled,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import styles from "./Settings.module.scss";
@@ -146,7 +145,7 @@ export default function Settings(props: SettingsProps) {
                     height={14}
                     className={styles.vector}
                   />
-                  <span className={styles.signUp}>Save Changes</span>
+                  <span className={styles.save}>Save Changes</span>
                 </Button>
               </div>
             </Form.Item>

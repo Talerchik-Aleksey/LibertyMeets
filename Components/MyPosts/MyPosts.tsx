@@ -1,4 +1,3 @@
-import { Pagination } from "antd";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
@@ -7,6 +6,7 @@ import EventForMyPosts from "../EventForMyPosts/EventForMyPosts";
 import Navigation from "../General/MyProfileNavigation/Navigation";
 import styles from "./MyPosts.module.scss";
 import LackOfPosts from "../LackOfPosts/LackOfPosts";
+import { PaginationForPosts } from "../General/Pagination/Pagination";
 
 type MyPostsProps = {
   appUrl: string;
@@ -27,7 +27,6 @@ export default function MyPosts({
 }: MyPostsProps) {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [totalCount, setTotalCount] = useState<number>(initialCount);
-  const [current, setCurrent] = useState<number>(1);
   const router = useRouter();
 
   useEffect(() => {
@@ -35,14 +34,7 @@ export default function MyPosts({
     setTotalCount(initialCount);
   }, [initialPosts, initialCount]);
 
-  useEffect(() => {
-    if (router.query?.page) {
-      setCurrent(Number(router.query?.page));
-    }
-  }, [router.query?.page]);
-
   function changePageNumber(page: number) {
-    setCurrent(page);
     if (postsIsFavorites) {
       router.push({
         pathname: `${appUrl}/my-favorites`,
@@ -79,41 +71,12 @@ export default function MyPosts({
               <EventForMyPosts key={item.id} post={item} movePost={movePost} />
             ))}
           </div>
-          {postsPerPage >= totalCount ? (
-            <></>
-          ) : (
-            <Pagination
-              className={styles.pagination}
-              current={current}
-              onChange={changePageNumber}
-              total={totalCount}
-              showLessItems={true}
-              responsive={true}
-              defaultPageSize={postsPerPage}
-              itemRender={(page, type, element) => {
-                return (
-                  <>
-                    {page === current ? (
-                      <span
-                        className="active"
-                        style={{
-                          display: "inline-block",
-                          backgroundColor: "#921A64",
-                          borderRadius: "50%",
-                          color: "#ffffff",
-                          fontSize: "14px",
-                        }}
-                      >
-                        {element}
-                      </span>
-                    ) : (
-                      <div>{element}</div>
-                    )}
-                  </>
-                );
-              }}
-            />
-          )}
+          <PaginationForPosts
+            totalCount={totalCount}
+            appUrl={appUrl}
+            postsPerPage={postsPerPage}
+            changePage={changePageNumber}
+          />
         </section>
       )}
     </section>

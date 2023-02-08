@@ -11,7 +11,7 @@
   border-radius: 4px;
   max-width: 100%;
   padding: 0 10px;
-  gap:10px;
+  gap: 10px;
   margin: 0 15px 15px 15px;
 
   @media (max-width: 800px) {
@@ -23,14 +23,14 @@
   }
 }
 
-.leftBlock{
+.leftBlock {
   display: flex;
   align-items: center;
-  gap:10px;
+  gap: 10px;
 }
-.rightBlock{
+.rightBlock {
   display: flex;
-  gap:10px;
+  gap: 10px;
   align-items: center;
 }
 
@@ -42,10 +42,10 @@
   align-items: center;
 }
 
-.leftBlock{
+.leftBlock {
   display: flex;
   font-display: row;
-  gap:10px;
+  gap: 10px;
   align-items: center;
 }
 
@@ -54,7 +54,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -91,7 +91,7 @@
   background: #921a64;
   box-shadow: 0px 1px 2px rgba(31, 41, 55, 0.08);
   border-radius: 4px;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 500;
   font-size: 10px;
   display: flex;
@@ -100,7 +100,7 @@
 }
 
 .date {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 400;
   font-size: 16px;
   line-height: 30px;
@@ -119,4 +119,3 @@
   align-items: center;
   height: 100%;
 }
-
