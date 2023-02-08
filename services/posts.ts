@@ -44,15 +44,28 @@ export async function savePostToDb({
   return createdPost;
 }
 
+type getPostsTypes = {
+  category?: string | string[] | undefined;
+  is_blocked: boolean | string[] | undefined;
+  zip?: string | string[] | undefined;
+};
+
 export async function getPosts(
   page: number,
   user?: { id: number } | null | undefined,
-  category?: string | string[] | undefined
+  category?: string | string[] | undefined,
+  zip?: string | string[] | undefined
 ) {
   if (user) {
-    const info = category
+    console.log(zip);
+    const info: getPostsTypes = category
       ? { category, is_blocked: false }
       : { is_blocked: false };
+
+    if (zip) {
+      info.zip = zip;
+    }
+
     const posts = await Posts.findAll({
       where: info,
       limit: PAGE_SIZE,
@@ -80,6 +93,7 @@ export async function getPosts(
         "city",
         "state",
         "location_name",
+        "zip",
       ],
     });
     const count = await Posts.count({

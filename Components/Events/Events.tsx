@@ -28,6 +28,7 @@ export default function Events({
   const [posts, setPosts] = useState<PostType[]>([]);
   const [totalCount, setTotalCount] = useState<number>(initialCount);
   const [category, setCategory] = useState<string | undefined>(undefined);
+  const [zipCode, setZipCode] = useState<string | undefined>(undefined);
   const router = useRouter();
 
   useEffect(() => {
@@ -85,7 +86,7 @@ export default function Events({
     setCurrent(1);
     router.push({
       pathname: `${appUrl}/posts`,
-      query: { category: category.toLowerCase() },
+      query: { category: category.toLowerCase(), zip: zipCode },
     });
   }
 
@@ -109,9 +110,22 @@ export default function Events({
     return posts.filter((post) => filterFn(new Date(post.created_at)));
   }
 
-  async function searchByZipCode(zipCode: string) {
-    console.log(posts);
-    console.log(posts.filter((post) => post.zip === zipCode));
+  async function searchByZipCode(zip: string) {
+    if (zip === "") {
+      setZipCode(undefined);
+      router.push({
+        pathname: `${appUrl}/posts`,
+        query: { category, zip: zipCode },
+      });
+
+      return;
+    }
+
+    setZipCode(zip);
+    router.push({
+      pathname: `${appUrl}/posts`,
+      query: category ? { category, zip } : { zip },
+    });
   }
 
   return (
