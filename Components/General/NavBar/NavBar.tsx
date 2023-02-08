@@ -6,10 +6,11 @@ import { useRouter } from "next/router";
 
 type NavBarProps = {
   changeCategory: (category: string) => void;
+  searchByZipCode: (zipCode: string) => void;
 };
 
 export default function NavBar(props: NavBarProps) {
-  const { changeCategory } = props;
+  const { changeCategory, searchByZipCode } = props;
   const router = useRouter();
   const categoryList = {
     "undefined ": "All",
@@ -57,6 +58,7 @@ export default function NavBar(props: NavBarProps) {
             }
             placeholder="20103"
             className={styles.loc}
+            onChange={(e) => searchByZipCode(e.target.value)}
           />
         </div>
       </div>

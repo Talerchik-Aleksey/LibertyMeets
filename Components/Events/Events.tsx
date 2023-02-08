@@ -109,10 +109,18 @@ export default function Events({
     return posts.filter((post) => filterFn(new Date(post.created_at)));
   }
 
+  async function searchByZipCode(zipCode: string) {
+    console.log(posts);
+    console.log(posts.filter((post) => post.zip === zipCode));
+  }
+
   return (
     <section className={styles.eventsPageContainer}>
       <div className={styles.navigation}>
-        <NavBar changeCategory={changeCategory} />
+        <NavBar
+          changeCategory={changeCategory}
+          searchByZipCode={searchByZipCode}
+        />
       </div>
       <div className={styles.wrap}>
         <div className={styles.container}>
