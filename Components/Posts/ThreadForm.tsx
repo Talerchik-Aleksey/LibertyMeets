@@ -1,7 +1,7 @@
 import axios from "axios";
 import styles from "../PostPage/LivePost/LivePost.module.scss";
 import Image from "next/image";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -22,6 +22,28 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
   const { data: session } = useSession();
   const router = useRouter();
 
+  const { success, error } = Modal;
+
+  const showModalSuccess = (text: string) => {
+    success({
+      content: text,
+      okText: "Ok",
+      onOk() {
+        setIsVisibleForm(false);
+      },
+    });
+  };
+
+  const showModalError = (text: string) => {
+    error({
+      content: text,
+      okText: "Ok",
+      onOk() {
+        setIsVisibleForm(false);
+      },
+    });
+  };
+
   function openForm() {
     if (session) {
       setIsVisibleForm(true);
@@ -38,15 +60,19 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
     );
 
     if (res.status === 200) {
+      showModalSuccess(
+        "We sent your message to the host. Receive responses and continue chatting over email."
+      );
       form.setFieldsValue({
-        message:
-          "We sent your message to the host. Receive responses and continue chatting over email.",
+        message: "",
       });
       return;
     }
+    showModalError(
+      "Sorry, your reply was not sent. Please try again later or contact support for assistance."
+    );
     form.setFieldsValue({
-      message:
-        "Sorry, your reply was not sent. Please try again later or contact support for assistance.",
+      message: "",
     });
   }
 
