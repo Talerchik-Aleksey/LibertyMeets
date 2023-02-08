@@ -25,10 +25,11 @@ export function PaginationForPosts({
     }
   }, [router.query?.page]);
 
-  return postsPerPage >= totalCount ? (
-    <></>
-  ) : (
-    <Pagination
+  if(postsPerPage >= totalCount) {
+    return <></>
+  }
+
+  return  <Pagination
       className={styles.pagination}
       current={current}
       onChange={(page) => {
