@@ -53,7 +53,7 @@ export default function Header() {
   const { data: session } = useSession();
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(false);
-  // const [unvisible, setUnvisible] = useState<boolean>(true);
+  const [hasChildren, setHasChildren] = useState(false);
   const router: NextRouter = useRouter();
   const url: Array<string> = router.route.split("/");
   const page: string = url.slice(1, url.length).join("/");
@@ -77,6 +77,17 @@ export default function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    const children = document.querySelector(".listElement")?.children || [];
+
+    if (children.length > 0) {
+      setHasChildren(true);
+      return;
+    }
+
+    setHasChildren(false);
+  }, [page]);
+
   return (
     <>
       <header className={styles.header} ref={ref}>
@@ -88,10 +99,15 @@ export default function Header() {
             className={styles.burgerButton}
             onClick={() => setVisible(!visible)}
           >
-            {visible ? (
-              <Image src="/decor/close.svg" alt="" width={60} height={60} />
+            {hasChildren ? (
+              <Image
+                src={visible ? "/decor/close.svg" : "/decor/menu.svg"}
+                alt=""
+                width={60}
+                height={60}
+              />
             ) : (
-              <Image src="/decor/menu.svg" alt="" width={60} height={60} />
+              <></>
             )}
           </div>
         </div>
@@ -99,7 +115,7 @@ export default function Header() {
         <div className={visible ? styles.visible : styles.navigation}>
           {isLogin ? (
             <ul
-              className={styles.navigationItemContainer}
+              className={`${styles.navigationItemContainer} listElement`}
               onClick={(e) => setVisible(false)}
             >
               {buttonMap.showSearch.indexOf(page) !== -1 && (
@@ -111,7 +127,7 @@ export default function Header() {
             </ul>
           ) : (
             <ul
-              className={styles.navigationItemContainer}
+              className={`${styles.navigationItemContainer} listElement`}
               onClick={(e) => setVisible(false)}
             >
               {buttonMap.showSignUp.indexOf(page) !== -1 && <SignUp />}
