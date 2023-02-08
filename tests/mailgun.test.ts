@@ -39,8 +39,6 @@ export const stripText = (text: string) => {
       const messageArray = text.split("\n");
       return arrayHandler(messageArray, "Proton");
     }
-  } else if (sentContains > -1) {
-    return text.substring(0, sentContains).trim();
   } else {
     const messageArray = text.split("\r\n");
     return messageArray.join("\n").trim();
