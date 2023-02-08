@@ -120,7 +120,13 @@ export default function CreatePost(props: CreatePostProps) {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
+  const [isFirstLocationSet, setIsFirstLocationSet] = useState<boolean>(true);
+
   useEffect(() => {
+    if (!isFirstLocationSet) {
+      return;
+    }
+
     let lat;
     let lng;
     let lsLat;
@@ -145,6 +151,7 @@ export default function CreatePost(props: CreatePostProps) {
         return;
       }
     }
+    setIsFirstLocationSet(false);
 
     navigator.geolocation.getCurrentPosition(
       success,
