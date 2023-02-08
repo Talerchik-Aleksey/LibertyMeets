@@ -1,13 +1,5 @@
 import Image from "next/image";
-import {
-  AutoComplete,
-  Button,
-  Form,
-  Input,
-  Select,
-  Switch,
-  Tooltip,
-} from "antd";
+import { Button, Col, Form, Input, Row, Select, Switch, Tooltip } from "antd";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
@@ -36,9 +28,10 @@ export default function CreatePost(props: CreatePostProps) {
   const [lng, setLng] = useState<number>(0);
   const [isPublic, setIsPublic] = useState<boolean>(true);
   const [postalCode, setPostalCode] = useState<string>("");
-  const [geocodeResult, setGeocodeResult] = useState<Location[]>([]);
+  const [geocodeResult, setGeocodeResult] = useState<Location[] | undefined>(
+    []
+  );
   const postalRegex = new RegExp("^[0-9]{5}(?:-[0-9]{4})?$");
-  const locationRegex = new RegExp(/^[a-zA-Z0-9,.!:/\s]+$/);
   const router = useRouter();
 
   const Map = useMemo(
@@ -83,13 +76,12 @@ export default function CreatePost(props: CreatePostProps) {
       values.lat = lat;
       values.lng = lng;
       values.is_public = isPublic;
-      const posibleLocations = await getLocations(values.location_name);
-      if (posibleLocations) {
-        const location = posibleLocations.locations.find(
-          (result) => result.formatted_address === values.location_name
-        );
-        fillLocationData(values, location);
+
+      if (!geocodeResult) {
+        return;
       }
+
+      fillLocationData(values, geocodeResult[0]);
 
       const res = await axios.post(`${appUrl}/api/posts/create`, values, {
         withCredentials: true,
@@ -104,17 +96,15 @@ export default function CreatePost(props: CreatePostProps) {
   }
 
   useEffect(() => {
-    try {
-      getLocations(postalCode).then((result) => {
+    getLocations(postalCode)
+      .then((result) => {
+        setGeocodeResult(result?.locations);
         if (result) {
-          setGeocodeResult(result.locations);
           setLat(result.locations[0].geometry.location.lat);
           setLng(result.locations[0].geometry.location.lng);
         }
-      });
-    } catch (e) {
-      console.error(e);
-    }
+      })
+      .catch((e) => console.error(e));
   }, [postalCode]);
 
   function success(position: {
@@ -284,7 +274,11 @@ export default function CreatePost(props: CreatePostProps) {
             <Switch
               className={styles.switch}
               onChange={() => setIsPublic(!isPublic)}
-              style={isPublic? {backgroundColor:'#8f8f8f'}: {backgroundColor:'#921a64'}}
+              style={
+                isPublic
+                  ? { backgroundColor: "#8f8f8f" }
+                  : { backgroundColor: "#921a64" }
+              }
             />
             <span>Set To Public?</span>
             <Tooltip
@@ -311,51 +305,53 @@ export default function CreatePost(props: CreatePostProps) {
               />
             </div>
           </div>
-          <Form.Item
-            className={styles.postTitleText}
-            labelAlign={"left"}
-            labelCol={{ span: 4 }}
-            label="City or neighborhood"
-            name="location_name"
-            colon={false}
-            rules={[
-              { required: false },
-              {
-                type: "string",
-                pattern: locationRegex,
-                message:
-                  "Invalid location format. Only letters, numbers, and symbols",
-              },
-            ]}
-          >
-            <AutoComplete
-              dataSource={geocodeResult.map(
-                (result) => result.formatted_address
-              )}
-            />
-          </Form.Item>
-
-          <Form.Item
-            className={styles.postTitleText}
-            labelAlign={"left"}
-            labelCol={{ span: 2 }}
-            label="Postal code"
-            name="zip"
-            colon={false}
-            rules={[
-              { required: true },
-              {
-                type: "string",
-                pattern: postalRegex,
-                message:
-                  "Invalid postal code. Please enter a valid US postal code",
-              },
-            ]}
-          >
-            <Input
-              className={styles.postTitleInput}
-              onChange={(e) => setPostalCode(e.target.value)}
-            />
+          <Form.Item>
+            <Row gutter={19}>
+              <Col span={12}>
+                <Form.Item
+                  label="City or neighborhood"
+                  name="location_name"
+                  colon={true}
+                >
+                  <Input className={styles.postTitleInput} />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  label="Postal code"
+                  name="zip"
+                  colon={false}
+                  rules={[
+                    { required: true },
+                    {
+                      type: "string",
+                      pattern: postalRegex,
+                      message:
+                        "Invalid postal code. Please enter a valid US postal code",
+                    },
+                    {
+                      validator: async (_, value) => {
+                        const geocodeResult = await getLocations(value);
+                        const locations = geocodeResult?.locations;
+                        if (locations && locations.length === 1) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject(
+                          "Value not found in geocode result"
+                        );
+                      },
+                    },
+                  ]}
+                  help={geocodeResult?.map(
+                    (result) => result.formatted_address
+                  )}
+                >
+                  <Input
+                    onChange={(event) => setPostalCode(event.target.value)}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
           </Form.Item>
           <div className={styles.buttonBlock}>
             <Button
