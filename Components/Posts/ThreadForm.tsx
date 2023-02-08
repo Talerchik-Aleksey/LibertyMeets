@@ -2,6 +2,9 @@ import axios from "axios";
 import styles from "../PostPage/LivePost/LivePost.module.scss";
 import Image from "next/image";
 import { Button, Form, Input } from "antd";
+import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const { TextArea } = Input;
 
@@ -13,13 +16,19 @@ type PropsType = {
   threadId?: string;
 };
 
-export default function ThreadForm({
-  isThreadExists,
-  appUrl,
-  threadId,
-  postId,
-}: PropsType) {
+export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
   const [form] = Form.useForm();
+  const [isVisibleForm, setIsVisibleForm] = useState<boolean>(false);
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  function openForm() {
+    if (session) {
+      setIsVisibleForm(true);
+      return;
+    }
+    router.push("/signin");
+  }
 
   async function handleSubmit(values: any) {
     const res = await axios.post(
@@ -30,7 +39,8 @@ export default function ThreadForm({
 
     if (res.status === 200) {
       form.setFieldsValue({
-        message: "Your reply has been sent to Post author",
+        message:
+          "We sent your message to the host. Receive responses and continue chatting over email.",
       });
       return;
     }
@@ -45,35 +55,54 @@ export default function ThreadForm({
   }
 
   return (
-    <Form onFinish={handleSubmit} form={form} className={styles.messageForm}>
-      <Form.Item
-        className={styles.descriptionText}
-        labelAlign={"left"}
-        labelCol={{ span: 2 }}
-        name="message"
-        colon={false}
-        initialValue={""}
-        rules={[{ required: false }, { type: "string", max: 200 }]}
-      >
-        <TextArea
-          maxLength={200}
-          autoSize={{ minRows: 7, maxRows: 7 }}
-          showCount={true}
-          rows={7}
-          size={"small"}
-          className={styles.descriptionTextarea}
-        />
-      </Form.Item>
-      <Button className={styles.replyBtn} htmlType="submit">
-        <Image
-          src="/decor/arrow2.svg"
-          alt=""
-          width={14}
-          height={10}
-          className={styles.reply}
-        />
-        <span className={styles.replyBtnText}>Reply</span>
-      </Button>
-    </Form>
+    <>
+      {isVisibleForm ? (
+        <Form
+          onFinish={handleSubmit}
+          form={form}
+          className={styles.messageForm}
+        >
+          <Form.Item
+            className={styles.descriptionText}
+            labelAlign={"left"}
+            labelCol={{ span: 2 }}
+            name="message"
+            colon={false}
+            initialValue={""}
+            rules={[{ required: false }, { type: "string", max: 200 }]}
+          >
+            <TextArea
+              maxLength={200}
+              autoSize={{ minRows: 7, maxRows: 7 }}
+              showCount={true}
+              rows={7}
+              size={"small"}
+              className={styles.descriptionTextarea}
+            />
+          </Form.Item>
+          <Button className={styles.replyBtn} htmlType="submit">
+            <Image
+              src="/decor/arrow2.svg"
+              alt=""
+              width={14}
+              height={10}
+              className={styles.reply}
+            />
+            <span className={styles.replyBtnText}>Reply</span>
+          </Button>
+        </Form>
+      ) : (
+        <Button className={styles.replyBtn} onClick={openForm}>
+          <Image
+            src="/decor/arrow2.svg"
+            alt=""
+            width={14}
+            height={10}
+            className={styles.reply}
+          />
+          <span className={styles.replyBtnText}>Reply</span>
+        </Button>
+      )}
+    </>
   );
 }
