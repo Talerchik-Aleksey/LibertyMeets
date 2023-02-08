@@ -145,7 +145,7 @@ export default function LivePost(props: PostProps) {
           */}
 
           {/* <Modal></Modal> */}
-{/* 
+          {/* 
           <Modal
             centered
             open={open}
