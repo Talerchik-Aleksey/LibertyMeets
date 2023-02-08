@@ -7,14 +7,14 @@ export const stripHtml = (html: string) => {
 };
 
 const arrayHandler = (messageArray: string[], contains: string) => {
-  let indexOfLiberty;
+  let indexOfContains;
   messageArray.some((element, index) => {
     if (element.includes(contains)) {
-      indexOfLiberty = index;
+      indexOfContains = index;
       return index;
     }
   });
-  const resArray = messageArray.slice(0, Number(indexOfLiberty) - 1);
+  const resArray = messageArray.slice(0, Number(indexOfContains) - 1);
   return resArray.join("\n").trim();
 };
 
