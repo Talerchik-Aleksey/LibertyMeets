@@ -1,7 +1,7 @@
 import { Pagination } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import styles from "../../Events/Events.module.scss";
+import styles from "./Pagination.module.scss";
 
 type PaginationForPostsProps = {
   totalCount: number;
