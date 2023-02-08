@@ -1,13 +1,5 @@
 import Image from "next/image";
-import {
-  AutoComplete,
-  Button,
-  Form,
-  Input,
-  Select,
-  Switch,
-  Tooltip,
-} from "antd";
+import { Button, Form, Input, Select, Switch, Tooltip } from "antd";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
@@ -40,7 +32,6 @@ export default function CreatePost(props: CreatePostProps) {
     []
   );
   const postalRegex = new RegExp("^[0-9]{5}(?:-[0-9]{4})?$");
-  const locationRegex = new RegExp(/^[a-zA-Z0-9,.!:/\s]+$/);
   const router = useRouter();
 
   const Map = useMemo(
@@ -85,13 +76,12 @@ export default function CreatePost(props: CreatePostProps) {
       values.lat = lat;
       values.lng = lng;
       values.is_public = isPublic;
-      const posibleLocations = await getLocations(values.location_name);
-      if (posibleLocations) {
-        const location = posibleLocations.locations.find(
-          (result) => result.formatted_address === values.location_name
-        );
-        fillLocationData(values, location);
+
+      if (!geocodeResult) {
+        return;
       }
+
+      fillLocationData(values, geocodeResult[0]);
 
       const res = await axios.post(`${appUrl}/api/posts/create`, values, {
         withCredentials: true,
@@ -164,13 +154,6 @@ export default function CreatePost(props: CreatePostProps) {
       geoLocationOptions
     );
   }, [session]);
-
-  const handleSelect = (value: string) => {
-    setPostalCode(value);
-    setSelectedZip(value);
-  };
-
-  const [selectedZip, setSelectedZip] = useState("");
 
   return (
     <section className={styles.container}>
@@ -331,15 +314,6 @@ export default function CreatePost(props: CreatePostProps) {
             label="City or neighborhood"
             name="location_name"
             colon={false}
-            rules={[
-              { required: false },
-              {
-                type: "string",
-                pattern: locationRegex,
-                message:
-                  "Invalid location format. Only letters, numbers, and symbols",
-              },
-            ]}
           >
             <Input className={styles.postTitleInput} />
           </Form.Item>
@@ -358,19 +332,21 @@ export default function CreatePost(props: CreatePostProps) {
                 message:
                   "Invalid postal code. Please enter a valid US postal code",
               },
+              {
+                validator: async (_, value) => {
+                  const geocodeResult = await getLocations(value);
+                  const locations = geocodeResult?.locations;
+                  if (locations && locations.length === 1) {
+                    console.log(locations);
+                    return Promise.resolve();
+                  }
+                  return Promise.reject("Value not found in geocode result");
+                },
+              },
             ]}
+            help={geocodeResult?.map((result) => result.formatted_address)}
           >
-            <AutoComplete
-              dataSource={geocodeResult?.map(
-                (result) => result.formatted_address
-              )}
-              onChange={setPostalCode}
-              onSelect={(value) => {
-                // Do not update the input value
-                return;
-              }}
-              notFoundContent={"Location not found"}
-            />
+            <Input onChange={(event) => setPostalCode(event.target.value)} />
           </Form.Item>
           <div className={styles.buttonBlock}>
             <Button
