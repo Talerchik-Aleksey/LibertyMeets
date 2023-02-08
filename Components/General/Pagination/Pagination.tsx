@@ -25,7 +25,9 @@ export function PaginationForPosts({
     }
   }, [router.query?.page]);
 
-  return (
+  return postsPerPage >= totalCount ? (
+    <></>
+  ) : (
     <Pagination
       className={styles.pagination}
       current={current}

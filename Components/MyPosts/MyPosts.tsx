@@ -71,16 +71,12 @@ export default function MyPosts({
               <EventForMyPosts key={item.id} post={item} movePost={movePost} />
             ))}
           </div>
-          {postsPerPage >= totalCount ? (
-            <></>
-          ) : (
-            <PaginationForPosts
-              totalCount={totalCount}
-              appUrl={appUrl}
-              postsPerPage={postsPerPage}
-              changePage={changePageNumber}
-            />
-          )}
+          <PaginationForPosts
+            totalCount={totalCount}
+            appUrl={appUrl}
+            postsPerPage={postsPerPage}
+            changePage={changePageNumber}
+          />
         </section>
       )}
     </section>

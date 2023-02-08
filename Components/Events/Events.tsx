@@ -156,17 +156,13 @@ export default function Events({
               />
             </div>
           </div>
-          {postsPerPage >= totalCount ? (
-            <></>
-          ) : (
-            <PaginationForPosts
-              category={category}
-              totalCount={totalCount}
-              appUrl={appUrl}
-              postsPerPage={postsPerPage}
-              changePage={changePageNumber}
-            />
-          )}
+          <PaginationForPosts
+            category={category}
+            totalCount={totalCount}
+            appUrl={appUrl}
+            postsPerPage={postsPerPage}
+            changePage={changePageNumber}
+          />
           <AddListing />
         </div>
       </div>
