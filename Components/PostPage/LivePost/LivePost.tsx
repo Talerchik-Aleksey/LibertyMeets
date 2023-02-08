@@ -2,7 +2,6 @@ import styles from "./LivePost.module.scss";
 import Image from "next/image";
 import { Button, Form, Input, Modal, Tooltip } from "antd";
 import { useState, useMemo } from "react";
-// import RememberBlock from "../../RememberBlock/RememberBlock";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import ThreadForm from "../../Posts/ThreadForm";

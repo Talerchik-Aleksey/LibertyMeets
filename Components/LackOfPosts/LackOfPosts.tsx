@@ -3,8 +3,6 @@ import { useRouter } from "next/router";
 import type { NextRouter } from "next/router";
 import styles from "./LackOfPosts.module.scss";
 import Image from "next/image";
-import CreatePost from "../General/Header/buttons/createPost";
-import SearchOpportunities from "../General/Header/buttons/searchOpportunities";
 import Link from "next/link";
 
 const buttonMap = {
