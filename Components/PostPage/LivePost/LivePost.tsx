@@ -144,8 +144,8 @@ export default function LivePost(props: PostProps) {
           </Button>
           */}
 
-          <Modal></Modal>
-
+          {/* <Modal></Modal> */}
+{/* 
           <Modal
             centered
             open={open}
@@ -178,7 +178,7 @@ export default function LivePost(props: PostProps) {
                 <Button className={styles.copyBtn}>Copy</Button>
               </div>
             )}
-          </Modal>
+          </Modal> */}
         </div>
       </div>
     </section>

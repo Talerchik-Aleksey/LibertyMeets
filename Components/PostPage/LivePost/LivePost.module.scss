@@ -524,8 +524,13 @@
 
 .messageForm {
   width: 100%;
+  padding-top: 20px;
 
   & > button {
     float: right;
   }
+}
+
+.textboxArea{
+  margin: inset auto;
 }
