@@ -16,7 +16,7 @@
   }
 }
 
-.container{
+.container {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -89,14 +89,14 @@
 .titleBlock {
   display: flex;
   min-height: 754px;
-  background: url('../../../public/decor/Rectangle-866.svg'),url('../../../public/decor/Rectangle-865.svg');
+  background: url('../../../public/decor/Rectangle-866.svg'), url('../../../public/decor/Rectangle-865.svg');
   background-repeat: no-repeat;
-  background-position: bottom 25px left , top 76px right;
+  background-position: bottom 25px left, top 76px right;
   background-size: 284px, 212px;
 
   @media (max-width:1300px) {
     background-size: 209px, 172px;
-    background-position: bottom 0 left , top 0 right;
+    background-position: bottom 0 left, top 0 right;
   }
 
   @media (max-width: 1000px) {
@@ -176,7 +176,7 @@
   gap: 15px;
 }
 
-.valuesItemImage{
+.valuesItemImage {
   @media (max-width: 800px) {
     width: 101px;
     height: 101px;
