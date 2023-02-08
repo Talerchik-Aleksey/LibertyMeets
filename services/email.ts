@@ -4,6 +4,7 @@ import { HttpError } from "../utils/HttpError";
 import { sendEmail } from "../utils/mailgun";
 import { simpleTextToHtml } from "../utils/html";
 import { getUser } from "./users";
+import { getPost } from "./posts";
 
 export async function sendReplyMessage(userId: number, message: string) {
   const user = await getUser(userId);
@@ -33,6 +34,9 @@ export async function sendReplyMessageToThread(
     throw new HttpError(404, "user not found");
   }
 
+  const post = await getPost(thread.post_id);
+  const title = post?.title;
+
   const baseDomain = config.get<string>("emails.replySetup.baseDomain");
 
   await sendEmail(
@@ -43,7 +47,7 @@ export async function sendReplyMessageToThread(
         email: user.email,
       },
     },
-    { message: simpleTextToHtml(message) },
+    { message: simpleTextToHtml(message), title },
     [
       ["In-Reply-To", `<${thread.id}@${baseDomain}>`],
       ["References", `<${thread.id}@${baseDomain}>`],

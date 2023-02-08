@@ -5,19 +5,21 @@ export type UserType = {
 
 export type PostType = {
   id: number;
+  author_id: number;
   title: string;
-  is_favorite?: boolean;
-  created_at: Date;
   category: string;
-  geo: string;
-  favoriteUsers: { id: number }[];
   description: string;
   is_public: boolean;
+  location_name: string;
+  street: string;
+  state: string;
+  city: string;
+  zip: string;
+  geo: string;
+  created_at: Date;
+  is_favorite?: boolean;
+  favoriteUsers: { id: number }[];
   lat: number;
   lng: number;
   is_blocked: boolean;
-  author_id: number;
-  city: string;
-  state: string;
-  location_name: string;
 };

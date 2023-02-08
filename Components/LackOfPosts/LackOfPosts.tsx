@@ -5,6 +5,7 @@ import styles from "./LackOfPosts.module.scss";
 import Image from "next/image";
 import CreatePost from "../General/Header/buttons/createPost";
 import SearchOpportunities from "../General/Header/buttons/searchOpportunities";
+import Link from "next/link";
 
 const buttonMap = {
   showFaivorites: ["my-favorites", ""],
@@ -24,7 +25,18 @@ export default function LackOfPosts() {
           </div>
           <div className={styles.title}>Go to</div>
 
-          <SearchOpportunities />
+          <Link className={styles.search} href={"/posts"}>
+        
+        <Image
+          src="/decor/Vector4.svg"
+          alt=""
+          width={16}
+          height={14}
+          className={styles.vector}
+        />
+        <span className={styles.searchText}>Search Opportunities </span>
+      
+    </Link>
         </div>
       </div>}
       {buttonMap.showMyPosts.indexOf(page) !== -1 && <div
@@ -33,7 +45,16 @@ export default function LackOfPosts() {
           You do not have any posts that you are the author of.
         </div>
         <div className={styles.title}>you can create it right now</div>
-        <CreatePost />
+        <Link className={styles.createPosts} href={"/createPost"}>
+          <Image
+            src="/decor/Vector3.svg"
+            alt=""
+            width={16}
+            height={14}
+            className={styles.vector}
+          />
+          <span className={styles.createPostsText}>Create Post </span>
+      </Link>
       </div>}
     </div>
   );
