@@ -26,7 +26,7 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
 
   const showModalSuccess = (text: string) => {
     success({
-      content: `${text}`,
+      content: text,
       okText: "Ok",
       onOk() {
         setIsVisibleForm(false);
@@ -36,7 +36,7 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
 
   const showModalError = (text: string) => {
     error({
-      content: `${text}`,
+      content: text,
       okText: "Ok",
       onOk() {
         setIsVisibleForm(false);
