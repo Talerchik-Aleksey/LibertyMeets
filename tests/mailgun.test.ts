@@ -20,7 +20,6 @@ const arrayHandler = (messageArray: string[], contains: string) => {
 
 export const stripText = (text: string) => {
   const libertyContains = text.indexOf("LibertyMeets service");
-  const sentContains = text.indexOf("Sent");
   const protonContains = text.indexOf("Proton");
 
   if (libertyContains > -1) {
