@@ -139,9 +139,12 @@
   }
 }
 
-.categorySelect div {
-  min-height: 38px !important;
-  border: 1px solid #8f8f8f !important;
+.categorySelect {
+
+  & div {
+    min-height: 38px !important;
+    border: 1px solid #8f8f8f !important;
+  }
 }
 
 .categorySelectOption {
@@ -160,8 +163,11 @@
   }
 }
 
-.descriptionTextarea textarea {
-  border: 1px solid #8f8f8f !important;
+.descriptionTextarea {
+
+  & textarea {
+    border: 1px solid #8f8f8f !important;
+  }
 }
 
 .public {
@@ -195,26 +201,70 @@
   flex-direction: column;
 }
 
-.postTitleText div div {
-  min-width: 95px !important;
+.postTitleText {
 
-  @media (max-width: 600px) {
-    max-width: auto !important;
+  & div div {
+    min-width: 95px !important;
+
+    @media (max-width: 600px) {
+      max-width: auto !important;
+    }
   }
 }
 
-.categoryText div div {
-  min-width: 95px !important;
+.categoryText {
 
-  @media (max-width: 600px) {
-    max-width: auto !important;
+  & div div {
+    min-width: 95px !important;
+
+    @media (max-width: 600px) {
+      max-width: auto !important;
+    }
   }
 }
 
-.descriptionText div div {
-  min-width: 95px !important;
+.descriptionText {
 
-  @media (max-width: 600px) {
-    max-width: auto !important;
+  & div div {
+    min-width: 95px !important;
+
+    @media (max-width: 600px) {
+      max-width: auto !important;
+    }
   }
+}
+
+.locationContainer {
+  padding-top: 40px;
+  width: 60%;
+  margin: 0 auto 70px auto;
+
+  @media (max-width:1200px) {
+    width: auto;
+  }
+}
+
+.city {
+
+  & label {
+    width: 170px !important;
+  }
+}
+
+.cityInput {
+  display: flex;
+  border: 1px solid #8f8f8f !important;
+}
+
+.zipCode {
+  margin: 0;
+
+  & label {
+    width: 170px !important;
+  }
+}
+
+.zipCodeInput {
+  display: flex;
+  border: 1px solid #8f8f8f !important;
 }
