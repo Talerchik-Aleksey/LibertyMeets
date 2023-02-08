@@ -36,7 +36,9 @@ export default function CreatePost(props: CreatePostProps) {
   const [lng, setLng] = useState<number>(0);
   const [isPublic, setIsPublic] = useState<boolean>(true);
   const [postalCode, setPostalCode] = useState<string>("");
-  const [geocodeResult, setGeocodeResult] = useState<Location[]>([]);
+  const [geocodeResult, setGeocodeResult] = useState<Location[] | undefined>(
+    []
+  );
   const postalRegex = new RegExp("^[0-9]{5}(?:-[0-9]{4})?$");
   const locationRegex = new RegExp(/^[a-zA-Z0-9,.!:/\s]+$/);
   const router = useRouter();
@@ -106,8 +108,8 @@ export default function CreatePost(props: CreatePostProps) {
   useEffect(() => {
     try {
       getLocations(postalCode).then((result) => {
+        setGeocodeResult(result?.locations);
         if (result) {
-          setGeocodeResult(result.locations);
           setLat(result.locations[0].geometry.location.lat);
           setLng(result.locations[0].geometry.location.lng);
         }
@@ -162,6 +164,13 @@ export default function CreatePost(props: CreatePostProps) {
       geoLocationOptions
     );
   }, [session]);
+
+  const handleSelect = (value: string) => {
+    setPostalCode(value);
+    setSelectedZip(value);
+  };
+
+  const [selectedZip, setSelectedZip] = useState("");
 
   return (
     <section className={styles.container}>
@@ -284,7 +293,11 @@ export default function CreatePost(props: CreatePostProps) {
             <Switch
               className={styles.switch}
               onChange={() => setIsPublic(!isPublic)}
-              style={isPublic? {backgroundColor:'#8f8f8f'}: {backgroundColor:'#921a64'}}
+              style={
+                isPublic
+                  ? { backgroundColor: "#8f8f8f" }
+                  : { backgroundColor: "#921a64" }
+              }
             />
             <span>Set To Public?</span>
             <Tooltip
@@ -328,13 +341,8 @@ export default function CreatePost(props: CreatePostProps) {
               },
             ]}
           >
-            <AutoComplete
-              dataSource={geocodeResult.map(
-                (result) => result.formatted_address
-              )}
-            />
+            <Input className={styles.postTitleInput} />
           </Form.Item>
-
           <Form.Item
             className={styles.postTitleText}
             labelAlign={"left"}
@@ -352,9 +360,16 @@ export default function CreatePost(props: CreatePostProps) {
               },
             ]}
           >
-            <Input
-              className={styles.postTitleInput}
-              onChange={(e) => setPostalCode(e.target.value)}
+            <AutoComplete
+              dataSource={geocodeResult?.map(
+                (result) => result.formatted_address
+              )}
+              onChange={setPostalCode}
+              onSelect={(value) => {
+                // Do not update the input value
+                return;
+              }}
+              notFoundContent={"Location not found"}
             />
           </Form.Item>
           <div className={styles.buttonBlock}>
