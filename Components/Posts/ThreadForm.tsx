@@ -29,9 +29,6 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
       content: text,
       okText: "Ok",
       centered:true,
-      bodyStyle:{display:'flex', alignItems:'center',justifyContent:'center'},
-      style:{color:'blue'},
-      maskStyle:{display:'flex'},
       className:styles.modals,
       wrapClassName:styles.wrap,
       onOk() {
