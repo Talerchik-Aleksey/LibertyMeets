@@ -106,7 +106,6 @@ export async function getPosts(
     }
 
     const geoData: Pick<SearchProps, "lat" | "lng" | "radius"> = {};
-    console.log(serarchParams);
     if (
       serarchParams &&
       serarchParams.lat &&

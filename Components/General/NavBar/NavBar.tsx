@@ -3,6 +3,7 @@ import styles from "./NavBar.module.scss";
 import Image from "next/image";
 import { CATEGORIES } from "../../../constants/constants";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 type NavBarProps = {
   changeCategory: (category: string) => void;
@@ -12,6 +13,7 @@ type NavBarProps = {
 
 export default function NavBar(props: NavBarProps) {
   const { changeCategory, searchByZipCode, searchByRadius } = props;
+  const session = useSession();
   const router = useRouter();
   const categoryList = {
     "undefined ": "All",
@@ -43,7 +45,11 @@ export default function NavBar(props: NavBarProps) {
         ))}
       </div>
       <div className={styles.location}>
-        <div className={styles.radius}>
+        <div
+          className={
+            session.status === "authenticated" ? styles.radius : styles.disable
+          }
+        >
           <span className={styles.text}>Radius</span>
           <Input
             suffix={<Image src="/decor/mi.svg" alt="" width={16} height={16} />}

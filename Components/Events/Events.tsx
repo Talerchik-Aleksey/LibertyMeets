@@ -8,7 +8,8 @@ import { PostType } from "../../types/general";
 import PostsList from "../PostsList";
 import axios from "axios";
 import { PaginationForPosts } from "../General/Pagination/Pagination";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
+import { message } from "antd";
 
 type PropsType = {
   appUrl: string;
@@ -32,7 +33,6 @@ export default function Events({
   initialPosts,
   initialCount,
 }: PropsType) {
-  const session = useSession();
   const [current, setCurrent] = useState<number>(1);
   const [isViewForAllCategory, setIsViewForAllCategory] =
     useState<boolean>(true);
@@ -41,7 +41,20 @@ export default function Events({
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [zipCode, setZipCode] = useState<string | undefined>(undefined);
   const [radius, setRadius] = useState<string | undefined>(undefined);
+  const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
+
+  const error = (text: string) => {
+    messageApi.destroy();
+    messageApi.open({
+      type: "error",
+      content: text,
+      duration: 10,
+      style: {
+        marginTop: "10vh",
+      },
+    });
+  };
 
   useEffect(() => {
     setPosts(initialPosts);
@@ -157,10 +170,11 @@ export default function Events({
       return;
     }
 
-    const lat = session.data?.user.lat;
-    const lng = session.data?.user.lng;
+    const session = await getSession();
+    const lat = session?.user.lat;
+    const lng = session?.user.lng;
     if (lat === undefined || lng === undefined) {
-      alert("Login in account and give access to your location");
+      error("Login in account and give access to your location");
 
       return;
     }
@@ -169,7 +183,6 @@ export default function Events({
     const dataForQuery: queryType = { radius };
     dataForQuery.lat = lat;
     dataForQuery.lng = lng;
-    console.log(dataForQuery);
     router.push({
       pathname: `${appUrl}/posts`,
       query: dataForQuery,
@@ -178,6 +191,7 @@ export default function Events({
 
   return (
     <section className={styles.eventsPageContainer}>
+      <div className={styles.error}>{contextHolder}</div>
       <div className={styles.navigation}>
         <NavBar
           changeCategory={changeCategory}
