@@ -23,7 +23,7 @@ export default function EventForMyPosts({
             alt=""
             width={20}
             height={20}
-            className={styles.vector}
+            className={styles.starImage}
             onClick={() => movePost!(post.id)}
           />
         ) : (

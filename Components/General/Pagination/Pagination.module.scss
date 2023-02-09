@@ -3,10 +3,6 @@
   justify-content: center;
   gap: 15px;
 
-  @media (max-width: 500px) {
-    gap: 10px;
-  }
-
   & li {
     border: none !important;
     background-color: unset !important;
