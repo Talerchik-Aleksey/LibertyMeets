@@ -1,7 +1,12 @@
-.star,
-.vector {
+.star {
   width: 20px;
   height: 20px;
+}
+
+.starImage {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }
 
 .container {
@@ -28,6 +33,7 @@
   align-items: center;
   gap: 10px;
 }
+
 .rightBlock {
   display: flex;
   gap: 10px;
