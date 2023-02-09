@@ -8,6 +8,7 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { signOut } from "next-auth/react";
 import Navigation from "../MyProfileNavigation/Navigation";
+import { PASSWORD_VALIDATION_PATTERN } from "../../../utils/stringUtils";
 
 type ErrorResponse = {
   message: string;
@@ -18,9 +19,6 @@ export default function Settings(props: SettingsProps) {
   const appUrl = props.appUrl;
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isUpdatedPassword, setIsUpdatedPassword] = useState<boolean>();
-  const passwordRegex = new RegExp(
-    "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
-  );
 
   const { confirm } = Modal;
 
@@ -104,7 +102,7 @@ export default function Settings(props: SettingsProps) {
                 },
                 {
                   max: 100,
-                  pattern: passwordRegex,
+                  pattern: PASSWORD_VALIDATION_PATTERN,
                   message:
                     "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
                 },
@@ -127,7 +125,7 @@ export default function Settings(props: SettingsProps) {
                 { required: true, message: "Please repeat your password!" },
                 {
                   max: 100,
-                  pattern: passwordRegex,
+                  pattern: PASSWORD_VALIDATION_PATTERN,
                   message:
                     "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
                 },
