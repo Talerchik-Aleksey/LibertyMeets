@@ -41,6 +41,8 @@ export default function Events({
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [zipCode, setZipCode] = useState<string | undefined>(undefined);
   const [radius, setRadius] = useState<string | undefined>(undefined);
+  const [lat, setLat] = useState<number>();
+  const [lng, setLng] = useState<number>();
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
 
@@ -211,6 +213,9 @@ export default function Events({
       <div className={styles.error}>{contextHolder}</div>
       <div className={styles.navigation}>
         <NavBar
+          appUrl={appUrl}
+          setLat={setLat}
+          setLng={setLng}
           changeCategory={changeCategory}
           searchByZipCode={searchByZipCode}
           searchByRadius={searchByRadius}
