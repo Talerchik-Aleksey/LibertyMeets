@@ -4,6 +4,7 @@ import Events from "../Components/Events/Events";
 import { PostType } from "../types/general";
 import { getPosts } from "../services/posts";
 import { getSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 type PostsPageProps = {
   appUrl: string;
@@ -18,6 +19,15 @@ export default function PostsPage({
   posts,
   count,
 }: PostsPageProps) {
+  const [isLogin, setIsLogin] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const session = await getSession();
+      session?.user && setIsLogin(true);
+    })();
+  }, [isLogin]);
+
   return (
     <>
       <Events
@@ -25,6 +35,7 @@ export default function PostsPage({
         postsPerPage={postsPerPage}
         initialPosts={posts}
         initialCount={count}
+        isLogin={isLogin}
       />
     </>
   );

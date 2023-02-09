@@ -5,6 +5,7 @@ type PostListProps = {
   posts: PostType[];
   changeStar: (postId: number) => void;
   isViewForAllCategory: boolean;
+  isLogin: boolean;
 };
 
 export default function PostsList(props: PostListProps) {
@@ -18,6 +19,7 @@ export default function PostsList(props: PostListProps) {
           post={post}
           changeStar={changeStar}
           isViewForAllCategory={isViewForAllCategory}
+          isLogin={props.isLogin}
         />
       ))}
     </>
