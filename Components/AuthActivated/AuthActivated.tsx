@@ -2,6 +2,7 @@ import { Button } from "antd";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import styles from "./AuthActivated.module.scss";
+import Image from "next/image";
 
 type PropsType = {
   appUrl: string;
@@ -43,6 +44,13 @@ export default function AuthActivated({ appUrl, email }: PropsType) {
             Do You need to send the letter again?
           </div>
           <Button type="text" className={styles.resend} onClick={resendEmail}>
+            <Image
+              src="/decor/reset.svg"
+              alt=""
+              width={14}
+              height={16}
+              className={styles.reset}
+            />
             Resend
           </Button>
         </div>
