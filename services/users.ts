@@ -193,3 +193,12 @@ export async function deleteAccount(userId: number, t: Transaction) {
 export async function changeLocation(userId: number, lat: number, lng: number) {
   await Users.update({ lat, lng }, { where: { id: userId } });
 }
+
+export async function getEmailVerificationToken(email: string) {
+  const user = await Users.findOne({
+    where: { email },
+    attributes: ["email_verification_token"],
+  });
+
+  return user?.email_verification_token;
+}
