@@ -82,7 +82,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
           token.is_blocked = true;
           return token;
         }
-        if (user && user.is_enabled) {
+        if (user) {
           if (user.lat && user.lng) {
             token.lat = +user.lat;
             token.lng = +user.lng;

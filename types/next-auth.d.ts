@@ -10,7 +10,7 @@ declare module "next-auth" {
       lng: number;
       is_enabled: boolean;
     };
-    email: string;
+    email?: string;
   }
 
   interface DefaultUser {
