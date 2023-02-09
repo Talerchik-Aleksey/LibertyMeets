@@ -539,3 +539,13 @@
 .textboxArea {
   margin: inset auto;
 }
+
+.modals {
+  & div div div div:nth-child(1) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+  }
+}

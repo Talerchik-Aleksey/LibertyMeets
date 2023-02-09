@@ -28,6 +28,9 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
     success({
       content: text,
       okText: "Ok",
+      centered:true,
+      className:styles.modals,
+      wrapClassName:styles.wrap,
       onOk() {
         setIsVisibleForm(false);
       },
@@ -38,6 +41,7 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
     error({
       content: text,
       okText: "Ok",
+      centered:true,
       onOk() {
         setIsVisibleForm(false);
       },
