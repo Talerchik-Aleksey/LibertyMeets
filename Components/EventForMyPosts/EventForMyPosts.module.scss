@@ -5,7 +5,7 @@
   border-radius: 4px;
   width: 100%;
   padding: 0 10px;
-  gap:10px;
+  gap: 10px;
 
   @media (max-width: 800px) {
     width: auto;
@@ -16,7 +16,7 @@
   }
 }
 
-.star{
+.star {
   display: flex;
   justify-content: flex-start;
   flex-grow: 1;
@@ -24,7 +24,11 @@
   margin-bottom: 3px;
 }
 
-.blocked{
+.starImage {
+  cursor: pointer;
+}
+
+.blocked {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
@@ -42,8 +46,8 @@
   }
 }
 
-.blockedText{
-  
+.blockedText {
+
   @media (max-width: 500px) {
     display: none;
   }
@@ -52,12 +56,12 @@
 .leftBlock {
   display: flex;
   align-items: center;
-  gap:10px;
+  gap: 10px;
 }
 
-.rightBlock{
+.rightBlock {
   display: flex;
-  gap:10px;
+  gap: 10px;
   align-items: center;
 }
 
@@ -136,7 +140,7 @@
   height: 100%;
 }
 
-.linkContainer{
+.linkContainer {
   display: flex;
   width: auto;
 }
