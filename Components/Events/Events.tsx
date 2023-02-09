@@ -8,6 +8,7 @@ import { PostType } from "../../types/general";
 import PostsList from "../PostsList";
 import axios from "axios";
 import { PaginationForPosts } from "../General/Pagination/Pagination";
+import { useSession } from "next-auth/react";
 
 type PropsType = {
   appUrl: string;
@@ -16,12 +17,22 @@ type PropsType = {
   initialCount: number;
 };
 
+type queryType = {
+  page?: number;
+  category?: string;
+  zip?: string;
+  radius?: string;
+  lat?: number;
+  lng?: number;
+};
+
 export default function Events({
   appUrl,
   postsPerPage,
   initialPosts,
   initialCount,
 }: PropsType) {
+  const session = useSession();
   const [current, setCurrent] = useState<number>(1);
   const [isViewForAllCategory, setIsViewForAllCategory] =
     useState<boolean>(true);
@@ -29,6 +40,7 @@ export default function Events({
   const [totalCount, setTotalCount] = useState<number>(initialCount);
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [zipCode, setZipCode] = useState<string | undefined>(undefined);
+  const [radius, setRadius] = useState<string | undefined>(undefined);
   const router = useRouter();
 
   useEffect(() => {
@@ -53,17 +65,21 @@ export default function Events({
 
   function changePageNumber(page: number) {
     setCurrent(page);
-    if (category) {
-      router.push({
-        pathname: `${appUrl}/posts`,
-        query: { page, category },
-      });
+    const query: queryType = { page };
 
-      return;
+    if (category) {
+      query.category = category;
     }
+    if (zipCode) {
+      query.zip = zipCode;
+    }
+    if (radius) {
+      query.radius = radius;
+    }
+
     router.push({
       pathname: `${appUrl}/posts`,
-      query: { page },
+      query: query,
     });
   }
 
@@ -74,14 +90,20 @@ export default function Events({
       setIsViewForAllCategory(false);
     }
     if (category === "All") {
+      const query: queryType = { page };
+      if (zipCode) {
+        query.zip = zipCode;
+      }
+
       setCategory(undefined);
       router.push({
         pathname: `${appUrl}/posts`,
-        query: { page },
+        query: query,
       });
 
       return;
     }
+
     setCategory(category.toLowerCase());
     setCurrent(1);
     router.push({
@@ -111,11 +133,11 @@ export default function Events({
   }
 
   async function searchByZipCode(zip: string) {
-    if (zip === "") {
+    if (!zip || zip === "") {
       setZipCode(undefined);
       router.push({
         pathname: `${appUrl}/posts`,
-        query: { category, zip: zipCode },
+        query: { category },
       });
 
       return;
@@ -128,12 +150,39 @@ export default function Events({
     });
   }
 
+  async function searchByRadius(radius: string) {
+    if (!radius || radius === "") {
+      setRadius(undefined);
+      // TODO: Add push into another categories
+      return;
+    }
+
+    const lat = session.data?.user.lat;
+    const lng = session.data?.user.lng;
+    if (lat === undefined || lng === undefined) {
+      alert("Login in account and give access to your location");
+
+      return;
+    }
+
+    setRadius(radius);
+    const dataForQuery: queryType = { radius };
+    dataForQuery.lat = lat;
+    dataForQuery.lng = lng;
+    console.log(dataForQuery);
+    router.push({
+      pathname: `${appUrl}/posts`,
+      query: dataForQuery,
+    });
+  }
+
   return (
     <section className={styles.eventsPageContainer}>
       <div className={styles.navigation}>
         <NavBar
           changeCategory={changeCategory}
           searchByZipCode={searchByZipCode}
+          searchByRadius={searchByRadius}
         />
       </div>
       <div className={styles.wrap}>

@@ -7,10 +7,11 @@ import { useRouter } from "next/router";
 type NavBarProps = {
   changeCategory: (category: string) => void;
   searchByZipCode: (zipCode: string) => void;
+  searchByRadius: (radius: string) => void;
 };
 
 export default function NavBar(props: NavBarProps) {
-  const { changeCategory, searchByZipCode } = props;
+  const { changeCategory, searchByZipCode, searchByRadius } = props;
   const router = useRouter();
   const categoryList = {
     "undefined ": "All",
@@ -48,6 +49,7 @@ export default function NavBar(props: NavBarProps) {
             suffix={<Image src="/decor/mi.svg" alt="" width={16} height={16} />}
             placeholder="50mi"
             className={styles.mi}
+            onChange={(e) => searchByRadius(e.target.value)}
           />
         </div>
         <div className={styles.place}>

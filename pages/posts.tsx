@@ -44,13 +44,22 @@ export const getServerSideProps: GetServerSideProps<PostsPageProps> = async (
   const appUrl = process.env.NEXTAUTH_URL || config.get<string>("appUrl");
   const postsPerPage = config.get<number>("posts.perPage");
   const session = await getSession({ req: ctx.req });
-  const zip = ctx.query.zip;
-  let page = Number(ctx.query.page);
-  if (isNaN(page)) {
-    page = 1;
+  const searchParams = {
+    page: Number(ctx.query.page),
+    category: ctx.query.category,
+    zip: ctx.query.zip,
+    lat: ctx.query.lat,
+    lng: ctx.query.lng,
+    radius: ctx.query.radius,
+  };
+
+  if (isNaN(searchParams.page)) {
+    searchParams.page = 1;
   }
 
-  const res = await getPosts(page, session?.user, ctx.query.category, zip);
+  console.log(searchParams);
+
+  const res = await getPosts(session?.user, searchParams);
   if (!res) {
     return {
       notFound: true,

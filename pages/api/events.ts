@@ -37,7 +37,10 @@ export default async function handler(
 
     const session = await getSession({ req });
 
-    const { posts, count } = await getPosts(page, session?.user, category?.toLowerCase());
+    const { posts, count } = (await getPosts(session?.user, {
+      page,
+      category,
+    })) || { posts: [], count: 0 };
     res.status(200).json({ status: "ok", data: { posts, count } });
   } catch (err) {
     if (err instanceof HttpError) {
