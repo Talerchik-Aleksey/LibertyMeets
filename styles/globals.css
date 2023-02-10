@@ -78,6 +78,10 @@ body {
   min-height: 100%;
 }
 
+a {
+  text-decoration: none !important;
+}
+
 label {
   font-weight: 400;
 }
