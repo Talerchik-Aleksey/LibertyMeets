@@ -70,9 +70,7 @@ export const getServerSideProps: GetServerSideProps<PostsPageProps> = async (
 
   const res = await getPosts(session?.user, searchParams);
   if (!res) {
-    return {
-      notFound: true,
-    };
+    return { props: { appUrl, postsPerPage: 0, posts: [], count: 0 } };
   }
 
   const posts = res.posts

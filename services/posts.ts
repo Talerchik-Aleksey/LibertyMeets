@@ -7,6 +7,8 @@ import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
 import { Op, Transaction } from "sequelize";
 import { connect } from "../utils/db";
+import { calculationPossibleRangeForCoordinates } from "../utils/geographyUtils";
+import { HttpError } from "../utils/HttpError";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -76,18 +78,15 @@ async function searchPostsWithGeoRadius(
   user: { id: number } | null | undefined,
   info: getPostsTypes & SearchProps
 ) {
-  const geoSearch: any = {};
-  const radius = Number(searchParams.radius) / 0.00062137;
-  const squareLat = Number(radius) / 63046.689652997775;
-  geoSearch.lat = [
-    Number(searchParams?.lat) - squareLat,
-    Number(searchParams.lat) + squareLat,
-  ];
-  const squareLng = Number(radius) / 88560.69719092511;
-  geoSearch.lng = [
-    Number(searchParams?.lng) - squareLng,
-    Number(searchParams.lng) + squareLng,
-  ];
+  const geoSearch: {
+    lat: Array<number>;
+    lng: Array<number>;
+  } = calculationPossibleRangeForCoordinates(
+    Number(searchParams?.radius),
+    Number(searchParams.lat),
+    Number(searchParams.lng)
+  );
+
   return await Posts.findAll({
     where: {
       [Op.and]: [
