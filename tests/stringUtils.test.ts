@@ -1,4 +1,7 @@
-import { validateEmail } from "../utils/stringUtils";
+import {
+  PASSWORD_VALIDATION_PATTERN,
+  validateEmail,
+} from "../utils/stringUtils";
 
 describe("validate email", () => {
   it("should validate email 1.com as false", () => {
@@ -23,5 +26,67 @@ describe("validate email", () => {
 
   it("should validate email email@gmail.com as false", () => {
     expect(validateEmail("emailgmail.com")).toBeFalsy();
+  });
+
+  it("should validate email email@gmail.com as false", () => {
+    expect(validateEmail("emailgmail.com")).toBeFalsy();
+  });
+});
+
+describe("validate password", () => {
+  it("should return true for a valid password", () => {
+    const password = "Abcd1234@";
+    const result = PASSWORD_VALIDATION_PATTERN.test(password);
+
+    expect(result).toBe(true);
+  });
+
+  it("should return true for a valid password with difficult symbol", () => {
+    const password = "Aband123+";
+    const result = PASSWORD_VALIDATION_PATTERN.test(password);
+
+    expect(result).toBe(true);
+  });
+
+  it("should return true for a password from example", () => {
+    const password = "Qicpec-refdi6-nopwyq,";
+    const result = PASSWORD_VALIDATION_PATTERN.test(password);
+
+    expect(result).toBe(true);
+  });
+
+  it("should return false for a password that is too short", () => {
+    const password = "Abc1@";
+    const result = PASSWORD_VALIDATION_PATTERN.test(password);
+
+    expect(result).toBe(false);
+  });
+
+  it("should return false for a password without an uppercase letter", () => {
+    const password = "abcd1234@";
+    const result = PASSWORD_VALIDATION_PATTERN.test(password);
+
+    expect(result).toBe(false);
+  });
+
+  it("should return false for a password without a lowercase letter", () => {
+    const password = "ABCD1234@";
+    const result = PASSWORD_VALIDATION_PATTERN.test(password);
+
+    expect(result).toBe(false);
+  });
+
+  it("should return false for a password without a number", () => {
+    const password = "Abcd@#$%";
+    const result = PASSWORD_VALIDATION_PATTERN.test(password);
+
+    expect(result).toBe(false);
+  });
+
+  it("should return false for a password without a special character", () => {
+    const password = "Abcd1234";
+    const result = PASSWORD_VALIDATION_PATTERN.test(password);
+
+    expect(result).toBe(false);
   });
 });
