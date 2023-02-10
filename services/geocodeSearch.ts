@@ -26,7 +26,6 @@ export interface LocationSearchResult {
 const getLocations = async (
   searchTerm: string
 ): Promise<LocationSearchResult | null> => {
-  console.log(apiKey);
   try {
     if (!apiKey) {
       throw new Error("Not found Api key");
