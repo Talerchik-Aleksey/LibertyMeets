@@ -142,6 +142,10 @@ export async function getFavoritePosts(
   const posts = await Posts.findAll({
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * (page - 1),
+    order: [
+      ["created_at", "DESC"],
+      ["title", "ASC"],
+    ],
     where: { id: ids, is_blocked: false },
     attributes: [
       "id",
@@ -187,6 +191,10 @@ export async function getUserPosts(page: number, userId: number) {
     where: { author_id: userId },
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * (page - 1),
+    order: [
+      ["created_at", "DESC"],
+      ["title", "ASC"],
+    ],
     attributes: [
       "id",
       "title",
