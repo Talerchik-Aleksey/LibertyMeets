@@ -48,6 +48,13 @@ describe("validate password", () => {
     expect(result).toBe(true);
   });
 
+  it("should return true for a password from example", () => {
+    const password = "Qicpec-refdi6-nopwyq,";
+    const result = PASSWORD_VALIDATION_PATTERN.test(password);
+
+    expect(result).toBe(true);
+  });
+
   it("should return false for a password that is too short", () => {
     const password = "Abc1@";
     const result = PASSWORD_VALIDATION_PATTERN.test(password);
