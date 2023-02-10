@@ -78,10 +78,6 @@ body {
   min-height: 100%;
 }
 
-a {
-  text-decoration: none !important;
-}
-
 label {
   font-weight: 400;
 }
@@ -93,9 +89,13 @@ label {
 }
 
 .main {
-  padding-top: 80px;
+  padding-top: 90px;
   flex-grow: 1;
   min-height: calc(100vh - 188px);
+}
+
+a {
+  text-decoration: none !important;
 }
 
 header {
