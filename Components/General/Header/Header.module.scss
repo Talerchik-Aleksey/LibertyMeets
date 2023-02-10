@@ -11,9 +11,13 @@
   box-sizing: border-box;
   z-index: 9999;
 
-  @media (max-width: 1100px) {
+  @media (max-width: 1150px) {
     padding: 20px 20px;
     flex-direction: column;
+  }
+
+  @media (max-width: 1150px) {
+    padding: 20px 10px;
   }
 }
 
@@ -75,7 +79,7 @@
     background: #640674;
   }
 
-  @media (max-width: 1100px) {
+  @media (max-width: 1150px) {
     background: none;
     color: #333333;
     box-shadow: none;
@@ -90,7 +94,7 @@
 }
 
 .createPosts img {
-  @media (max-width: 1100px) {
+  @media (max-width: 1150px) {
     display: none;
   }
 }
@@ -103,7 +107,7 @@
   line-height: 24px;
   color: #ffffff;
 
-  @media (max-width:1100px) {
+  @media (max-width:1150px) {
     color: #333333;
     font-weight: 700;
 
@@ -126,7 +130,7 @@
   padding: 0;
   gap: 25px;
 
-  @media (max-width: 1100px) {
+  @media (max-width: 1150px) {
     flex-direction: column;
     align-items: center;
   }
@@ -152,7 +156,7 @@
     border: none !important;
   }
 
-  @media (max-width: 1100px) {
+  @media (max-width: 1150px) {
     background: none;
     box-shadow: none;
     justify-content: center;
@@ -166,7 +170,7 @@
 }
 
 .search img {
-  @media (max-width: 1100px) {
+  @media (max-width: 1150px) {
     display: none;
   }
 }
@@ -179,7 +183,7 @@
   line-height: 24px;
   color: #ffffff;
 
-  @media (max-width:1100px) {
+  @media (max-width:1150px) {
     color: #333333;
     font-weight: 700;
 
@@ -206,7 +210,7 @@
     background: #640674;
   }
 
-  @media (max-width:1100px) {
+  @media (max-width:1150px) {
     background: none;
     box-shadow: none !important;
     justify-content: center;
@@ -219,7 +223,7 @@
 
 .signUpImage {
 
-  @media (max-width:1100px) {
+  @media (max-width:1150px) {
     display: none;
   }
 }
@@ -236,7 +240,7 @@
   text-transform: capitalize;
   color: #ffffff;
 
-  @media (max-width:1100px) {
+  @media (max-width:1150px) {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
@@ -265,7 +269,7 @@
 }
 
 .navigation {
-  @media (max-width: 1100px) {
+  @media (max-width: 1150px) {
     display: none;
   }
 }
@@ -278,7 +282,7 @@
 .burgerButton {
   display: none;
 
-  @media (max-width: 1100px) {
+  @media (max-width: 1150px) {
     display: block;
   }
 }
