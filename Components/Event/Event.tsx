@@ -13,10 +13,9 @@ type EventSingleRowProps = {
 };
 
 export default function EventSingleRow(props: EventSingleRowProps) {
-  const { post, changeStar, isViewForAllCategory } = props;
+  const { post, changeStar, isViewForAllCategory, isLogin } = props;
   const router = useRouter();
   const pathname = router.pathname.slice(1);
-  const isLogin = props.isLogin;
 
   return (
     <div className={styles.container}>

@@ -19,7 +19,7 @@ export default function PostsPage({
   posts,
   count,
 }: PostsPageProps) {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
