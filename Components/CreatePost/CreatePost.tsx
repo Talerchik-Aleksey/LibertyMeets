@@ -82,7 +82,7 @@ export default function CreatePost(props: CreatePostProps) {
       }
 
       fillLocationData(values, geocodeResult[0]);
-
+      console.log(values);
       const res = await axios.post(`${appUrl}/api/posts/create`, values, {
         withCredentials: true,
       });
@@ -341,15 +341,11 @@ export default function CreatePost(props: CreatePostProps) {
                     if (locations && locations.length === 1) {
                       return Promise.resolve();
                     }
-                    return Promise.reject(
-                      "Value not found in geocode result"
-                    );
+                    return Promise.reject("Value not found in geocode result");
                   },
                 },
               ]}
-              help={geocodeResult?.map(
-                (result) => result.formatted_address
-              )}
+              help={geocodeResult?.map((result) => result.formatted_address)}
             >
               <Input
                 className={styles.zipCodeInput}

@@ -5,7 +5,7 @@ import { PostType } from "../types/general";
 import config from "config";
 import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
-import { Transaction } from "sequelize";
+import { Op, Sequelize, Transaction } from "sequelize";
 import { connect } from "../utils/db";
 import { CovertStringCoordinates } from "../utils/covnverterForCoordinates";
 
@@ -20,18 +20,17 @@ export async function savePostToDb({
   user: { id: number; email: string };
   post: PostType;
 }) {
-  let geo = undefined;
-  if (post.lat && post.lng) {
-    geo = `${post.lat}N, ${post.lng}W`;
-  }
-
   const createdPost = await Posts.create({
     author_id: user.id,
     title: post.title,
     category: post.category,
     description: post.description,
     is_public: post.is_public,
-    geo: geo,
+    geo: Sequelize.fn(
+      "ST_SetSRID",
+      Sequelize.fn("ST_MakePoint", post.lng, post.lat),
+      4326
+    ),
     lat: post.lat,
     lng: post.lng,
     location_name: post.location_name,
@@ -40,7 +39,6 @@ export async function savePostToDb({
     state: post.state,
     street: post.street,
   });
-
   await UserPosts.create({ user_id: user.id, post_id: createdPost.id });
   return createdPost;
 }
@@ -92,96 +90,131 @@ function calculateDistance(
   return earthRadius * c;
 }
 
+async function searchPostsWithGeoRadius(
+  searchParams: SearchProps,
+  user: { id: number } | null | undefined,
+  info: getPostsTypes & SearchProps
+) {
+  console.log(searchParams);
+  return await Posts.findAll({
+    where: Sequelize.and(
+      Sequelize.fn(
+        "ST_DWithin",
+        Sequelize.fn("ST_MakePoint", searchParams.lat, searchParams.lat),
+        Sequelize.col("geo"),
+        searchParams.radius
+      ),
+      info
+    ),
+    limit: PAGE_SIZE,
+    offset: PAGE_SIZE * ((searchParams?.page || 1) - 1),
+    order: [
+      ["created_at", "DESC"],
+      ["title", "ASC"],
+    ],
+    include: {
+      model: FavoritePosts,
+      as: "favoriteUsers",
+      where: { user_id: user?.id },
+      required: false,
+      attributes: ["id", "user_id", "post_id"],
+    },
+    attributes: [
+      "id",
+      "title",
+      "category",
+      "description",
+      "is_public",
+      "geo",
+      "created_at",
+      "author_id",
+      "city",
+      "state",
+      "location_name",
+      "zip",
+    ],
+  });
+}
+
+async function searchPostsWithoutGeo(
+  searchParams: SearchProps | undefined,
+  user: { id: number } | null | undefined,
+  info: getPostsTypes & SearchProps
+) {
+  return await Posts.findAll({
+    where: {
+      ...info,
+    },
+    limit: PAGE_SIZE,
+    offset: PAGE_SIZE * ((searchParams?.page || 1) - 1),
+    order: [
+      ["created_at", "DESC"],
+      ["title", "ASC"],
+    ],
+    include: {
+      model: FavoritePosts,
+      as: "favoriteUsers",
+      where: { user_id: user?.id },
+      required: false,
+      attributes: ["id", "user_id", "post_id"],
+    },
+    attributes: [
+      "id",
+      "title",
+      "category",
+      "description",
+      "is_public",
+      "geo",
+      "created_at",
+      "author_id",
+      "city",
+      "state",
+      "location_name",
+      "zip",
+    ],
+  });
+}
+
 export async function getPosts(
   user?: { id: number } | null | undefined,
-  serarchParams?: SearchProps
+  searchParams?: SearchProps
 ) {
   try {
     const info: getPostsTypes & SearchProps = {
       is_blocked: false,
     };
 
-    if (serarchParams) {
-      await fillSearchParams(serarchParams, info);
-    }
-
-    const geoData: Pick<SearchProps, "lat" | "lng" | "radius"> = {};
-    if (
-      serarchParams &&
-      serarchParams.lat &&
-      serarchParams.lng &&
-      serarchParams.radius
-    ) {
-      geoData.lat = serarchParams.lat;
-      geoData.lng = serarchParams.lng;
-      geoData.radius = serarchParams.radius;
-      const radius: number = Number(geoData.radius);
-      const allPosts = await Posts.findAll({
-        attributes: ["id", "geo"],
-      });
-
-      const filteredPosts = allPosts.filter((post) => {
-        if (!post.geo) {
-          return false;
-        }
-
-        const postGeo = CovertStringCoordinates(post.geo);
-        if (postGeo === null) {
-          return false;
-        }
-
-        const distance = calculateDistance(
-          Number(geoData.lat),
-          Number(geoData.lng),
-          Number(postGeo[0]),
-          Number(postGeo[1])
-        );
-        return distance <= radius;
-      });
-
-      info.id = filteredPosts.map((post) => post.id);
+    if (searchParams) {
+      await fillSearchParams(searchParams, info);
     }
 
     if (user) {
-      const posts = await Posts.findAll({
-        where: info,
-        limit: PAGE_SIZE,
-        offset: PAGE_SIZE * ((serarchParams?.page || 1) - 1),
-        order: [
-          ["created_at", "DESC"],
-          ["title", "ASC"],
-        ],
-        include: {
-          model: FavoritePosts,
-          as: "favoriteUsers",
-          where: { user_id: user.id },
-          required: false,
-          attributes: ["id", "user_id", "post_id"],
-        },
-        attributes: [
-          "id",
-          "title",
-          "category",
-          "description",
-          "is_public",
-          "geo",
-          "created_at",
-          "author_id",
-          "city",
-          "state",
-          "location_name",
-          "zip",
-        ],
-      });
+      if (
+        searchParams &&
+        searchParams.lat &&
+        searchParams.lng &&
+        searchParams.radius
+      ) {
+        const posts = await searchPostsWithGeoRadius(searchParams, user, info);
+        const count = await Posts.count({
+          where: info,
+        });
+
+        return { posts, count };
+      }
+
+      const posts = await searchPostsWithoutGeo(searchParams, user, info);
       const count = await Posts.count({
         where: info,
       });
+
       return { posts, count };
     }
+
     const posts = await Posts.findAll({
       where: info,
       limit: PAGE_SIZE,
-      offset: PAGE_SIZE * ((serarchParams?.page || 1) - 1),
+      offset: PAGE_SIZE * ((searchParams?.page || 1) - 1),
       order: [
         ["created_at", "DESC"],
         ["title", "ASC"],

@@ -57,9 +57,9 @@ export const getServerSideProps: GetServerSideProps<PostsPageProps> = async (
     searchParams.page = 1;
   }
 
-  console.log(searchParams);
-
   const res = await getPosts(session?.user, searchParams);
+  console.log(session?.user, searchParams);
+  console.log(res);
   if (!res) {
     return {
       notFound: true,

@@ -1,3 +1,4 @@
+import type { Point } from "geojson";
 import {
   Table,
   Column,
@@ -71,9 +72,11 @@ export class Posts extends Model {
   @Column(DataType.STRING)
   zip!: string;
 
-  @AllowNull(true)
-  @Column(DataType.STRING)
-  geo!: string;
+  @Column({
+    type: DataType.GEOMETRY("POINT", 4326),
+    allowNull: false,
+  })
+  geo!: Point;
 
   @AllowNull(false)
   @Default(true)
