@@ -14,6 +14,7 @@ type PropsType = {
   postsPerPage: number;
   initialPosts: PostType[];
   initialCount: number;
+  isLogin: boolean;
 };
 
 export default function Events({
@@ -21,6 +22,7 @@ export default function Events({
   postsPerPage,
   initialPosts,
   initialCount,
+  isLogin,
 }: PropsType) {
   const [current, setCurrent] = useState<number>(1);
   const [isViewForAllCategory, setIsViewForAllCategory] =
@@ -127,6 +129,7 @@ export default function Events({
                 posts={getPostsByDate(posts, isToday)}
                 changeStar={changeStar}
                 isViewForAllCategory={isViewForAllCategory}
+                isLogin={isLogin}
               />
               {getPostsByDate(posts, isTomorrow).length > 0 && (
                 <div className={styles.eventsSubBlockTitle}>
@@ -137,6 +140,7 @@ export default function Events({
                 posts={getPostsByDate(posts, isTomorrow)}
                 changeStar={changeStar}
                 isViewForAllCategory={isViewForAllCategory}
+                isLogin={isLogin}
               />
               {getPostsByDate(
                 posts,
@@ -153,6 +157,7 @@ export default function Events({
                 )}
                 changeStar={changeStar}
                 isViewForAllCategory={isViewForAllCategory}
+                isLogin={isLogin}
               />
             </div>
           </div>

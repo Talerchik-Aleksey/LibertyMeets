@@ -2,7 +2,6 @@ import Image from "next/image";
 import styles from "./LandingMain.module.scss";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getSession } from "next-auth/react";
 
 const textMap = [
   "a New Job",
@@ -11,16 +10,12 @@ const textMap = [
   "the Neighbors",
 ];
 
-export default function LandingMain() {
+type LandingProps = {
+  isAuthenticated: boolean;
+};
+
+export default function LandingMain(props: LandingProps) {
   const [index, setIndex] = useState(0);
-  const [isAuthenticated, setIsAuthenticated] = useState<Boolean>(false);
-
-  const checkAuthenticated = async () => {
-    const session = await getSession();
-    session?.user && setIsAuthenticated(true);
-  };
-
-  checkAuthenticated();
 
   useEffect(() => {
     setTimeout(() => {
@@ -49,7 +44,7 @@ export default function LandingMain() {
           <Link className={styles.infoBlockButtonPurple} href="/posts">
             Search Public Opportunities
           </Link>
-          {!isAuthenticated && (
+          {!props.isAuthenticated && (
             <Link className={styles.infoBlockButton} href="/registration">
               Sign Up to Post, and to Search All Opportunities
             </Link>
