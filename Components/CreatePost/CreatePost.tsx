@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button, Col, Form, Input, Row, Select, Switch, Tooltip } from "antd";
+import { Button, Form, Input, Select, Switch, Tooltip } from "antd";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
@@ -279,12 +279,13 @@ export default function CreatePost(props: CreatePostProps) {
           </div>
           <div className={styles.public}>
             <Switch
+              defaultChecked={true}
               className={styles.switch}
               onChange={() => setIsPublic(!isPublic)}
               style={
                 isPublic
-                  ? { backgroundColor: "#8f8f8f" }
-                  : { backgroundColor: "#921a64" }
+                  ? { backgroundColor: "#921a64" }
+                  : { backgroundColor: "#8f8f8f" }
               }
             />
             <span>Set To Public?</span>
@@ -341,15 +342,11 @@ export default function CreatePost(props: CreatePostProps) {
                     if (locations && locations.length === 1) {
                       return Promise.resolve();
                     }
-                    return Promise.reject(
-                      "Value not found in geocode result"
-                    );
+                    return Promise.reject("Value not found in geocode result");
                   },
                 },
               ]}
-              help={geocodeResult?.map(
-                (result) => result.formatted_address
-              )}
+              help={geocodeResult?.map((result) => result.formatted_address)}
             >
               <Input
                 className={styles.zipCodeInput}
