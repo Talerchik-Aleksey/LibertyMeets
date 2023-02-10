@@ -5,9 +5,8 @@ import { PostType } from "../types/general";
 import config from "config";
 import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
-import { Op, Sequelize, Transaction } from "sequelize";
+import { Op, Transaction } from "sequelize";
 import { connect } from "../utils/db";
-import { CovertStringCoordinates } from "../utils/covnverterForCoordinates";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -20,17 +19,18 @@ export async function savePostToDb({
   user: { id: number; email: string };
   post: PostType;
 }) {
+  let geo = undefined;
+  if (post.lat && post.lng) {
+    geo = `${post.lat}N, ${post.lng}W`;
+  }
+
   const createdPost = await Posts.create({
     author_id: user.id,
     title: post.title,
     category: post.category,
     description: post.description,
     is_public: post.is_public,
-    geo: Sequelize.fn(
-      "ST_SetSRID",
-      Sequelize.fn("ST_MakePoint", post.lng, post.lat),
-      4326
-    ),
+    geo: geo,
     lat: post.lat,
     lng: post.lng,
     location_name: post.location_name,
@@ -71,41 +71,37 @@ async function fillSearchParams(
   }
 }
 
-function calculateDistance(
-  lat1: number,
-  lng1: number,
-  lat2: number,
-  lng2: number
-) {
-  const earthRadius = 3959; // miles
-  const dLat = (lat2 - lat1) * (Math.PI / 180);
-  const dLng = (lng2 - lng1) * (Math.PI / 180);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * (Math.PI / 180)) *
-      Math.cos(lat2 * (Math.PI / 180)) *
-      Math.sin(dLng / 2) *
-      Math.sin(dLng / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return earthRadius * c;
-}
-
 async function searchPostsWithGeoRadius(
   searchParams: SearchProps,
   user: { id: number } | null | undefined,
   info: getPostsTypes & SearchProps
 ) {
-  console.log(searchParams);
+  const geoSearch: any = {};
+  const radius = Number(searchParams.radius) / 0.00062137;
+  const squareLat = Number(radius) / 63046.689652997775;
+  geoSearch.lat = [
+    Number(searchParams?.lat) - squareLat,
+    Number(searchParams.lat) + squareLat,
+  ];
+  const squareLng = Number(radius) / 88560.69719092511;
+  geoSearch.lng = [
+    Number(searchParams?.lng) - squareLng,
+    Number(searchParams.lng) + squareLng,
+  ];
   return await Posts.findAll({
-    where: Sequelize.and(
-      Sequelize.fn(
-        "ST_DWithin",
-        Sequelize.fn("ST_MakePoint", searchParams.lat, searchParams.lat),
-        Sequelize.col("geo"),
-        searchParams.radius
-      ),
-      info
-    ),
+    where: {
+      [Op.and]: [
+        info,
+        {
+          lat: {
+            [Op.between]: [geoSearch.lat[0], geoSearch.lat[1]],
+          },
+          lng: {
+            [Op.between]: [geoSearch.lng[0], geoSearch.lng[1]],
+          },
+        },
+      ],
+    },
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * ((searchParams?.page || 1) - 1),
     order: [

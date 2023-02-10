@@ -202,6 +202,7 @@ export default function Events({
     setRadius(radius);
     dataForQuery.lat = lat;
     dataForQuery.lng = lng;
+    dataForQuery.radius = radius;
     router.push({
       pathname: `${appUrl}/posts`,
       query: dataForQuery,

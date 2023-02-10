@@ -82,7 +82,6 @@ export default function CreatePost(props: CreatePostProps) {
       }
 
       fillLocationData(values, geocodeResult[0]);
-      console.log(values);
       const res = await axios.post(`${appUrl}/api/posts/create`, values, {
         withCredentials: true,
       });
