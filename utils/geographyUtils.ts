@@ -3,7 +3,7 @@ export function calculationPossibleRangeForCoordinates(
   lat: number,
   lng: number
 ) {
-  const radius = Number(radiusForSearch) * 1.60934;
+  const radius = Number(radiusForSearch) * 1609.3444;
   console.log(radius);
   const squareLat = Number(radius) / 63046.689652997775;
   const squareLng = Number(radius) / 88560.69719092511;
