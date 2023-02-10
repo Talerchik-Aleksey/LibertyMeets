@@ -89,7 +89,7 @@ label {
 }
 
 .main {
-  padding-top: 84px;
+  padding-top: 80px;
   flex-grow: 1;
   min-height: calc(100vh - 188px);
 }
