@@ -236,11 +236,11 @@
 
 .locationContainer {
   padding-top: 40px;
-  width: 60%;
+  width: 300px;
   margin: 0 auto 70px auto;
 
-  @media (max-width:1200px) {
-    width: auto;
+  @media (max-width:575px) {
+    width: 170px;
   }
 }
 
