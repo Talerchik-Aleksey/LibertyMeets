@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
 :root {
   --LibertyMeets-Purple-100: #efeff4;
   --LibertyMeets-Purple-500: #921a64;
@@ -14,40 +15,35 @@
   font-family: 'Butler';
   font-style: normal;
   font-weight: 700;
-  src: url('/static/fonts/Butler-Bold700.woff2')
-    format('woff2');
+  src: url('/static/fonts/Butler-Bold700.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Butler';
   font-style: normal;
   font-weight: 600;
-  src: url('/static/fonts/Butler-Medium600.woff2')
-    format('woff2');
+  src: url('/static/fonts/Butler-Medium600.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Nunito';
   font-style: normal;
   font-weight: 600;
-  src: url('/static/fonts/Nunito-SemiBold600.ttf')
-    format('truetype');
+  src: url('/static/fonts/Nunito-SemiBold600.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
-  src: url('/static/fonts/Inter-ExtraBold.woff2')
-    format('woff2');
+  src: url('/static/fonts/Inter-ExtraBold.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
-  src: url('/static/fonts/Inter-Bold700.woff2')
-    format('woff2');
+  src: url('/static/fonts/Inter-Bold700.woff2') format('woff2');
 }
 
 
@@ -55,24 +51,21 @@
   font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
-  src: url('/static/fonts/Inter-Medium500.woff2')
-    format('woff2');
+  src: url('/static/fonts/Inter-Medium500.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
-  src: url('/static/fonts/Inter-Regular400.woff2')
-    format('woff2');
+  src: url('/static/fonts/Inter-Regular400.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
-  src: url('/static/fonts/Inter-SemiBold600.woff2')
-    format('woff2');
+  src: url('/static/fonts/Inter-SemiBold600.woff2') format('woff2');
 }
 
 * {
@@ -80,11 +73,20 @@
   padding: 0;
 }
 
-html,body{
+html,
+body {
   min-height: 100%;
 }
 
-.wrapper{
+a {
+  text-decoration: none !important;
+}
+
+label {
+  font-weight: 400;
+}
+
+.wrapper {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -96,11 +98,11 @@ html,body{
   min-height: calc(100vh - 188px);
 }
 
-header{
+header {
   flex-grow: 0;
 }
 
-footer{
+footer {
   margin-top: auto;
   flex-grow: 0;
 }

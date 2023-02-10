@@ -4,27 +4,18 @@ import { useRouter } from "next/router";
 import { PostType } from "../../types/general";
 import Location from "../Location/Location";
 import styles from "./Event.module.scss";
-import { getSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 
 type EventSingleRowProps = {
   post: PostType;
   changeStar: (postId: number) => void;
   isViewForAllCategory: boolean;
+  isLogin: boolean;
 };
 
 export default function EventSingleRow(props: EventSingleRowProps) {
-  const { post, changeStar, isViewForAllCategory } = props;
+  const { post, changeStar, isViewForAllCategory, isLogin } = props;
   const router = useRouter();
   const pathname = router.pathname.slice(1);
-  const [isLogin, setIsLogin] = useState<Boolean>(false);
-
-  useEffect(() => {
-    (async () => {
-      const session = await getSession();
-      session?.user && setIsLogin(true);
-    })();
-  });
 
   return (
     <div className={styles.container}>
