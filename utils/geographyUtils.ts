@@ -1,12 +1,3 @@
-const EART_RADIUS = 6371210; //Радиус земли
-
-function computeDelta(degrees) {
-  return (Math.PI / 180) * EART_RADIUS * Math.cos(deg2rad(degrees));
-}
-
-function deg2rad(degrees) {
-  return (degrees * Math.PI) / 180;
-}
 export function calculationPossibleRangeForCoordinates(
   radius: number,
   lat: number,
