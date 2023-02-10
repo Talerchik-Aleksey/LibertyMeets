@@ -83,7 +83,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 45px;
+  gap: 40px;
 }
 
 .titleBlock {
@@ -259,8 +259,9 @@
   @media (max-width: 800px) {
     width: auto;
     height: auto;
-    margin: 10px;
+    margin: 20px;
     white-space: normal;
+    text-align: center;
   }
 
   &:hover {
