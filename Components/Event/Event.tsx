@@ -33,7 +33,7 @@ export default function EventSingleRow(props: EventSingleRowProps) {
                 alt=""
                 width={20}
                 height={20}
-                className={styles.vector}
+                className={styles.starImage}
               />
             </div>
           ) : (
@@ -47,7 +47,7 @@ export default function EventSingleRow(props: EventSingleRowProps) {
                 alt=""
                 width={20}
                 height={20}
-                className={styles.vector}
+                className={styles.starImage}
               />
             </div>
           )}

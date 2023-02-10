@@ -5,13 +5,11 @@ import { useRouter } from "next/router";
 import styles from "./ChangePassword.module.scss";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { PASSWORD_VALIDATION_PATTERN } from "../../utils/stringUtils";
 
 type ChangePasswordProps = { appUrl: string };
 
 export default function ChangePassword({ appUrl }: ChangePasswordProps) {
-  const passwordRegex = new RegExp(
-    "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
-  );
   const [isPasswordsEqual, setIsPasswordsEqual] = useState<boolean>(true);
 
   const router = useRouter();
@@ -90,7 +88,7 @@ export default function ChangePassword({ appUrl }: ChangePasswordProps) {
                 },
                 {
                   max: 100,
-                  pattern: passwordRegex,
+                  pattern: PASSWORD_VALIDATION_PATTERN,
                   message:
                     "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
                 },
@@ -123,7 +121,7 @@ export default function ChangePassword({ appUrl }: ChangePasswordProps) {
                 { required: true, message: "Please repeat your password!" },
                 {
                   max: 100,
-                  pattern: passwordRegex,
+                  pattern: PASSWORD_VALIDATION_PATTERN,
                   message:
                     "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
                 },

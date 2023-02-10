@@ -5,6 +5,10 @@
     align-items: center;
     width: 100%;
     background: #FFFAE6;
+
+    @media (max-width:800px) {
+        padding: 50px 0;
+    }
 }
 
 .message{
@@ -19,5 +23,6 @@
 
     @media (max-width:800px) {
         width: 80%;
+        font-size: 30px;
     }
 }

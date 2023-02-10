@@ -7,6 +7,7 @@ import axios, { AxiosError } from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import { createRef, useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
+import { PASSWORD_VALIDATION_PATTERN } from "../../utils/stringUtils";
 
 type PropsType = { appUrl: string; recaptchaKey: string };
 
@@ -19,9 +20,6 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
   const [terms, setTerms] = useState<boolean>(false);
   const recaptchaRef = createRef<ReCAPTCHA>();
   const router = useRouter();
-  const passwordRegex = new RegExp(
-    "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
-  );
 
   useEffect(() => {
     (async () => {
@@ -119,7 +117,7 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
             rules={[
               { required: true, message: "Please input your password!" },
               {
-                pattern: passwordRegex,
+                pattern: PASSWORD_VALIDATION_PATTERN,
                 max: 100,
                 message:
                   "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
