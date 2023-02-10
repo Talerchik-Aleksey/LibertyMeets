@@ -1,17 +1,29 @@
+const EART_RADIUS = 6371210; //Радиус земли
+
+function computeDelta(degrees) {
+  return (Math.PI / 180) * EART_RADIUS * Math.cos(deg2rad(degrees));
+}
+
+function deg2rad(degrees) {
+  return (degrees * Math.PI) / 180;
+}
 export function calculationPossibleRangeForCoordinates(
-  radiusForSearch: number,
+  radius: number,
   lat: number,
   lng: number
 ) {
-  const radius = Number(radiusForSearch) * 1609.3444;
-  console.log(radius);
-  const squareLat = Number(radius) / 63046.689652997775;
-  const squareLng = Number(radius) / 88560.69719092511;
+  if (radius < 0) {
+    return { latDiff: NaN, lngDiff: NaN };
+  }
+  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+    return { latDiff: NaN, lngDiff: NaN };
+  }
 
-  const results = {
-    lat: [Number(lat) - squareLat, Number(lat) + squareLat],
-    lng: [Number(lng) - squareLng, Number(lng) + squareLng],
+  const latDiff = radius / 69;
+  const lngDiff = radius / (69 * Math.cos(lat * (Math.PI / 180)));
+
+  return {
+    lat: [Number(lat) - latDiff, Number(lat) + latDiff],
+    lng: [Number(lng) - lngDiff, Number(lng) + lngDiff],
   };
-  console.log(squareLat, squareLng, results);
-  return results;
 }
