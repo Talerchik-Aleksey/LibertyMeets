@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { getSession, signIn } from "next-auth/react";
 import { Button, Form, Input, message } from "antd";
@@ -21,23 +21,21 @@ export default function Login() {
       },
     });
   };
-  useEffect(() => {
-    (async () => {
-      const session = await getSession();
-      session?.user && router.push("/posts");
-      localStorage.getItem("error") === "true" && error();
-      localStorage.removeItem("error");
-    })();
-  });
 
   async function onFinish(values: any) {
-    values.rememberMe = isRemember;
-    await signIn("credentials", {
-      ...values,
-      callbackUrl: "/posts",
-    });
-    const session = await getSession();
-    session?.user === undefined && localStorage.setItem("error", "true");
+    try {
+      values.rememberMe = isRemember;
+      await signIn("credentials", {
+        ...values,
+        redirect: false,
+      });
+      const session = await getSession();
+      session?.email && router.push("/auth/activate");
+      session?.user && router.push("/posts");
+      session?.user === undefined && error();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   return (
