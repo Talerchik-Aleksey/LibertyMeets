@@ -1,6 +1,5 @@
-import config from "config";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
+import { getSession } from "next-auth/react";
 import { changeLocation } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
@@ -14,7 +13,6 @@ type BodyType = {
 };
 
 connect();
-const KEY = config.get<string>("secretKey");
 
 export default async function handler(
   req: NextApiRequest,
@@ -26,13 +24,13 @@ export default async function handler(
     }
     const { location } = req.body as BodyType;
 
-    const token = await getToken({ req, secret: KEY });
+    const session = await getSession({ req });
 
-    if (!token) {
-      throw new HttpError(400, "user does not valid");
+    if (!session?.user) {
+      throw new HttpError(400, "user not valid");
     }
 
-    await changeLocation(token.id as number, location[0], location[1]);
+    await changeLocation(session.user.id as number, location[0], location[1]);
     res.status(200).json({ message: "success update location" });
   } catch (err) {
     if (err instanceof HttpError) {
