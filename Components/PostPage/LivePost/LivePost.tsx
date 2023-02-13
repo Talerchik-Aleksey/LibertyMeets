@@ -2,7 +2,6 @@ import styles from "./LivePost.module.scss";
 import Image from "next/image";
 import { Button, Form, Input, Modal, Tooltip } from "antd";
 import { useState, useMemo } from "react";
-import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import ThreadForm from "../../Posts/ThreadForm";
 import { CovertStringCoordinates } from "../../../utils/covnverterForCoordinates";
@@ -26,7 +25,6 @@ export default function LivePost(props: PostProps) {
   const [post, setPost] = useState<PostType>(props.post);
   const appUrl = props.appUrl;
   const { data: session } = useSession();
-  const router = useRouter();
 
   const Map = useMemo(
     () =>
@@ -49,7 +47,7 @@ export default function LivePost(props: PostProps) {
         <Button
           className={styles.backButton}
           type="link"
-          onClick={() => router.push(`${appUrl}/posts`)}
+          onClick={() => history.back()}
         >
           <Image
             src="/decor/arrow-left.svg"
@@ -79,6 +77,34 @@ export default function LivePost(props: PostProps) {
         <div className={styles.descriptionBlock}>
           <span className={styles.description}>Description</span>
           <p className={styles.descriptionText}>{post.description}</p>
+        </div>
+        <div className={styles.publicity}>
+          <div>
+            <Image
+              src="/decor/eye5.svg"
+              alt=""
+              width={36}
+              height={36}
+              className={styles.publicityImage}
+            />
+          </div>
+          <span className={styles.currentlyActive}>This Post Is Currently</span>
+          <span className={styles.publicActive}>Public</span>
+
+          <Tooltip
+            trigger={"hover"}
+            title={
+              "Setting this post to public lets users that are not asigned in see this post."
+            }
+          >
+            <Image
+              src="/decor/qwe.svg"
+              alt=""
+              width={36}
+              height={36}
+              className={styles.question}
+            />
+          </Tooltip>
         </div>
         <div className={styles.cardBlock}>
           {coordinates && coordinates.length === 2 ? (
@@ -144,7 +170,7 @@ export default function LivePost(props: PostProps) {
           */}
 
           {/* <Modal></Modal> */}
-          {/* 
+          {/*
           <Modal
             centered
             open={open}
