@@ -8,7 +8,7 @@ import { PostType } from "../../types/general";
 import PostsList from "../PostsList";
 import axios from "axios";
 import { PaginationForPosts } from "../General/Pagination/Pagination";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { message } from "antd";
 
 type PropsType = {
@@ -35,6 +35,7 @@ export default function Events({
   initialCount,
   isLogin,
 }: PropsType) {
+  const session = useSession();
   const [current, setCurrent] = useState<number>(1);
   const [isViewForAllCategory, setIsViewForAllCategory] =
     useState<boolean>(true);
@@ -90,9 +91,6 @@ export default function Events({
     if (radius) {
       query.radius = radius;
     }
-    const session = await getSession();
-    const lat = session?.user.lat;
-    const lng = session?.user.lng;
     if (lat !== undefined && lng !== undefined) {
       query.lat = lat;
       query.lng = lng;
@@ -102,6 +100,7 @@ export default function Events({
   function changePageNumber(page: number) {
     setCurrent(page);
     const query: queryType = { page };
+    fillQueryParams(query);
     router.push({
       pathname: `${appUrl}/posts`,
       query: query,
@@ -141,12 +140,13 @@ export default function Events({
     const res = await axios.post(`${appUrl}/api/favorites/${postId}`);
     const currentPosts = posts;
     const foundPost = currentPosts.find((item) => item.id === postId);
+
     if (!foundPost) {
       return;
     }
+
     foundPost.is_favorite = res.data.data.isFavorite;
     foundPost.favoriteUsers = [];
-
     setPosts([...currentPosts]);
   }
 
@@ -163,6 +163,7 @@ export default function Events({
 
     if (!zip || zip === "") {
       setZipCode(undefined);
+      dataForQuery.zip = undefined;
       router.push({
         pathname: `${appUrl}/posts`,
         query: dataForQuery,
@@ -191,10 +192,6 @@ export default function Events({
         query: dataForQuery,
       });
     }
-
-    const session = await getSession();
-    const lat = session?.user.lat;
-    const lng = session?.user.lng;
 
     if (lat === undefined || lng === undefined) {
       error("Login in account and give access to your location");
