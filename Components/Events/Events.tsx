@@ -55,7 +55,7 @@ export default function Events({
       content: text,
       duration: 10,
       style: {
-        marginTop: "10vh",
+        marginTop: "15vh",
       },
     });
   };

@@ -3,10 +3,10 @@ import styles from "./NavBar.module.scss";
 import Image from "next/image";
 import { CATEGORIES } from "../../../constants/constants";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import {  useSession } from "next-auth/react";
 import { KEY_LAT, KEY_LNG } from "../../../constants/constants";
 import axios from "axios";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction,  useState } from "react";
 
 type NavBarProps = {
   appUrl: string;

@@ -25,6 +25,8 @@ type PostType = {
   description: string;
   is_public: boolean;
   is_blocked: boolean;
+  lat: number;
+  lng: number;
 };
 
 const availableFromUrl = ["posts", "myPosts"];
@@ -54,7 +56,7 @@ export default function MyPost(props: PostProps) {
     return null;
   }
 
-  const coordinates = CovertStringCoordinates(post.geo);
+  const coordinates = [post.lat, post.lng];
 
   const postId = post.id;
 

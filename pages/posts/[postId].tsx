@@ -24,6 +24,8 @@ type PostType = {
   description: string;
   is_public: boolean;
   is_blocked: boolean;
+  lat: number;
+  lng: number;
 };
 
 export default function SinglePost({

@@ -7,6 +7,7 @@ import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
 import * as sequelize from "sequelize";
 import { connect } from "../utils/db";
+import { Transaction } from "sequelize";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -297,6 +298,8 @@ export async function getPost(postId: number) {
       "author_id",
       "created_at",
       "is_blocked",
+      "lat",
+      "lng",
     ],
   });
 

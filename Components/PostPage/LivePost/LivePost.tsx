@@ -16,6 +16,8 @@ type PostType = {
   category: string;
   description: string;
   is_public: boolean;
+  lat: number;
+  lng: number;
 };
 type PostProps = { appUrl: string; post: PostType };
 
@@ -39,7 +41,7 @@ export default function LivePost(props: PostProps) {
     return null;
   }
 
-  const coordinates = CovertStringCoordinates(post.geo);
+  const coordinates = [post.lat, post.lng];
 
   return (
     <section className={styles.container}>
