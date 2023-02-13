@@ -1,21 +1,18 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiResponse } from "next";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { handleWebhook } from "../../../services/webhook";
+import { NextApiRequestWithLog } from "../../../types";
 
 type ResType = {
   status: string;
   data: any;
 };
 
-type QueryType = {
-  threadId: string | undefined;
-};
-
 connect();
 
 export default async function handler(
-  req: NextApiRequest,
+  req: NextApiRequestWithLog,
   res: NextApiResponse<ResType>
 ) {
   try {
@@ -24,7 +21,7 @@ export default async function handler(
       return;
     }
 
-    console.log(req.body);
+    req.log.info({ payload: req.body }, "Incoming Webhook Payload");
     await handleWebhook(req.body);
 
     res.status(200).json({ status: "ok", data: {} });

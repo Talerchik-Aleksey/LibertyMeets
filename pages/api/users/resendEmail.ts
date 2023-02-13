@@ -1,9 +1,10 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiResponse } from "next";
 import { sendVerificationByEmail } from "../../../services/email";
 import { getEmailVerificationToken } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import config from "config";
+import { NextApiRequestWithLog } from "../../../types";
 
 type ResType = {
   message: string;
@@ -16,7 +17,7 @@ type BodyType = {
 connect();
 
 export default async function handler(
-  req: NextApiRequest,
+  req: NextApiRequestWithLog,
   res: NextApiResponse<ResType>
 ) {
   try {
@@ -24,6 +25,7 @@ export default async function handler(
       res.status(405);
       return;
     }
+    req.log.debug({ body: req.body }, "Request.body");
 
     const { email } = req.body as BodyType;
 

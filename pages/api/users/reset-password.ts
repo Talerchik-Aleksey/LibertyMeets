@@ -1,10 +1,11 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiResponse } from "next";
 import { fillToken, findUser } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { v4 } from "uuid";
 import { sendResetPasswordLink } from "../../../services/email";
 import config from "config";
+import { NextApiRequestWithLog } from "../../../types";
 
 type ResType = {
   message: string;
@@ -18,13 +19,15 @@ type BodyType = {
 connect();
 
 export default async function handler(
-  req: NextApiRequest,
+  req: NextApiRequestWithLog,
   res: NextApiResponse<ResType>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
-      throw new HttpError(405, "Post method was expected");
+      res.status(405);
+      return;
     }
+    req.log.debug({ body: req.body }, "Request.body");
 
     const { email } = req.body as BodyType;
 
@@ -58,13 +61,15 @@ export default async function handler(
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;
-      console.log(httpErr);
-      res.status(httpErr.httpCode).json({ message: httpErr.message });
+      res
+        .status(httpErr.httpCode)
+        .json({ message: httpErr.message });
       return;
     } else {
       const error = err as Error;
-      console.log(error);
-      res.status(500).json({ message: error.message });
+      res
+        .status(500)
+        .json({ message: error.message });
       return;
     }
   }

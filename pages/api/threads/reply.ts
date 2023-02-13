@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiResponse } from "next";
 import { connect } from "../../../utils/db";
 import { getSession } from "next-auth/react";
 import { HttpError } from "../../../utils/HttpError";
@@ -36,11 +36,11 @@ export default async function handler(
   res: NextApiResponse<ResType>
 ) {
   try {
-    req.log.debug({ body: req.body }, 'Request.body');
     if (!req.method || req.method! !== "POST") {
       res.status(405);
       return;
     }
+    req.log.debug({ body: req.body }, "Request.body");
 
     let { message } = req.body as BodyType;
     if (!message) {

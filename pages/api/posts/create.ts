@@ -1,9 +1,10 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiResponse } from "next";
+import { getSession } from "next-auth/react";
 import { savePostToDb } from "../../../services/posts";
 import { PostType } from "../../../types/general";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
-import { getSession } from "next-auth/react";
+import { NextApiRequestWithLog } from "../../../types";
 
 type ResType = {
   status: string;
@@ -13,15 +14,23 @@ type ResType = {
 type BodyType = PostType;
 
 connect();
+
 const CATEGORIES = ["social", "volunteer", "professional", "campaigns"];
 
 export default async function handler(
-  req: NextApiRequest,
+  req: NextApiRequestWithLog,
   res: NextApiResponse<ResType>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
       res.status(405);
+      return;
+    }
+    req.log.debug({ body: req.body }, "Request.body");
+
+    const session = await getSession({ req });
+    if (!session) {
+      res.status(401);
       return;
     }
 
@@ -44,11 +53,6 @@ export default async function handler(
       throw new HttpError(400, "invalid description length");
     }
 
-    const session = await getSession({ req });
-    if (!session) {
-      res.status(401);
-      return;
-    }
     const post = await savePostToDb({ user: session.user, post: body });
     res.status(200).json({ status: "ok", data: { postId: post.id } });
   } catch (err) {
