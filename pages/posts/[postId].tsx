@@ -1,7 +1,7 @@
 import config from "config";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import ThreadForm from "../../Components/Posts/ThreadForm";
 import Thread from "../../Components/Posts/Thread";
 import AuthorThreads from "../../Components/Posts/AuthorThreads";
@@ -11,8 +11,13 @@ import type { Posts } from "../../models/posts";
 import MyPost from "../../Components/PostPage/MyPost/MyPost";
 import LivePost from "../../Components/PostPage/LivePost/LivePost";
 import { useRouter } from "next/router";
+import { Session } from "next-auth";
 
-type SinglePostProps = { appUrl: string; post: PostType };
+type SinglePostProps = {
+  session: Session | null;
+  appUrl: string;
+  post: PostType;
+};
 
 type PostType = {
   id: number;
@@ -29,11 +34,11 @@ type PostType = {
 };
 
 export default function SinglePost({
+  session,
   appUrl,
   post: initialPost,
 }: SinglePostProps) {
   const [post, setPost] = useState<PostType>(initialPost);
-  const { data: session } = useSession();
   const router = useRouter();
   const fromUrl = router.query.fromUrl?.toString();
   const isAuthor = session ? post?.author_id === session?.user.id : undefined;
@@ -42,12 +47,12 @@ export default function SinglePost({
     <>
       {isAuthor ? (
         <>
-          <MyPost appUrl={appUrl} post={post} fromUrl={String(fromUrl)} />
+          <MyPost appUrl={appUrl} post={post} fromUrl={String(fromUrl)} session={session} />
           {/* <AuthorThreads appUrl={appUrl} postId={post.id} /> */}
         </>
       ) : (
         <>
-          <LivePost appUrl={appUrl} post={post} />
+          <LivePost appUrl={appUrl} post={post} session={session} />
           {/* <Thread appUrl={appUrl} userId={session?.user.id} postId={post.id} /> */}
           {/* <ThreadForm
             isThreadExists={false}
@@ -66,6 +71,7 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
   ctx
 ) => {
   const appUrl = config.get<string>("appUrl");
+  const session = await getSession({ req: ctx.req });
 
   const postId = Number(ctx.query.postId);
   if (!postId || isNaN(postId)) {
@@ -87,6 +93,7 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
 
   return {
     props: {
+      session,
       appUrl,
       post,
     },
