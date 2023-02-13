@@ -25,13 +25,16 @@ export default async function handler(
       res.status(405);
       return;
     }
-    const body = req.body as BodyType;
-    const { postId, is_public } = body;
+    req.log.debug({ body: req.body }, "Request.body");
+
     const session = await getSession({ req });
     if (!session) {
       res.status(401);
       return;
     }
+
+    const body = req.body as BodyType;
+    const { postId, is_public } = body;
 
     await changePostVisible(session.user.id, postId, is_public);
 
