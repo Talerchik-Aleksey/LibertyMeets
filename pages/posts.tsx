@@ -25,7 +25,11 @@ export default function PostsPage({
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
-    session?.user && setIsLogin(true);
+    if (session?.user) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
   }, [session]);
 
   return (

@@ -6,7 +6,11 @@ export default function MainPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const { data: session } = useSession();
   useEffect(() => {
-    session?.user && setIsAuthenticated(true);
+    if (session?.user) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
   }, [session]);
 
   return (
