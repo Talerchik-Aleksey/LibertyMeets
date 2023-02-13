@@ -71,8 +71,10 @@ export class Posts extends Model {
   @Column(DataType.STRING)
   zip!: string;
 
-  @Column(DataType.GEOMETRY("POINT"))
-  geo!: object;
+  @Column({
+    type: DataType.GEOMETRY("POINT", 4326),
+  })
+  geo!: any;
 
   @AllowNull(false)
   @Default(true)

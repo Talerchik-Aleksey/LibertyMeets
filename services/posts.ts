@@ -5,9 +5,8 @@ import { PostType } from "../types/general";
 import config from "config";
 import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
-import { Op, Transaction } from "sequelize";
+import * as sequelize from "sequelize";
 import { connect } from "../utils/db";
-import { calculationPossibleRangeForCoordinates } from "../utils/geographyUtils";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -72,29 +71,28 @@ async function searchPostsWithGeoRadius(
   user: { id: number } | null | undefined,
   info: getPostsTypes & SearchProps
 ) {
-  const geoSearch: {
-    lat: Array<number>;
-    lng: Array<number>;
-  } = calculationPossibleRangeForCoordinates(
-    Number(searchParams?.radius),
+  console.log(
+    Number(searchParams.lng),
     Number(searchParams.lat),
-    Number(searchParams.lng)
+    Number(searchParams.radius)
   );
+  console.log(user);
 
   return await Posts.findAll({
-    where: {
-      [Op.and]: [
-        info,
-        {
-          lat: {
-            [Op.between]: [geoSearch.lat[0], geoSearch.lat[1]],
-          },
-          lng: {
-            [Op.between]: [geoSearch.lng[0], geoSearch.lng[1]],
-          },
-        },
-      ],
-    },
+    where: sequelize.fn(
+      "ST_DWithin",
+      sequelize.fn(
+        "ST_Transform",
+        sequelize.fn(
+          "ST_SetSRID",
+          sequelize.fn("ST_MakePoint", searchParams.lng, searchParams.lat),
+          4326
+        ),
+        4326
+      ),
+      sequelize.col("geo"),
+      (Number(searchParams.radius) / 100) * 1.6
+    ),
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * ((searchParams?.page || 1) - 1),
     order: [
@@ -184,7 +182,9 @@ export async function getPosts(
         searchParams.lng &&
         searchParams.radius
       ) {
+        console.log("Enter");
         const posts = await searchPostsWithGeoRadius(searchParams, user, info);
+        console.log(posts);
         const count = await Posts.count({
           where: info,
         });
