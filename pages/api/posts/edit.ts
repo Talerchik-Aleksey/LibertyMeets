@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/react";
 import { editPost } from "../../../services/posts";
-import { HttpError } from "../../../utils/HttpError";
 import { connect } from "../../../utils/db";
+import { HttpError } from "../../../utils/HttpError";
 
 type ResType = {
   status: string;
@@ -15,9 +16,9 @@ type BodyType = {
   description: string;
 };
 
-const CATEGORIES = ["social", "volunteer", "professional", "campaigns"];
-
 connect();
+
+const CATEGORIES = ["social", "volunteer", "professional", "campaigns"];
 
 export default async function handler(
   req: NextApiRequest,
@@ -26,6 +27,13 @@ export default async function handler(
   try {
     if (!req.method || req.method! !== "POST") {
       res.status(405);
+      return;
+    }
+    req.log.debug({ body: req.body }, "Request.body");
+
+    const session = await getSession({ req });
+    if (!session) {
+      res.status(401);
       return;
     }
 

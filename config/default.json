@@ -39,6 +39,13 @@
       "reply_to": "reply-service@mg.example.com"
     }
   },
+  "logging": {
+    "levels": {
+      "*": "silent",
+      "api": "debug",
+      "db": "debug"
+    }
+  },
   "mailgun": {
     "apiKey": "",
     "domain": "",

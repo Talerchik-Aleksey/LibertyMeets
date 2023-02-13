@@ -39,6 +39,7 @@ export default async function handler(
       res.status(405);
       return;
     }
+    req.log.debug({ body: req.body }, "Request.body");
 
     let { message } = req.body as BodyType;
     if (!message) {

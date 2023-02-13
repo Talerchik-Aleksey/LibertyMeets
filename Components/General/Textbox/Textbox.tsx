@@ -12,7 +12,7 @@ export default function Textbox() {
           </li>
           <li>Many conservative/libertarians/moderates
             of all ages would like to get more involved
-            politically but don't know exactly how,
+            politically but don&apos;t know exactly how,
             beyond contacting representatives/campaigns,
             searching in a roundabout way where/how to volunteer,
             responding to solicitations, posting on social media,
@@ -34,7 +34,7 @@ export default function Textbox() {
             are connecting with real people.
           </li>
           <li>Other than that, your business
-            isn't our business. We do not and will not
+            isn&apos;t our business. We do not and will not
             share or sell your information.
           </li>
           <li>When you reply to a post, or someone replies
@@ -51,7 +51,7 @@ export default function Textbox() {
           <li>Sign up to post, view and respond to private posts,
             and keep track of your favorite posts.
           </li>
-          <li>Here's a short video exploring the site's functionality.</li>
+          <li>Here&apos;s a short video exploring the site&apos;s functionality.</li>
         </ul>
       </div>
     </section>

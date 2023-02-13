@@ -8,10 +8,6 @@ type ResType = {
   data: any;
 };
 
-type QueryType = {
-  threadId: string | undefined;
-};
-
 connect();
 
 export default async function handler(
@@ -24,7 +20,7 @@ export default async function handler(
       return;
     }
 
-    console.log(req.body);
+    req.log.info({ payload: req.body }, "Incoming Webhook Payload");
     await handleWebhook(req.body);
 
     res.status(200).json({ status: "ok", data: {} });

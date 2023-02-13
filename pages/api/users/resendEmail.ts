@@ -24,6 +24,7 @@ export default async function handler(
       res.status(405);
       return;
     }
+    req.log.debug({ body: req.body }, "Request.body");
 
     const { email } = req.body as BodyType;
 
