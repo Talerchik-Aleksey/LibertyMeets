@@ -3,15 +3,20 @@ import Image from "next/image";
 import { Button, Select, Tooltip, Modal } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { useState, useMemo } from "react";
-import { useSession } from "next-auth/react";
 import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { CovertStringCoordinates } from "../../../utils/covnverterForCoordinates";
+import { Session } from "next-auth";
 const { Option } = Select;
 
-type PostProps = { appUrl: string; post: PostType; fromUrl: string };
+type PostProps = {
+  session: Session | null;
+  appUrl: string;
+  post: PostType;
+  fromUrl: string;
+};
 type ErrorResponse = {
   status: string;
 };
@@ -32,7 +37,6 @@ const availableFromUrl = ["posts", "myPosts"];
 export default function MyPost(props: PostProps) {
   const [post, setPost] = useState<PostType>(props.post);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const { data: session } = useSession();
   let appUrl = props.appUrl;
   if (props.fromUrl in availableFromUrl) {
     appUrl = "/posts";
@@ -57,8 +61,6 @@ export default function MyPost(props: PostProps) {
   const coordinates = CovertStringCoordinates(post.geo);
 
   const postId = post.id;
-
-  const isAuthor = session ? post?.author_id === session?.user.id : undefined;
 
   async function makePublic(is_public: boolean) {
     try {
@@ -213,7 +215,7 @@ export default function MyPost(props: PostProps) {
         <div className={styles.publicity}>
           <div
             onClick={() => {
-              isAuthor && makePublic(!post.is_public);
+              makePublic(!post.is_public);
             }}
           >
             {post.is_public ? (
@@ -268,8 +270,8 @@ export default function MyPost(props: PostProps) {
               <span className={styles.location}>location</span>
               <Map
                 appUrl={appUrl}
-                userLat={session?.user.lat}
-                userLng={session?.user.lng}
+                userLat={props.session?.user.lat}
+                userLng={props.session?.user.lng}
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
                 isAllowClick={false}

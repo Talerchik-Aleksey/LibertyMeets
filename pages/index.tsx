@@ -1,16 +1,13 @@
-import { getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import LandingMain from "../Components/General/LandingMain/LandingMain";
 
 export default function MainPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
+  const { data: session } = useSession();
   useEffect(() => {
-    (async () => {
-      const session = await getSession();
-      session?.user && setIsAuthenticated(true);
-    })();
-  }, [isAuthenticated]);
+    session?.user && setIsAuthenticated(true);
+  }, [session]);
 
   return (
     <>

@@ -3,8 +3,6 @@ import styles from "../PostPage/LivePost/LivePost.module.scss";
 import Image from "next/image";
 import { Button, Form, Input, Modal } from "antd";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 
 const { TextArea } = Input;
 
@@ -12,15 +10,12 @@ type PropsType = {
   isThreadExists: boolean;
   appUrl: string;
   postId: number;
-  isAuthor: boolean | undefined;
   threadId?: string;
 };
 
 export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
   const [form] = Form.useForm();
   const [isVisibleForm, setIsVisibleForm] = useState<boolean>(false);
-  const { data: session } = useSession();
-  const router = useRouter();
 
   const { success, error } = Modal;
 
@@ -28,9 +23,9 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
     success({
       content: text,
       okText: "Ok",
-      centered:true,
-      className:styles.modals,
-      wrapClassName:styles.wrap,
+      centered: true,
+      className: styles.modals,
+      wrapClassName: styles.wrap,
       onOk() {
         setIsVisibleForm(false);
       },
@@ -41,7 +36,7 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
     error({
       content: text,
       okText: "Ok",
-      centered:true,
+      centered: true,
       onOk() {
         setIsVisibleForm(false);
       },
@@ -49,11 +44,7 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
   };
 
   function openForm() {
-    if (session) {
-      setIsVisibleForm(true);
-      return;
-    }
-    router.push("/signin");
+    setIsVisibleForm(true);
   }
 
   async function handleSubmit(values: any) {

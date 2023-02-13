@@ -5,8 +5,10 @@ import { PostType } from "../types/general";
 import { getPosts } from "../services/posts";
 import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { Session } from "next-auth";
 
 type PostsPageProps = {
+  session: Session | null;
   appUrl: string;
   postsPerPage: number;
   posts: PostType[];
@@ -18,15 +20,13 @@ export default function PostsPage({
   postsPerPage,
   posts,
   count,
+  session,
 }: PostsPageProps) {
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
-    (async () => {
-      const session = await getSession();
-      session?.user && setIsLogin(true);
-    })();
-  }, [isLogin]);
+    session?.user && setIsLogin(true);
+  }, [session]);
 
   return (
     <>
@@ -78,6 +78,7 @@ export const getServerSideProps: GetServerSideProps<PostsPageProps> = async (
 
   return {
     props: {
+      session,
       appUrl,
       postsPerPage,
       posts,

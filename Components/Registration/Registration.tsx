@@ -6,7 +6,7 @@ import { Button, Form, Input } from "antd";
 import axios, { AxiosError } from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import { createRef, useEffect, useState } from "react";
-import { getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { PASSWORD_VALIDATION_PATTERN } from "../../utils/stringUtils";
 
 type PropsType = { appUrl: string; recaptchaKey: string };
@@ -20,13 +20,10 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
   const [terms, setTerms] = useState<boolean>(false);
   const recaptchaRef = createRef<ReCAPTCHA>();
   const router = useRouter();
-
+  const { data: session } = useSession();
   useEffect(() => {
-    (async () => {
-      const session = await getSession();
-      session?.user && router.push("/posts");
-    })();
-  });
+    session?.user && router.push("/posts");
+  }, [router, session]);
 
   async function onFinish(values: any) {
     const recaptchaValue = recaptchaRef.current?.getValue();
