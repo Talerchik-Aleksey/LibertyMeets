@@ -8,7 +8,6 @@ import { ThreadMessages } from "../models/threadMessages";
 import { Op, Transaction } from "sequelize";
 import { connect } from "../utils/db";
 import { calculationPossibleRangeForCoordinates } from "../utils/geographyUtils";
-import { HttpError } from "../utils/HttpError";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -21,18 +20,13 @@ export async function savePostToDb({
   user: { id: number; email: string };
   post: PostType;
 }) {
-  let geo = undefined;
-  if (post.lat && post.lng) {
-    geo = `${post.lat}N, ${post.lng}W`;
-  }
-
   const createdPost = await Posts.create({
     author_id: user.id,
     title: post.title,
     category: post.category,
     description: post.description,
     is_public: post.is_public,
-    geo: geo,
+    geo: { type: "Point", coordinates: [post.lng, post.lat] },
     lat: post.lat,
     lng: post.lng,
     location_name: post.location_name,
