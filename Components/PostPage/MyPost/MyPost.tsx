@@ -117,7 +117,7 @@ export default function MyPost(props: PostProps) {
         <Button
           className={styles.backButton}
           type="link"
-          onClick={() => router.push(`${appUrl}/${fromUrl}`)}
+          onClick={() => history.back()}
         >
           <Image
             src="/decor/arrow-left.svg"
