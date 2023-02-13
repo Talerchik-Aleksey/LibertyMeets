@@ -1,9 +1,8 @@
-import type { NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 import { deletePost } from "../../../services/posts";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
-import { NextApiRequestWithLog } from "../../../types";
 
 type ResType = {
   status: string;
@@ -17,7 +16,7 @@ type BodyType = {
 const sequelize = connect();
 
 export default async function handler(
-  req: NextApiRequestWithLog,
+  req: NextApiRequest,
   res: NextApiResponse<ResType>
 ) {
   try {

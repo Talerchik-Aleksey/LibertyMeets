@@ -1,4 +1,4 @@
-import type { NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { connect } from "../../../utils/db";
 import { getSession } from "next-auth/react";
 import { HttpError } from "../../../utils/HttpError";
@@ -8,7 +8,6 @@ import {
 } from "../../../services/reply";
 import { getPost } from "../../../services/posts";
 import { getThreadById } from "../../../services/threads";
-import { NextApiRequestWithLog } from "../../../types";
 
 type ResType = {
   status: string;
@@ -32,7 +31,7 @@ connect();
 // stranger = thread starter
 
 export default async function handler(
-  req: NextApiRequestWithLog,
+  req: NextApiRequest,
   res: NextApiResponse<ResType>
 ) {
   try {

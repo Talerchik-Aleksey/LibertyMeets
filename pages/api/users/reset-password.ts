@@ -1,11 +1,10 @@
-import type { NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { fillToken, findUser } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { v4 } from "uuid";
 import { sendResetPasswordLink } from "../../../services/email";
 import config from "config";
-import { NextApiRequestWithLog } from "../../../types";
 
 type ResType = {
   message: string;
@@ -19,7 +18,7 @@ type BodyType = {
 connect();
 
 export default async function handler(
-  req: NextApiRequestWithLog,
+  req: NextApiRequest,
   res: NextApiResponse<ResType>
 ) {
   try {

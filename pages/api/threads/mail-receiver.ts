@@ -1,8 +1,7 @@
-import type { NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { handleWebhook } from "../../../services/webhook";
-import { NextApiRequestWithLog } from "../../../types";
 
 type ResType = {
   status: string;
@@ -12,7 +11,7 @@ type ResType = {
 connect();
 
 export default async function handler(
-  req: NextApiRequestWithLog,
+  req: NextApiRequest,
   res: NextApiResponse<ResType>
 ) {
   try {

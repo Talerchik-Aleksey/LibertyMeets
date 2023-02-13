@@ -1,10 +1,9 @@
-import type { NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 import { savePostToDb } from "../../../services/posts";
 import { PostType } from "../../../types/general";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
-import { NextApiRequestWithLog } from "../../../types";
 
 type ResType = {
   status: string;
@@ -18,7 +17,7 @@ connect();
 const CATEGORIES = ["social", "volunteer", "professional", "campaigns"];
 
 export default async function handler(
-  req: NextApiRequestWithLog,
+  req: NextApiRequest,
   res: NextApiResponse<ResType>
 ) {
   try {
