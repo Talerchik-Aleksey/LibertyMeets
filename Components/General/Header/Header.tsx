@@ -65,8 +65,10 @@ export default function Header() {
   };
 
   useEffect(() => {
-    if (session) {
+    if (session?.user) {
       setIsLogin(true);
+    } else {
+      setIsLogin(false);
     }
   }, [session]);
 

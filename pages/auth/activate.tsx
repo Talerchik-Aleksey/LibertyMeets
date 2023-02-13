@@ -11,7 +11,7 @@ export default function ActivatePage({ appUrl }: ActivatePageProps) {
   const [email, setEmail] = useState<string>();
 
   useEffect(() => {
-    if (session) {
+    if (session?.user === null) {
       session?.email && setEmail(session?.email);
       setTimeout(() => {
         signOut({ redirect: false });

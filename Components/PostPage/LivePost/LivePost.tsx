@@ -5,7 +5,7 @@ import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import ThreadForm from "../../Posts/ThreadForm";
 import { CovertStringCoordinates } from "../../../utils/covnverterForCoordinates";
-import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 
 type PostType = {
   id: number;
@@ -17,14 +17,13 @@ type PostType = {
   description: string;
   is_public: boolean;
 };
-type PostProps = { appUrl: string; post: PostType };
+type PostProps = { session: Session | null; appUrl: string; post: PostType };
 
 export default function LivePost(props: PostProps) {
   const [open, setOpen] = useState(false);
   const [share, setShare] = useState<Boolean>();
   const [post, setPost] = useState<PostType>(props.post);
   const appUrl = props.appUrl;
-  const { data: session } = useSession();
 
   const Map = useMemo(
     () =>
@@ -112,8 +111,8 @@ export default function LivePost(props: PostProps) {
               <span className={styles.location}>location</span>
               <Map
                 appUrl={appUrl}
-                userLat={session?.user.lat}
-                userLng={session?.user.lng}
+                userLat={props.session?.user.lat}
+                userLng={props.session?.user.lng}
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
                 isAllowClick={false}
@@ -126,13 +125,16 @@ export default function LivePost(props: PostProps) {
         {/* */}
 
         <div className={styles.buttonBlock}>
-          <ThreadForm
-            appUrl={appUrl}
-            postId={post.id}
-            isThreadExists={false}
-            threadId={""}
-            isAuthor={false}
-          />
+          {props.session?.user ? (
+            <ThreadForm
+              appUrl={appUrl}
+              postId={post.id}
+              isThreadExists={false}
+              threadId={""}
+            />
+          ) : (
+            <></>
+          )}
 
           {/*
           <Button
