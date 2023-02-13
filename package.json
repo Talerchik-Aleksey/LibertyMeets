@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "start-server": "node server.js",
+    "start-server": "NODE_ENV=production node server.js",
     "test": "NODE_CONFIG_ENV=test NODE_ENV=test jest --watch tests/**",
     "lint": "next lint"
   },
