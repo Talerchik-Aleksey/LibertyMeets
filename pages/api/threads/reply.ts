@@ -8,6 +8,7 @@ import {
 } from "../../../services/reply";
 import { getPost } from "../../../services/posts";
 import { getThreadById } from "../../../services/threads";
+import { NextApiRequestWithLog } from "../../../types";
 
 type ResType = {
   status: string;
@@ -31,10 +32,11 @@ connect();
 // stranger = thread starter
 
 export default async function handler(
-  req: NextApiRequest,
+  req: NextApiRequestWithLog,
   res: NextApiResponse<ResType>
 ) {
   try {
+    req.log.debug({ body: req.body }, 'Request.body');
     if (!req.method || req.method! !== "POST") {
       res.status(405);
       return;
