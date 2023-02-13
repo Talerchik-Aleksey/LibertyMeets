@@ -35,15 +35,15 @@ export async function connect(): Promise<Sequelize> {
     transactionType: "IMMEDIATE" as any,
     models: [Users, Posts, UserPosts, FavoritePosts, Threads, ThreadMessages],
     logging: (str, timing) => {
-      if (str.indexOf('Exec') === 0) {
+      if (str.indexOf("Exec") === 0) {
         // Extract transaction id, cleanup ugly 'Executing (default): SELECT ...'
-        const p0 = str.indexOf('(');
-        const p1 = str.indexOf(')');
+        const p0 = str.indexOf("(");
+        const p1 = str.indexOf(")");
         const trx = str.substring(p0 + 1, p1);
         const query = str.slice(p1 + 3);
         logger.debug({
           timing,
-          trx: trx === 'default' ? undefined : trx,
+          trx: trx === "default" ? undefined : trx,
         }, query);
       } else {
         logger.debug({ timing }, str);
