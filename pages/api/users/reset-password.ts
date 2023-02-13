@@ -23,8 +23,10 @@ export default async function handler(
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
-      throw new HttpError(405, "Post method was expected");
+      res.status(405);
+      return;
     }
+    req.log.debug({ body: req.body }, "Request.body");
 
     const { email } = req.body as BodyType;
 
@@ -58,13 +60,15 @@ export default async function handler(
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;
-      console.log(httpErr);
-      res.status(httpErr.httpCode).json({ message: httpErr.message });
+      res
+        .status(httpErr.httpCode)
+        .json({ message: httpErr.message });
       return;
     } else {
       const error = err as Error;
-      console.log(error);
-      res.status(500).json({ message: error.message });
+      res
+        .status(500)
+        .json({ message: error.message });
       return;
     }
   }

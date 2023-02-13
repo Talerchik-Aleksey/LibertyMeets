@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button, Form, Input, Select, Switch, Tooltip } from "antd";
+import { Button, Form, Input, Select, Switch, Tooltip, message } from "antd";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
@@ -28,6 +28,7 @@ export default function CreatePost(props: CreatePostProps) {
   const [lng, setLng] = useState<number>(0);
   const [isPublic, setIsPublic] = useState<boolean>(true);
   const [postalCode, setPostalCode] = useState<string>("");
+  const [messageApi, contextHolder] = message.useMessage();
   const [geocodeResult, setGeocodeResult] = useState<Location[] | undefined>(
     []
   );
@@ -42,6 +43,17 @@ export default function CreatePost(props: CreatePostProps) {
       }),
     []
   );
+
+  const error = (text: string | { code: any; message: any }) => {
+    messageApi.open({
+      type: "error",
+      content: typeof text === "string" ? text : text.message,
+      duration: 2.5,
+      style: {
+        marginTop: "10vh",
+      },
+    });
+  };
 
   function fillLocationData(values: any, location: Location | undefined) {
     if (!location) {
@@ -92,6 +104,9 @@ export default function CreatePost(props: CreatePostProps) {
       }
     } catch (e) {
       console.error(e);
+      error(
+        "It looks like there was a problem while trying to create your post"
+      );
     }
   }
 
@@ -104,7 +119,10 @@ export default function CreatePost(props: CreatePostProps) {
           setLng(result.locations[0].geometry.location.lng);
         }
       })
-      .catch((e) => console.error(e));
+      .catch((e) => {
+        console.error(e);
+        error("Sorry, but we were unable to detect location.");
+      });
   }, [postalCode]);
 
   function success(position: {
@@ -114,10 +132,6 @@ export default function CreatePost(props: CreatePostProps) {
     setLng(position.coords.longitude);
     localStorage.setItem(KEY_LAT, position.coords.latitude.toString());
     localStorage.setItem(KEY_LNG, position.coords.longitude.toString());
-  }
-
-  function error(err: { code: any; message: any }) {
-    console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
   const [isFirstLocationSet, setIsFirstLocationSet] = useState<boolean>(true);
@@ -162,6 +176,7 @@ export default function CreatePost(props: CreatePostProps) {
 
   return (
     <section className={styles.container}>
+      <div className={styles.error}>{contextHolder}</div>
       <div className={styles.arrow}>
         <Link className={styles.backLink} href={""}>
           <Button

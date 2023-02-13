@@ -40,9 +40,7 @@ export default function AuthActivated({ appUrl, email }: PropsType) {
       {errorMessage ? <div>{errorMessage}</div> : <></>}
       {isVisible ? (
         <div className={styles.blockResend}>
-          <div className={styles.text}>
-            Do You need to send the letter again?
-          </div>
+          <div className={styles.text}>Resend the activation link?</div>
           <Button type="text" className={styles.resend} onClick={resendEmail}>
             <Image
               src="/decor/reset.svg"
