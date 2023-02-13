@@ -14,7 +14,7 @@ import SignUp from "./buttons/signUp";
 import Image from "next/image";
 
 const buttonMap = {
-  showSearch: ["", "my-favorites", "myPosts", "settings", "about"],
+  showSearch: ["", "my-favorites", "myPosts", "settings", "about", "404"],
   showCreatePost: ["", "posts", "my-favorites", "myPosts", "settings", "about"],
   showMyProfile: [
     "",
@@ -26,6 +26,7 @@ const buttonMap = {
     "about",
     "posts/[postId]",
     "posts/edit/[postId]",
+    "404",
   ],
   showLogOut: [
     "",
@@ -45,8 +46,16 @@ const buttonMap = {
     "posts",
     "reset-password",
     "posts/[postId]",
+    "404",
   ],
-  showSignUp: ["signin", "about", "posts", "reset-password", "posts/[postId]"],
+  showSignUp: [
+    "signin",
+    "about",
+    "posts",
+    "reset-password",
+    "posts/[postId]",
+    "404",
+  ],
 };
 
 export default function Header() {
@@ -81,6 +90,7 @@ export default function Header() {
 
   useEffect(() => {
     const children = document.querySelector(".listElement")?.children || [];
+    console.log("children <-------", children);
 
     if (children.length > 0) {
       setHasChildren(true);
