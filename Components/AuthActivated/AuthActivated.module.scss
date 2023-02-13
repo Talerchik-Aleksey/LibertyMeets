@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  background: #fffae6;
+  background: #f9fafb;
   flex-direction: column;
   gap: 30px;
 }
@@ -16,7 +16,7 @@
   font-size: 24px;
   line-height: 30px;
   color: #10020a;
-  width: 40%;
+  width: 100%;
   text-align: center;
   text-transform: uppercase;
 
@@ -49,7 +49,7 @@
 }
 
 .text {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 600;
   font-size: 25px;
   text-transform: capitalize;
