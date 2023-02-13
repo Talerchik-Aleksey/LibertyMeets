@@ -5,6 +5,7 @@ import { getPost } from "../../../services/posts";
 import { backendLoader } from "../../../utils/backend-loader";
 import EditPage from "../../../Components/PostPage/EditPage/EditPage";
 import type { Posts } from "../../../models/posts";
+import { getSession } from "next-auth/react";
 
 type PropsType = { appUrl: string; post: PostType };
 type PostType = {
@@ -26,6 +27,12 @@ export default function EditPost({ appUrl, post: initialPost }: PropsType) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const appUrl = config.get<string>("appUrl");
+  const session = await getSession({ req: ctx.req });
+  if (session?.user) {
+    return {
+      notFound: true,
+    };
+  }
 
   const postId = Number(ctx.query.postId);
   if (!postId || isNaN(postId)) {
@@ -39,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     ["created_at"]
   );
 
-  if (!post) {
+  if (!post || session?.user.id !== post.author_id) {
     return {
       notFound: true,
     };
