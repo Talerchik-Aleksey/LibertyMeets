@@ -1,7 +1,7 @@
 import styles from "./MyPost.module.scss";
 import Image from "next/image";
-import { Button, Select, Tooltip, Modal } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { Button, Select, Tooltip, Modal, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import { useState, useMemo } from "react";
 import axios, { AxiosError } from "axios";
 import Link from "next/link";
@@ -46,10 +46,14 @@ export default function MyPost(props: PostProps) {
 
   const router = useRouter();
 
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
   const Map = useMemo(
     () =>
       dynamic(() => import("../../Map"), {
-        loading: () => <p>A map is loading</p>,
+        loading: () => (
+          <Spin indicator={antIcon} style={{ margin: "auto auto" }} />
+        ),
         ssr: false,
       }),
     []
@@ -284,4 +288,5 @@ export default function MyPost(props: PostProps) {
       </div>
     </section>
   );
+}
 }

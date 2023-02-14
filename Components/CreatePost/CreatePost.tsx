@@ -1,12 +1,21 @@
 import Image from "next/image";
-import { Button, Form, Input, Select, Switch, Tooltip, message } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Select,
+  Switch,
+  Tooltip,
+  message,
+  Spin,
+} from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import axios from "axios";
 import RememberBlock from "../RememberBlock/RememberBlock";
-import { KEY_LAT, KEY_LNG } from "../../constants/constants";
 import styles from "./CreatePost.module.scss";
 import Link from "next/link";
 import { Location } from "../../services/geocodeSearch";
@@ -35,10 +44,14 @@ export default function CreatePost(props: CreatePostProps) {
   const postalRegex = new RegExp("^[0-9]{5}(?:-[0-9]{4})?$");
   const router = useRouter();
 
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
   const Map = useMemo(
     () =>
       dynamic(() => import("../Map"), {
-        loading: () => <p>A map is loading</p>,
+        loading: () => (
+          <Spin indicator={antIcon} style={{ margin: "auto auto" }} />
+        ),
         ssr: false,
       }),
     []
@@ -342,4 +355,5 @@ export default function CreatePost(props: CreatePostProps) {
       </div>
     </section>
   );
+}
 }
