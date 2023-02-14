@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
-import { editPost } from "../../../services/posts";
+import { editPost, isAuthorCheck } from "../../../services/posts";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 
@@ -32,14 +32,13 @@ export default async function handler(
     req.log.debug({ body: req.body }, "Request.body");
 
     const session = await getSession({ req });
-
-    const body = req.body as BodyType;
-    const { id, title, category, description } = body;
-
-    if (!session || session?.user.id !== id) {
+    if (!session) {
       res.status(401);
       return;
     }
+
+    const body = req.body as BodyType;
+    const { id, title, category, description } = body;
 
     if (!title || !category || !description) {
       throw new HttpError(400, "invalid body structure");
@@ -55,6 +54,12 @@ export default async function handler(
 
     if (description.length < 4 || description.length > 1024) {
       throw new HttpError(400, "invalid description length");
+    }
+
+    const isAuthor = await isAuthorCheck(session.user?.id, id);
+    if (!isAuthor) {
+      res.status(401);
+      return;
     }
 
     const post = await editPost(id, title, category, description);
