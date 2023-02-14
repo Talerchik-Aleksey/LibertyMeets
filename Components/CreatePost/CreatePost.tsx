@@ -146,15 +146,30 @@ export default function CreatePost(props: CreatePostProps) {
     let lsLat;
     let lsLng;
     if (session) {
-      lat = session.user.lat;
-      lng = session.user.lng;
-      if (lat) setLat(lat);
-      if (lng) setLng(lng);
-      if (lat && lng) {
-        localStorage.setItem(KEY_LAT, lat.toString());
-        localStorage.setItem(KEY_LNG, lng.toString());
-        return;
-      }
+      getLocations(postalCode)
+        .then((result) => {
+          setGeocodeResult(result?.locations);
+          if (result) {
+            setLat(result.locations[0].geometry.location.lat);
+            setLng(result.locations[0].geometry.location.lng);
+          } else {
+            lat = session.user.lat;
+            lng = session.user.lng;
+
+            if (lat) setLat(lat);
+            if (lng) setLng(lng);
+
+            if (lat && lng) {
+              localStorage.setItem(KEY_LAT, lat.toString());
+              localStorage.setItem(KEY_LNG, lng.toString());
+            }
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          error("Sorry, but we were unable to detect location.");
+        });
+      return;
     }
     if (!lat || !lng) {
       lsLat = localStorage.getItem(KEY_LAT);
