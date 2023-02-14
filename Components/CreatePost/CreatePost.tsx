@@ -117,6 +117,9 @@ export default function CreatePost(props: CreatePostProps) {
         if (result) {
           setLat(result.locations[0].geometry.location.lat);
           setLng(result.locations[0].geometry.location.lng);
+        } else {
+          setLat(Number(session?.user.lat));
+          setLng(Number(session?.user.lng));
         }
       })
       .catch((e) => {
@@ -124,70 +127,6 @@ export default function CreatePost(props: CreatePostProps) {
         error("Sorry, but we were unable to detect location.");
       });
   }, [postalCode]);
-
-  function success(position: {
-    coords: { latitude: number; longitude: number };
-  }) {
-    setLat(position.coords.latitude);
-    setLng(position.coords.longitude);
-    localStorage.setItem(KEY_LAT, position.coords.latitude.toString());
-    localStorage.setItem(KEY_LNG, position.coords.longitude.toString());
-  }
-
-  const [isFirstLocationSet, setIsFirstLocationSet] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (!isFirstLocationSet) {
-      return;
-    }
-
-    let lat;
-    let lng;
-    let lsLat;
-    let lsLng;
-    if (session) {
-      getLocations(postalCode)
-        .then((result) => {
-          setGeocodeResult(result?.locations);
-          if (result) {
-            setLat(result.locations[0].geometry.location.lat);
-            setLng(result.locations[0].geometry.location.lng);
-          } else {
-            lat = session.user.lat;
-            lng = session.user.lng;
-
-            if (lat) setLat(lat);
-            if (lng) setLng(lng);
-
-            if (lat && lng) {
-              localStorage.setItem(KEY_LAT, lat.toString());
-              localStorage.setItem(KEY_LNG, lng.toString());
-            }
-          }
-        })
-        .catch((e) => {
-          console.error(e);
-          error("Sorry, but we were unable to detect location.");
-        });
-      return;
-    }
-    if (!lat || !lng) {
-      lsLat = localStorage.getItem(KEY_LAT);
-      lsLng = localStorage.getItem(KEY_LNG);
-      if (lsLat) setLat(+lsLat);
-      if (lsLng) setLng(+lsLng);
-      if (lsLat && lsLng) {
-        return;
-      }
-    }
-    setIsFirstLocationSet(false);
-
-    navigator.geolocation.getCurrentPosition(
-      success,
-      error,
-      geoLocationOptions
-    );
-  }, [session]);
 
   return (
     <section className={styles.container}>
