@@ -57,57 +57,22 @@ export default function LivePost(props: PostProps) {
           <span className={styles.backButtonText}>Back</span>
         </Button>
       </div>
+
       <div className={styles.livePostContainer}>
         <div>
-          <span className={styles.livePostTitle}>Live Post</span>
-        </div>
-
-        <div className={styles.titleBlock}>
-          <span className={styles.title}>title</span>
-          <span className={styles.titleText}>{post.title}</span>
+          <span className={styles.livePostTitle}>{post.title}</span>
         </div>
         <div className={styles.categoryBlock}>
-          <span className={styles.category}>Category</span>
           <div className={styles.categoryButton}>
             <span className={styles.categoryButtonText}>{post.category}</span>
           </div>
         </div>
         <div className={styles.descriptionBlock}>
-          <span className={styles.description}>Description</span>
           <p className={styles.descriptionText}>{post.description}</p>
-        </div>
-        <div className={styles.publicity}>
-          <div>
-            <Image
-              src="/decor/eye5.svg"
-              alt=""
-              width={36}
-              height={36}
-              className={styles.publicityImage}
-            />
-          </div>
-          <span className={styles.currentlyActive}>This Post Is Currently</span>
-          <span className={styles.publicActive}>Public</span>
-
-          <Tooltip
-            trigger={"hover"}
-            title={
-              "Setting this post to public lets users that are not asigned in see this post."
-            }
-          >
-            <Image
-              src="/decor/qwe.svg"
-              alt=""
-              width={36}
-              height={36}
-              className={styles.question}
-            />
-          </Tooltip>
         </div>
         <div className={styles.cardBlock}>
           {coordinates && coordinates.length === 2 ? (
             <>
-              <span className={styles.location}>location</span>
               <Map
                 appUrl={appUrl}
                 userLat={props.session?.user.lat}
