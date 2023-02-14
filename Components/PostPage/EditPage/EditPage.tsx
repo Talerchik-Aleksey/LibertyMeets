@@ -131,10 +131,10 @@ export default function EditPage(props: EditPostProps) {
                 name="description"
                 colon={false}
                 initialValue={props.post.description}
-                rules={[{ required: false }, { type: "string", max: 200 }]}
+                rules={[{ required: false }, { type: "string", max: 1000 }]}
               >
                 <TextArea
-                  maxLength={200}
+                  maxLength={1000}
                   autoSize={{ minRows: 7, maxRows: 7 }}
                   showCount={true}
                   rows={7}

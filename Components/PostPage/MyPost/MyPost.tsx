@@ -7,7 +7,6 @@ import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import { CovertStringCoordinates } from "../../../utils/covnverterForCoordinates";
 import { Session } from "next-auth";
 const { Option } = Select;
 
@@ -30,6 +29,8 @@ type PostType = {
   description: string;
   is_public: boolean;
   is_blocked: boolean;
+  lat: number;
+  lng: number;
 };
 
 const availableFromUrl = ["posts", "myPosts"];
@@ -58,7 +59,7 @@ export default function MyPost(props: PostProps) {
     return null;
   }
 
-  const coordinates = CovertStringCoordinates(post.geo);
+  const coordinates = [post.lat, post.lng];
 
   const postId = post.id;
 
@@ -274,7 +275,6 @@ export default function MyPost(props: PostProps) {
                 userLng={props.session?.user.lng}
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
-                isAllowClick={false}
               />
             </>
           ) : (
