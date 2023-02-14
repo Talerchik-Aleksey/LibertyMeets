@@ -40,6 +40,12 @@ export default async function handler(
     const body = req.body as BodyType;
     const { id, title, category, description } = body;
 
+    const isAuthor = await isAuthorCheck(session.user?.id, id);
+    if (!isAuthor) {
+      res.status(403);
+      return;
+    }
+
     if (!title || !category || !description) {
       throw new HttpError(400, "invalid body structure");
     }
@@ -54,12 +60,6 @@ export default async function handler(
 
     if (description.length < 4 || description.length > 1024) {
       throw new HttpError(400, "invalid description length");
-    }
-
-    const isAuthor = await isAuthorCheck(session.user?.id, id);
-    if (!isAuthor) {
-      res.status(401);
-      return;
     }
 
     const post = await editPost(id, title, category, description);
