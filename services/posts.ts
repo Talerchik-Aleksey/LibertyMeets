@@ -8,6 +8,7 @@ import { ThreadMessages } from "../models/threadMessages";
 import * as sequelize from "sequelize";
 import { connect } from "../utils/db";
 import { Transaction } from "sequelize";
+import { METERS_IN_MILE } from "../constants/constants";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -76,17 +77,18 @@ async function searchPostsWithGeoRadius(
     where: sequelize.and(
       sequelize.fn(
         "ST_DWithin",
+        sequelize.col("geo"),
         sequelize.fn(
-          "ST_Transform",
+          "ST_SetSRID",
           sequelize.fn(
-            "ST_SetSRID",
-            sequelize.fn("ST_MakePoint", searchParams.lng, searchParams.lat),
-            4326
+            "ST_MakePoint",
+            Number(searchParams.lng),
+            Number(searchParams.lat)
           ),
           4326
         ),
-        sequelize.col("geo"),
-        searchParams.radius
+        Number(searchParams.radius) * METERS_IN_MILE,
+        true
       ),
       info
     ),
@@ -179,6 +181,7 @@ export async function getPosts(
         searchParams.lng &&
         searchParams.radius
       ) {
+        console.log(searchParams);
         const posts = await searchPostsWithGeoRadius(searchParams, user, info);
         const count = await Posts.count({
           where: info,

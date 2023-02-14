@@ -14,7 +14,6 @@ import {
   HasMany,
 } from "sequelize-typescript";
 import { FavoritePosts } from "./favoritePosts";
-import { Threads } from "./threads";
 import { Users } from "./users";
 
 @Table({
