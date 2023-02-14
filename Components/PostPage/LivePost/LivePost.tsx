@@ -1,6 +1,6 @@
 import styles from "./LivePost.module.scss";
 import Image from "next/image";
-import { Button, Form, Input, Modal, Spin, Tooltip } from "antd";
+import { Button, Spin, Tooltip } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
@@ -215,5 +215,4 @@ export default function LivePost(props: PostProps) {
       </div>
     </section>
   );
-}
 }

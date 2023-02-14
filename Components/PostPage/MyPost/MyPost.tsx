@@ -1,7 +1,7 @@
 import styles from "./MyPost.module.scss";
 import Image from "next/image";
 import { Button, Select, Tooltip, Modal, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { useState, useMemo } from "react";
 import axios, { AxiosError } from "axios";
 import Link from "next/link";
@@ -288,5 +288,4 @@ export default function MyPost(props: PostProps) {
       </div>
     </section>
   );
-}
 }
