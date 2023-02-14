@@ -29,6 +29,8 @@ type PostType = {
   description: string;
   is_public: boolean;
   is_blocked: boolean;
+  lat: number;
+  lng: number;
 };
 
 export default function SinglePost({
@@ -45,7 +47,12 @@ export default function SinglePost({
     <>
       {isAuthor ? (
         <>
-          <MyPost appUrl={appUrl} post={post} fromUrl={String(fromUrl)} session={session} />
+          <MyPost
+            appUrl={appUrl}
+            post={post}
+            fromUrl={String(fromUrl)}
+            session={session}
+          />
           {/* <AuthorThreads appUrl={appUrl} postId={post.id} /> */}
         </>
       ) : (
