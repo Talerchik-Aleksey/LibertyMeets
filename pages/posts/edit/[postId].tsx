@@ -28,7 +28,7 @@ export default function EditPost({ appUrl, post: initialPost }: PropsType) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const appUrl = config.get<string>("appUrl");
   const session = await getSession({ req: ctx.req });
-  if (session?.user) {
+  if (!session?.user) {
     return {
       notFound: true,
     };
