@@ -48,7 +48,7 @@ export default async function handler(
       throw new HttpError(400, "invalid category");
     }
 
-    if (description.length < 4 || description.length > 200) {
+    if (description.length < 4 || description.length > 1024) {
       throw new HttpError(400, "invalid description length");
     }
 
