@@ -276,8 +276,6 @@ export default function CreatePost(props: CreatePostProps) {
                 userLng={session?.user.lng}
                 lat={lat}
                 lng={lng}
-                setLat={setLat}
-                setLng={setLng}
                 isAllowClick={false}
               />
             </div>
