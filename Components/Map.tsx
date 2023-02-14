@@ -48,7 +48,7 @@ function LocationMarker(props: MapProps) {
         setPosition(position);
         map.flyTo(position, map.getZoom());
         if (!userLat || !userLng) {
-          return ;
+          return;
         }
         if (
           userLat?.toFixed(2) !== lat.toFixed(2) ||
