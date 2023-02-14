@@ -3,7 +3,6 @@ import { Button, Tooltip } from "antd";
 import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import ThreadForm from "../../Posts/ThreadForm";
-import { CovertStringCoordinates } from "../../../utils/covnverterForCoordinates";
 import { Session } from "next-auth";
 import styles from "./LivePost.module.scss";
 
@@ -16,6 +15,8 @@ type PostType = {
   category: string;
   description: string;
   is_public: boolean;
+  lat: number;
+  lng: number;
 };
 type PostProps = { session: Session | null; appUrl: string; post: PostType };
 
@@ -36,7 +37,7 @@ export default function LivePost(props: PostProps) {
     return null;
   }
 
-  const coordinates = CovertStringCoordinates(post.geo);
+  const coordinates = [post.lat, post.lng];
 
   return (
     <section className={styles.container}>

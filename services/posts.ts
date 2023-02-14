@@ -180,6 +180,8 @@ export async function getPost(postId: number) {
       "author_id",
       "created_at",
       "is_blocked",
+      "lat",
+      "lng",
     ],
   });
 

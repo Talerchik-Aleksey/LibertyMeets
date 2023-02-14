@@ -2,9 +2,6 @@ import config from "config";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 import { getSession } from "next-auth/react";
-import ThreadForm from "../../Components/Posts/ThreadForm";
-import Thread from "../../Components/Posts/Thread";
-import AuthorThreads from "../../Components/Posts/AuthorThreads";
 import { getPost } from "../../services/posts";
 import { backendLoader } from "../../utils/backend-loader";
 import type { Posts } from "../../models/posts";
@@ -29,6 +26,8 @@ type PostType = {
   description: string;
   is_public: boolean;
   is_blocked: boolean;
+  lat: number;
+  lng: number;
 };
 
 export default function SinglePost({
@@ -45,7 +44,12 @@ export default function SinglePost({
     <>
       {isAuthor ? (
         <>
-          <MyPost appUrl={appUrl} post={post} fromUrl={String(fromUrl)} session={session} />
+          <MyPost
+            appUrl={appUrl}
+            post={post}
+            fromUrl={String(fromUrl)}
+            session={session}
+          />
           {/* <AuthorThreads appUrl={appUrl} postId={post.id} /> */}
         </>
       ) : (
