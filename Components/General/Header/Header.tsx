@@ -81,7 +81,6 @@ export default function Header() {
 
   useEffect(() => {
     const children = document.querySelector(".listElement")?.children || [];
-    console.log("children <-------", children);
 
     if (children.length > 0) {
       setHasChildren(true);

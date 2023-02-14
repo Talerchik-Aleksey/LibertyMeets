@@ -32,13 +32,14 @@ export default async function handler(
     req.log.debug({ body: req.body }, "Request.body");
 
     const session = await getSession({ req });
-    if (!session) {
-      res.status(401);
-      return;
-    }
 
     const body = req.body as BodyType;
     const { id, title, category, description } = body;
+
+    if (!session || session?.user.id !== id) {
+      res.status(401);
+      return;
+    }
 
     if (!title || !category || !description) {
       throw new HttpError(400, "invalid body structure");
