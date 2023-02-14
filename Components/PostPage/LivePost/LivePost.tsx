@@ -20,8 +20,6 @@ type PostType = {
 type PostProps = { session: Session | null; appUrl: string; post: PostType };
 
 export default function LivePost(props: PostProps) {
-  const [open, setOpen] = useState(false);
-  const [share, setShare] = useState<Boolean>();
   const [post, setPost] = useState<PostType>(props.post);
   const appUrl = props.appUrl;
 
