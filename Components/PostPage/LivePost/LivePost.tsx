@@ -115,7 +115,6 @@ export default function LivePost(props: PostProps) {
                 userLng={props.session?.user.lng}
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
-                isAllowClick={false}
               />
             </>
           ) : (

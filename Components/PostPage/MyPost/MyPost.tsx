@@ -274,7 +274,6 @@ export default function MyPost(props: PostProps) {
                 userLng={props.session?.user.lng}
                 lat={Number(coordinates[0])}
                 lng={Number(coordinates[1])}
-                isAllowClick={false}
               />
             </>
           ) : (
