@@ -64,13 +64,16 @@ export default function LivePost(props: PostProps) {
       </div>
 
       <div className={styles.livePostContainer}>
-        <div>
-          <span className={styles.livePostTitle}>{post.title}</span>
-        </div>
-        <div className={styles.categoryBlock}>
-          <div className={styles.categoryButton}>
-            <span className={styles.categoryButtonText}>{post.category}</span>
+        <div className={styles.postHeader}>
+          <div className={(styles.categoryBlock, styles.left)}>
+            <div className={styles.categoryButton}>
+              <span className={styles.categoryButtonText}>{post.category}</span>
+            </div>
           </div>
+          <div>
+            <span className={styles.livePostTitle}>{post.title}</span>
+          </div>
+          <div className={styles.right}></div>
         </div>
 
         <div className={styles.postContent}>
