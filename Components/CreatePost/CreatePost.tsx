@@ -232,11 +232,11 @@ export default function CreatePost(props: CreatePostProps) {
                 colon={false}
                 rules={[
                   { required: true },
-                  { type: "string", min: 4, max: 200 },
+                  { type: "string", min: 4, max: 1000 },
                 ]}
               >
                 <TextArea
-                  maxLength={200}
+                  maxLength={1000}
                   autoSize={{ minRows: 7, maxRows: 7 }}
                   showCount={true}
                   rows={7}
