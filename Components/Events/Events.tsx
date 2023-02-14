@@ -8,7 +8,6 @@ import { PostType } from "../../types/general";
 import PostsList from "../PostsList";
 import axios from "axios";
 import { PaginationForPosts } from "../General/Pagination/Pagination";
-import { getSession, useSession } from "next-auth/react";
 import { message } from "antd";
 
 type PropsType = {
@@ -35,7 +34,6 @@ export default function Events({
   initialCount,
   isLogin,
 }: PropsType) {
-  const session = useSession();
   const [current, setCurrent] = useState<number>(1);
   const [isViewForAllCategory, setIsViewForAllCategory] =
     useState<boolean>(true);
@@ -159,10 +157,10 @@ export default function Events({
 
   async function searchByZipCode(zip: string) {
     const dataForQuery: queryType = {};
-    await fillQueryParams(dataForQuery);
 
     if (!zip || zip === "") {
       setZipCode(undefined);
+      await fillQueryParams(dataForQuery);
       dataForQuery.zip = undefined;
       router.push({
         pathname: `${appUrl}/posts`,
@@ -173,8 +171,8 @@ export default function Events({
     }
 
     setZipCode(zip);
+    await fillQueryParams(dataForQuery);
     dataForQuery.zip = zip;
-
     router.push({
       pathname: `${appUrl}/posts`,
       query: dataForQuery,
@@ -183,24 +181,24 @@ export default function Events({
 
   async function searchByRadius(radius: string) {
     const dataForQuery: queryType = {};
-    await fillQueryParams(dataForQuery);
-
-    if (!radius || radius === "") {
-      setRadius(undefined);
-      router.push({
-        pathname: `${appUrl}/posts`,
-        query: dataForQuery,
-      });
-    }
 
     if (lat === undefined || lng === undefined) {
       error("Login in account and give access to your location");
       return;
     }
 
+    if (!radius || radius === "") {
+      setRadius(undefined);
+      await fillQueryParams(dataForQuery);
+      dataForQuery.radius = undefined;
+      router.push({
+        pathname: `${appUrl}/posts`,
+        query: dataForQuery,
+      });
+    }
+
     setRadius(radius);
-    dataForQuery.lat = lat;
-    dataForQuery.lng = lng;
+    await fillQueryParams(dataForQuery);
     dataForQuery.radius = radius;
     router.push({
       pathname: `${appUrl}/posts`,
