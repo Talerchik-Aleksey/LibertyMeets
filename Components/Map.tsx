@@ -18,11 +18,10 @@ type MapProps = {
   userLng: number | undefined;
   lat: number;
   lng: number;
-  isAllowClick: boolean;
 };
 
 function LocationMarker(props: MapProps) {
-  const { appUrl, userLat, userLng, lat, lng, isAllowClick } = props;
+  const { appUrl, userLat, userLng, lat, lng } = props;
   const [position, setPosition] = useState({
     lat: center.lat,
     lng: center.lng,
@@ -75,7 +74,7 @@ function LocationMarker(props: MapProps) {
 }
 
 export default function Map(props: MapProps) {
-  const { appUrl, userLat, userLng, lat, lng, isAllowClick } = props;
+  const { appUrl, userLat, userLng, lat, lng } = props;
 
   return (
     <MapContainer
@@ -95,7 +94,6 @@ export default function Map(props: MapProps) {
         userLng={userLng}
         lat={lat}
         lng={lng}
-        isAllowClick={isAllowClick}
       />
     </MapContainer>
   );
