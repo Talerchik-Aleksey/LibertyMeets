@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { Button, Tooltip } from "antd";
+import { Button, Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import ThreadForm from "../../Posts/ThreadForm";
@@ -24,10 +25,14 @@ export default function LivePost(props: PostProps) {
   const [post, setPost] = useState<PostType>(props.post);
   const appUrl = props.appUrl;
 
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
   const Map = useMemo(
     () =>
       dynamic(() => import("../../Map"), {
-        loading: () => <p>A map is loading</p>,
+        loading: () => (
+          <Spin indicator={antIcon} style={{ margin: "auto auto" }} />
+        ),
         ssr: false,
       }),
     []
@@ -59,13 +64,13 @@ export default function LivePost(props: PostProps) {
       </div>
 
       <div className={styles.livePostContainer}>
+        <div>
+          <span className={styles.livePostTitle}>{post.title}</span>
+        </div>
         <div className={styles.categoryBlock}>
           <div className={styles.categoryButton}>
             <span className={styles.categoryButtonText}>{post.category}</span>
           </div>
-        </div>
-        <div>
-          <span className={styles.livePostTitle}>{post.title}</span>
         </div>
 
         <div className={styles.postContent}>
