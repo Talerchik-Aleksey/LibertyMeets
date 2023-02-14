@@ -51,7 +51,7 @@
 
   background-color: #fff;
   margin: 120px auto 40px auto;
-  max-width: 1072px;
+  max-width: 1200px;
   padding: 50px 30px 55px 30px;
   gap: 30px;
   display: flex;
@@ -73,16 +73,19 @@
 .postHeader {
   display: flex;
   gap: 20px;
-  flex-wrap: wrap;
 
   .left,
   .right {
     flex: 1;
   }
+
+  @media (max-height: 1200px) {
+    flex-wrap: wrap;
+  }
 }
 
 .livePostTitle {
-  text-align: center;
+  text-align: justify;
   font-family: "Butler";
   font-style: normal;
   font-weight: 700;
@@ -393,7 +396,6 @@
 
 .buttonBlock {
   display: flex;
-  justify-content: center;
   gap: 30px;
 }
 
