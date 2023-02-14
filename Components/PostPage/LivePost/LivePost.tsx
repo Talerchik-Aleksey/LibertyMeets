@@ -59,34 +59,35 @@ export default function LivePost(props: PostProps) {
       </div>
 
       <div className={styles.livePostContainer}>
-        <div>
-          <span className={styles.livePostTitle}>{post.title}</span>
-        </div>
         <div className={styles.categoryBlock}>
           <div className={styles.categoryButton}>
             <span className={styles.categoryButtonText}>{post.category}</span>
           </div>
         </div>
-        <div className={styles.descriptionBlock}>
-          <p className={styles.descriptionText}>{post.description}</p>
+        <div>
+          <span className={styles.livePostTitle}>{post.title}</span>
         </div>
-        <div className={styles.cardBlock}>
-          {coordinates && coordinates.length === 2 ? (
-            <>
-              <Map
-                appUrl={appUrl}
-                userLat={props.session?.user.lat}
-                userLng={props.session?.user.lng}
-                lat={Number(coordinates[0])}
-                lng={Number(coordinates[1])}
-              />
-            </>
-          ) : (
-            <></>
-          )}
-        </div>
-        {/* */}
 
+        <div className={styles.postContent}>
+          <div className={styles.descriptionBlock}>
+            <p className={styles.descriptionText}>{post.description}</p>
+          </div>
+          <div className={styles.cardBlock}>
+            {coordinates && coordinates.length === 2 ? (
+              <>
+                <Map
+                  appUrl={appUrl}
+                  userLat={props.session?.user.lat}
+                  userLng={props.session?.user.lng}
+                  lat={Number(coordinates[0])}
+                  lng={Number(coordinates[1])}
+                />
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
         <div className={styles.buttonBlock}>
           {props.session?.user ? (
             <ThreadForm
@@ -98,8 +99,10 @@ export default function LivePost(props: PostProps) {
           ) : (
             <></>
           )}
+        </div>
+        {/* */}
 
-          {/*
+        {/*
           <Button
             className={styles.shareBtn}
             onClick={() => {
@@ -134,8 +137,8 @@ export default function LivePost(props: PostProps) {
           </Button>
           */}
 
-          {/* <Modal></Modal> */}
-          {/*
+        {/* <Modal></Modal> */}
+        {/*
           <Modal
             centered
             open={open}
@@ -169,7 +172,6 @@ export default function LivePost(props: PostProps) {
               </div>
             )}
           </Modal> */}
-        </div>
       </div>
     </section>
   );

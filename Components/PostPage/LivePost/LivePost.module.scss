@@ -72,6 +72,8 @@
 }
 
 .livePostContainer {
+  position: relative;
+
   background-color: #fff;
   margin: 120px auto 40px auto;
   max-width: 1072px;
@@ -166,9 +168,8 @@
 }
 
 .categoryBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  position: absolute;
+  left: 30px;
 }
 
 .category {
@@ -203,6 +204,8 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 30px;
+  text-align: justify;
+
   color: #000000;
   max-width: 90%;
   word-wrap: break-word;
@@ -391,9 +394,20 @@
   color: #0d0d0c;
 }
 
+.postContent {
+  display: flex;
+}
+
 .cardBlock {
   display: flex;
   gap: 30px;
+  max-width: 300px;
+  max-height: 300px;
+
+  & > div {
+    max-width: 300px;
+    max-height: 300px;
+  }
 
   @media (max-width: 1080px) {
     flex-direction: column;
