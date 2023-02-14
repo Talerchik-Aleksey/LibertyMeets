@@ -38,6 +38,7 @@ const buttonMap = {
     "about",
     "posts/[postId]",
     "posts/edit/[postId]",
+    "404",
   ],
   showLogIn: [
     "",
