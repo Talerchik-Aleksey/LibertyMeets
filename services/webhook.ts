@@ -50,10 +50,16 @@ const processReplyToThread = async (
   }
 
   let userId: number | undefined = undefined;
-  if (author.email === removeTagsFromEmail(fromEmail)) {
+  if (
+    author.email === fromEmail ||
+    author.email === removeTagsFromEmail(fromEmail)
+  ) {
     userId = author.id;
   }
-  if (threadStarter.email === removeTagsFromEmail(fromEmail)) {
+  if (
+    threadStarter.email === fromEmail ||
+    threadStarter.email === removeTagsFromEmail(fromEmail)
+  ) {
     userId = threadStarter.id;
   }
   if (!userId) {
