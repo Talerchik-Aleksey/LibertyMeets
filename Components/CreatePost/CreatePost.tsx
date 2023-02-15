@@ -1,13 +1,5 @@
 import Image from "next/image";
-import {
-  Button,
-  Form,
-  Input,
-  Select,
-  Switch,
-  Tooltip,
-  message,
-} from "antd";
+import { Button, Form, Input, Select, Switch, Tooltip, message } from "antd";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
@@ -41,9 +33,7 @@ export default function CreatePost(props: CreatePostProps) {
   const Map = useMemo(
     () =>
       dynamic(() => import("../Map"), {
-        loading: () => (
-          <Spiner />
-        ),
+        loading: () => <Spiner />,
         ssr: false,
       }),
     []
@@ -177,6 +167,7 @@ export default function CreatePost(props: CreatePostProps) {
                 ]}
               >
                 <Input
+                  placeholder="Your Title"
                   suffix={
                     <Image
                       src="/decor/editPensil.svg"
@@ -196,11 +187,13 @@ export default function CreatePost(props: CreatePostProps) {
                 labelCol={{ span: 2 }}
                 label="Category"
                 name="category"
-                initialValue="Social"
                 colon={false}
                 rules={[{ required: true }]}
               >
-                <Select className={styles.categorySelect}>
+                <Select
+                  className={styles.categorySelect}
+                  placeholder="Please select the group for your post"
+                >
                   <Select.Option
                     className={styles.categorySelectOption}
                     value="Social"
@@ -248,6 +241,7 @@ export default function CreatePost(props: CreatePostProps) {
                   rows={7}
                   size={"small"}
                   className={styles.descriptionTextarea}
+                  placeholder="Describe your listing in detail here"
                 />
               </Form.Item>
             </div>
