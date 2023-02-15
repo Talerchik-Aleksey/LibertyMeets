@@ -38,7 +38,6 @@ export async function sendReplyMessageToThread(
   const title = post?.title;
 
   const baseDomain = config.get<string>("emails.replySetup.baseDomain");
-
   await sendEmail(
     "reply",
     {

@@ -2,14 +2,15 @@ import addressparser from "addressparser";
 import { Threads } from "../models/threads";
 import { getPost } from "./posts";
 import { getThreadById } from "./threads";
-import { findUser } from "./users";
+import { getUser } from "./users";
 import { handleReplyToThread } from "./reply";
 import { getTextMessageFromEmailPayload } from "../utils/mailgun-payload";
 import { extractThreadIdFromHeaderStr } from "../utils/mime-headers";
+import { removeTagsFromEmail } from "../utils/stringUtils";
 
 type MailgunIncomingMessage = Record<string, string>;
 
-const tryToFindThread = async(references: string) => {
+const tryToFindThread = async (references: string) => {
   let threadId = extractThreadIdFromHeaderStr(references);
   if (!threadId) {
     return null;
@@ -20,9 +21,12 @@ const tryToFindThread = async(references: string) => {
   }
 
   return thread;
-}
+};
 
-const processReplyToThread = async (thread: Threads, payload: MailgunIncomingMessage) => {
+const processReplyToThread = async (
+  thread: Threads,
+  payload: MailgunIncomingMessage
+) => {
   // detect who is sending this email to us
   const fromStr = payload["From"] || payload["from"] || "";
   const addresses = addressparser(fromStr);
@@ -30,18 +34,43 @@ const processReplyToThread = async (thread: Threads, payload: MailgunIncomingMes
     return null;
   }
   const fromEmail = addresses[0].address;
-  const user = await findUser(fromEmail);
-  if (!user) {
-    return null;
-  }
 
   const post = await getPost(thread.post_id);
   if (!post) {
     return null;
   }
 
+  const author = await getUser(post.author_id);
+  if (!author) {
+    return null;
+  }
+  const threadStarter = await getUser(thread.user_id);
+  if (!threadStarter) {
+    return null;
+  }
+
+  let userId: number | undefined = undefined;
+  if (author.email === removeTagsFromEmail(fromEmail)) {
+    userId = author.id;
+  }
+  if (threadStarter.email === removeTagsFromEmail(fromEmail)) {
+    userId = threadStarter.id;
+  }
+  if (!userId) {
+    return null;
+  }
+
+  const emails = [author.email, threadStarter.email];
+  const emailsWithoutTags: string[] = [];
+
+  emails.forEach((email) => {
+    emailsWithoutTags.push(removeTagsFromEmail(email));
+  });
+
+  const permissibleEmails = [...emails, ...emailsWithoutTags];
+
   // Email sender should be either post owner (author) or tread starter (stranger)
-  if (user.id !== post.author_id && user.id !== thread.user_id) {
+  if (!permissibleEmails.includes(fromEmail)) {
     return null;
   }
 
@@ -50,17 +79,16 @@ const processReplyToThread = async (thread: Threads, payload: MailgunIncomingMes
     return null;
   }
 
-  await handleReplyToThread(user.id, thread, message);
+  await handleReplyToThread(userId, thread, message);
 };
 
-
 export const handleWebhook = async (payload: MailgunIncomingMessage) => {
-// 1. detect if this message is reply to one of our message, then - execute logic to create response to thread
-// 2. otherwise - ignore it
+  // 1. detect if this message is reply to one of our message, then - execute logic to create response to thread
+  // 2. otherwise - ignore it
 
   let thread;
-  if (payload['References']) {
-    thread = await tryToFindThread(payload['References']);
+  if (payload["References"]) {
+    thread = await tryToFindThread(payload["References"]);
   }
 
   if (thread) {

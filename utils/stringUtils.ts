@@ -7,3 +7,8 @@ const pattern =
   /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*\`\~\+\=\,\-\[\]\{\}\(\)\|\\;:'",.<>\/?])[A-Za-z\d!@#\$%\^&\*\`\~\+\=\,\-\[\]\{\}\(\)\|\\;:'",.<>\/?]{8,}/;
 
 export const PASSWORD_VALIDATION_PATTERN = new RegExp(pattern);
+
+export function removeTagsFromEmail(email: string): string {
+  const emailParts = email.split(/[@+]/);
+  return `${emailParts[0]}@${emailParts.at(-1)}`;
+}
