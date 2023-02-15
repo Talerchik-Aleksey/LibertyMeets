@@ -1,16 +1,24 @@
 import Image from "next/image";
-import { Button, Form, Input, Select, Switch, Tooltip, message } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Select,
+  Switch,
+  Tooltip,
+  message,
+} from "antd";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import axios from "axios";
 import RememberBlock from "../RememberBlock/RememberBlock";
-import { KEY_LAT, KEY_LNG } from "../../constants/constants";
 import styles from "./CreatePost.module.scss";
 import Link from "next/link";
 import { Location } from "../../services/geocodeSearch";
 import getLocations from "../../services/geocodeSearch";
+import { Spiner } from "../General/Spiner/Spiner";
 
 const { TextArea } = Input;
 const geoLocationOptions = {
@@ -38,7 +46,9 @@ export default function CreatePost(props: CreatePostProps) {
   const Map = useMemo(
     () =>
       dynamic(() => import("../Map"), {
-        loading: () => <p>A map is loading</p>,
+        loading: () => (
+          <Spiner />
+        ),
         ssr: false,
       }),
     []
