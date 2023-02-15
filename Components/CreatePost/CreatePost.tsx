@@ -188,7 +188,6 @@ export default function CreatePost(props: CreatePostProps) {
                 labelCol={{ span: 2 }}
                 label="Category"
                 name="category"
-                // initialValue="Social"
                 colon={false}
                 rules={[{ required: true }]}
               >
