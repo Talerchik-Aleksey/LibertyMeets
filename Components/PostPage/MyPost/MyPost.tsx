@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { Session } from "next-auth";
+import { Spiner } from "../../General/Spiner/Spiner";
 const { Option } = Select;
 
 type PostProps = {
@@ -49,7 +50,7 @@ export default function MyPost(props: PostProps) {
   const Map = useMemo(
     () =>
       dynamic(() => import("../../Map"), {
-        loading: () => <p>A map is loading</p>,
+        loading: () => <Spiner />,
         ssr: false,
       }),
     []
