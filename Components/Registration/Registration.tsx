@@ -37,13 +37,15 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
     const recaptchaValue = recaptchaRef.current?.getValue();
     if (!recaptchaValue || !terms) {
       if (!terms && !recaptchaValue) {
-        error("Some error with reCAPTCHA");
+        error(
+          "It looks like you have not agreed to our terms and have not passed the reCAPTCHA verification"
+        );
         return;
       } else if (!terms) {
-        error("Some error with reCAPTCHA");
+        error("It looks like you have not agreed to our terms");
         return;
       } else {
-        error("Some error with reCAPTCHA");
+        error("It looks like you have not passed the reCAPTCHA verification");
       }
     }
 
