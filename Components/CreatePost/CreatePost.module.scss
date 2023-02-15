@@ -142,6 +142,7 @@
 .categorySelect {
 
   & div {
+    align-items: center;
     min-height: 38px !important;
     border: 1px solid #8f8f8f !important;
   }
@@ -166,8 +167,10 @@
 .descriptionTextarea {
 
   & textarea {
+    padding-top: 5px;
     border: 1px solid #8f8f8f !important;
   }
+
 }
 
 .public {
