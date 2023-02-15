@@ -83,11 +83,13 @@ export default function Events({
 
       return;
     }
-    setCategory(category.toLowerCase());
+    // setCategory(category.toLowerCase());
+    setCategory(category);
     setCurrent(1);
     router.push({
       pathname: `${appUrl}/posts`,
-      query: { category: category.toLowerCase() },
+      // query: { category: category.toLowerCase() },
+      query: { category: category },
     });
   }
 

@@ -27,6 +27,7 @@ export default function EditPage(props: EditPostProps) {
   useEffect(() => {}, []);
 
   async function onFinish(values: any) {
+    console.log(values);
     values.id = postPageId;
     const req = await axios.post(`${appUrl}/api/posts/edit`, values, {
       withCredentials: true,
