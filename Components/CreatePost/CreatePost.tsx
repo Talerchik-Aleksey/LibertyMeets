@@ -193,7 +193,6 @@ export default function CreatePost(props: CreatePostProps) {
               >
                 <Select
                   className={styles.categorySelect}
-                  id="select"
                   placeholder="Please select the group for your post"
                 >
                   <Select.Option
