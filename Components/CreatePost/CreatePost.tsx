@@ -7,9 +7,7 @@ import {
   Switch,
   Tooltip,
   message,
-  Spin,
 } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
@@ -20,6 +18,7 @@ import styles from "./CreatePost.module.scss";
 import Link from "next/link";
 import { Location } from "../../services/geocodeSearch";
 import getLocations from "../../services/geocodeSearch";
+import { Spiner } from "../General/Spiner/Spiner";
 
 const { TextArea } = Input;
 const geoLocationOptions = {
@@ -44,13 +43,11 @@ export default function CreatePost(props: CreatePostProps) {
   const postalRegex = new RegExp("^[0-9]{5}(?:-[0-9]{4})?$");
   const router = useRouter();
 
-  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
   const Map = useMemo(
     () =>
       dynamic(() => import("../Map"), {
         loading: () => (
-          <Spin indicator={antIcon} style={{ margin: "auto auto" }} />
+          <Spiner />
         ),
         ssr: false,
       }),

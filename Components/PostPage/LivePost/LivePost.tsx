@@ -1,11 +1,11 @@
 import styles from "./LivePost.module.scss";
 import Image from "next/image";
-import { Button, Spin, Tooltip } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Button, Tooltip } from "antd";
 import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import ThreadForm from "../../Posts/ThreadForm";
 import { Session } from "next-auth";
+import { Spiner } from "../../General/Spiner/Spiner";
 
 type PostType = {
   id: number;
@@ -27,13 +27,11 @@ export default function LivePost(props: PostProps) {
   const [post, setPost] = useState<PostType>(props.post);
   const appUrl = props.appUrl;
 
-  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
   const Map = useMemo(
     () =>
       dynamic(() => import("../../Map"), {
         loading: () => (
-          <Spin indicator={antIcon} style={{ margin: "auto auto" }} />
+          <Spiner />
         ),
         ssr: false,
       }),

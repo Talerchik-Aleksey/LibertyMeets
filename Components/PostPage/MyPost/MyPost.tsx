@@ -1,13 +1,14 @@
 import styles from "./MyPost.module.scss";
 import Image from "next/image";
-import { Button, Select, Tooltip, Modal, Spin } from "antd";
-import { LoadingOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { Button, Select, Tooltip, Modal } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import { useState, useMemo } from "react";
 import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { Session } from "next-auth";
+import { Spiner } from "../../General/Spiner/Spiner";
 const { Option } = Select;
 
 type PostProps = {
@@ -46,14 +47,10 @@ export default function MyPost(props: PostProps) {
 
   const router = useRouter();
 
-  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
   const Map = useMemo(
     () =>
       dynamic(() => import("../../Map"), {
-        loading: () => (
-          <Spin indicator={antIcon} style={{ margin: "auto auto" }} />
-        ),
+        loading: () => <Spiner />,
         ssr: false,
       }),
     []
