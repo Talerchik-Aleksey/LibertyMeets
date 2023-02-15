@@ -200,32 +200,32 @@ export default function CreatePost(props: CreatePostProps) {
                 labelCol={{ span: 2 }}
                 label="Category"
                 name="category"
-                initialValue="social"
+                initialValue="Social"
                 colon={false}
                 rules={[{ required: true }]}
               >
                 <Select className={styles.categorySelect}>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="social"
+                    value="Social"
                   >
                     Social
                   </Select.Option>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="volunteer"
+                    value="Volunteer"
                   >
                     Volunteer
                   </Select.Option>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="professional"
+                    value="Professional"
                   >
                     Professional
                   </Select.Option>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="campaigns"
+                    value="Campaigns"
                   >
                     Сampaigns
                   </Select.Option>

@@ -18,7 +18,7 @@ type BodyType = {
 
 connect();
 
-const CATEGORIES = ["social", "volunteer", "professional", "campaigns"];
+const CATEGORIES = ["Social", "Volunteer", "Professional", "Campaigns"];
 
 export default async function handler(
   req: NextApiRequest,
