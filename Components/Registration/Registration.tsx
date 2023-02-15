@@ -2,7 +2,7 @@ import styles from "./Registration.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import axios, { AxiosError } from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import { createRef, useEffect, useState } from "react";
@@ -11,31 +11,39 @@ import { PASSWORD_VALIDATION_PATTERN } from "../../utils/stringUtils";
 
 type PropsType = { appUrl: string; recaptchaKey: string };
 
-type ErrorResponse = {
-  message: string;
-};
-
 export default function Registration({ appUrl, recaptchaKey }: PropsType) {
-  const [errorMessage, setErrorMessage] = useState<string>("");
   const [terms, setTerms] = useState<boolean>(false);
+  const [messageApi, contextHolder] = message.useMessage();
   const recaptchaRef = createRef<ReCAPTCHA>();
   const router = useRouter();
   const { data: session } = useSession();
+
   useEffect(() => {
     session?.user && router.push("/posts");
   }, [router, session]);
+
+  const error = (text: string) => {
+    messageApi.open({
+      type: "error",
+      content: text,
+      duration: 2.5,
+      style: {
+        marginTop: "10vh",
+      },
+    });
+  };
 
   async function onFinish(values: any) {
     const recaptchaValue = recaptchaRef.current?.getValue();
     if (!recaptchaValue || !terms) {
       if (!terms && !recaptchaValue) {
-        setErrorMessage("no recaptchaValue and terms");
+        error("Some error with reCAPTCHA");
         return;
       } else if (!terms) {
-        setErrorMessage("no terms");
+        error("Some error with reCAPTCHA");
         return;
       } else {
-        setErrorMessage("no recaptchaValue");
+        error("Some error with reCAPTCHA");
       }
     }
 
@@ -47,15 +55,16 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
         router.push("/auth/activate");
       }
     } catch (err) {
-      const error = err as AxiosError;
-      const response = error.response;
-      setErrorMessage((response?.data as ErrorResponse).message);
+      error(
+        "Please try again later or contact our customer support team for assistance"
+      );
       recaptchaRef.current?.reset();
     }
   }
 
   return (
     <section className={styles.registarationWrapper}>
+      <div className={styles.error}>{contextHolder}</div>
       <div className={styles.formBlock}>
         <div className={styles.logoInfo}>
           <div className={styles.logo}>
@@ -68,7 +77,6 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
             />
           </div>
         </div>
-        {errorMessage ? <div>{errorMessage}</div> : <></>}
         <Form
           name="normal_login"
           initialValues={{ remember: true }}
