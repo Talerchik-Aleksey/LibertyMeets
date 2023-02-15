@@ -1,4 +1,3 @@
-import styles from "./LivePost.module.scss";
 import Image from "next/image";
 import { Button, Tooltip } from "antd";
 import { useState, useMemo } from "react";
@@ -6,6 +5,7 @@ import dynamic from "next/dynamic";
 import ThreadForm from "../../Posts/ThreadForm";
 import { Session } from "next-auth";
 import { Spiner } from "../../General/Spiner/Spiner";
+import styles from "./LivePost.module.scss";
 
 type PostType = {
   id: number;
@@ -22,17 +22,13 @@ type PostType = {
 type PostProps = { session: Session | null; appUrl: string; post: PostType };
 
 export default function LivePost(props: PostProps) {
-  const [open, setOpen] = useState(false);
-  const [share, setShare] = useState<Boolean>();
   const [post, setPost] = useState<PostType>(props.post);
   const appUrl = props.appUrl;
 
   const Map = useMemo(
     () =>
       dynamic(() => import("../../Map"), {
-        loading: () => (
-          <Spiner />
-        ),
+        loading: () => <Spiner />,
         ssr: false,
       }),
     []
@@ -62,71 +58,40 @@ export default function LivePost(props: PostProps) {
           <span className={styles.backButtonText}>Back</span>
         </Button>
       </div>
+
       <div className={styles.livePostContainer}>
-        <div>
-          <span className={styles.livePostTitle}>Live Post</span>
-        </div>
-
-        <div className={styles.titleBlock}>
-          <span className={styles.title}>title</span>
-          <span className={styles.titleText}>{post.title}</span>
-        </div>
-        <div className={styles.categoryBlock}>
-          <span className={styles.category}>Category</span>
-          <div className={styles.categoryButton}>
-            <span className={styles.categoryButtonText}>{post.category}</span>
+        <div className={styles.postHeader}>
+          <div className={(styles.categoryBlock, styles.left)}>
+            <div className={styles.categoryButton}>
+              <span className={styles.categoryButtonText}>{post.category}</span>
+            </div>
           </div>
-        </div>
-        <div className={styles.descriptionBlock}>
-          <span className={styles.description}>Description</span>
-          <p className={styles.descriptionText}>{post.description}</p>
-        </div>
-        <div className={styles.publicity}>
           <div>
-            <Image
-              src="/decor/eye5.svg"
-              alt=""
-              width={36}
-              height={36}
-              className={styles.publicityImage}
-            />
+            <span className={styles.livePostTitle}>{post.title}</span>
           </div>
-          <span className={styles.currentlyActive}>This Post Is Currently</span>
-          <span className={styles.publicActive}>Public</span>
-
-          <Tooltip
-            trigger={"hover"}
-            title={
-              "Setting this post to public lets users that are not asigned in see this post."
-            }
-          >
-            <Image
-              src="/decor/qwe.svg"
-              alt=""
-              width={36}
-              height={36}
-              className={styles.question}
-            />
-          </Tooltip>
+          <div className={styles.right}></div>
         </div>
-        <div className={styles.cardBlock}>
-          {coordinates && coordinates.length === 2 ? (
-            <>
-              <span className={styles.location}>location</span>
-              <Map
-                appUrl={appUrl}
-                userLat={props.session?.user.lat}
-                userLng={props.session?.user.lng}
-                lat={Number(coordinates[0])}
-                lng={Number(coordinates[1])}
-              />
-            </>
-          ) : (
-            <></>
-          )}
-        </div>
-        {/* */}
 
+        <div className={styles.postContent}>
+          <div className={styles.descriptionBlock}>
+            <p className={styles.descriptionText}>{post.description}</p>
+          </div>
+          <div className={styles.cardBlock}>
+            {coordinates && coordinates.length === 2 ? (
+              <>
+                <Map
+                  appUrl={appUrl}
+                  userLat={props.session?.user.lat}
+                  userLng={props.session?.user.lng}
+                  lat={Number(coordinates[0])}
+                  lng={Number(coordinates[1])}
+                />
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
         <div className={styles.buttonBlock}>
           {props.session?.user ? (
             <ThreadForm
@@ -138,8 +103,10 @@ export default function LivePost(props: PostProps) {
           ) : (
             <></>
           )}
+        </div>
+        {/* */}
 
-          {/*
+        {/*
           <Button
             className={styles.shareBtn}
             onClick={() => {
@@ -174,8 +141,8 @@ export default function LivePost(props: PostProps) {
           </Button>
           */}
 
-          {/* <Modal></Modal> */}
-          {/*
+        {/* <Modal></Modal> */}
+        {/*
           <Modal
             centered
             open={open}
@@ -209,7 +176,6 @@ export default function LivePost(props: PostProps) {
               </div>
             )}
           </Modal> */}
-        </div>
       </div>
     </section>
   );
