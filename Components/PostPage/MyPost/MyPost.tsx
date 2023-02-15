@@ -143,143 +143,143 @@ export default function MyPost(props: PostProps) {
             </div>
           </div>
         )}
-        <div className={styles.topBlock}>
-          <span className={styles.myPostTitle}>My Post</span>
-          <Select
-            value={"Edit"}
-            style={{
-              width: "20%",
-            }}
-            showArrow={false}
-            placement={"bottomLeft"}
-            className={styles.select}
-            bordered={false}
-          >
-            <Option className={styles.optionContainer} key="edit">
-              <Link href={`/posts/edit/${postId}/?fromUrl=${fromUrl}`}>
-                <div className={styles.option}>
-                  <Image
-                    src="/decor/editPensil.svg"
-                    alt=""
-                    width={14}
-                    height={14}
-                    className={styles.edit}
-                  />
-                  Edit
-                </div>
-              </Link>
-            </Option>
-            <Option className={styles.optionContainer} key="public">
-              <div
-                className={styles.option}
-                onClick={() => makePublic(!post?.is_public)}
-              >
+        <Select
+          value={"Edit"}
+          style={{
+            width: "20%",
+          }}
+          showArrow={false}
+          placement={"bottomLeft"}
+          className={styles.select}
+          bordered={false}
+        >
+          <Option className={styles.optionContainer} key="edit">
+            <Link href={`/posts/edit/${postId}/?fromUrl=${fromUrl}`}>
+              <div className={styles.option}>
                 <Image
-                  src="/decor/eye3.svg"
-                  alt=""
-                  width={16}
-                  height={16}
-                  className={styles.eye}
-                />
-                Make Post {post.is_public ? "Private" : "Public"}
-              </div>
-            </Option>
-            <Option className={styles.optionContainer} key="delete">
-              <div className={styles.option} onClick={showDeleteConfirm}>
-                <Image
-                  src="/decor/trash.svg"
+                  src="/decor/editPensil.svg"
                   alt=""
                   width={14}
-                  height={16}
-                  className={styles.delete}
+                  height={14}
+                  className={styles.edit}
                 />
-                Delete
+                Edit
               </div>
-            </Option>
-          </Select>
+            </Link>
+          </Option>
+          <Option className={styles.optionContainer} key="public">
+            <div
+              className={styles.option}
+              onClick={() => makePublic(!post?.is_public)}
+            >
+              <Image
+                src="/decor/eye3.svg"
+                alt=""
+                width={16}
+                height={16}
+                className={styles.eye}
+              />
+              Make Post {post.is_public ? "Private" : "Public"}
+            </div>
+          </Option>
+          <Option className={styles.optionContainer} key="delete">
+            <div className={styles.option} onClick={showDeleteConfirm}>
+              <Image
+                src="/decor/trash.svg"
+                alt=""
+                width={14}
+                height={16}
+                className={styles.delete}
+              />
+              Delete
+            </div>
+          </Option>
+        </Select>
+        <div className={styles.topBlock}>
+          <div className={styles.categoryBlock}>
+            <div className={styles.categoryButton}>
+              <div className={styles.categoryButtonText}>{post.category}</div>
+            </div>
+          </div>
+          <div className={styles.center}>
+            <span className={styles.myPostTitle}>{post.title}</span>
+          </div>
+          <div className={styles.right}></div>
         </div>
 
-        <div className={styles.titleBlock}>
-          <span className={styles.title}>title</span>
-          <div className={styles.titleText}>{post.title}</div>
-        </div>
-        <div className={styles.categoryBlock}>
-          <span className={styles.category}>Category</span>
-          <div className={styles.categoryButton}>
-            <div className={styles.categoryButtonText}>{post.category}</div>
+        <div className={styles.postContent}>
+          <div>
+            <div className={styles.descriptionBlock}>
+              <p className={styles.descriptionText}>{post.description}</p>
+            </div>
+            <div className={styles.publicity}>
+              <div
+                onClick={() => {
+                  makePublic(!post.is_public);
+                }}
+              >
+                {post.is_public ? (
+                  <Image
+                    src="/decor/eye5.svg"
+                    alt=""
+                    width={36}
+                    height={36}
+                    className={styles.publicityImage}
+                  />
+                ) : (
+                  <Image
+                    src="/decor/eye4.svg"
+                    alt=""
+                    width={36}
+                    height={36}
+                    className={styles.publicityImage}
+                  />
+                )}
+              </div>
+              <span
+                className={
+                  post.is_public ? styles.currentlyActive : styles.currently
+                }
+              >
+                This Post Is Currently
+              </span>
+              <span
+                className={post.is_public ? styles.publicActive : styles.public}
+              >
+                {post.is_public ? "Public" : "Private"}
+              </span>
+
+              <Tooltip
+                trigger={"hover"}
+                title={
+                  "Setting this post to public lets users that are not asigned in see this post."
+                }
+              >
+                <Image
+                  src="/decor/qwe.svg"
+                  alt=""
+                  width={36}
+                  height={36}
+                  className={styles.question}
+                />
+              </Tooltip>
+            </div>
           </div>
-        </div>
-        <div className={styles.descriptionBlock}>
-          <span className={styles.description}>Description</span>
-          <p className={styles.descriptionText}>{post.description}</p>
-        </div>
-        <div className={styles.publicity}>
-          <div
-            onClick={() => {
-              makePublic(!post.is_public);
-            }}
-          >
-            {post.is_public ? (
-              <Image
-                src="/decor/eye5.svg"
-                alt=""
-                width={36}
-                height={36}
-                className={styles.publicityImage}
-              />
+          <div className={styles.cardBlock}>
+            {coordinates && coordinates.length === 2 ? (
+              <>
+                <Map
+                  appUrl={appUrl}
+                  userLat={props.session?.user.lat}
+                  userLng={props.session?.user.lng}
+                  lat={Number(coordinates[0])}
+                  lng={Number(coordinates[1])}
+                />
+              </>
             ) : (
-              <Image
-                src="/decor/eye4.svg"
-                alt=""
-                width={36}
-                height={36}
-                className={styles.publicityImage}
-              />
+              <></>
             )}
           </div>
-          <span
-            className={
-              post.is_public ? styles.currentlyActive : styles.currently
-            }
-          >
-            This Post Is Currently
-          </span>
-          <span
-            className={post.is_public ? styles.publicActive : styles.public}
-          >
-            {post.is_public ? "Public" : "Private"}
-          </span>
-
-          <Tooltip
-            trigger={"hover"}
-            title={
-              "Setting this post to public lets users that are not asigned in see this post."
-            }
-          >
-            <Image
-              src="/decor/qwe.svg"
-              alt=""
-              width={36}
-              height={36}
-              className={styles.question}
-            />
-          </Tooltip>
-        </div>
-        <div className={styles.cardBlock}>
-          {coordinates && coordinates.length === 2 ? (
-            <>
-              <span className={styles.location}>location</span>
-              <Map
-                appUrl={appUrl}
-                userLat={props.session?.user.lat}
-                userLng={props.session?.user.lng}
-                lat={Number(coordinates[0])}
-                lng={Number(coordinates[1])}
-              />
-            </>
-          ) : (
-            <></>
-          )}
         </div>
       </div>
     </section>
