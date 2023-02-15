@@ -106,10 +106,6 @@ export default function CreatePost(props: CreatePostProps) {
   }
 
   useEffect(() => {
-    if (session?.user) {
-      setLat(Number(session?.user.lat));
-      setLng(Number(session?.user.lng));
-    }
     if (postalCode) {
       getLocations(postalCode)
         .then((result) => {
@@ -117,12 +113,17 @@ export default function CreatePost(props: CreatePostProps) {
           if (result) {
             setLat(result.locations[0].geometry.location.lat);
             setLng(result.locations[0].geometry.location.lng);
+            return;
           }
         })
         .catch((e) => {
           console.error(e);
           error("Sorry, but we were unable to detect location.");
         });
+    }
+    if (session?.user) {
+      setLat(Number(session?.user.lat));
+      setLng(Number(session?.user.lng));
     }
   }, [postalCode, session?.user]);
 
