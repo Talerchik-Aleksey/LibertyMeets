@@ -11,7 +11,7 @@ export default function CreatePostPage({ appUrl }: PropsType) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession({ req: ctx.req });
-  if (!session) {
+  if (!session?.user) {
     return {
       notFound: true,
     };

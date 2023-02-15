@@ -22,9 +22,7 @@ export default function AuthActivated({ appUrl }: PropsType) {
     if (session?.user === null && session?.email) {
       setIsVisible(true);
       localStorage.setItem("email", session.email);
-      setTimeout(() => {
-        signOut({ redirect: false });
-      }, 5000);
+      signOut({ redirect: false });
     } else if (session?.user) {
       localStorage.removeItem("email");
       setIsVisible(false);
