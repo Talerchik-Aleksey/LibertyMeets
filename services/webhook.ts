@@ -51,14 +51,12 @@ const processReplyToThread = async (
 
   let userId: number | undefined = undefined;
   if (
-    author.email === fromEmail ||
-    author.email === removeTagsFromEmail(fromEmail)
+    removeTagsFromEmail(author.email) === removeTagsFromEmail(fromEmail)
   ) {
     userId = author.id;
   }
   if (
-    threadStarter.email === fromEmail ||
-    threadStarter.email === removeTagsFromEmail(fromEmail)
+    removeTagsFromEmail(threadStarter.email) === removeTagsFromEmail(fromEmail)
   ) {
     userId = threadStarter.id;
   }
