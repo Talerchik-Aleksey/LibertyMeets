@@ -21,11 +21,6 @@ import getLocations from "../../services/geocodeSearch";
 import { Spiner } from "../General/Spiner/Spiner";
 
 const { TextArea } = Input;
-const geoLocationOptions = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0,
-};
 
 type CreatePostProps = { appUrl: string };
 
@@ -121,22 +116,24 @@ export default function CreatePost(props: CreatePostProps) {
   }
 
   useEffect(() => {
-    getLocations(postalCode)
-      .then((result) => {
-        setGeocodeResult(result?.locations);
-        if (result) {
-          setLat(result.locations[0].geometry.location.lat);
-          setLng(result.locations[0].geometry.location.lng);
-        } else {
-          setLat(Number(session?.user.lat));
-          setLng(Number(session?.user.lng));
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-        error("Sorry, but we were unable to detect location.");
-      });
-  }, [postalCode]);
+    if (postalCode) {
+      getLocations(postalCode)
+        .then((result) => {
+          setGeocodeResult(result?.locations);
+          if (result) {
+            setLat(result.locations[0].geometry.location.lat);
+            setLng(result.locations[0].geometry.location.lng);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          error("Sorry, but we were unable to detect location.");
+        });
+    } else {
+      setLat(Number(session?.user.lat));
+      setLng(Number(session?.user.lng));
+    }
+  }, [postalCode, session?.user]);
 
   return (
     <section className={styles.container}>
