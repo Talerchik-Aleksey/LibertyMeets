@@ -18,14 +18,10 @@ type MapProps = {
   userLng: number | undefined;
   lat: number;
   lng: number;
-  setLat?: React.Dispatch<React.SetStateAction<number>>;
-  setLng?: React.Dispatch<React.SetStateAction<number>>;
-  isAllowClick: boolean;
 };
 
 function LocationMarker(props: MapProps) {
-  const { appUrl, userLat, userLng, lat, lng, setLat, setLng, isAllowClick } =
-    props;
+  const { appUrl, userLat, userLng, lat, lng } = props;
   const [position, setPosition] = useState({
     lat: center.lat,
     lng: center.lng,
@@ -35,15 +31,6 @@ function LocationMarker(props: MapProps) {
   const map = useMapEvents({
     load() {
       map.locate();
-    },
-    click(e: any) {
-      if (isAllowClick === false || !setLng || !setLat) {
-        return;
-      }
-      const { lat, lng } = e.latlng;
-      setLat(lat);
-      setLng(lng);
-      setPosition(e.latlng);
     },
     locationfound(e: any) {
       setPosition(e.latlng);
@@ -90,8 +77,7 @@ function LocationMarker(props: MapProps) {
 }
 
 export default function Map(props: MapProps) {
-  const { appUrl, userLat, userLng, lat, lng, setLat, setLng, isAllowClick } =
-    props;
+  const { appUrl, userLat, userLng, lat, lng } = props;
 
   return (
     <MapContainer
@@ -111,9 +97,6 @@ export default function Map(props: MapProps) {
         userLng={userLng}
         lat={lat}
         lng={lng}
-        setLat={setLat}
-        setLng={setLng}
-        isAllowClick={isAllowClick}
       />
     </MapContainer>
   );

@@ -3,30 +3,52 @@ import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import styles from "./AuthActivated.module.scss";
 import Image from "next/image";
+import { signOut, useSession } from "next-auth/react";
 
 type PropsType = {
   appUrl: string;
-  email: string | undefined;
 };
 
 type ErrorResponse = {
   message: string;
 };
 
-export default function AuthActivated({ appUrl, email }: PropsType) {
+export default function AuthActivated({ appUrl }: PropsType) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { data: session } = useSession();
+
   useEffect(() => {
-    email && setIsVisible(true);
-  }, [email]);
+    if (session?.user === null && session?.email) {
+      setIsVisible(true);
+      localStorage.setItem("email", session.email);
+      signOut({ redirect: false });
+    } else if (session?.user) {
+      localStorage.removeItem("email");
+      setIsVisible(false);
+    } else {
+      const lsEmail = localStorage.getItem("email");
+      if (lsEmail) {
+        setIsVisible(true);
+        return;
+      }
+    }
+  }, [session]);
 
   async function resendEmail() {
     try {
+      const lsEmail = localStorage.getItem("email");
+      if (!lsEmail) {
+        setIsVisible(false);
+        return;
+      }
       const res = await axios.post(`${appUrl}/api/users/resendEmail`, {
-        email,
+        email: lsEmail,
       });
       if (res.status === 200) {
+        setErrorMessage("");
         setIsVisible(false);
+        localStorage.removeItem("email");
       }
     } catch (err) {
       const error = err as AxiosError;

@@ -1,23 +1,26 @@
 import Image from "next/image";
-import { Button, Form, Input, Select, Switch, Tooltip, message } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Select,
+  Switch,
+  Tooltip,
+  message,
+} from "antd";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import axios from "axios";
 import RememberBlock from "../RememberBlock/RememberBlock";
-import { KEY_LAT, KEY_LNG } from "../../constants/constants";
 import styles from "./CreatePost.module.scss";
 import Link from "next/link";
 import { Location } from "../../services/geocodeSearch";
 import getLocations from "../../services/geocodeSearch";
+import { Spiner } from "../General/Spiner/Spiner";
 
 const { TextArea } = Input;
-const geoLocationOptions = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0,
-};
 
 type CreatePostProps = { appUrl: string };
 
@@ -38,7 +41,9 @@ export default function CreatePost(props: CreatePostProps) {
   const Map = useMemo(
     () =>
       dynamic(() => import("../Map"), {
-        loading: () => <p>A map is loading</p>,
+        loading: () => (
+          <Spiner />
+        ),
         ssr: false,
       }),
     []
@@ -110,68 +115,24 @@ export default function CreatePost(props: CreatePostProps) {
   }
 
   useEffect(() => {
-    getLocations(postalCode)
-      .then((result) => {
-        setGeocodeResult(result?.locations);
-        if (result) {
-          setLat(result.locations[0].geometry.location.lat);
-          setLng(result.locations[0].geometry.location.lng);
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-        error("Sorry, but we were unable to detect location.");
-      });
-  }, [postalCode]);
-
-  function success(position: {
-    coords: { latitude: number; longitude: number };
-  }) {
-    setLat(position.coords.latitude);
-    setLng(position.coords.longitude);
-    localStorage.setItem(KEY_LAT, position.coords.latitude.toString());
-    localStorage.setItem(KEY_LNG, position.coords.longitude.toString());
-  }
-
-  const [isFirstLocationSet, setIsFirstLocationSet] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (!isFirstLocationSet) {
-      return;
+    if (postalCode) {
+      getLocations(postalCode)
+        .then((result) => {
+          setGeocodeResult(result?.locations);
+          if (result) {
+            setLat(result.locations[0].geometry.location.lat);
+            setLng(result.locations[0].geometry.location.lng);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          error("Sorry, but we were unable to detect location.");
+        });
+    } else {
+      setLat(Number(session?.user.lat));
+      setLng(Number(session?.user.lng));
     }
-
-    let lat;
-    let lng;
-    let lsLat;
-    let lsLng;
-    if (session) {
-      lat = session.user.lat;
-      lng = session.user.lng;
-      if (lat) setLat(lat);
-      if (lng) setLng(lng);
-      if (lat && lng) {
-        localStorage.setItem(KEY_LAT, lat.toString());
-        localStorage.setItem(KEY_LNG, lng.toString());
-        return;
-      }
-    }
-    if (!lat || !lng) {
-      lsLat = localStorage.getItem(KEY_LAT);
-      lsLng = localStorage.getItem(KEY_LNG);
-      if (lsLat) setLat(+lsLat);
-      if (lsLng) setLng(+lsLng);
-      if (lsLat && lsLng) {
-        return;
-      }
-    }
-    setIsFirstLocationSet(false);
-
-    navigator.geolocation.getCurrentPosition(
-      success,
-      error,
-      geoLocationOptions
-    );
-  }, [session]);
+  }, [postalCode, session?.user]);
 
   return (
     <section className={styles.container}>
@@ -235,32 +196,32 @@ export default function CreatePost(props: CreatePostProps) {
                 labelCol={{ span: 2 }}
                 label="Category"
                 name="category"
-                initialValue="social"
+                initialValue="Social"
                 colon={false}
                 rules={[{ required: true }]}
               >
                 <Select className={styles.categorySelect}>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="social"
+                    value="Social"
                   >
                     Social
                   </Select.Option>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="volunteer"
+                    value="Volunteer"
                   >
                     Volunteer
                   </Select.Option>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="professional"
+                    value="Professional"
                   >
                     Professional
                   </Select.Option>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="campaigns"
+                    value="Campaigns"
                   >
                     Сampaigns
                   </Select.Option>
@@ -277,11 +238,11 @@ export default function CreatePost(props: CreatePostProps) {
                 colon={false}
                 rules={[
                   { required: true },
-                  { type: "string", min: 4, max: 200 },
+                  { type: "string", min: 4, max: 1000 },
                 ]}
               >
                 <TextArea
-                  maxLength={200}
+                  maxLength={1000}
                   autoSize={{ minRows: 7, maxRows: 7 }}
                   showCount={true}
                   rows={7}
@@ -321,9 +282,6 @@ export default function CreatePost(props: CreatePostProps) {
                 userLng={session?.user.lng}
                 lat={lat}
                 lng={lng}
-                setLat={setLat}
-                setLng={setLng}
-                isAllowClick={false}
               />
             </div>
           </div>

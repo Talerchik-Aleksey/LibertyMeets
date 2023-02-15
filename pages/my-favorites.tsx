@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps<
   const postsPerPage = config.get<number>("posts.perPage");
 
   const session = await getSession({ req: ctx.req });
-  if (!session) {
+  if (!session?.user) {
     return {
       notFound: true,
     };
