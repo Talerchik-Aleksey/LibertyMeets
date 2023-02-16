@@ -1,14 +1,14 @@
-import { Button, Input } from "antd";
-import styles from "./NavBar.module.scss";
+import { AutoComplete, Button, Input } from "antd";
 import Image from "next/image";
 import { CATEGORIES } from "../../../constants/constants";
 import { useRouter } from "next/router";
-import {  useSession } from "next-auth/react";
-import { KEY_LAT, KEY_LNG } from "../../../constants/constants";
+import { useSession } from "next-auth/react";
 import axios from "axios";
-import { Dispatch, SetStateAction,  useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import styles from "./NavBar.module.scss";
 
 type NavBarProps = {
+  zip: string | undefined;
   appUrl: string;
   setLat: Dispatch<SetStateAction<number | undefined>>;
   setLng: Dispatch<SetStateAction<number | undefined>>;
@@ -25,6 +25,7 @@ const geoLocationOptions = {
 
 export default function NavBar(props: NavBarProps) {
   const {
+    zip,
     appUrl,
     setLat,
     setLng,
@@ -43,6 +44,13 @@ export default function NavBar(props: NavBarProps) {
     "Professional ": "Professional",
     "Campaigns ": "Campaigns",
   };
+  const autoCompleteOption = [
+    { value: "5" },
+    { value: "10" },
+    { value: "25" },
+    { value: "50" },
+    { value: "100" },
+  ];
 
   async function success(position: {
     coords: { latitude: number; longitude: number };
@@ -51,8 +59,8 @@ export default function NavBar(props: NavBarProps) {
     setCheckLng(position.coords.longitude);
     setLat(position.coords.latitude);
     setLng(position.coords.longitude);
-    localStorage.setItem(KEY_LAT, position.coords.latitude.toString());
-    localStorage.setItem(KEY_LNG, position.coords.longitude.toString());
+    localStorage.setItem("lat", position.coords.latitude.toString());
+    localStorage.setItem("lng", position.coords.longitude.toString());
     await axios.post(
       `${appUrl}/api/users/update`,
       { location: [position.coords.latitude, position.coords.longitude] },
@@ -67,6 +75,9 @@ export default function NavBar(props: NavBarProps) {
   }
 
   async function getUserCoordinate() {
+    if (zip) {
+      return;
+    }
     if (checkLat && checkLng) {
       return;
     }
@@ -105,12 +116,12 @@ export default function NavBar(props: NavBarProps) {
           }
         >
           <span className={styles.text}>Radius</span>
-          <Input
+          <AutoComplete
+            options={autoCompleteOption}
             onClick={getUserCoordinate}
-            suffix={<Image src="/decor/mi.svg" alt="" width={16} height={16} />}
+            onChange={searchByRadius}
             placeholder="50mi"
             className={styles.mi}
-            onChange={(e) => searchByRadius(e.target.value)}
           />
         </div>
         <div className={styles.place}>

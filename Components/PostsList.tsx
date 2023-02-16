@@ -1,8 +1,13 @@
-import { PostType } from "../types/general";
+import { Posts } from "../models/posts";
 import Event from "./Event/Event";
 
+type ExchangePostType = Posts & {
+  is_favorite?: boolean | undefined;
+  favoriteUsers: { id: number }[];
+};
+
 type PostListProps = {
-  posts: PostType[];
+  posts: ExchangePostType[];
   changeStar: (postId: number) => void;
   isViewForAllCategory: boolean;
   isLogin: boolean;
@@ -13,7 +18,7 @@ export default function PostsList(props: PostListProps) {
 
   return (
     <>
-      {posts.map((post) => (
+      {posts.map((post: ExchangePostType) => (
         <Event
           key={post.id}
           post={post}
