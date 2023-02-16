@@ -6,19 +6,10 @@ import ThreadForm from "../../Posts/ThreadForm";
 import { Session } from "next-auth";
 import { Spiner } from "../../General/Spiner/Spiner";
 import styles from "./LivePost.module.scss";
+import Location from "../../Location/Location";
+import { Posts } from "../../../models/posts";
 
-type PostType = {
-  id: number;
-  author_id: number;
-  title: string;
-  geo: string;
-  created_at: Date;
-  category: string;
-  description: string;
-  is_public: boolean;
-  lat: number;
-  lng: number;
-};
+type PostType = Posts ;
 type PostProps = { session: Session | null; appUrl: string; post: PostType };
 
 export default function LivePost(props: PostProps) {
@@ -79,6 +70,7 @@ export default function LivePost(props: PostProps) {
           <div className={styles.cardBlock}>
             {coordinates && coordinates.length === 2 ? (
               <>
+              <Location post={post}/>
                 <Map
                   appUrl={appUrl}
                   userLat={props.session?.user.lat}

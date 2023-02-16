@@ -16,19 +16,7 @@ type SinglePostProps = {
   post: PostType;
 };
 
-type PostType = {
-  id: number;
-  author_id: number;
-  title: string;
-  geo: string;
-  created_at: Date;
-  category: string;
-  description: string;
-  is_public: boolean;
-  is_blocked: boolean;
-  lat: number;
-  lng: number;
-};
+type PostType = Posts;
 
 export default function SinglePost({
   session,
@@ -84,7 +72,7 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
 
   const post = await backendLoader<Posts>(
     () => getPost(postId),
-    ["created_at"]
+    ["created_at", "updated_at"]
   );
 
   if (!post) {

@@ -285,19 +285,6 @@ export async function getPost(postId: number) {
     where: {
       id: postId,
     },
-    attributes: [
-      "id",
-      "title",
-      "category",
-      "description",
-      "is_public",
-      "geo",
-      "author_id",
-      "created_at",
-      "is_blocked",
-      "lat",
-      "lng",
-    ],
   });
 
   return post;

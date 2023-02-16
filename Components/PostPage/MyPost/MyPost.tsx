@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { Session } from "next-auth";
 import { Spiner } from "../../General/Spiner/Spiner";
+import { Posts } from "../../../models/posts";
+import Location from "../../Location/Location";
 const { Option } = Select;
 
 type PostProps = {
@@ -20,19 +22,7 @@ type PostProps = {
 type ErrorResponse = {
   status: string;
 };
-type PostType = {
-  id: number;
-  author_id: number;
-  title: string;
-  geo: string;
-  created_at: Date;
-  category: string;
-  description: string;
-  is_public: boolean;
-  is_blocked: boolean;
-  lat: number;
-  lng: number;
-};
+type PostType = Posts;
 
 const availableFromUrl = ["posts", "myPosts"];
 
@@ -269,6 +259,7 @@ export default function MyPost(props: PostProps) {
           <div className={styles.cardBlock}>
             {coordinates && coordinates.length === 2 ? (
               <>
+                <Location post={post} />
                 <Map
                   appUrl={appUrl}
                   userLat={props.session?.user.lat}
