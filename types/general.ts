@@ -15,7 +15,7 @@ export type PostType = {
   state: string;
   city: string;
   zip: string;
-  geo: string;
+  geo: unknown;
   created_at: Date;
   is_favorite?: boolean;
   favoriteUsers: { id: number }[];

@@ -8,6 +8,7 @@ import { PostType } from "../../types/general";
 import PostsList from "../PostsList";
 import axios from "axios";
 import { PaginationForPosts } from "../General/Pagination/Pagination";
+import { message } from "antd";
 
 type PropsType = {
   appUrl: string;
@@ -15,6 +16,15 @@ type PropsType = {
   initialPosts: PostType[];
   initialCount: number;
   isLogin: boolean;
+};
+
+type queryType = {
+  page?: number;
+  category?: string;
+  zip?: string;
+  radius?: string;
+  lat?: number;
+  lng?: number;
 };
 
 export default function Events({
@@ -30,7 +40,24 @@ export default function Events({
   const [posts, setPosts] = useState<PostType[]>([]);
   const [totalCount, setTotalCount] = useState<number>(initialCount);
   const [category, setCategory] = useState<string | undefined>(undefined);
+  const [zipCode, setZipCode] = useState<string | undefined>(undefined);
+  const [radius, setRadius] = useState<string | undefined>(undefined);
+  const [lat, setLat] = useState<number>();
+  const [lng, setLng] = useState<number>();
+  const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
+
+  const error = (text: string) => {
+    messageApi.destroy();
+    messageApi.open({
+      type: "error",
+      content: text,
+      duration: 10,
+      style: {
+        marginTop: "15vh",
+      },
+    });
+  };
 
   useEffect(() => {
     setPosts(initialPosts);
@@ -52,23 +79,36 @@ export default function Events({
     page = +queryPage;
   }
 
+  async function fillQueryParams(query: queryType) {
+    if (category) {
+      query.category = category;
+    }
+    if (zipCode) {
+      query.zip = zipCode;
+    }
+    if (radius) {
+      query.radius = radius;
+    }
+    if (lat !== undefined && lng !== undefined) {
+      query.lat = lat;
+      query.lng = lng;
+    }
+  }
+
   function changePageNumber(page: number) {
     setCurrent(page);
-    if (category) {
-      router.push({
-        pathname: `${appUrl}/posts`,
-        query: { page, category },
-      });
-
-      return;
-    }
+    const query: queryType = { page };
+    fillQueryParams(query);
     router.push({
       pathname: `${appUrl}/posts`,
-      query: { page },
+      query: query,
     });
   }
 
   async function changeCategory(category: string) {
+    const query: queryType = {};
+    await fillQueryParams(query);
+
     if (category === "All" || category === undefined) {
       setIsViewForAllCategory(true);
     } else {
@@ -76,18 +116,20 @@ export default function Events({
     }
     if (category === "All") {
       setCategory(undefined);
+      query.category = undefined;
       router.push({
         pathname: `${appUrl}/posts`,
-        query: { page },
+        query: query,
       });
 
       return;
     }
     setCategory(category);
     setCurrent(1);
+    query.category = category.toLowerCase();
     router.push({
       pathname: `${appUrl}/posts`,
-      query: { category: category },
+      query: query,
     });
   }
 
@@ -95,12 +137,13 @@ export default function Events({
     const res = await axios.post(`${appUrl}/api/favorites/${postId}`);
     const currentPosts = posts;
     const foundPost = currentPosts.find((item) => item.id === postId);
+
     if (!foundPost) {
       return;
     }
+
     foundPost.is_favorite = res.data.data.isFavorite;
     foundPost.favoriteUsers = [];
-
     setPosts([...currentPosts]);
   }
 
@@ -111,10 +154,69 @@ export default function Events({
     return posts.filter((post) => filterFn(new Date(post.created_at)));
   }
 
+  async function searchByZipCode(zip: string) {
+    const dataForQuery: queryType = {};
+
+    if (!zip || zip === "") {
+      setZipCode(undefined);
+      await fillQueryParams(dataForQuery);
+      dataForQuery.zip = undefined;
+      router.push({
+        pathname: `${appUrl}/posts`,
+        query: dataForQuery,
+      });
+
+      return;
+    }
+
+    setZipCode(zip);
+    await fillQueryParams(dataForQuery);
+    dataForQuery.zip = zip;
+    router.push({
+      pathname: `${appUrl}/posts`,
+      query: dataForQuery,
+    });
+  }
+
+  async function searchByRadius(radius: string) {
+    const dataForQuery: queryType = {};
+
+    if (lat === undefined || lng === undefined) {
+      error("Login in account and give access to your location");
+      return;
+    }
+
+    if (!radius || radius === "") {
+      setRadius(undefined);
+      await fillQueryParams(dataForQuery);
+      dataForQuery.radius = undefined;
+      router.push({
+        pathname: `${appUrl}/posts`,
+        query: dataForQuery,
+      });
+    }
+
+    setRadius(radius);
+    await fillQueryParams(dataForQuery);
+    dataForQuery.radius = radius;
+    router.push({
+      pathname: `${appUrl}/posts`,
+      query: dataForQuery,
+    });
+  }
+
   return (
     <section className={styles.eventsPageContainer}>
+      <div className={styles.error}>{contextHolder}</div>
       <div className={styles.navigation}>
-        <NavBar changeCategory={changeCategory} />
+        <NavBar
+          appUrl={appUrl}
+          setLat={setLat}
+          setLng={setLng}
+          changeCategory={changeCategory}
+          searchByZipCode={searchByZipCode}
+          searchByRadius={searchByRadius}
+        />
       </div>
       <div className={styles.wrap}>
         <div className={styles.container}>

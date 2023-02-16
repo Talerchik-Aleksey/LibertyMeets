@@ -23,6 +23,9 @@ export default async function handler(
       res.status(405);
       return;
     }
+
+    console.log(req.body);
+
     req.log.debug({ body: req.body }, "Request.body");
 
     const { location } = req.body as BodyType;
@@ -39,15 +42,11 @@ export default async function handler(
   } catch (err) {
     if (err instanceof HttpError) {
       const httpErr = err as HttpError;
-      res
-        .status(httpErr.httpCode)
-        .json({ message: httpErr.message });
+      res.status(httpErr.httpCode).json({ message: httpErr.message });
       return;
     } else {
       const error = err as Error;
-      res
-        .status(500)
-        .json({ message: error.message });
+      res.status(500).json({ message: error.message });
       return;
     }
   }

@@ -14,7 +14,6 @@ import {
   HasMany,
 } from "sequelize-typescript";
 import { FavoritePosts } from "./favoritePosts";
-import { Threads } from "./threads";
 import { Users } from "./users";
 
 @Table({
@@ -71,9 +70,10 @@ export class Posts extends Model {
   @Column(DataType.STRING)
   zip!: string;
 
-  @AllowNull(true)
-  @Column(DataType.STRING)
-  geo!: string;
+  @Column({
+    type: DataType.GEOMETRY("POINT", 4326),
+  })
+  geo!: any;
 
   @AllowNull(false)
   @Default(true)
