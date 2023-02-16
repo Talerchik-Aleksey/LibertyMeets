@@ -79,7 +79,6 @@ export default function NavBar(props: NavBarProps) {
     if (zip) {
       return;
     }
-    console.log("getLocation");
     if (checkLat && checkLng) {
       return;
     }
