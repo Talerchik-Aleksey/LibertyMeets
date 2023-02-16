@@ -202,8 +202,8 @@ export default function MyPost(props: PostProps) {
               <div className={styles.categoryButtonText}>{post.category}</div>
             </div>
           </div>
-          <div className={styles.center}>
-            <span className={styles.myPostTitle}>{post.title}</span>
+          <div className={styles.titleBlock}>
+            <span className={styles.titleText}>{post.title}</span>
           </div>
           <div className={styles.right}></div>
         </div>
