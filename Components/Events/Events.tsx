@@ -84,9 +84,9 @@ export default function Events({
     if (category) {
       query.category = category;
     }
-    /*if (zipCode) {
+    if (zipCode) {
       query.zip = zipCode;
-    }*/
+    }
     if (radius) {
       query.radius = radius;
     }
@@ -162,16 +162,30 @@ export default function Events({
     }
 
     setZipCode(zip);
+    console.log(radius, zip);
 
-    if (radius) {
-      await searchByRadius(radius);
+    if (!radius || radius === "") {
+      const dataForQuery: queryType = {};
+      await fillQueryParams(dataForQuery);
+      dataForQuery.zip = zip;
+      router.push({
+        pathname: `${appUrl}/posts`,
+        query: dataForQuery,
+      });
+
+      return;
     }
+
+    await searchByRadius(radius!);
   }
 
   async function searchByRadius(radius: string) {
     const dataForQuery: queryType = {};
 
-    if (lat === undefined || lng === undefined) {
+    if (
+      (lat === undefined || lng === undefined) &&
+      (!zipCode || zipCode === "")
+    ) {
       error("Login in account and give access to your location");
       return;
     }
