@@ -9,6 +9,7 @@ import PostsList from "../PostsList";
 import axios from "axios";
 import { PaginationForPosts } from "../General/Pagination/Pagination";
 import { message } from "antd";
+import getLocation from "../../services/geocodeSearch";
 
 type PropsType = {
   appUrl: string;
@@ -83,9 +84,9 @@ export default function Events({
     if (category) {
       query.category = category;
     }
-    if (zipCode) {
+    /*if (zipCode) {
       query.zip = zipCode;
-    }
+    }*/
     if (radius) {
       query.radius = radius;
     }
@@ -170,12 +171,6 @@ export default function Events({
     }
 
     setZipCode(zip);
-    await fillQueryParams(dataForQuery);
-    dataForQuery.zip = zip;
-    router.push({
-      pathname: `${appUrl}/posts`,
-      query: dataForQuery,
-    });
   }
 
   async function searchByRadius(radius: string) {
@@ -197,8 +192,20 @@ export default function Events({
     }
 
     setRadius(radius);
+
+    if (zipCode) {
+      const locations = await getLocation(zipCode);
+      console.log(locations);
+
+      if (locations?.locations[0]) {
+        setLat(locations.locations[0].geometry.location.lat);
+        setLng(locations.locations[0].geometry.location.lng);
+      }
+    }
+
     await fillQueryParams(dataForQuery);
     dataForQuery.radius = radius;
+    console.log(dataForQuery);
     router.push({
       pathname: `${appUrl}/posts`,
       query: dataForQuery,
@@ -210,6 +217,7 @@ export default function Events({
       <div className={styles.error}>{contextHolder}</div>
       <div className={styles.navigation}>
         <NavBar
+          zip={zipCode}
           appUrl={appUrl}
           setLat={setLat}
           setLng={setLng}

@@ -3,12 +3,13 @@ import styles from "./NavBar.module.scss";
 import Image from "next/image";
 import { CATEGORIES } from "../../../constants/constants";
 import { useRouter } from "next/router";
-import {  useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { KEY_LAT, KEY_LNG } from "../../../constants/constants";
 import axios from "axios";
-import { Dispatch, SetStateAction,  useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 type NavBarProps = {
+  zip: string | undefined;
   appUrl: string;
   setLat: Dispatch<SetStateAction<number | undefined>>;
   setLng: Dispatch<SetStateAction<number | undefined>>;
@@ -25,6 +26,7 @@ const geoLocationOptions = {
 
 export default function NavBar(props: NavBarProps) {
   const {
+    zip,
     appUrl,
     setLat,
     setLng,
@@ -67,6 +69,9 @@ export default function NavBar(props: NavBarProps) {
   }
 
   async function getUserCoordinate() {
+    if (zip) {
+      return;
+    }
     if (checkLat && checkLng) {
       return;
     }
