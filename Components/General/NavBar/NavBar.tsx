@@ -38,10 +38,10 @@ export default function NavBar(props: NavBarProps) {
   const router = useRouter();
   const categoryList = {
     "undefined ": "All",
-    "social ": "Social",
-    "volunteer ": "Volunteer",
-    "professional ": "Professional",
-    "campaigns ": "Campaigns",
+    "Social ": "Social",
+    "Volunteer ": "Volunteer",
+    "Professional ": "Professional",
+    "Campaigns ": "Campaigns",
   };
 
   async function success(position: {
