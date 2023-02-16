@@ -1,5 +1,4 @@
-import { Button, Input } from "antd";
-import styles from "./NavBar.module.scss";
+import { AutoComplete, Button, Input } from "antd";
 import Image from "next/image";
 import { CATEGORIES } from "../../../constants/constants";
 import { useRouter } from "next/router";
@@ -7,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { KEY_LAT, KEY_LNG } from "../../../constants/constants";
 import axios from "axios";
 import { Dispatch, SetStateAction, useState } from "react";
+import styles from "./NavBar.module.scss";
 
 type NavBarProps = {
   zip: string | undefined;
@@ -45,6 +45,13 @@ export default function NavBar(props: NavBarProps) {
     "Professional ": "Professional",
     "Campaigns ": "Campaigns",
   };
+  const autoCompleteOption = [
+    { value: "5" },
+    { value: "10" },
+    { value: "25" },
+    { value: "50" },
+    { value: "100" },
+  ];
 
   async function success(position: {
     coords: { latitude: number; longitude: number };
@@ -111,12 +118,12 @@ export default function NavBar(props: NavBarProps) {
           }
         >
           <span className={styles.text}>Radius</span>
-          <Input
+          <AutoComplete
+            options={autoCompleteOption}
             onClick={getUserCoordinate}
-            suffix={<Image src="/decor/mi.svg" alt="" width={16} height={16} />}
+            onChange={searchByRadius}
             placeholder="50mi"
             className={styles.mi}
-            onChange={(e) => searchByRadius(e.target.value)}
           />
         </div>
         <div className={styles.place}>
