@@ -65,16 +65,12 @@ const processReplyToThread = async (
   }
 
   const emails = [author.email, threadStarter.email];
-  const emailsWithoutTags: string[] = [];
+  const emailsWithoutTags: string[] = emails.map(email=>removeTagsFromEmail(email));
 
-  emails.forEach((email) => {
-    emailsWithoutTags.push(removeTagsFromEmail(email));
-  });
-
-  const permissibleEmails = [...emails, ...emailsWithoutTags];
+  const allowedEmails = [...emails, ...emailsWithoutTags];
 
   // Email sender should be either post owner (author) or tread starter (stranger)
-  if (!permissibleEmails.includes(fromEmail)) {
+  if (!allowedEmails.includes(fromEmail)) {
     return null;
   }
 
