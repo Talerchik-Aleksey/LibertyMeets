@@ -84,17 +84,36 @@
   }
 }
 
-.livePostTitle {
-  text-align: justify;
+.titleBlock {
+  width: 900px;
+
+  @media (max-width: 1200px) {
+    width: 800px;
+  }
+
+  @media (max-width: 600px) {
+    width: 400px;
+  }
+
+  @media (max-width: 400px) {
+    width: 250px;
+  }
+}
+
+.titleText {
   font-family: "Butler";
   font-style: normal;
   font-weight: 700;
   font-size: 48px;
   line-height: 100%;
   color: #000000;
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
+  word-wrap: break-word;
+  max-width: 90%;
+
+  @media (max-width: 600px) {
+    margin-top: 40px;
+    font-size: 36px;
+  }
 }
 
 .backImage {
@@ -128,39 +147,6 @@
   }
 }
 
-.title {
-  font-family: "Inter";
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #0d0d0c;
-}
-
-.titleText {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
-  text-transform: capitalize;
-  color: #000000;
-  max-width: 90%;
-  word-wrap: break-word;
-  word-break: break-all;
-
-  @media (max-width: 600px) {
-    font-size: 17px;
-  }
-}
-
-.titleBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
 .category {
   font-family: "Inter";
   font-weight: 600;
@@ -172,17 +158,9 @@
 }
 
 .descriptionBlock {
-  width: 100%;
-}
-
-.description {
-  font-family: "Inter";
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 17px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #0d0d0c;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .descriptionText {
@@ -191,11 +169,11 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 30px;
-  text-align: justify;
-
   color: #000000;
-
-  min-width: 200px;
+  width: 90%;
+  word-wrap: break-word;
+  text-align: justify;
+  margin-bottom: 0 !important;
 }
 
 .question {
