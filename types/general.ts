@@ -1,3 +1,5 @@
+import { Posts } from "../models/posts";
+
 export type UserType = {
   email: string;
   password: string;
@@ -22,4 +24,9 @@ export type PostType = {
   lat: number;
   lng: number;
   is_blocked: boolean;
+};
+
+export type ExchangePostType = Posts & {
+  is_favorite?: boolean;
+  favoriteUsers: { id: number }[];
 };

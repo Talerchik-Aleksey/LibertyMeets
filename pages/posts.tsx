@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import config from "config";
 import Events from "../Components/Events/Events";
-import { PostType } from "../types/general";
+import { ExchangePostType } from "../types/general";
 import { getPosts } from "../services/posts";
 import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -11,7 +11,7 @@ type PostsPageProps = {
   session: Session | null;
   appUrl: string;
   postsPerPage: number;
-  posts: PostType[];
+  posts: ExchangePostType[];
   count: number;
 };
 

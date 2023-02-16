@@ -10,11 +10,17 @@ import axios from "axios";
 import { PaginationForPosts } from "../General/Pagination/Pagination";
 import { message } from "antd";
 import getLocation from "../../services/geocodeSearch";
+import { Posts } from "../../models/posts";
+
+type ExchangePostType = Posts & {
+  is_favorite?: boolean;
+  favoriteUsers: { id: number }[];
+};
 
 type PropsType = {
   appUrl: string;
   postsPerPage: number;
-  initialPosts: PostType[];
+  initialPosts: ExchangePostType[];
   initialCount: number;
   isLogin: boolean;
 };
@@ -38,7 +44,7 @@ export default function Events({
   const [current, setCurrent] = useState<number>(1);
   const [isViewForAllCategory, setIsViewForAllCategory] =
     useState<boolean>(true);
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [posts, setPosts] = useState<ExchangePostType[]>([]);
   const [totalCount, setTotalCount] = useState<number>(initialCount);
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [zipCode, setZipCode] = useState<string | undefined>(undefined);
@@ -149,7 +155,10 @@ export default function Events({
   }
 
   function getPostsByDate(
-    posts: PostType[],
+    posts: (Posts & {
+      is_favorite?: boolean;
+      favoriteUsers: { id: number }[];
+    })[],
     filterFn: (date: Date) => boolean
   ) {
     return posts.filter((post) => filterFn(new Date(post.created_at)));
