@@ -23,23 +23,26 @@ export default function Block({ img, title, lines }: PropsType) {
     <>
       <div className={styles.block}>
         <h2>{title}</h2>
-        <div>
-        <Image
-          src={img.src}
-          alt={title}
-          width={img.width}
-          height={img.height}
-        />
-        <div>
-        {lines.map((line) => (
-          <div
-            className={line.isMarked ? styles.markedLine : styles.unmarkedLine}
-          >
-            {line.text}
+        <div className={styles.valuesContent}>
+          <Image
+            src={img.src}
+            alt={title}
+            width={img.width}
+            height={img.height}
+          />
+          <div className={styles.valuesList}>
+            {lines.map((line, index) => (
+              <div
+                className={
+                  line.isMarked ? styles.markedLine : styles.unmarkedLine
+                }
+                key={index}
+              >
+                {line.text}
+              </div>
+            ))}
           </div>
-        ))}
         </div>
-      </div>
       </div>
     </>
   );
