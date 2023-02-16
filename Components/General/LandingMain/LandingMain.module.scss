@@ -4,7 +4,7 @@
 
 .valuesText {
   color: #6f2cff;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 36px;
@@ -48,7 +48,7 @@
 }
 
 .subtitle {
-  font-family: 'Butler';
+  font-family: "Butler";
   font-style: normal;
   font-weight: 700;
   font-size: 72px;
@@ -90,7 +90,7 @@
   min-height: 401px;
   background-color: var(--LibertyMeets-Background);
 
-  @media (max-width:1300px) {
+  @media (max-width: 1300px) {
     background-size: 209px, 172px;
     background-position: bottom 0 left, top 0 right;
   }
@@ -120,7 +120,7 @@
 
 .description {
   text-align: center;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 700;
   font-size: 30px;
@@ -129,7 +129,7 @@
 }
 
 .valuesTitle {
-  font-family: 'Butler';
+  font-family: "Butler";
   font-style: normal;
   font-weight: 700;
   font-size: 48px;
@@ -168,7 +168,7 @@
 }
 
 .buttonLearnMore {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -203,12 +203,15 @@
 }
 
 .descriptionPurple {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 700;
   font-size: 42px;
   line-height: 51px;
+
   color: #921a64;
+
+  width: 100%;
 
   @media (max-width: 700px) {
     font-size: 25px;
@@ -226,8 +229,17 @@
   }
 }
 
+.controlButtons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  margin-top: 71px;
+}
+
 .infoBlockButton {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -257,7 +269,7 @@
 }
 
 .infoBlockButtonPurple {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;

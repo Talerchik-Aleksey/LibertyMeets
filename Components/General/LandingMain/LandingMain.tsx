@@ -1,14 +1,11 @@
 import Image from "next/image";
 import styles from "./LandingMain.module.scss";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import Blocks from "./Stuff/Blocks";
+import SearchOpportunities from "../Header/buttons/searchOpportunities";
+import SignUp from "../Header/buttons/signUp";
 
-type LandingProps = {
-  isAuthenticated: boolean;
-};
-
-export default function LandingMain(props: LandingProps) {
+export default function LandingMain() {
   return (
     <section className={styles.container}>
       <section className={styles.titleBlock}>
@@ -46,7 +43,13 @@ export default function LandingMain(props: LandingProps) {
               more than sitting behind a keyboard.
             </span>
           </q>
+          <br />
+          <br />
           <span className={styles.quote}>Bob & Jessica Smith</span>
+          <div className={styles.controlButtons}>
+            <SearchOpportunities />
+            <SignUp />
+          </div>
         </article>
       </section>
     </section>
