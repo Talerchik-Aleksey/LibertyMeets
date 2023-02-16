@@ -49,7 +49,14 @@ const buttonMap = {
     "posts/[postId]",
     "404",
   ],
-  showSignUp: ["signin", "about", "posts", "reset-password", "posts/[postId]"],
+  showSignUp: [
+    "",
+    "signin",
+    "about",
+    "posts",
+    "reset-password",
+    "posts/[postId]",
+  ],
 };
 
 export default function Header() {
@@ -135,6 +142,9 @@ export default function Header() {
               className={`${styles.navigationItemContainer} listElement`}
               onClick={(e) => setVisible(false)}
             >
+              {buttonMap.showSearch.indexOf(page) !== -1 && (
+                <SearchOpportunities />
+              )}
               {buttonMap.showSignUp.indexOf(page) !== -1 && <SignUp />}
               {buttonMap.showLogIn.indexOf(page) !== -1 && <LogIn />}
             </ul>

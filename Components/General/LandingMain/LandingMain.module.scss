@@ -1,5 +1,4 @@
 .valuesBlock {
-  background-color: #f9fafb;
   padding: 90px 0 35px 0;
 }
 
@@ -24,7 +23,7 @@
 }
 
 .purpleBlock {
-  background-color: var(--LibertyMeets-Purple-900);
+  background-color: var(--LibertyMeets-Background);
   color: var(--LibertyMeets-Background);
   padding: 110px 71px;
   display: flex;
@@ -88,11 +87,8 @@
 
 .titleBlock {
   display: flex;
-  min-height: 754px;
-  background: url('../../../public/decor/Rectangle-866.svg'), url('../../../public/decor/Rectangle-865.svg');
-  background-repeat: no-repeat;
-  background-position: bottom 25px left, top 76px right;
-  background-size: 284px, 212px;
+  min-height: 401px;
+  background-color: var(--LibertyMeets-Background);
 
   @media (max-width:1300px) {
     background-size: 209px, 172px;
@@ -123,25 +119,13 @@
 }
 
 .description {
+  text-align: center;
   font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
   font-size: 30px;
   line-height: 42px;
   color: #333333;
-  text-align: left;
-  width: 40%;
-
-  @media (max-width: 1400px) {
-    width: 60%;
-    text-align: center;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 25px;
-    padding: 0;
-    width: 90%;
-  }
 }
 
 .valuesTitle {
@@ -232,7 +216,7 @@
 }
 
 .quote {
-  color: #fff;
+  color: var(--LibertyMeets-Purple-600);
 }
 
 .libertyAbout {

@@ -1,0 +1,36 @@
+.block {
+  background: linear-gradient(90deg, #1d4d8f 0%, #2a6bc5 100%);
+
+  margin: 40px 80px;
+  padding: 60px 130px;
+
+  color: white;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  text-transform: capitalize;
+
+  & h2 {
+    font-family: "Butler";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 100%;
+    letter-spacing: -0.03em;
+  }
+}
+
+.unmarkedLine {
+  margin: 16px 0px;
+}
+
+.markedLine {
+  margin: 16px 0px;
+}
+
+.markedLine::before {
+  content: "•";
+  margin-right: 30px;
+}
