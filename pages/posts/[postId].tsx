@@ -72,7 +72,7 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
 
   const post = await backendLoader<Posts>(
     () => getPost(postId),
-    ["created_at"]
+    ["created_at", "updated_at"]
   );
 
   if (!post) {
