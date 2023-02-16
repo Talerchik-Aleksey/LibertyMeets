@@ -1,17 +1,17 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { PostType } from "../../types/general";
 import EventForMyPosts from "../EventForMyPosts/EventForMyPosts";
 import Navigation from "../General/MyProfileNavigation/Navigation";
 import styles from "./MyPosts.module.scss";
 import LackOfPosts from "../LackOfPosts/LackOfPosts";
 import { PaginationForPosts } from "../General/Pagination/Pagination";
+import { ExchangePostType } from "../../types/general";
 
 type MyPostsProps = {
   appUrl: string;
   postsPerPage: number;
-  initialPosts: PostType[];
+  initialPosts: ExchangePostType[];
   initialCount: number;
   postsIsFavorites?: boolean;
   activePage: string;
@@ -25,7 +25,7 @@ export default function MyPosts({
   postsIsFavorites,
   activePage,
 }: MyPostsProps) {
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [posts, setPosts] = useState<ExchangePostType[]>([]);
   const [totalCount, setTotalCount] = useState<number>(initialCount);
   const router = useRouter();
 
@@ -67,7 +67,7 @@ export default function MyPosts({
       ) : (
         <section className={styles.profileContainer}>
           <div className={styles.container}>
-            {posts.map((item) => (
+            {posts.map((item: ExchangePostType) => (
               <EventForMyPosts key={item.id} post={item} movePost={movePost} />
             ))}
           </div>

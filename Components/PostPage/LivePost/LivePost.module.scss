@@ -160,6 +160,7 @@
 .descriptionBlock {
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 5px;
 }
 
@@ -195,6 +196,7 @@
 
 .cardBlock {
   display: flex;
+  flex-direction: column;
   gap: 30px;
 
   @media (max-width: 1080px) {
@@ -292,6 +294,7 @@
 
 .cardBlock {
   display: flex;
+  justify-content: base-line;
   gap: 30px;
   width: 300px;
   height: 300px;

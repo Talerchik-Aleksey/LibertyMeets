@@ -3,7 +3,6 @@ import Image from "next/image";
 import { CATEGORIES } from "../../../constants/constants";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { KEY_LAT, KEY_LNG } from "../../../constants/constants";
 import axios from "axios";
 import { Dispatch, SetStateAction, useState } from "react";
 import styles from "./NavBar.module.scss";
@@ -60,8 +59,8 @@ export default function NavBar(props: NavBarProps) {
     setCheckLng(position.coords.longitude);
     setLat(position.coords.latitude);
     setLng(position.coords.longitude);
-    localStorage.setItem(KEY_LAT, position.coords.latitude.toString());
-    localStorage.setItem(KEY_LNG, position.coords.longitude.toString());
+    localStorage.setItem("lat", position.coords.latitude.toString());
+    localStorage.setItem("lng", position.coords.longitude.toString());
     await axios.post(
       `${appUrl}/api/users/update`,
       { location: [position.coords.latitude, position.coords.longitude] },

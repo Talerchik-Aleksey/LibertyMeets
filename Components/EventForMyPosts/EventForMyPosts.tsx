@@ -1,12 +1,12 @@
-import { PostType } from "../../types/general";
 import Image from "next/image";
 import styles from "./EventForMyPosts.module.scss";
 import Link from "next/link";
 import moment from "moment";
 import Location from "../Location/Location";
+import { Posts } from "../../models/posts";
 
 type EventForMyPostsProps = {
-  post: PostType;
+  post: Posts & { is_favorite?: boolean; favoriteUsers: { id: number }[] };
   movePost?: (postId: number) => void;
 };
 
