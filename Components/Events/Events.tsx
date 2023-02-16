@@ -156,21 +156,16 @@ export default function Events({
   }
 
   async function searchByZipCode(zip: string) {
-    const dataForQuery: queryType = {};
-
     if (!zip || zip === "") {
       setZipCode(undefined);
-      await fillQueryParams(dataForQuery);
-      dataForQuery.zip = undefined;
-      router.push({
-        pathname: `${appUrl}/posts`,
-        query: dataForQuery,
-      });
-
       return;
     }
 
     setZipCode(zip);
+
+    if (radius) {
+      await searchByRadius(radius);
+    }
   }
 
   async function searchByRadius(radius: string) {
@@ -193,19 +188,15 @@ export default function Events({
 
     setRadius(radius);
 
-    if (zipCode) {
-      const locations = await getLocation(zipCode);
-      console.log(locations);
-
-      if (locations?.locations[0]) {
-        setLat(locations.locations[0].geometry.location.lat);
-        setLng(locations.locations[0].geometry.location.lng);
-      }
-    }
-
     await fillQueryParams(dataForQuery);
     dataForQuery.radius = radius;
-    console.log(dataForQuery);
+    if (zipCode) {
+      const locations = await getLocation(zipCode);
+      if (locations?.locations[0]) {
+        dataForQuery.lat = locations.locations[0].geometry.location.lat;
+        dataForQuery.lng = locations.locations[0].geometry.location.lng;
+      }
+    }
     router.push({
       pathname: `${appUrl}/posts`,
       query: dataForQuery,
