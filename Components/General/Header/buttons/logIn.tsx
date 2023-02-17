@@ -1,11 +1,8 @@
 import styles from "../Header.module.scss";
 import { Button } from "antd";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
 export default function LogIn() {
-  const router = useRouter();
-
   return (
     <li className={styles.navigationItem}>
       {" "}
