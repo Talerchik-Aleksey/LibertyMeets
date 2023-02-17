@@ -15,7 +15,7 @@ export default function MainPage() {
 
   return (
     <>
-      <LandingMain isAuthenticated={isAuthenticated} />
+      <LandingMain />
     </>
   );
 }
