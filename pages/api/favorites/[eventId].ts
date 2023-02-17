@@ -1,12 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { changeFavoritePost, savePostToDb } from "../../../services/posts";
+import { changeFavoritePost } from "../../../services/posts";
 import { connect } from "../../../utils/db";
-import { HttpError } from "../../../utils/HttpError";
 import { getSession } from "next-auth/react";
+import { errorResponse } from "../../../utils/response";
+import type { CommonApiResponse } from "../../../types/general"
 
-type ResType = {
-  status: string;
-  data: any;
+type PostFavoritedPayload = {
+  postId: number;
+  isFavorite: boolean;
 };
 
 type QueryType = { eventId: string };
@@ -15,7 +16,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResType>
+  res: NextApiResponse<CommonApiResponse<PostFavoritedPayload>>,
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
@@ -35,18 +36,6 @@ export default async function handler(
     const isFavorite = await changeFavoritePost(session.user.id, postId);
     res.status(200).json({ status: "ok", data: { postId, isFavorite } });
   } catch (err) {
-    if (err instanceof HttpError) {
-      const httpErr = err as HttpError;
-      res
-        .status(httpErr.httpCode)
-        .json({ status: "error", data: { message: httpErr.message } });
-      return;
-    } else {
-      const error = err as Error;
-      res
-        .status(500)
-        .json({ status: "error", data: { message: error.message } });
-      return;
-    }
+    errorResponse(req, res, err);
   }
 }
