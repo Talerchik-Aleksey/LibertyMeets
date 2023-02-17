@@ -5,7 +5,6 @@ import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import config from "config";
 import { errorResponse } from "../../../utils/response";
-import { CommonApiResponse } from "../../../types/general";
 
 type ResType = {
   message: string;

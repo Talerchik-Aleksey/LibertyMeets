@@ -8,7 +8,7 @@ import { errorResponse } from "../../../utils/response";
 import { CommonApiResponse } from "../../../types/general";
 import { Threads } from "../../../models/threads";
 
-type PostFavoritedPayload = {
+type Payload = {
   threads: Threads[];
 };
 
@@ -20,7 +20,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<CommonApiResponse<PostFavoritedPayload>>
+  res: NextApiResponse<CommonApiResponse<Payload>>
 ) {
   try {
     if (!req.method || req.method! !== "GET") {

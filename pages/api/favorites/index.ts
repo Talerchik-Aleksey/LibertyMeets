@@ -6,7 +6,7 @@ import { errorResponse } from "../../../utils/response";
 import { CommonApiResponse } from "../../../types/general";
 import { Posts } from "../../../models/posts";
 
-type PostFavoritedPayload = {
+type Payload = {
   posts: Posts[];
   count: number;
 };
@@ -19,7 +19,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<CommonApiResponse<PostFavoritedPayload>>
+  res: NextApiResponse<CommonApiResponse<Payload>>
 ) {
   try {
     if (!req.method || req.method! !== "GET") {

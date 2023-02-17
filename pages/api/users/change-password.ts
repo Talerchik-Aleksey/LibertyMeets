@@ -9,7 +9,7 @@ import { getSession } from "next-auth/react";
 import { errorResponse } from "../../../utils/response";
 import { CommonApiResponse } from "../../../types/general";
 
-type PostFavoritedPayload = {};
+type Payload = {};
 
 type BodyType = {
   password: string;
@@ -19,7 +19,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<CommonApiResponse<PostFavoritedPayload>>
+  res: NextApiResponse<CommonApiResponse<Payload>>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {

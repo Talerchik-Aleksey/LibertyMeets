@@ -5,7 +5,7 @@ import { getSession } from "next-auth/react";
 import { errorResponse } from "../../../utils/response";
 import type { CommonApiResponse } from "../../../types/general"
 
-type PostFavoritedPayload = {
+type Payload = {
   postId: number;
   isFavorite: boolean;
 };
@@ -16,7 +16,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<CommonApiResponse<PostFavoritedPayload>>,
+  res: NextApiResponse<CommonApiResponse<Payload>>,
 ) {
   try {
     if (!req.method || req.method! !== "POST") {

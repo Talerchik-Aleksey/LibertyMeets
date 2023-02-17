@@ -6,7 +6,7 @@ import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { errorResponse } from "../../../utils/response";
 
-type PostFavoritedPayload = {
+type Payload = {
   postId: number;
 };
 
@@ -18,7 +18,7 @@ const CATEGORIES = ["Social", "Volunteer", "Professional", "Campaigns"];
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<CommonApiResponse<PostFavoritedPayload>>
+  res: NextApiResponse<CommonApiResponse<Payload>>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {

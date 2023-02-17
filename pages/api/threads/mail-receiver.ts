@@ -4,13 +4,13 @@ import { handleWebhook } from "../../../services/webhook";
 import { errorResponse } from "../../../utils/response";
 import { CommonApiResponse } from "../../../types/general";
 
-type PostFavoritedPayload = {};
+type Payload = {};
 
 connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<CommonApiResponse<PostFavoritedPayload>>
+  res: NextApiResponse<CommonApiResponse<Payload>>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {

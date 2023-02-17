@@ -10,7 +10,7 @@ import { getPost } from "../../../services/posts";
 import { getThreadById } from "../../../services/threads";
 import { CommonApiResponse } from "../../../types/general";
 
-type PostFavoritedPayload = {};
+type Payload = {};
 
 type QueryType = {
   postId: number | undefined;
@@ -30,7 +30,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<CommonApiResponse<PostFavoritedPayload>>
+  res: NextApiResponse<CommonApiResponse<Payload>>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {

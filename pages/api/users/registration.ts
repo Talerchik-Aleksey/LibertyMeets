@@ -9,7 +9,6 @@ import { validateEmail } from "../../../utils/stringUtils";
 import config from "config";
 import { Buffer } from "buffer";
 import { errorResponse } from "../../../utils/response";
-import { CommonApiResponse } from "../../../types/general";
 
 type ResType = {
   message: string;

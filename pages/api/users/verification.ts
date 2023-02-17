@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { isRightToken } from "../../../services/users";
-import { CommonApiResponse } from "../../../types/general";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { errorResponse } from "../../../utils/response";
