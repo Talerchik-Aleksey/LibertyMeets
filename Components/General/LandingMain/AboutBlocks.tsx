@@ -64,8 +64,8 @@ const blocksInfo = [
 export default function AboutBlocks() {
   return (
     <>
-      {blocksInfo.map((item) => (
-        <AboutBlock title={item.title} img={item.img} lines={item.lines} />
+      {blocksInfo.map((item, i) => (
+        <AboutBlock title={item.title} img={item.img} lines={item.lines} key={i} />
       ))}
     </>
   );
