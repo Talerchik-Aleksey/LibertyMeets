@@ -1,10 +1,5 @@
-import { Posts } from "../models/posts";
+import { ExchangePostType } from "../types/general";
 import Event from "./Event/Event";
-
-type ExchangePostType = Posts & {
-  is_favorite?: boolean | undefined;
-  favoriteUsers: { id: number }[];
-};
 
 type PostListProps = {
   posts: ExchangePostType[];
