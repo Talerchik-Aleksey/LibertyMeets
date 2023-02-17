@@ -50,6 +50,8 @@
 }
 
 .backBlock {
+  height: 60px;
+  
   margin: 20px 0 0 50px;
 
   @media (max-width: 1300px) {
@@ -89,13 +91,13 @@
   @media (max-width: 1300px) {
     max-width: 100%;
     box-sizing: border-box;
-    margin: 40px 20px 40px 20px;
+    margin: 0px 20px 40px 20px;
   }
 
   @media (max-width: 600px) {
     gap: 15px;
     padding: 20px 10px 55px 10px;
-    margin: 20px 10px 40px 10px;
+    margin: 0px 10px 40px 10px;
   }
 }
 
