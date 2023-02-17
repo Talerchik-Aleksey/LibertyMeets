@@ -1,7 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { Posts } from "../../../models/posts";
 import { getPost } from "../../../services/posts";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
+import { errorResponse } from "../../../utils/response";
+
+type ResType = {
+  status: string;
+  data: Posts;
+};
 
 type QueryType = {
   postId: string;
@@ -11,7 +18,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<ResType>
 ) {
   try {
     const query = req.query as QueryType;
@@ -19,19 +26,10 @@ export default async function handler(
 
     const post = await getPost(postId);
     if (!post) {
-      res.status(404).json({ status: "no post" });
-      return;
+      throw new HttpError(404, "no post");
     }
     res.status(200).json({ status: "ok", data: post });
   } catch (err) {
-    if (err instanceof HttpError) {
-      const httpErr = err as HttpError;
-      res.status(httpErr.httpCode).json({ message: httpErr.message });
-      return;
-    } else {
-      const error = err as Error;
-      res.status(500).json({ message: error.message });
-      return;
-    }
+    errorResponse(req, res, err);
   }
 }

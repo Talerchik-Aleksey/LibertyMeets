@@ -6,11 +6,10 @@ import {
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { getSession } from "next-auth/react";
+import { errorResponse } from "../../../utils/response";
+import { CommonApiResponse } from "../../../types/general";
 
-type ResType = {
-  message: string;
-  token?: string;
-};
+type PostFavoritedPayload = {};
 
 type BodyType = {
   password: string;
@@ -20,7 +19,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResType>
+  res: NextApiResponse<CommonApiResponse<PostFavoritedPayload>>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
@@ -50,16 +49,8 @@ export default async function handler(
     }
 
     await changePasswordByUserId(session.user.id as number, password);
-    res.status(200).json({ message: "success change password" });
+    res.status(200).json({ status: "ok", data: {} });
   } catch (err) {
-    if (err instanceof HttpError) {
-      const httpErr = err as HttpError;
-      res.status(httpErr.httpCode).json({ message: httpErr.message });
-      return;
-    } else {
-      const error = err as Error;
-      res.status(500).json({ message: error.message });
-      return;
-    }
+    errorResponse(req, res, err);
   }
 }

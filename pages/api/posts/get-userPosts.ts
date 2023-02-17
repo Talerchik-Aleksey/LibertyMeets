@@ -1,11 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
-import { HttpError } from "../../../utils/HttpError";
 import { getUserPosts } from "../../../services/posts";
+import { errorResponse } from "../../../utils/response";
+import { CommonApiResponse } from "../../../types/general";
+import { Posts } from "../../../models/posts";
 
-type ResType = {
-  status: string;
-  data: any;
+type PostFavoritedPayload = {
+  posts: {
+    userPosts: Posts[];
+    count: number;
+  };
 };
 
 type QueryType = {
@@ -14,7 +18,7 @@ type QueryType = {
 
 export default async function userPosts(
   req: NextApiRequest,
-  res: NextApiResponse<ResType>
+  res: NextApiResponse<CommonApiResponse<PostFavoritedPayload>>
 ) {
   try {
     if (!req.method || req.method! !== "GET") {
@@ -36,18 +40,6 @@ export default async function userPosts(
     const posts = await getUserPosts(page, session.user.id);
     res.status(200).json({ status: "ok", data: { posts } });
   } catch (err) {
-    if (err instanceof HttpError) {
-      const httpErr = err as HttpError;
-      res
-        .status(httpErr.httpCode)
-        .json({ status: "error", data: { message: httpErr.message } });
-      return;
-    } else {
-      const error = err as Error;
-      res
-        .status(500)
-        .json({ status: "error", data: { message: error.message } });
-      return;
-    }
+    errorResponse(req, res, err);
   }
 }

@@ -5,6 +5,9 @@ import {
 } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
+import { errorResponse } from "../../../utils/response";
+
+type ResType = { message: string };
 
 type BodyType = {
   token: string;
@@ -14,7 +17,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<ResType>
 ) {
   try {
     const { token } = req.body as BodyType;
@@ -30,16 +33,8 @@ export default async function handler(
     }
 
     await changeEnabledForUser(token);
-    res.status(200).json({ message: "success" });
+    res.status(200).json({ message: "ok" });
   } catch (err) {
-    if (err instanceof HttpError) {
-      const httpErr = err as HttpError;
-      res.status(httpErr.httpCode).json({ message: httpErr.message });
-      return;
-    } else {
-      const error = err as Error;
-      res.status(500).json({ message: error.message });
-      return;
-    }
+    errorResponse(req, res, err);
   }
 }
