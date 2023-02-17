@@ -1,14 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Posts } from "../../models/posts";
+import { ExchangePostType } from "../../types/general";
 import Location from "../Location/Location";
 import styles from "./Event.module.scss";
-
-type ExchangePostType = Posts & {
-  is_favorite?: boolean;
-  favoriteUsers: { id: number }[];
-};
 
 type EventSingleRowProps = {
   post: ExchangePostType;
