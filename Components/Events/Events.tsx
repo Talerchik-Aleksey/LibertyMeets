@@ -4,18 +4,13 @@ import NavBar from "../General/NavBar/NavBar";
 import { isToday, isTomorrow } from "../../utils/eventTimeStatus";
 import styles from "./Events.module.scss";
 import { useRouter } from "next/router";
-import { PostType } from "../../types/general";
+import { ExchangePostType } from "../../types/general";
 import PostsList from "../PostsList";
 import axios from "axios";
 import { PaginationForPosts } from "../General/Pagination/Pagination";
 import { message } from "antd";
 import getLocation from "../../services/geocodeSearch";
 import { Posts } from "../../models/posts";
-
-type ExchangePostType = Posts & {
-  is_favorite?: boolean;
-  favoriteUsers: { id: number }[];
-};
 
 type PropsType = {
   appUrl: string;
