@@ -1,4 +1,4 @@
-import styles from "./Block.module.scss";
+import styles from "./AboutBlock.module.scss";
 import Image from "next/image";
 
 type line = {
@@ -18,7 +18,7 @@ type PropsType = {
   lines: line[];
 };
 
-export default function Block({ img, title, lines }: PropsType) {
+export default function AboutBlock({ img, title, lines }: PropsType) {
   return (
     <>
       <div className={styles.block}>

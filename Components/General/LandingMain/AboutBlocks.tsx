@@ -1,9 +1,9 @@
-import Block from "./Block";
+import AboutBlock from "./AboutBlock";
 
 const blocksInfo = [
   {
     title: "Purpose",
-    img: {src:"decor/Icon 1.svg", width:147, height:150},
+    img: { src: "decor/Icon 1.svg", width: 147, height: 150 },
     lines: [
       {
         isMarked: true,
@@ -25,7 +25,7 @@ const blocksInfo = [
   },
   {
     title: "Benefits",
-    img: {src:"decor/Icon 2.svg", width:145, height:144},
+    img: { src: "decor/Icon 2.svg", width: 145, height: 144 },
     lines: [
       { isMarked: true, text: "Access to audience who shares your values" },
       { isMarked: true, text: "Easy and free to use" },
@@ -38,7 +38,7 @@ const blocksInfo = [
   },
   {
     title: "How it works",
-    img: {src:"decor/Icon 3.svg", width:135, height:150},
+    img: { src: "decor/Icon 3.svg", width: 135, height: 150 },
     lines: [
       {
         isMarked: false,
@@ -61,11 +61,11 @@ const blocksInfo = [
   },
 ];
 
-export default function Blocks() {
+export default function AboutBlocks() {
   return (
     <>
       {blocksInfo.map((item) => (
-        <Block title={item.title} img={item.img} lines={item.lines} />
+        <AboutBlock title={item.title} img={item.img} lines={item.lines} />
       ))}
     </>
   );

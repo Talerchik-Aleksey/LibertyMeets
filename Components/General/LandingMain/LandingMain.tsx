@@ -1,9 +1,9 @@
 import Image from "next/image";
 import styles from "./LandingMain.module.scss";
 import Link from "next/link";
-import Blocks from "./Stuff/Blocks";
 import SearchOpportunities from "../Header/buttons/searchOpportunities";
 import SignUp from "../Header/buttons/signUp";
+import AboutBlocks from "./AboutBlocks";
 
 export default function LandingMain() {
   return (
@@ -25,7 +25,7 @@ export default function LandingMain() {
         </div>
       </section>
       <section className={styles.valuesBlock}>
-        <Blocks />
+        <AboutBlocks />
         <div className={styles.buttonBlock}>
           <Link className={styles.buttonLearnLink} href="/about">
             <span className={styles.buttonLearnMore}>
