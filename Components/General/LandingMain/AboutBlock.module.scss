@@ -31,7 +31,24 @@
 
     @media screen and (max-width: 900px) {
       flex-wrap: wrap;
+      gap: 30px;
+      & > img {
+        width: 30%;
+        height: 30%;
+      }
+
+      & .markedLine,
+      .unmarkedLine {
+        font-size: 16px;
+        line-height: 20px;
+      }
     }
+  }
+
+  @media screen and (max-width: 900px) {
+    padding: 20px;
+    margin: 10px;
+    gap: 40px;
   }
 }
 
@@ -41,6 +58,10 @@
 
 .markedLine:not(:last-child) {
   margin: 0px 0px 16px 0px;
+
+  @media screen and (max-width: 900px) {
+    margin-bottom: 12px;
+  }
 }
 
 .markedLine::before {
