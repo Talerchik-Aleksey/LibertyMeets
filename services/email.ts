@@ -38,6 +38,9 @@ export async function sendReplyMessageToThread(
   const title = post?.title;
 
   const baseDomain = config.get<string>("emails.replySetup.baseDomain");
+  const replyTo = config.get<{ name: string; email: string }>("emails.emailProps.reply_to");
+
+  const threadEmailAddress = `${thread.id}@${baseDomain}`;
 
   await sendEmail(
     "reply",
@@ -46,12 +49,16 @@ export async function sendReplyMessageToThread(
         name: undefined,
         email: user.email,
       },
+      reply_to: {
+        ...replyTo,
+        email: threadEmailAddress,
+      },
     },
     { message: simpleTextToHtml(message), title },
     [
-      ["In-Reply-To", `<${thread.id}@${baseDomain}>`],
-      ["References", `<${thread.id}@${baseDomain}>`],
-    ]
+      ["In-Reply-To", `<${threadEmailAddress}>`],
+      ["References", `<${threadEmailAddress}>`],
+    ],
   );
 }
 
