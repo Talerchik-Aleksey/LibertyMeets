@@ -25,6 +25,9 @@ app.prepare().then(() => {
         if (req.url.startsWith('/_next/static/')) {
           return true;
         }
+        if (req.url.startsWith('/decor/')) {
+          return true;
+        }
         return false;
       },
     },
