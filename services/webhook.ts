@@ -65,6 +65,9 @@ export const handleWebhook = async (payload: MailgunIncomingMessage) => {
   if (payload['References']) {
     thread = await tryToFindThread(payload['References']);
   }
+  if (!thread) {
+    thread = await tryToFindThread(payload['To']);
+  }
 
   if (thread) {
     await processReplyToThread(thread, payload);
