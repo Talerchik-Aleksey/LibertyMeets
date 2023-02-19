@@ -128,7 +128,7 @@ export default function Events({
     }
     setCategory(category);
     setCurrent(1);
-    query.category = category.toLowerCase();
+    query.category = category;
     router.push({
       pathname: `${appUrl}/posts`,
       query: query,
