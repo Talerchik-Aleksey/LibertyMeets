@@ -120,7 +120,7 @@ export default function NavBar(props: NavBarProps) {
             options={autoCompleteOption}
             onClick={getUserCoordinate}
             onChange={searchByRadius}
-            placeholder="50mi"
+            placeholder="any"
             className={styles.mi}
           />
         </div>
@@ -130,7 +130,7 @@ export default function NavBar(props: NavBarProps) {
             suffix={
               <Image src="/decor/location2.svg" alt="" width={18} height={18} />
             }
-            placeholder="20103"
+            placeholder=""
             className={styles.loc}
             onChange={(e) => searchByZipCode(e.target.value)}
           />
