@@ -76,7 +76,7 @@ export default async function handler(
         return;
       }
 
-      await handleReplyToPost(userId, post, message);
+      await handleReplyToPost(userId, post, message, false, "");
     } else {
       throw new HttpError(400, "invalid query");
     }

@@ -1,6 +1,6 @@
 import { HttpError } from "../utils/HttpError";
 import { getPost, isAuthorCheck } from "./posts";
-import { createThread, createThreadMessage, getThread } from "./threads";
+import { createThread, createThreadMessage, getThread, storeSentMessageId } from "./threads";
 import { sendReplyMessageToThread } from "./email";
 import { Posts } from "../models/posts";
 import { Threads } from "../models/threads";
@@ -8,7 +8,9 @@ import { Threads } from "../models/threads";
 export const handleReplyToPost = async (
   userId: number,
   post: Posts,
-  message: string
+  message: string,
+  isReceived: boolean = false,
+  messageId: string = "",
 ) => {
   const postId = post.id;
 
@@ -23,7 +25,7 @@ export const handleReplyToPost = async (
     }
   }
 
-  await handleReplyToThread(userId, thread, message);
+  await handleReplyToThread(userId, thread, message, isReceived, messageId);
 
   return true;
 };
@@ -31,7 +33,9 @@ export const handleReplyToPost = async (
 export async function handleReplyToThread(
   userId: number,
   thread: Threads,
-  message: string
+  message: string,
+  isReceived: boolean = false,
+  messageId: string = "",
 ) {
   const post = await getPost(thread.post_id);
   const postId = post!.id;
@@ -42,10 +46,13 @@ export async function handleReplyToThread(
     throw new HttpError(403, "Forbidden");
   }
 
-  await createThreadMessage(thread!.id, userId, message);
-  if (isAuthor) {
-    await sendReplyMessageToThread(thread.user_id, message, thread);
-  } else {
-    await sendReplyMessageToThread(post!.author_id, message, thread);
+  const threadMessage = await createThreadMessage(thread!.id, userId, message, isReceived, messageId);
+
+  const sentMessageId = isAuthor
+    ? await sendReplyMessageToThread(thread.user_id, message, thread)
+    : await sendReplyMessageToThread(post!.author_id, message, thread);
+
+  if (sentMessageId) {
+    await storeSentMessageId(threadMessage.id, sentMessageId);
   }
 }

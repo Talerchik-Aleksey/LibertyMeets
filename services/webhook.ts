@@ -50,7 +50,10 @@ const processReplyToThread = async (thread: Threads, payload: MailgunIncomingMes
     return null;
   }
 
-  await handleReplyToThread(user.id, thread, message);
+  const messageId = payload['Message-Id'];
+
+  // set received_message_id
+  await handleReplyToThread(user.id, thread, message, true, messageId);
 };
 
 

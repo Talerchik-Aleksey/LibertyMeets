@@ -42,7 +42,7 @@ export async function sendReplyMessageToThread(
 
   const threadEmailAddress = `${thread.id}@${baseDomain}`;
 
-  await sendEmail(
+  const result = await sendEmail(
     "reply",
     {
       to: {
@@ -60,6 +60,10 @@ export async function sendReplyMessageToThread(
       ["References", `<${threadEmailAddress}>`],
     ],
   );
+  if (!result) {
+    return null;
+  }
+  return result.id;
 }
 
 export async function sendResetPasswordLink(
