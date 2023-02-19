@@ -38,11 +38,12 @@ export default function NavBar(props: NavBarProps) {
   const session = useSession();
   const router = useRouter();
   const categoryList = {
-    "undefined ": "All",
-    "Social ": "Social",
-    "Volunteer ": "Volunteer",
-    "Professional ": "Professional",
-    "Campaigns ": "Campaigns",
+    "": "All",
+    undefined: "All",
+    social: "Social",
+    volunteer: "Volunteer",
+    professional: "Professional",
+    campaigns: "Campaigns",
   };
   const autoCompleteOption = [
     { value: "5" },
@@ -95,7 +96,7 @@ export default function NavBar(props: NavBarProps) {
           <Button
             className={
               categoryList[
-                `${router.query.category?.toString() as keyof object} `
+                `${router.query.category?.toString() as keyof object}`
               ] === item
                 ? styles.activeButton
                 : styles.button
