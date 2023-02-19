@@ -6,10 +6,11 @@ import { v4 } from "uuid";
 import { sendResetPasswordLink } from "../../../services/email";
 import config from "config";
 import { errorResponse } from "../../../utils/response";
+import { CommonApiResponse } from "../../../types/general";
 
-type ResType = {
+type Payload = {
   message: string;
-  token?: string;
+  token: string;
 };
 
 type BodyType = {
@@ -20,7 +21,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResType>,
+  res: NextApiResponse<CommonApiResponse<Payload>>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
@@ -47,16 +48,18 @@ export default async function handler(
       await sendResetPasswordLink(foundUser.id, resetUrl, supportEmail);
 
       res.status(200).json({
-        message: "success create reset token",
-        token: reset_pwd_token,
+        status: "ok",
+        data: {
+          message: "success create reset token",
+          token: reset_pwd_token,
+        },
       });
 
       return;
     }
 
     if (!foundUser) {
-      res.status(404).json({ message: "email is not exists" });
-      return;
+      throw new HttpError(404, "email is not exists");
     }
   } catch (err) {
     errorResponse(req, res, err);

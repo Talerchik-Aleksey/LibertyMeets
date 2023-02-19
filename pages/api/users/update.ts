@@ -1,11 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 import { changeLocation } from "../../../services/users";
+import { CommonApiResponse } from "../../../types/general";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import { errorResponse } from "../../../utils/response";
 
-type ResType = {
+type Payload = {
   message: string;
 };
 
@@ -17,7 +18,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResType>,
+  res: NextApiResponse<CommonApiResponse<Payload>>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
@@ -39,7 +40,9 @@ export default async function handler(
 
     await changeLocation(session.user.id as number, location[0], location[1]);
 
-    res.status(200).json({ message: "success update location" });
+    res
+      .status(200)
+      .json({ status: "ok", data: { message: "success update location" } });
   } catch (err) {
     errorResponse(req, res, err);
   }

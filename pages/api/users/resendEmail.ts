@@ -5,8 +5,9 @@ import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import config from "config";
 import { errorResponse } from "../../../utils/response";
+import { CommonApiResponse } from "../../../types/general";
 
-type ResType = {
+type Payload = {
   message: string;
 };
 
@@ -18,7 +19,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResType>,
+  res: NextApiResponse<CommonApiResponse<Payload>>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
@@ -46,7 +47,7 @@ export default async function handler(
     const supportEmail = config.get<string>("emails.supportEmail");
 
     await sendVerificationByEmail(email, verificationUrl, supportEmail);
-    res.status(200).json({ message: "success resend" });
+    res.status(200).json({ status: "ok", data: { message: "success resend" } });
   } catch (err) {
     errorResponse(req, res, err);
   }

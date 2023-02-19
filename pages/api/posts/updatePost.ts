@@ -1,12 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 import { changePostVisible } from "../../../services/posts";
+import { CommonApiResponse } from "../../../types/general";
 import { connect } from "../../../utils/db";
 import { errorResponse } from "../../../utils/response";
 
-type ResType = {
-  status: string;
-};
+type Payload = {};
 
 type BodyType = {
   postId: number;
@@ -17,7 +16,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResType>
+  res: NextApiResponse<CommonApiResponse<Payload>>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
@@ -37,7 +36,7 @@ export default async function handler(
 
     await changePostVisible(session.user.id, postId, is_public);
 
-    res.status(200).json({ status: "ok" });
+    res.status(200).json({ status: "ok", data: {} });
   } catch (err) {
     errorResponse(req, res, err);
   }
