@@ -81,7 +81,7 @@ export async function sendEmail(
     isRecipientsFound = true;
   }
   if (params.reply_to) {
-    data["h:Reply-To"] = params.reply_to;
+    data["h:Reply-To"] = resolveRecipientName(params.reply_to);
   } else {
     data["h:Reply-To"] = params.from.email;
   }
