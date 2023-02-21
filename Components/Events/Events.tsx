@@ -163,6 +163,13 @@ export default function Events({
   async function searchByZipCode(zip: string) {
     if (!zip || zip === "") {
       setZipCode(undefined);
+      const dataForQuery: queryType = {};
+      await fillQueryParams(dataForQuery);
+      dataForQuery.zip = zip;
+      router.push({
+        pathname: `${appUrl}/posts`,
+        query: dataForQuery,
+      });
       return;
     }
 
@@ -190,7 +197,7 @@ export default function Events({
       (lat === undefined || lng === undefined) &&
       (!zipCode || zipCode === "")
     ) {
-      error("Login in account and give access to your location");
+      error("Write a zip code for radius sampling");
       return;
     }
 

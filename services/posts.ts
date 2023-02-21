@@ -198,8 +198,28 @@ export async function getPosts(
       return { posts, count };
     }
 
+    const { zip, ...filters } = info;
     const posts = await Posts.findAll({
-      where: info,
+      where: searchParams?.radius
+        ? sequelize.and(
+            sequelize.fn(
+              "ST_DWithin",
+              sequelize.col("geo"),
+              sequelize.fn(
+                "ST_SetSRID",
+                sequelize.fn(
+                  "ST_MakePoint",
+                  Number(searchParams?.lng),
+                  Number(searchParams?.lat)
+                ),
+                4326
+              ),
+              Number(searchParams?.radius) * METERS_IN_MILE,
+              true
+            ),
+            filters
+          )
+        : info,
       limit: PAGE_SIZE,
       offset: PAGE_SIZE * ((searchParams?.page || 1) - 1),
       order: [
