@@ -1,4 +1,5 @@
 import { AutoComplete, Button, Input } from "antd";
+import { debounce } from "lodash";
 import Image from "next/image";
 import { CATEGORIES } from "../../../constants/constants";
 import { useRouter } from "next/router";
@@ -7,6 +8,7 @@ import styles from "./NavBar.module.scss";
 
 type NavBarProps = {
   zip: string | undefined;
+  setZip: Dispatch<SetStateAction<string | undefined>>;
   radius: string | undefined;
   appUrl: string;
   setLat: Dispatch<SetStateAction<number | undefined>>;
@@ -17,8 +19,14 @@ type NavBarProps = {
 };
 
 export default function NavBar(props: NavBarProps) {
-  const { zip, radius, changeCategory, searchByZipCode, searchByRadius } =
-    props;
+  const {
+    zip,
+    setZip,
+    radius,
+    changeCategory,
+    searchByZipCode,
+    searchByRadius,
+  } = props;
   const router = useRouter();
   const categoryList: Record<string, string> = {
     "": "All",
@@ -35,6 +43,16 @@ export default function NavBar(props: NavBarProps) {
     { value: "50" },
     { value: "100" },
   ];
+
+  const delayedSearchByZipCode = debounce((zip: string) => {
+    searchByZipCode(zip);
+  }, 300);
+
+  function handleZipCodeChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const zip = e.target.value;
+    setZip(zip);
+    delayedSearchByZipCode(zip);
+  }
 
   return (
     <div className={styles.navbar}>
@@ -76,7 +94,7 @@ export default function NavBar(props: NavBarProps) {
             }
             placeholder=""
             className={styles.loc}
-            onChange={(e) => searchByZipCode(e.target.value)}
+            onChange={handleZipCodeChange}
             value={zip}
           />
         </div>
