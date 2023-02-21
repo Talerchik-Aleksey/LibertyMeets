@@ -7,6 +7,7 @@ import styles from "./NavBar.module.scss";
 
 type NavBarProps = {
   zip: string | undefined;
+  radius: string | undefined;
   appUrl: string;
   setLat: Dispatch<SetStateAction<number | undefined>>;
   setLng: Dispatch<SetStateAction<number | undefined>>;
@@ -16,7 +17,8 @@ type NavBarProps = {
 };
 
 export default function NavBar(props: NavBarProps) {
-  const { changeCategory, searchByZipCode, searchByRadius } = props;
+  const { zip, radius, changeCategory, searchByZipCode, searchByRadius } =
+    props;
   const router = useRouter();
   const categoryList: Record<string, string> = {
     "": "All",
@@ -63,6 +65,7 @@ export default function NavBar(props: NavBarProps) {
             onChange={searchByRadius}
             placeholder="any"
             className={styles.mi}
+            value={radius}
           />
         </div>
         <div className={styles.place}>
@@ -74,6 +77,7 @@ export default function NavBar(props: NavBarProps) {
             placeholder=""
             className={styles.loc}
             onChange={(e) => searchByZipCode(e.target.value)}
+            value={zip}
           />
         </div>
       </div>
