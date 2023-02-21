@@ -74,7 +74,18 @@ export default function Events({
     if (router.query.category && typeof router.query.category === "string") {
       setCategory(router.query.category);
     }
-  }, [router.query.category, router.query?.page]);
+    if (router.query.radius && typeof router.query.radius === "string") {
+      setRadius(router.query?.radius);
+    }
+    if (router.query.zip && typeof router.query.zip === "string") {
+      setZipCode(router.query?.zip);
+    }
+  }, [
+    router.query.category,
+    router.query?.page,
+    router.query?.radius,
+    router.query?.zip,
+  ]);
 
   const queryPage = router.query.page;
   if (queryPage && +queryPage) {
@@ -161,6 +172,8 @@ export default function Events({
   }
 
   async function searchByZipCode(zip: string) {
+    console.log(zip);
+    setZipCode(zip);
     if (!zip || zip === "") {
       setZipCode(undefined);
       const dataForQuery: queryType = {};
@@ -173,21 +186,13 @@ export default function Events({
       return;
     }
 
-    setZipCode(zip);
-
-    if (!radius || radius === "") {
-      const dataForQuery: queryType = {};
-      await fillQueryParams(dataForQuery);
-      dataForQuery.zip = zip;
-      router.push({
-        pathname: `${appUrl}/posts`,
-        query: dataForQuery,
-      });
-
-      return;
-    }
-
-    await searchByRadius(radius!);
+    const dataForQuery: queryType = {};
+    await fillQueryParams(dataForQuery);
+    dataForQuery.zip = zip;
+    router.push({
+      pathname: `${appUrl}/posts`,
+      query: dataForQuery,
+    });
   }
 
   async function searchByRadius(radius: string) {
@@ -224,6 +229,7 @@ export default function Events({
         setLng(dataForQuery.lng);
       }
     }
+
     router.push({
       pathname: `${appUrl}/posts`,
       query: dataForQuery,
@@ -236,6 +242,7 @@ export default function Events({
       <div className={styles.navigation}>
         <NavBar
           zip={zipCode}
+          radius={radius}
           appUrl={appUrl}
           setLat={setLat}
           setLng={setLng}
