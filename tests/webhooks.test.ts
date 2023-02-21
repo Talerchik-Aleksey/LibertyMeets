@@ -1,7 +1,7 @@
 import addressparser from "addressparser";
 
-describe('addressparser', () => {
-  it('can parse', () => {
+describe("addressparser", () => {
+  it("can parse", () => {
     const fromStr = "Vadim Burdylev <vburdylev@twelvedevs.com>";
     const a = addressparser(fromStr);
     expect(a).toBeTruthy();

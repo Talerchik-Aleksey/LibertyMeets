@@ -1,5 +1,6 @@
 import {
   PASSWORD_VALIDATION_PATTERN,
+  removeTagsFromEmail,
   validateEmail,
 } from "../utils/stringUtils";
 
@@ -102,5 +103,24 @@ describe("validate password", () => {
     const result = PASSWORD_VALIDATION_PATTERN.test(password);
 
     expect(result).toBe(true);
+  });
+});
+
+describe("removing tags", () => {
+  it("removes one tag from email", () => {
+    const email = "auto+remove_123@example.com";
+    expect(removeTagsFromEmail(email)).toBe("auto@example.com");
+  });
+
+  it("removes several tags from email", () => {
+    const email = "auto+remove1+remove2+remove3@example.com";
+    expect(removeTagsFromEmail(email)).toBe("auto@example.com");
+  });
+
+  it("throws an error when incorrect parameters used", () => {
+    const email = "auto+remove_123_example.com";
+    expect(() => removeTagsFromEmail(email)).toThrow(
+      "Incorrect email format provided"
+    );
   });
 });
