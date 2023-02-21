@@ -62,13 +62,15 @@ export default function NavBar(props: NavBarProps) {
     setLng(position.coords.longitude);
     localStorage.setItem("lat", position.coords.latitude.toString());
     localStorage.setItem("lng", position.coords.longitude.toString());
-    await axios.post(
-      `${appUrl}/api/users/update`,
-      { location: [position.coords.latitude, position.coords.longitude] },
-      {
-        withCredentials: true,
-      }
-    );
+    if (session) {
+      await axios.post(
+        `${appUrl}/api/users/update`,
+        { location: [position.coords.latitude, position.coords.longitude] },
+        {
+          withCredentials: true,
+        }
+      );
+    }
   }
 
   function error(err: { code: any; message: any }) {
@@ -111,11 +113,7 @@ export default function NavBar(props: NavBarProps) {
         ))}
       </div>
       <div className={styles.location}>
-        <div
-          className={
-            session.status === "authenticated" ? styles.radius : styles.disable
-          }
-        >
+        <div className={styles.radius}>
           <span className={styles.text}>Radius</span>
           <AutoComplete
             options={autoCompleteOption}
