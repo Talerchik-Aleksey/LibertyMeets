@@ -101,6 +101,7 @@ export default function Events({
     setCurrent(page);
     const query: queryType = { page };
     fillQueryParams(query);
+    query.page = page;
     router.push({
       pathname: `${appUrl}/posts`,
       query: query,
@@ -166,7 +167,6 @@ export default function Events({
     }
 
     setZipCode(zip);
-    console.log(radius, zip);
 
     if (!radius || radius === "") {
       const dataForQuery: queryType = {};
@@ -213,6 +213,8 @@ export default function Events({
       if (locations?.locations[0]) {
         dataForQuery.lat = locations.locations[0].geometry.location.lat;
         dataForQuery.lng = locations.locations[0].geometry.location.lng;
+        setLat(dataForQuery.lat);
+        setLng(dataForQuery.lng);
       }
     }
     router.push({
