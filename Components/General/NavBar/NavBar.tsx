@@ -37,13 +37,13 @@ export default function NavBar(props: NavBarProps) {
   const [checkLng, setCheckLng] = useState<number>();
   const session = useSession();
   const router = useRouter();
-  const categoryList = {
+  const categoryList: { [index: string]: string } = {
     "": "All",
     undefined: "All",
-    social: "Social",
-    volunteer: "Volunteer",
-    professional: "Professional",
-    campaigns: "Campaigns",
+    Social: "Social",
+    Volunteer: "Volunteer",
+    Professional: "Professional",
+    Campaigns: "Campaigns",
   };
   const autoCompleteOption = [
     { value: "5" },
