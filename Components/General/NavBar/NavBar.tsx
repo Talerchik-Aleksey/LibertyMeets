@@ -37,7 +37,7 @@ export default function NavBar(props: NavBarProps) {
   const [checkLng, setCheckLng] = useState<number>();
   const session = useSession();
   const router = useRouter();
-  const categoryList: { [index: string]: string } = {
+  const categoryList: Record<string, string> = {
     "": "All",
     undefined: "All",
     Social: "Social",
