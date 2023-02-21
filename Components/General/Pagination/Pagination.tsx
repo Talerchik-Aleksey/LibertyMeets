@@ -53,6 +53,8 @@ export function PaginationForPosts({
                   borderRadius: "50%",
                   color: "#ffffff",
                   fontSize: "14px",
+                  width: "24px",
+                  margin: "auto",
                 }}
               >
                 {element}

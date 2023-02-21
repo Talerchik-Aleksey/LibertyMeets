@@ -21,6 +21,9 @@
 
   @media (max-width: 800px) {
     width: auto;
+    height: auto;
+    padding: 15px 15px;
+    align-items: flex-start;
   }
 
   @media (max-width: 600px) {
@@ -83,7 +86,7 @@
   }
 
   @media (max-width: 800px) {
-    max-width: 250px;
+    max-width: 270px;
   }
 
   @media (max-width: 400px) {
@@ -129,6 +132,5 @@
 
   @media (max-width: 600px) {
     display: block;
-    margin-top: 33px;
   }
 }

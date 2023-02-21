@@ -4,17 +4,29 @@ import NavBar from "../General/NavBar/NavBar";
 import { isToday, isTomorrow } from "../../utils/eventTimeStatus";
 import styles from "./Events.module.scss";
 import { useRouter } from "next/router";
-import { PostType } from "../../types/general";
+import { ExchangePostType } from "../../types/general";
 import PostsList from "../PostsList";
 import axios from "axios";
 import { PaginationForPosts } from "../General/Pagination/Pagination";
+import { message } from "antd";
+import getLocation from "../../services/geocodeSearch";
+import { Posts } from "../../models/posts";
 
 type PropsType = {
   appUrl: string;
   postsPerPage: number;
-  initialPosts: PostType[];
+  initialPosts: ExchangePostType[];
   initialCount: number;
   isLogin: boolean;
+};
+
+type queryType = {
+  page?: number;
+  category?: string;
+  zip?: string;
+  radius?: string;
+  lat?: number;
+  lng?: number;
 };
 
 export default function Events({
@@ -27,10 +39,27 @@ export default function Events({
   const [current, setCurrent] = useState<number>(1);
   const [isViewForAllCategory, setIsViewForAllCategory] =
     useState<boolean>(true);
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [posts, setPosts] = useState<ExchangePostType[]>([]);
   const [totalCount, setTotalCount] = useState<number>(initialCount);
   const [category, setCategory] = useState<string | undefined>(undefined);
+  const [zipCode, setZipCode] = useState<string | undefined>(undefined);
+  const [radius, setRadius] = useState<string | undefined>(undefined);
+  const [lat, setLat] = useState<number>();
+  const [lng, setLng] = useState<number>();
+  const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
+
+  const error = (text: string) => {
+    messageApi.destroy();
+    messageApi.open({
+      type: "error",
+      content: text,
+      duration: 10,
+      style: {
+        marginTop: "15vh",
+      },
+    });
+  };
 
   useEffect(() => {
     setPosts(initialPosts);
@@ -52,23 +81,37 @@ export default function Events({
     page = +queryPage;
   }
 
+  async function fillQueryParams(query: queryType) {
+    if (category) {
+      query.category = category;
+    }
+    if (zipCode) {
+      query.zip = zipCode;
+    }
+    if (radius) {
+      query.radius = radius;
+    }
+    if (lat !== undefined && lng !== undefined) {
+      query.lat = lat;
+      query.lng = lng;
+    }
+  }
+
   function changePageNumber(page: number) {
     setCurrent(page);
-    if (category) {
-      router.push({
-        pathname: `${appUrl}/posts`,
-        query: { page, category },
-      });
-
-      return;
-    }
+    const query: queryType = { page };
+    fillQueryParams(query);
+    query.page = page;
     router.push({
       pathname: `${appUrl}/posts`,
-      query: { page },
+      query: query,
     });
   }
 
   async function changeCategory(category: string) {
+    const query: queryType = {};
+    await fillQueryParams(query);
+
     if (category === "All" || category === undefined) {
       setIsViewForAllCategory(true);
     } else {
@@ -76,18 +119,20 @@ export default function Events({
     }
     if (category === "All") {
       setCategory(undefined);
+      query.category = undefined;
       router.push({
         pathname: `${appUrl}/posts`,
-        query: { page },
+        query: query,
       });
 
       return;
     }
-    setCategory(category.toLowerCase());
+    setCategory(category);
     setCurrent(1);
+    query.category = category;
     router.push({
       pathname: `${appUrl}/posts`,
-      query: { category: category.toLowerCase() },
+      query: query,
     });
   }
 
@@ -95,26 +140,109 @@ export default function Events({
     const res = await axios.post(`${appUrl}/api/favorites/${postId}`);
     const currentPosts = posts;
     const foundPost = currentPosts.find((item) => item.id === postId);
+
     if (!foundPost) {
       return;
     }
+
     foundPost.is_favorite = res.data.data.isFavorite;
     foundPost.favoriteUsers = [];
-
     setPosts([...currentPosts]);
   }
 
   function getPostsByDate(
-    posts: PostType[],
+    posts: (Posts & {
+      is_favorite?: boolean;
+      favoriteUsers: { id: number }[];
+    })[],
     filterFn: (date: Date) => boolean
   ) {
     return posts.filter((post) => filterFn(new Date(post.created_at)));
   }
 
+  async function searchByZipCode(zip: string) {
+    if (!zip || zip === "") {
+      setZipCode(undefined);
+      const dataForQuery: queryType = {};
+      await fillQueryParams(dataForQuery);
+      dataForQuery.zip = zip;
+      router.push({
+        pathname: `${appUrl}/posts`,
+        query: dataForQuery,
+      });
+      return;
+    }
+
+    setZipCode(zip);
+
+    if (!radius || radius === "") {
+      const dataForQuery: queryType = {};
+      await fillQueryParams(dataForQuery);
+      dataForQuery.zip = zip;
+      router.push({
+        pathname: `${appUrl}/posts`,
+        query: dataForQuery,
+      });
+
+      return;
+    }
+
+    await searchByRadius(radius!);
+  }
+
+  async function searchByRadius(radius: string) {
+    const dataForQuery: queryType = {};
+
+    if (
+      (lat === undefined || lng === undefined) &&
+      (!zipCode || zipCode === "")
+    ) {
+      error("Write a zip code for radius sampling");
+      return;
+    }
+
+    if (!radius || radius === "") {
+      setRadius(undefined);
+      await fillQueryParams(dataForQuery);
+      dataForQuery.radius = undefined;
+      router.push({
+        pathname: `${appUrl}/posts`,
+        query: dataForQuery,
+      });
+    }
+
+    setRadius(radius);
+
+    await fillQueryParams(dataForQuery);
+    dataForQuery.radius = radius;
+    if (zipCode) {
+      const locations = await getLocation(zipCode);
+      if (locations?.locations[0]) {
+        dataForQuery.lat = locations.locations[0].geometry.location.lat;
+        dataForQuery.lng = locations.locations[0].geometry.location.lng;
+        setLat(dataForQuery.lat);
+        setLng(dataForQuery.lng);
+      }
+    }
+    router.push({
+      pathname: `${appUrl}/posts`,
+      query: dataForQuery,
+    });
+  }
+
   return (
     <section className={styles.eventsPageContainer}>
+      <div className={styles.error}>{contextHolder}</div>
       <div className={styles.navigation}>
-        <NavBar changeCategory={changeCategory} />
+        <NavBar
+          zip={zipCode}
+          appUrl={appUrl}
+          setLat={setLat}
+          setLng={setLng}
+          changeCategory={changeCategory}
+          searchByZipCode={searchByZipCode}
+          searchByRadius={searchByRadius}
+        />
       </div>
       <div className={styles.wrap}>
         <div className={styles.container}>

@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { PostType } from "../../types/general";
+import { ExchangePostType } from "../../types/general";
 import Location from "../Location/Location";
 import styles from "./Event.module.scss";
 
 type EventSingleRowProps = {
-  post: PostType;
+  post: ExchangePostType;
   changeStar: (postId: number) => void;
   isViewForAllCategory: boolean;
   isLogin: boolean;

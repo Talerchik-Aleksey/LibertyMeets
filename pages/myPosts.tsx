@@ -3,12 +3,12 @@ import config from "config";
 import { getSession } from "next-auth/react";
 import { getUserPosts } from "../services/posts";
 import MyPosts from "../Components/MyPosts/MyPosts";
-import { PostType } from "../types/general";
+import { ExchangePostType } from "../types/general";
 
 type MyPostsPageProps = {
   appUrl: string;
   postsPerPage: number;
-  posts: PostType[];
+  posts: ExchangePostType[];
   count: number;
 };
 
@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps<MyPostsPageProps> = async (
   const postsPerPage = config.get<number>("posts.perPage");
 
   const session = await getSession({ req: ctx.req });
-  if (!session) {
+  if (!session?.user) {
     return {
       notFound: true,
     };

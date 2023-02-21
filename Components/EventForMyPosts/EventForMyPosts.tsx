@@ -1,12 +1,12 @@
-import { PostType } from "../../types/general";
 import Image from "next/image";
 import styles from "./EventForMyPosts.module.scss";
 import Link from "next/link";
 import moment from "moment";
 import Location from "../Location/Location";
+import { Posts } from "../../models/posts";
 
 type EventForMyPostsProps = {
-  post: PostType;
+  post: Posts & { is_favorite?: boolean; favoriteUsers: { id: number }[] };
   movePost?: (postId: number) => void;
 };
 
@@ -31,19 +31,21 @@ export default function EventForMyPosts({
         )}
       </div>
       <Link className={styles.link} href={`/posts/${post.id}/?fromUrl=myPosts`}>
-        <div className={styles.leftBlock}>
-          <div className={styles.date}>
-            {moment(post.created_at).format("MMM DD, YYYY")}
+        <div className={styles.postInfo}>
+          <div className={styles.leftBlock}>
+            <div className={styles.label}>{post.category}</div>
+            <div className={styles.info}>{post.title}</div>
           </div>
-          <div className={styles.label}>{post.category}</div>
-          <div className={styles.info}>{post.title}</div>
+          <div className={styles.rightBlock}>
+            {post.is_blocked && (
+              <div className={styles.blocked}>
+                <span className={styles.blockedText}>blocked</span>{" "}
+              </div>
+            )}
+          </div>
         </div>
-        <div className={styles.rightBlock}>
-          {post.is_blocked && (
-            <div className={styles.blocked}>
-              <span className={styles.blockedText}>blocked</span>{" "}
-            </div>
-          )}
+        <div className={styles.AdditionalPostInfo}>
+          {moment(post.created_at).format("MMM DD, YYYY")}
           <Location post={post} />
         </div>
       </Link>

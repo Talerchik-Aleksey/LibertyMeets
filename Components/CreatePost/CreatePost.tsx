@@ -6,18 +6,13 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import axios from "axios";
 import RememberBlock from "../RememberBlock/RememberBlock";
-import { KEY_LAT, KEY_LNG } from "../../constants/constants";
 import styles from "./CreatePost.module.scss";
 import Link from "next/link";
 import { Location } from "../../services/geocodeSearch";
 import getLocations from "../../services/geocodeSearch";
+import { Spiner } from "../General/Spiner/Spiner";
 
 const { TextArea } = Input;
-const geoLocationOptions = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0,
-};
 
 type CreatePostProps = { appUrl: string };
 
@@ -38,7 +33,7 @@ export default function CreatePost(props: CreatePostProps) {
   const Map = useMemo(
     () =>
       dynamic(() => import("../Map"), {
-        loading: () => <p>A map is loading</p>,
+        loading: () => <Spiner />,
         ssr: false,
       }),
     []
@@ -94,7 +89,6 @@ export default function CreatePost(props: CreatePostProps) {
       }
 
       fillLocationData(values, geocodeResult[0]);
-
       const res = await axios.post(`${appUrl}/api/posts/create`, values, {
         withCredentials: true,
       });
@@ -111,22 +105,24 @@ export default function CreatePost(props: CreatePostProps) {
   }
 
   useEffect(() => {
-    getLocations(postalCode)
-      .then((result) => {
-        setGeocodeResult(result?.locations);
-        if (result) {
-          setLat(result.locations[0].geometry.location.lat);
-          setLng(result.locations[0].geometry.location.lng);
-        } else {
-          setLat(Number(session?.user.lat));
-          setLng(Number(session?.user.lng));
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-        error("Sorry, but we were unable to detect location.");
-      });
-  }, [postalCode]);
+    if (postalCode) {
+      getLocations(postalCode)
+        .then((result) => {
+          setGeocodeResult(result?.locations);
+          if (result) {
+            setLat(result.locations[0].geometry.location.lat);
+            setLng(result.locations[0].geometry.location.lng);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          error("Sorry, but we were unable to detect location.");
+        });
+    } else {
+      setLat(Number(session?.user.lat));
+      setLng(Number(session?.user.lng));
+    }
+  }, [postalCode, session?.user]);
 
   return (
     <section className={styles.container}>
@@ -171,6 +167,7 @@ export default function CreatePost(props: CreatePostProps) {
                 ]}
               >
                 <Input
+                  placeholder="Your Title"
                   suffix={
                     <Image
                       src="/decor/editPensil.svg"
@@ -190,32 +187,34 @@ export default function CreatePost(props: CreatePostProps) {
                 labelCol={{ span: 2 }}
                 label="Category"
                 name="category"
-                initialValue="social"
                 colon={false}
                 rules={[{ required: true }]}
               >
-                <Select className={styles.categorySelect}>
+                <Select
+                  className={styles.categorySelect}
+                  placeholder="Please select the group for your post"
+                >
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="social"
+                    value="Social"
                   >
                     Social
                   </Select.Option>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="volunteer"
+                    value="Volunteer"
                   >
                     Volunteer
                   </Select.Option>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="professional"
+                    value="Professional"
                   >
                     Professional
                   </Select.Option>
                   <Select.Option
                     className={styles.categorySelectOption}
-                    value="campaigns"
+                    value="Campaigns"
                   >
                     Сampaigns
                   </Select.Option>
@@ -242,6 +241,7 @@ export default function CreatePost(props: CreatePostProps) {
                   rows={7}
                   size={"small"}
                   className={styles.descriptionTextarea}
+                  placeholder="Describe your listing in detail here"
                 />
               </Form.Item>
             </div>

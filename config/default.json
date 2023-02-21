@@ -36,7 +36,10 @@
       },
       "cc": [],
       "bcc": [],
-      "reply_to": "reply-service@mg.example.com"
+      "reply_to": {
+        "name": "LibertyMeets service",
+        "email": "service@mg.example.com"
+      }
     }
   },
   "logging": {

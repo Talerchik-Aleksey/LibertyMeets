@@ -8,14 +8,14 @@ const mailgun = Mailgun({
   host: config.get<string>("mailgun.host"),
 });
 
-type recipientType = { name?: string; email: string };
+type RecipientType = { name?: string; email: string };
 
-function solveRecipientName(user: recipientType) {
+function resolveRecipientName(user: RecipientType) {
   return user.name ? `"${user.name}" <${user.email}>` : user.email;
 }
 
-function concatRecipients(list: recipientType[]) {
-  return (list || []).map(solveRecipientName).join(", ");
+function concatRecipients(list: RecipientType[]) {
+  return (list || []).map(resolveRecipientName).join(", ");
 }
 
 async function renderEmailTemplate(ejsFileName: string, params: any) {
@@ -28,15 +28,16 @@ async function renderEmailTemplate(ejsFileName: string, params: any) {
   return result as string;
 }
 
-type paramsType = {
-  to: recipientType;
+type ParamsType = {
+  to: RecipientType;
+  reply_to?: RecipientType;
 };
 
 const props = config.get<{
-  from: recipientType;
-  cc: recipientType[];
-  bcc: recipientType[];
-  reply_to: string;
+  from: RecipientType;
+  cc: RecipientType[];
+  bcc: RecipientType[];
+  reply_to: RecipientType;
 }>("emails.emailProps");
 
 type HeadersSetupEntry = [string, string];
@@ -44,7 +45,7 @@ type HeadersSetup = Array<HeadersSetupEntry>;
 
 export async function sendEmail(
   template: string,
-  paramsArg: paramsType,
+  paramsArg: ParamsType,
   templateProps: any,
   headers: HeadersSetup = []
 ) {
@@ -59,7 +60,7 @@ export async function sendEmail(
   const body = rawBody.trim();
 
   const data: any = {
-    from: solveRecipientName(params.from),
+    from: resolveRecipientName(params.from),
     subject: subject || "",
     html: body,
   };
@@ -80,7 +81,7 @@ export async function sendEmail(
     isRecipientsFound = true;
   }
   if (params.reply_to) {
-    data["h:Reply-To"] = params.reply_to;
+    data["h:Reply-To"] = resolveRecipientName(params.reply_to);
   } else {
     data["h:Reply-To"] = params.from.email;
   }
@@ -95,4 +96,6 @@ export async function sendEmail(
 
   console.log("data", data);
   const res = await mailgun.messages().send(data);
+  console.log("result", res);
+  return res;
 }

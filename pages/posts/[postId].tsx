@@ -2,9 +2,6 @@ import config from "config";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 import { getSession } from "next-auth/react";
-import ThreadForm from "../../Components/Posts/ThreadForm";
-import Thread from "../../Components/Posts/Thread";
-import AuthorThreads from "../../Components/Posts/AuthorThreads";
 import { getPost } from "../../services/posts";
 import { backendLoader } from "../../utils/backend-loader";
 import type { Posts } from "../../models/posts";
@@ -19,19 +16,7 @@ type SinglePostProps = {
   post: PostType;
 };
 
-type PostType = {
-  id: number;
-  author_id: number;
-  title: string;
-  geo: string;
-  created_at: Date;
-  category: string;
-  description: string;
-  is_public: boolean;
-  is_blocked: boolean;
-  lat: number;
-  lng: number;
-};
+type PostType = Posts;
 
 export default function SinglePost({
   session,
@@ -87,7 +72,7 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
 
   const post = await backendLoader<Posts>(
     () => getPost(postId),
-    ["created_at"]
+    ["created_at", "updated_at"]
   );
 
   if (!post) {

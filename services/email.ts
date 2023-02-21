@@ -38,20 +38,32 @@ export async function sendReplyMessageToThread(
   const title = post?.title;
 
   const baseDomain = config.get<string>("emails.replySetup.baseDomain");
-  await sendEmail(
+  const replyTo = config.get<{ name: string; email: string }>("emails.emailProps.reply_to");
+
+  const threadEmailAddress = `${thread.id}@${baseDomain}`;
+
+  const result = await sendEmail(
     "reply",
     {
       to: {
         name: undefined,
         email: user.email,
       },
+      reply_to: {
+        ...replyTo,
+        email: threadEmailAddress,
+      },
     },
     { message: simpleTextToHtml(message), title },
     [
-      ["In-Reply-To", `<${thread.id}@${baseDomain}>`],
-      ["References", `<${thread.id}@${baseDomain}>`],
-    ]
+      ["In-Reply-To", `<${threadEmailAddress}>`],
+      ["References", `<${threadEmailAddress}>`],
+    ],
   );
+  if (!result) {
+    return null;
+  }
+  return result.id;
 }
 
 export async function sendResetPasswordLink(

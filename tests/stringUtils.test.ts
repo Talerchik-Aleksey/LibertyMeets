@@ -90,6 +90,20 @@ describe("validate password", () => {
 
     expect(result).toBe(false);
   });
+
+  it('should return true for a password with "', () => {
+    const password = 'Abcd123"';
+    const result = PASSWORD_VALIDATION_PATTERN.test(password);
+
+    expect(result).toBe(true);
+  });
+
+  it("should return true for a password with _", () => {
+    const password = "Abcd1234_";
+    const result = PASSWORD_VALIDATION_PATTERN.test(password);
+
+    expect(result).toBe(true);
+  });
 });
 
 describe("removing tags", () => {

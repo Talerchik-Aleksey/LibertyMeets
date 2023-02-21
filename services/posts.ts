@@ -5,8 +5,10 @@ import { PostType } from "../types/general";
 import config from "config";
 import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
-import { Transaction } from "sequelize";
+import * as sequelize from "sequelize";
 import { connect } from "../utils/db";
+import { Transaction } from "sequelize";
+import { METERS_IN_MILE } from "../constants/constants";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -19,18 +21,13 @@ export async function savePostToDb({
   user: { id: number; email: string };
   post: PostType;
 }) {
-  let geo = undefined;
-  if (post.lat && post.lng) {
-    geo = `${post.lat}N, ${post.lng}W`;
-  }
-
   const createdPost = await Posts.create({
     author_id: user.id,
     title: post.title,
     category: post.category,
     description: post.description,
     is_public: post.is_public,
-    geo: geo,
+    geo: { type: "Point", coordinates: [post.lng, post.lat] },
     lat: post.lat,
     lng: post.lng,
     location_name: post.location_name,
@@ -39,35 +36,196 @@ export async function savePostToDb({
     state: post.state,
     street: post.street,
   });
-
   await UserPosts.create({ user_id: user.id, post_id: createdPost.id });
   return createdPost;
 }
 
-export async function getPosts(
-  page: number,
-  user?: { id: number } | null | undefined,
-  category?: string | string[] | undefined
+type getPostsTypes = {
+  category?: string | string[] | undefined;
+  is_blocked: boolean | string[] | undefined;
+  zip?: string | string[] | undefined;
+  id?: number[];
+};
+
+type SearchProps = {
+  page?: number;
+  category?: string | string[] | undefined;
+  zip?: string | string[] | undefined;
+  lat?: string | string[] | undefined;
+  lng?: string | string[] | undefined;
+  radius?: string | string[] | undefined;
+};
+
+async function fillSearchParams(
+  serarchParams: SearchProps,
+  info: getPostsTypes & SearchProps
 ) {
-  if (user) {
-    const info = category
-      ? { category, is_blocked: false }
-      : { is_blocked: false };
+  if (serarchParams.zip) {
+    info.zip = serarchParams.zip;
+  }
+  if (serarchParams.category) {
+    info.category = serarchParams.category;
+  }
+}
+
+async function searchPostsWithGeoRadius(
+  searchParams: SearchProps,
+  user: { id: number } | null | undefined,
+  info: getPostsTypes & SearchProps
+) {
+  const { zip, ...filters } = info;
+  return await Posts.findAll({
+    where: sequelize.and(
+      sequelize.fn(
+        "ST_DWithin",
+        sequelize.col("geo"),
+        sequelize.fn(
+          "ST_SetSRID",
+          sequelize.fn(
+            "ST_MakePoint",
+            Number(searchParams.lng),
+            Number(searchParams.lat)
+          ),
+          4326
+        ),
+        Number(searchParams.radius) * METERS_IN_MILE,
+        true
+      ),
+      filters
+    ),
+    limit: PAGE_SIZE,
+    offset: PAGE_SIZE * ((searchParams?.page || 1) - 1),
+    order: [
+      ["created_at", "DESC"],
+      ["title", "ASC"],
+    ],
+    include: {
+      model: FavoritePosts,
+      as: "favoriteUsers",
+      where: { user_id: user?.id },
+      required: false,
+      attributes: ["id", "user_id", "post_id"],
+    },
+    attributes: [
+      "id",
+      "title",
+      "category",
+      "description",
+      "is_public",
+      "geo",
+      "created_at",
+      "author_id",
+      "city",
+      "state",
+      "location_name",
+      "zip",
+    ],
+  });
+}
+
+async function searchPostsWithoutGeo(
+  searchParams: SearchProps | undefined,
+  user: { id: number } | null | undefined,
+  info: getPostsTypes & SearchProps
+) {
+  return await Posts.findAll({
+    where: {
+      ...info,
+    },
+    limit: PAGE_SIZE,
+    offset: PAGE_SIZE * ((searchParams?.page || 1) - 1),
+    order: [
+      ["created_at", "DESC"],
+      ["title", "ASC"],
+    ],
+    include: {
+      model: FavoritePosts,
+      as: "favoriteUsers",
+      where: { user_id: user?.id },
+      required: false,
+      attributes: ["id", "user_id", "post_id"],
+    },
+    attributes: [
+      "id",
+      "title",
+      "category",
+      "description",
+      "is_public",
+      "geo",
+      "created_at",
+      "author_id",
+      "city",
+      "state",
+      "location_name",
+      "zip",
+    ],
+  });
+}
+
+export async function getPosts(
+  user?: { id: number } | null | undefined,
+  searchParams?: SearchProps
+) {
+  try {
+    const info: getPostsTypes & SearchProps = {
+      is_blocked: false,
+    };
+
+    if (searchParams) {
+      await fillSearchParams(searchParams, info);
+    }
+
+    if (user) {
+      if (
+        searchParams &&
+        searchParams.lat &&
+        searchParams.lng &&
+        searchParams.radius
+      ) {
+        const posts = await searchPostsWithGeoRadius(searchParams, user, info);
+        const count = await Posts.count({
+          where: info,
+        });
+
+        return { posts, count };
+      }
+
+      const posts = await searchPostsWithoutGeo(searchParams, user, info);
+      const count = await Posts.count({
+        where: info,
+      });
+
+      return { posts, count };
+    }
+
+    const { zip, ...filters } = info;
     const posts = await Posts.findAll({
-      where: info,
+      where: searchParams?.radius
+        ? sequelize.and(
+            sequelize.fn(
+              "ST_DWithin",
+              sequelize.col("geo"),
+              sequelize.fn(
+                "ST_SetSRID",
+                sequelize.fn(
+                  "ST_MakePoint",
+                  Number(searchParams?.lng),
+                  Number(searchParams?.lat)
+                ),
+                4326
+              ),
+              Number(searchParams?.radius) * METERS_IN_MILE,
+              true
+            ),
+            filters
+          )
+        : info,
       limit: PAGE_SIZE,
-      offset: PAGE_SIZE * (page - 1),
+      offset: PAGE_SIZE * ((searchParams?.page || 1) - 1),
       order: [
         ["created_at", "DESC"],
         ["title", "ASC"],
       ],
-      include: {
-        model: FavoritePosts,
-        as: "favoriteUsers",
-        where: { user_id: user.id },
-        required: false,
-        attributes: ["id", "user_id", "post_id"],
-      },
       attributes: [
         "id",
         "title",
@@ -80,39 +238,16 @@ export async function getPosts(
         "city",
         "state",
         "location_name",
+        "zip",
       ],
     });
     const count = await Posts.count({
       where: info,
     });
     return { posts, count };
+  } catch (e) {
+    console.log(e);
   }
-
-  const info = category
-    ? { is_public: true, category, is_blocked: false }
-    : { is_public: true, is_blocked: false };
-
-  const posts = await Posts.findAll({
-    where: info,
-    order: [
-      ["created_at", "DESC"],
-      ["title", "ASC"],
-    ],
-    limit: PAGE_SIZE,
-    offset: PAGE_SIZE * (page - 1),
-    attributes: [
-      "id",
-      "title",
-      "category",
-      "description",
-      "is_public",
-      "geo",
-      "created_at",
-      "author_id",
-    ],
-  });
-  const count = await Posts.count({ where: info });
-  return { count, posts };
 }
 
 export async function changeFavoritePost(userId: number, postId: number) {
@@ -170,19 +305,6 @@ export async function getPost(postId: number) {
     where: {
       id: postId,
     },
-    attributes: [
-      "id",
-      "title",
-      "category",
-      "description",
-      "is_public",
-      "geo",
-      "author_id",
-      "created_at",
-      "is_blocked",
-      "lat",
-      "lng",
-    ],
   });
 
   return post;

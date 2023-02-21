@@ -140,8 +140,8 @@
 }
 
 .categorySelect {
-
   & div {
+    align-items: center;
     min-height: 38px !important;
     border: 1px solid #8f8f8f !important;
   }
@@ -164,8 +164,8 @@
 }
 
 .descriptionTextarea {
-
   & textarea {
+    padding-top: 5px;
     border: 1px solid #8f8f8f !important;
   }
 }
@@ -202,7 +202,6 @@
 }
 
 .postTitleText {
-
   & div div {
     min-width: 95px !important;
 
@@ -213,7 +212,6 @@
 }
 
 .categoryText {
-
   & div div {
     min-width: 95px !important;
 
@@ -224,7 +222,6 @@
 }
 
 .descriptionText {
-
   & div div {
     min-width: 95px !important;
 
@@ -239,13 +236,12 @@
   width: 300px;
   margin: 0 auto 70px auto;
 
-  @media (max-width:575px) {
+  @media (max-width: 575px) {
     width: 170px;
   }
 }
 
 .city {
-
   & label {
     width: 170px !important;
   }

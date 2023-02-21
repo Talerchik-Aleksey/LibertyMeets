@@ -79,7 +79,10 @@ const processReplyToThread = async (
     return null;
   }
 
-  await handleReplyToThread(userId, thread, message);
+  const messageId = payload['Message-Id'];
+
+  // set received_message_id
+  await handleReplyToThread(userId, thread, message, true, messageId);
 };
 
 export const handleWebhook = async (payload: MailgunIncomingMessage) => {
@@ -87,8 +90,11 @@ export const handleWebhook = async (payload: MailgunIncomingMessage) => {
   // 2. otherwise - ignore it
 
   let thread;
-  if (payload["References"]) {
-    thread = await tryToFindThread(payload["References"]);
+  if (payload['References']) {
+    thread = await tryToFindThread(payload['References']);
+  }
+  if (!thread) {
+    thread = await tryToFindThread(payload['To']);
   }
 
   if (thread) {

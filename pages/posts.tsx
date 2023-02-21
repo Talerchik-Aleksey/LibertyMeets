@@ -1,7 +1,7 @@
 import { GetServerSideProps } from "next";
 import config from "config";
 import Events from "../Components/Events/Events";
-import { PostType } from "../types/general";
+import { ExchangePostType } from "../types/general";
 import { getPosts } from "../services/posts";
 import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -11,7 +11,7 @@ type PostsPageProps = {
   session: Session | null;
   appUrl: string;
   postsPerPage: number;
-  posts: PostType[];
+  posts: ExchangePostType[];
   count: number;
 };
 
@@ -59,16 +59,22 @@ export const getServerSideProps: GetServerSideProps<PostsPageProps> = async (
   const appUrl = process.env.NEXTAUTH_URL || config.get<string>("appUrl");
   const postsPerPage = config.get<number>("posts.perPage");
   const session = await getSession({ req: ctx.req });
-  let page = Number(ctx.query.page);
-  if (isNaN(page)) {
-    page = 1;
+  const searchParams = {
+    page: Number(ctx.query.page),
+    category: ctx.query.category,
+    zip: ctx.query.zip,
+    lat: ctx.query.lat,
+    lng: ctx.query.lng,
+    radius: ctx.query.radius,
+  };
+
+  if (isNaN(searchParams.page)) {
+    searchParams.page = 1;
   }
 
-  const res = await getPosts(page, session?.user, ctx.query.category);
+  const res = await getPosts(session?.user, searchParams);
   if (!res) {
-    return {
-      notFound: true,
-    };
+    return { props: { session, appUrl, postsPerPage: 0, posts: [], count: 0 } };
   }
 
   const posts = res.posts

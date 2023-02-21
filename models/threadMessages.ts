@@ -43,6 +43,14 @@ export class ThreadMessages extends Model {
   @Column(DataType.TEXT)
   message!: string;
 
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  sent_message_id!: string;
+
+  @AllowNull(true)
+  @Column(DataType.STRING)
+  received_message_id!: string;
+
   @CreatedAt
   @Column
   created_at!: Date;

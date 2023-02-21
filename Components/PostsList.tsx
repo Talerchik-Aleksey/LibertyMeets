@@ -1,8 +1,8 @@
-import { PostType } from "../types/general";
+import { ExchangePostType } from "../types/general";
 import Event from "./Event/Event";
 
 type PostListProps = {
-  posts: PostType[];
+  posts: ExchangePostType[];
   changeStar: (postId: number) => void;
   isViewForAllCategory: boolean;
   isLogin: boolean;
@@ -13,7 +13,7 @@ export default function PostsList(props: PostListProps) {
 
   return (
     <>
-      {posts.map((post) => (
+      {posts.map((post: ExchangePostType) => (
         <Event
           key={post.id}
           post={post}

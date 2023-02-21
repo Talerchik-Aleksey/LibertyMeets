@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const post = await backendLoader<Posts>(
     () => getPost(postId),
-    ["created_at"]
+    ["created_at", "updated_at"]
   );
 
   if (!post || session?.user.id !== post.author_id) {
