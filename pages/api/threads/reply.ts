@@ -8,11 +8,9 @@ import {
 } from "../../../services/reply";
 import { getPost } from "../../../services/posts";
 import { getThreadById } from "../../../services/threads";
+import { CommonApiResponse } from "../../../types/general";
 
-type ResType = {
-  status: string;
-  data: any;
-};
+type Payload = {};
 
 type QueryType = {
   postId: number | undefined;
@@ -32,7 +30,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResType>
+  res: NextApiResponse<CommonApiResponse<Payload>>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {

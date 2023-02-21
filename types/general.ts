@@ -1,5 +1,12 @@
 import { Posts } from "../models/posts";
 
+export type ErrorApiResponsePayload = {
+  message: string;
+};
+
+export type CommonApiResponse<T> = { status: "ok", data: T }
+  | { status: "error", data: ErrorApiResponsePayload };
+
 export type UserType = {
   email: string;
   password: string;

@@ -4,8 +4,10 @@ import { getEmailVerificationToken } from "../../../services/users";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
 import config from "config";
+import { errorResponse } from "../../../utils/response";
+import { CommonApiResponse } from "../../../types/general";
 
-type ResType = {
+type Payload = {
   message: string;
 };
 
@@ -17,7 +19,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResType>
+  res: NextApiResponse<CommonApiResponse<Payload>>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
@@ -45,16 +47,8 @@ export default async function handler(
     const supportEmail = config.get<string>("emails.supportEmail");
 
     await sendVerificationByEmail(email, verificationUrl, supportEmail);
-    res.status(200).json({ message: "success resend" });
+    res.status(200).json({ status: "ok", data: { message: "success resend" } });
   } catch (err) {
-    if (err instanceof HttpError) {
-      const httpErr = err as HttpError;
-      res.status(httpErr.httpCode).json({ message: httpErr.message });
-      return;
-    } else {
-      const error = err as Error;
-      res.status(500).json({ message: error.message });
-      return;
-    }
+    errorResponse(req, res, err);
   }
 }

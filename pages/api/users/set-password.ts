@@ -1,9 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { changePassword } from "../../../services/users";
+import { CommonApiResponse } from "../../../types/general";
 import { connect } from "../../../utils/db";
 import { HttpError } from "../../../utils/HttpError";
+import { errorResponse } from "../../../utils/response";
 
-type ResType = {
+type Payload = {
   message: string;
 };
 
@@ -16,7 +18,7 @@ connect();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResType>
+  res: NextApiResponse<CommonApiResponse<Payload>>
 ) {
   try {
     if (!req.method || req.method! !== "POST") {
@@ -38,24 +40,16 @@ export default async function handler(
 
     if (!isUser) {
       req.log.warn({ token }, "Attempt to update password but token not found");
-      res.status(204).json({ message: "Invalid token"});
+      res
+        .status(204)
+        .json({ status: "ok", data: { message: "Invalid token" } });
       return;
     }
 
-    res.status(200).json({ message: "success reset password"});
+    res
+      .status(200)
+      .json({ status: "ok", data: { message: "success reset password" } });
   } catch (err) {
-    if (err instanceof HttpError) {
-      const httpErr = err as HttpError;
-      res
-        .status(httpErr.httpCode)
-        .json({ message: httpErr.message });
-      return;
-    } else {
-      const error = err as Error;
-      res
-        .status(500)
-        .json({ message: error.message });
-      return;
-    }
+    errorResponse(req, res, err);
   }
 }
