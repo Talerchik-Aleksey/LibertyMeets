@@ -190,7 +190,7 @@ export default function Events({
       (lat === undefined || lng === undefined) &&
       (!zipCode || zipCode === "")
     ) {
-      error("Login in account and give access to your location");
+      error("Give access to your geolocation or write your zip code");
       return;
     }
 
