@@ -73,6 +73,7 @@ async function searchPostsWithGeoRadius(
   user: { id: number } | null | undefined,
   info: getPostsTypes & SearchProps
 ) {
+  const { zip, ...filters } = info;
   return await Posts.findAll({
     where: sequelize.and(
       sequelize.fn(
@@ -90,7 +91,7 @@ async function searchPostsWithGeoRadius(
         Number(searchParams.radius) * METERS_IN_MILE,
         true
       ),
-      info
+      filters
     ),
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * ((searchParams?.page || 1) - 1),
@@ -181,7 +182,6 @@ export async function getPosts(
         searchParams.lng &&
         searchParams.radius
       ) {
-        console.log(searchParams);
         const posts = await searchPostsWithGeoRadius(searchParams, user, info);
         const count = await Posts.count({
           where: info,
