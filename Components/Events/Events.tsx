@@ -172,7 +172,6 @@ export default function Events({
   }
 
   async function searchByZipCode(zip: string) {
-    console.log(zip);
     setZipCode(zip);
     if (!zip || zip === "") {
       setZipCode(undefined);
@@ -183,6 +182,10 @@ export default function Events({
         pathname: `${appUrl}/posts`,
         query: dataForQuery,
       });
+      return;
+    }
+
+    if (zip.length < 5) {
       return;
     }
 
@@ -242,6 +245,7 @@ export default function Events({
       <div className={styles.navigation}>
         <NavBar
           zip={zipCode}
+          setZip={setZipCode}
           radius={radius}
           appUrl={appUrl}
           setLat={setLat}
