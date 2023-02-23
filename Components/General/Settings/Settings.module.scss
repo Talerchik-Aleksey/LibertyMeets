@@ -191,9 +191,13 @@
 
 .profileWrapper {
   display: flex;
-  gap: 5px;
+  gap: 30px;
   flex-direction: column;
   background: #f9fafb;
-  padding: 130px 0 0 0;
+  padding: 130px 0px 0px 0px;
   min-height: 100vh;
+
+  @media (max-width: 800px) {
+    padding-top: 10px;
+  }
 }

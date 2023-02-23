@@ -1,7 +1,5 @@
 import { Button, Form, Input, Modal } from "antd";
-import {
-  QuestionCircleOutlined,
-} from "@ant-design/icons";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import styles from "./Settings.module.scss";
 import Image from "next/image";
 import { useState } from "react";
@@ -72,6 +70,7 @@ export default function Settings(props: SettingsProps) {
 
   return (
     <section className={styles.profileWrapper}>
+      <div></div>
       <Navigation activePage={props.activePage} />
       <div className={styles.wrap}>
         <div className={styles.container}>
