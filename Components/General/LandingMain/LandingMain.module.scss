@@ -219,6 +219,10 @@
 
   width: 100%;
 
+  & > .quote {
+    font-size: 30px !important;
+  }
+
   @media (max-width: 700px) {
     font-size: 25px;
   }
@@ -226,6 +230,7 @@
 
 .quote {
   color: var(--LibertyMeets-Purple-600);
+  font-size: 42px;
 }
 
 .libertyAbout {
