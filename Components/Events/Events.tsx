@@ -172,7 +172,6 @@ export default function Events({
   }
 
   async function searchByZipCode(zip: string) {
-    setZipCode(zip);
     if (!zip || zip === "") {
       setZipCode(undefined);
       const dataForQuery: queryType = {};
