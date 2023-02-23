@@ -76,16 +76,6 @@ export default function NavBar(props: NavBarProps) {
         ))}
       </div>
       <div className={styles.location}>
-        <div className={styles.radius}>
-          <span className={styles.text}>Radius</span>
-          <AutoComplete
-            options={autoCompleteOption}
-            onChange={searchByRadius}
-            placeholder="any"
-            className={styles.mi}
-            value={radius}
-          />
-        </div>
         <div className={styles.place}>
           <span className={styles.text}>Zip Code</span>
           <Input
@@ -96,6 +86,16 @@ export default function NavBar(props: NavBarProps) {
             className={styles.loc}
             onChange={handleZipCodeChange}
             value={zip}
+          />
+        </div>
+        <div className={styles.radius}>
+          <span className={styles.text}>Radius</span>
+          <AutoComplete
+            options={autoCompleteOption}
+            onChange={searchByRadius}
+            placeholder="any"
+            className={styles.mi}
+            value={radius}
           />
         </div>
       </div>
