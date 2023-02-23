@@ -145,16 +145,13 @@ export default function EditPage(props: EditPostProps) {
             </div>
           </div>
           <div className={styles.buttonBlock}>
-            <Button
-              className={styles.cancel}
-              onClick={() => router.push("/posts")}
-            >
+            <Button className={styles.cancel} onClick={() => history.back()}>
               <Image src="/decor/x.svg" alt="" width={10} height={10} />
               <span className={styles.cancelBtn}>Cancel</span>
             </Button>
             <Form.Item>
               <Button className={styles.edit} htmlType="submit">
-                <span className={styles.editBtn}>Edit Post</span>
+                <span className={styles.editBtn}>Save</span>
               </Button>
             </Form.Item>
           </div>
