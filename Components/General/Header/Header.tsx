@@ -14,8 +14,24 @@ import SignUp from "./buttons/signUp";
 import Image from "next/image";
 
 const buttonMap = {
-  showSearch: ["", "my-favorites", "myPosts", "settings", "about", "404"],
-  showCreatePost: ["", "posts", "my-favorites", "myPosts", "settings", "about"],
+  showSearch: [
+    "",
+    "my-favorites",
+    "myPosts",
+    "settings",
+    "about",
+    "404",
+    "posts/[postId]",
+  ],
+  showCreatePost: [
+    "",
+    "posts",
+    "my-favorites",
+    "myPosts",
+    "settings",
+    "about",
+    "posts/[postId]",
+  ],
   showMyProfile: [
     "",
     "posts",
