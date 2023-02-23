@@ -31,6 +31,9 @@ export default function EventForMyPosts({
         )}
       </div>
       <Link className={styles.link} href={`/posts/${post.id}/?fromUrl=myPosts`}>
+        <div className={styles.postDate}>
+          {moment(post.created_at).format("MMM DD, YYYY")}
+        </div>
         <div className={styles.postInfo}>
           <div className={styles.leftBlock}>
             <div className={styles.label}>{post.category}</div>
@@ -44,8 +47,8 @@ export default function EventForMyPosts({
             )}
           </div>
         </div>
-        <div className={styles.AdditionalPostInfo}>
-          {moment(post.created_at).format("MMM DD, YYYY")}
+        <div className={styles.postLocation}>
+          {/* {moment(post.created_at).format("MMM DD, YYYY")} */}
           <Location post={post} />
         </div>
       </Link>
