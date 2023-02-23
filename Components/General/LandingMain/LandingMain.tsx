@@ -25,7 +25,9 @@ export default function LandingMain() {
         </div>
       </section>
       <section className={styles.valuesBlock}>
-        <AboutBlocks />
+        <div className={styles.valuesContainer}>
+          <AboutBlocks />
+        </div>
         <div className={styles.buttonBlock}>
           <Link className={styles.buttonLearnLink} href="/about">
             <span className={styles.buttonLearnMore}>

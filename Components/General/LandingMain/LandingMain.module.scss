@@ -76,6 +76,12 @@
   }
 }
 
+.valuesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .logoInfo {
   width: 100%;
   display: flex;
