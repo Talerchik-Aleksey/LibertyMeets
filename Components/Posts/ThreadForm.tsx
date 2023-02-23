@@ -100,7 +100,7 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
               size={"small"}
               className={styles.descriptionTextarea}
               placeholder={
-                "Please do not give time/location details or personal indentifying infromation in your reply. And if you meeting with strangers, please do is is public place."
+                "Please do not give time/location details or personal indentifying infromation in your reply. And if you meeting with strangers, please do it in a public place."
               }
             />
           </Form.Item>
