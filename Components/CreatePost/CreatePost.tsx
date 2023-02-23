@@ -132,7 +132,7 @@ export default function CreatePost(props: CreatePostProps) {
           <Button
             className={styles.arrowBtn}
             type="link"
-            onClick={() => router.push("/posts")}
+            onClick={() => history.back()}
           >
             <Image
               src="/decor/arrow-left.svg"
