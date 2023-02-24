@@ -47,6 +47,7 @@ export class Posts extends Model {
   description!: string;
 
   @AllowNull(false)
+  @Default(false)
   @Column(DataType.BOOLEAN)
   is_public!: boolean;
 
@@ -76,7 +77,7 @@ export class Posts extends Model {
   geo!: any;
 
   @AllowNull(false)
-  @Default(false)
+  @Default(true)
   @Column(DataType.BOOLEAN)
   is_enabled!: boolean;
 
