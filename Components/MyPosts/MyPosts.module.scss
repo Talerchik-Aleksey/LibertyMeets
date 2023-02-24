@@ -9,7 +9,7 @@
   border-radius: 8px;
   padding: 20px;
   box-sizing: border-box;
-  gap:15px;
+  gap: 15px;
 
   @media (max-width: 1200px) {
     width: auto;
@@ -33,7 +33,7 @@
 .button {
   display: flex;
   align-items: center;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -59,11 +59,15 @@
 
 .profileWrapper {
   display: flex;
-  gap: 5px;
+  gap: 30px;
   flex-direction: column;
   background: #f9fafb;
-  padding: 50px 0 150px 0;
+  padding: 130px 0 150px 0;
   min-height: 100vh;
+
+  @media (max-width: 800px) {
+    padding-top: 40px;
+  }
 }
 
 .containerMenu {
@@ -115,23 +119,23 @@
   color: #ffffff;
   border: none !important;
   background-color: unset !important;
-  display: flex!important;
+  display: flex !important;
   align-items: center;
   width: 14px !important;
   height: 24px !important;
-  line-height: unset!important;
-  justify-content: center!important;
+  line-height: unset !important;
+  justify-content: center !important;
 }
 
 .pagination li span button {
   background-color: revert !important;
   border-radius: 50% !important;
   height: 24px !important;
-  width: 24px!important;
+  width: 24px !important;
 }
 
 .pagination li span a {
-  display: flex!important;
+  display: flex !important;
   align-items: center;
   justify-content: center;
 }
