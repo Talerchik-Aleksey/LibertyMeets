@@ -190,8 +190,27 @@ export async function getPosts(
         searchParams.radius
       ) {
         const posts = await searchPostsWithGeoRadius(searchParams, user, info);
+
+        const { zip, ...filters } = info;
         const count = await Posts.count({
-          where: info,
+          where: sequelize.and(
+            sequelize.fn(
+              "ST_DWithin",
+              sequelize.col("geo"),
+              sequelize.fn(
+                "ST_SetSRID",
+                sequelize.fn(
+                  "ST_MakePoint",
+                  Number(searchParams?.lng),
+                  Number(searchParams?.lat)
+                ),
+                4326
+              ),
+              Number(searchParams?.radius) * METERS_IN_MILE,
+              true
+            ),
+            filters
+          ),
         });
 
         return { posts, count };
