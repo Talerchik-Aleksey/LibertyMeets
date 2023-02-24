@@ -60,7 +60,6 @@ export default function MyPosts({
 
   return (
     <section className={styles.profileWrapper}>
-      <div></div>
       <Navigation activePage={activePage} />
       {posts.length === 0 ? (
         // eslint-disable-next-line react/no-unescaped-entities

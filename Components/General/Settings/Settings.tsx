@@ -70,7 +70,6 @@ export default function Settings(props: SettingsProps) {
 
   return (
     <section className={styles.profileWrapper}>
-      <div></div>
       <Navigation activePage={props.activePage} />
       <div className={styles.wrap}>
         <div className={styles.container}>
