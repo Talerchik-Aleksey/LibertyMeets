@@ -9,6 +9,7 @@ import MyPost from "../../Components/PostPage/MyPost/MyPost";
 import LivePost from "../../Components/PostPage/LivePost/LivePost";
 import { useRouter } from "next/router";
 import { Session } from "next-auth";
+import Head from "next/head";
 
 type SinglePostProps = {
   session: Session | null;
@@ -17,6 +18,8 @@ type SinglePostProps = {
 };
 
 type PostType = Posts;
+
+const SHARETHIS_TOKEN = process.env.SHARETHIS_TOKEN;
 
 export default function SinglePost({
   session,
@@ -30,6 +33,22 @@ export default function SinglePost({
 
   return (
     <>
+      <Head>
+        {typeof window !== "undefined" && (
+          <>
+            <script
+              src={`https://buttons-config.sharethis.com/js/${SHARETHIS_TOKEN}.js`}
+              async
+            />
+            <script
+              type="text/javascript"
+              src={`https://platform-api.sharethis.com/js/sharethis.js#property=${SHARETHIS_TOKEN}&product=sticky-share-buttons&source=platform`}
+              async
+            ></script>
+          </>
+        )}
+      </Head>
+      <div className="sharethis-sticky-share-buttons"></div>
       {isAuthor ? (
         <>
           <MyPost
