@@ -54,9 +54,20 @@ export default function MyPost(props: PostProps) {
 
   const postId = post.id;
 
+  function addingPostTitle() {
+    return post.title.trim().toLowerCase().startsWith("draft:")
+      ? post.title
+      : `Draft: ${post.title}`;
+  }
+
+  function changeTitleByStatus(is_public: boolean) {
+    return is_public ? post.title.slice(7) : addingPostTitle();
+  }
+
   async function makePublic(is_public: boolean) {
     try {
       const res = await axios.post(`${appUrl}/api/posts/updatePost`, {
+        title: changeTitleByStatus(is_public),
         postId,
         is_public,
       });

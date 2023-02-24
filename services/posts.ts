@@ -14,6 +14,12 @@ const PAGE_SIZE = config.get<number>("posts.perPage");
 
 connect();
 
+function checkPostTitile(title: string) {
+  return title.trim().toLowerCase().startsWith("draft:")
+    ? title
+    : `Draft: ${title}`;
+}
+
 export async function savePostToDb({
   user,
   post,
@@ -23,7 +29,7 @@ export async function savePostToDb({
 }) {
   const createdPost = await Posts.create({
     author_id: user.id,
-    title: post.title,
+    title: checkPostTitile(post.title),
     category: post.category,
     description: post.description,
     is_public: post.is_public,
@@ -399,11 +405,12 @@ export async function deletePost(
 
 export async function changePostVisible(
   userId: number,
+  title: string,
   postId: number,
   is_public: boolean
 ) {
   await Posts.update(
-    { is_public },
+    { is_public, title },
     {
       where: { author_id: userId, id: postId },
     }
