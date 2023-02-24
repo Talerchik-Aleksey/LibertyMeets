@@ -76,7 +76,7 @@ export class Posts extends Model {
   geo!: any;
 
   @AllowNull(false)
-  @Default(true)
+  @Default(false)
   @Column(DataType.BOOLEAN)
   is_enabled!: boolean;
 

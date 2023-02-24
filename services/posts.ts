@@ -21,12 +21,13 @@ export async function savePostToDb({
   user: { id: number; email: string };
   post: PostType;
 }) {
+  const { is_public = false } = post;
   const createdPost = await Posts.create({
     author_id: user.id,
     title: post.title,
     category: post.category,
     description: post.description,
-    is_public: post.is_public,
+    is_public: is_public,
     geo: { type: "Point", coordinates: [post.lng, post.lat] },
     lat: post.lat,
     lng: post.lng,
