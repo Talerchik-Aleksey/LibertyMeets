@@ -47,6 +47,7 @@ export class Posts extends Model {
   description!: string;
 
   @AllowNull(false)
+  @Default(false)
   @Column(DataType.BOOLEAN)
   is_public!: boolean;
 
