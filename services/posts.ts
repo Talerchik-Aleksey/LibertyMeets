@@ -26,6 +26,7 @@ export async function savePostToDb({
     title: post.title,
     category: post.category,
     description: post.description,
+    is_public: post.is_public,
     geo: { type: "Point", coordinates: [post.lng, post.lat] },
     lat: post.lat,
     lng: post.lng,
