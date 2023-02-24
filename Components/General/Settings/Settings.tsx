@@ -1,7 +1,5 @@
 import { Button, Form, Input, Modal } from "antd";
-import {
-  QuestionCircleOutlined,
-} from "@ant-design/icons";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import styles from "./Settings.module.scss";
 import Image from "next/image";
 import { useState } from "react";

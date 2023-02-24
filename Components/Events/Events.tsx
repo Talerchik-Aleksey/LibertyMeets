@@ -239,76 +239,78 @@ export default function Events({
   }
 
   return (
-    <section className={styles.eventsPageContainer}>
+    <>
       <div className={styles.error}>{contextHolder}</div>
-      <div className={styles.navigation}>
-        <NavBar
-          zip={zipCode}
-          setZip={setZipCode}
-          radius={radius}
-          appUrl={appUrl}
-          setLat={setLat}
-          setLng={setLng}
-          changeCategory={changeCategory}
-          searchByZipCode={searchByZipCode}
-          searchByRadius={searchByRadius}
-        />
-      </div>
-      <div className={styles.wrap}>
-        <div className={styles.container}>
-          <div className={styles.eventsContainer}>
-            <div className={styles.eventsSubBlock}>
-              {getPostsByDate(posts, isToday).length > 0 && (
-                <div className={styles.eventsSubBlockTitle}>
-                  <span className={styles.buttonDay}>Today</span>
-                </div>
-              )}
-              <PostsList
-                posts={getPostsByDate(posts, isToday)}
-                changeStar={changeStar}
-                isViewForAllCategory={isViewForAllCategory}
-                isLogin={isLogin}
-              />
-              {getPostsByDate(posts, isTomorrow).length > 0 && (
-                <div className={styles.eventsSubBlockTitle}>
-                  <span className={styles.buttonDay}>Tomorrow</span>
-                </div>
-              )}
-              <PostsList
-                posts={getPostsByDate(posts, isTomorrow)}
-                changeStar={changeStar}
-                isViewForAllCategory={isViewForAllCategory}
-                isLogin={isLogin}
-              />
-              {getPostsByDate(
-                posts,
-                (date) => !isTomorrow(date) && !isToday(date)
-              ).length > 0 && (
-                <div className={styles.eventsSubBlockTitle}>
-                  <span className={styles.buttonDay}>Earlier</span>
-                </div>
-              )}
-              <PostsList
-                posts={getPostsByDate(
+      <section className={styles.eventsPageContainer}>
+        <div className={styles.navigation}>
+          <NavBar
+            zip={zipCode}
+            setZip={setZipCode}
+            radius={radius}
+            appUrl={appUrl}
+            setLat={setLat}
+            setLng={setLng}
+            changeCategory={changeCategory}
+            searchByZipCode={searchByZipCode}
+            searchByRadius={searchByRadius}
+          />
+        </div>
+        <div className={styles.wrap}>
+          <div className={styles.container}>
+            <div className={styles.eventsContainer}>
+              <div className={styles.eventsSubBlock}>
+                {getPostsByDate(posts, isToday).length > 0 && (
+                  <div className={styles.eventsSubBlockTitle}>
+                    <span className={styles.buttonDay}>Today</span>
+                  </div>
+                )}
+                <PostsList
+                  posts={getPostsByDate(posts, isToday)}
+                  changeStar={changeStar}
+                  isViewForAllCategory={isViewForAllCategory}
+                  isLogin={isLogin}
+                />
+                {getPostsByDate(posts, isTomorrow).length > 0 && (
+                  <div className={styles.eventsSubBlockTitle}>
+                    <span className={styles.buttonDay}>Tomorrow</span>
+                  </div>
+                )}
+                <PostsList
+                  posts={getPostsByDate(posts, isTomorrow)}
+                  changeStar={changeStar}
+                  isViewForAllCategory={isViewForAllCategory}
+                  isLogin={isLogin}
+                />
+                {getPostsByDate(
                   posts,
                   (date) => !isTomorrow(date) && !isToday(date)
+                ).length > 0 && (
+                  <div className={styles.eventsSubBlockTitle}>
+                    <span className={styles.buttonDay}>Earlier</span>
+                  </div>
                 )}
-                changeStar={changeStar}
-                isViewForAllCategory={isViewForAllCategory}
-                isLogin={isLogin}
-              />
+                <PostsList
+                  posts={getPostsByDate(
+                    posts,
+                    (date) => !isTomorrow(date) && !isToday(date)
+                  )}
+                  changeStar={changeStar}
+                  isViewForAllCategory={isViewForAllCategory}
+                  isLogin={isLogin}
+                />
+              </div>
             </div>
+            <PaginationForPosts
+              category={category}
+              totalCount={totalCount}
+              appUrl={appUrl}
+              postsPerPage={postsPerPage}
+              changePage={changePageNumber}
+            />
+            <AddListing />
           </div>
-          <PaginationForPosts
-            category={category}
-            totalCount={totalCount}
-            appUrl={appUrl}
-            postsPerPage={postsPerPage}
-            changePage={changePageNumber}
-          />
-          <AddListing />
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
