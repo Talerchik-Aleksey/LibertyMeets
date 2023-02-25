@@ -9,16 +9,11 @@ import * as sequelize from "sequelize";
 import { connect } from "../utils/db";
 import { Transaction } from "sequelize";
 import { METERS_IN_MILE } from "../constants/constants";
+import { checkPostTitile } from "../utils/titleStatusUtils";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
 connect();
-
-function checkPostTitile(title: string) {
-  return title.trim().toLowerCase().startsWith("draft:")
-    ? title
-    : `Draft: ${title}`;
-}
 
 export async function savePostToDb({
   user,

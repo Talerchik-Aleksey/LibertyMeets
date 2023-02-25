@@ -1,4 +1,3 @@
-import { getPost } from "../../../services/posts";
 import Image from "next/image";
 import { Button, Select, Tooltip, Modal } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
@@ -12,6 +11,7 @@ import { Spiner } from "../../General/Spiner/Spiner";
 import { Posts } from "../../../models/posts";
 import Location from "../../Location/Location";
 import styles from "./MyPost.module.scss";
+import { changeTitleByStatus } from "../../../utils/titleStatusUtils";
 
 const { Option } = Select;
 
@@ -56,27 +56,17 @@ export default function MyPost(props: PostProps) {
 
   const postId = post.id;
 
-  function addingPostTitle() {
-    return post.title.trim().toLowerCase().startsWith("draft:")
-      ? post.title
-      : `Draft: ${post.title}`;
-  }
-
-  function changeTitleByStatus(is_public: boolean) {
-    return is_public ? post.title.slice(7) : addingPostTitle();
-  }
-
   async function makePublic(is_public: boolean) {
     try {
       const res = await axios.post(`${appUrl}/api/posts/updatePost`, {
-        title: changeTitleByStatus(is_public),
+        title: changeTitleByStatus(post, is_public),
         postId,
         is_public,
       });
       if (res.status === 200) {
         setPost({
           ...post,
-          title: changeTitleByStatus(is_public),
+          title: changeTitleByStatus(post, is_public),
           is_public,
         } as PostType);
       }
