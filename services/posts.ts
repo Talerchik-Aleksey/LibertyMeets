@@ -22,7 +22,6 @@ export async function savePostToDb({
   user: { id: number; email: string };
   post: PostType;
 }) {
-  const { is_public = false } = post;
   const createdPost = await Posts.create({
     author_id: user.id,
     title: checkPostTitile(post.title),
@@ -36,6 +35,7 @@ export async function savePostToDb({
     zip: post.zip,
     state: post.state,
     street: post.street,
+    is_public: false,
   });
   await UserPosts.create({ user_id: user.id, post_id: createdPost.id });
   return createdPost;
