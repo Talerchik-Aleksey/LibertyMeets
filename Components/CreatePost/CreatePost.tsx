@@ -21,7 +21,7 @@ export default function CreatePost(props: CreatePostProps) {
   const { data: session } = useSession();
   const [lat, setLat] = useState<number>(0);
   const [lng, setLng] = useState<number>(0);
-  const [isPublic, setIsPublic] = useState<boolean>(true);
+  const [isPublic, setIsPublic] = useState<boolean>(false);
   const [postalCode, setPostalCode] = useState<string>("");
   const [messageApi, contextHolder] = message.useMessage();
   const [geocodeResult, setGeocodeResult] = useState<Location[] | undefined>(
@@ -248,7 +248,7 @@ export default function CreatePost(props: CreatePostProps) {
           </div>
           <div className={styles.public}>
             <Switch
-              defaultChecked={true}
+              defaultChecked={false}
               className={styles.switch}
               onChange={() => setIsPublic(!isPublic)}
               style={
