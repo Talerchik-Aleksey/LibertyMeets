@@ -1,4 +1,4 @@
-import styles from "./MyPost.module.scss";
+import { getPost } from "../../../services/posts";
 import Image from "next/image";
 import { Button, Select, Tooltip, Modal } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
@@ -11,6 +11,8 @@ import { Session } from "next-auth";
 import { Spiner } from "../../General/Spiner/Spiner";
 import { Posts } from "../../../models/posts";
 import Location from "../../Location/Location";
+import styles from "./MyPost.module.scss";
+
 const { Option } = Select;
 
 type PostProps = {
@@ -72,7 +74,11 @@ export default function MyPost(props: PostProps) {
         is_public,
       });
       if (res.status === 200) {
-        setPost({ ...post, is_public } as PostType);
+        setPost({
+          ...post,
+          title: changeTitleByStatus(is_public),
+          is_public,
+        } as PostType);
       }
     } catch (err) {
       const error = err as AxiosError;
@@ -172,7 +178,9 @@ export default function MyPost(props: PostProps) {
           <Option className={styles.optionContainer} key="public">
             <div
               className={styles.option}
-              onClick={() => makePublic(!post?.is_public)}
+              onClick={async () => {
+                makePublic(!post?.is_public);
+              }}
             >
               <Image
                 src="/decor/eye3.svg"
