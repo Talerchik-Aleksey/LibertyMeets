@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button, Form, Input, Select, Switch } from "antd";
+import { Button, Form, Input, Select } from "antd";
 import { useRouter } from "next/router";
 import axios from "axios";
 import styles from "./EditPage.module.scss";
@@ -69,7 +69,10 @@ export default function EditPage(props: EditPostProps) {
                 name="title"
                 colon={false}
                 initialValue={props.post.title}
-                rules={[{ required: false }, { type: "string", max: 100 }]}
+                rules={[
+                  { required: false },
+                  { type: "string", min: 4, max: 90 },
+                ]}
               >
                 <Input
                   suffix={

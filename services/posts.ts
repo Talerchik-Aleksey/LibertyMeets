@@ -9,7 +9,7 @@ import * as sequelize from "sequelize";
 import { connect } from "../utils/db";
 import { Transaction } from "sequelize";
 import { METERS_IN_MILE } from "../constants/constants";
-import { checkPostTitile } from "../utils/titleStatusUtils";
+import { checkPostTitile, isDraft } from "../utils/titleStatusUtils";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -419,7 +419,12 @@ export async function editPost(
   postDescription: string
 ) {
   const res = await Posts.update(
-    { title: postTitle, category: postCategory, description: postDescription },
+    {
+      title: postTitle,
+      category: postCategory,
+      description: postDescription,
+      is_public: !isDraft(postTitle),
+    },
     {
       where: { id: postId },
     }

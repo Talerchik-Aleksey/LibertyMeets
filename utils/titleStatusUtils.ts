@@ -15,3 +15,7 @@ export function checkPostTitile(title: string) {
 export function changeTitleByStatus(post: Posts, is_public: boolean) {
   return is_public ? post.title.slice(7) : addingPostTitle(post);
 }
+
+export function isDraft(title: string): boolean {
+  return title.trim().toLowerCase().startsWith("draft:");
+}
