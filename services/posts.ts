@@ -15,6 +15,37 @@ const PAGE_SIZE = config.get<number>("posts.perPage");
 
 connect();
 
+const COMMON_POST_ATTRIBUTES = [
+  "id",
+  "title",
+  "category",
+  "description",
+  "is_public",
+  "geo",
+  "created_at",
+  "author_id",
+  "is_blocked",
+  "city",
+  "state",
+  "location_name",
+  "zip",
+];
+
+const buildGeoSearchCriteria = (radius: number, lat: number, lng: number) => {
+  // ST_DWithin(geo, ST_SetSRID(ST_MakePoint(lng, lat), 4326), radius)
+  return sequelize.fn(
+    "ST_DWithin",
+    sequelize.col("geo"),
+    sequelize.fn(
+      "ST_SetSRID",
+      sequelize.fn("ST_MakePoint", lng, lat),
+      4326
+    ),
+    radius * METERS_IN_MILE,
+    true,
+  );
+};
+
 export async function savePostToDb({
   user,
   post,
@@ -79,22 +110,11 @@ async function searchPostsWithGeoRadius(
   const { zip, ...filters } = info;
   return await Posts.findAll({
     where: sequelize.and(
-      sequelize.fn(
-        "ST_DWithin",
-        sequelize.col("geo"),
-        sequelize.fn(
-          "ST_SetSRID",
-          sequelize.fn(
-            "ST_MakePoint",
-            Number(searchParams.lng),
-            Number(searchParams.lat)
-          ),
-          4326
-        ),
-        Number(searchParams.radius) * METERS_IN_MILE,
-        true
-      ),
-      filters
+      buildGeoSearchCriteria(Number(searchParams.radius), Number(searchParams.lat), Number(searchParams.lng)),
+      filters,
+      {
+        is_public: true,
+      },
     ),
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * ((searchParams?.page || 1) - 1),
@@ -109,29 +129,16 @@ async function searchPostsWithGeoRadius(
       required: false,
       attributes: ["id", "user_id", "post_id"],
     },
-    attributes: [
-      "id",
-      "title",
-      "category",
-      "description",
-      "is_public",
-      "geo",
-      "created_at",
-      "author_id",
-      "city",
-      "state",
-      "location_name",
-      "zip",
-    ],
+    attributes: COMMON_POST_ATTRIBUTES,
   });
 }
 
-async function searchPostsWithoutGeo(
+function searchPostsWithoutGeo(
   searchParams: SearchProps | undefined,
   user: { id: number } | null | undefined,
   info: getPostsTypes & SearchProps
 ) {
-  return await Posts.findAll({
+  return Posts.findAll({
     where: {
       ...info,
     },
@@ -148,20 +155,7 @@ async function searchPostsWithoutGeo(
       required: false,
       attributes: ["id", "user_id", "post_id"],
     },
-    attributes: [
-      "id",
-      "title",
-      "category",
-      "description",
-      "is_public",
-      "geo",
-      "created_at",
-      "author_id",
-      "city",
-      "state",
-      "location_name",
-      "zip",
-    ],
+    attributes: COMMON_POST_ATTRIBUTES,
   });
 }
 
@@ -195,22 +189,11 @@ export async function getPosts(
         const { zip, ...filters } = info;
         const count = await Posts.count({
           where: sequelize.and(
-            sequelize.fn(
-              "ST_DWithin",
-              sequelize.col("geo"),
-              sequelize.fn(
-                "ST_SetSRID",
-                sequelize.fn(
-                  "ST_MakePoint",
-                  Number(searchParams?.lng),
-                  Number(searchParams?.lat)
-                ),
-                4326
-              ),
-              Number(searchParams?.radius) * METERS_IN_MILE,
-              true
-            ),
-            filters
+            buildGeoSearchCriteria(Number(searchParams.radius), Number(searchParams.lat), Number(searchParams.lng)),
+            filters,
+            {
+              is_public: true,
+            },
           ),
         });
 
@@ -230,21 +213,7 @@ export async function getPosts(
     const posts = await Posts.findAll({
       where: searchParams?.radius
         ? sequelize.and(
-            sequelize.fn(
-              "ST_DWithin",
-              sequelize.col("geo"),
-              sequelize.fn(
-                "ST_SetSRID",
-                sequelize.fn(
-                  "ST_MakePoint",
-                  Number(searchParams?.lng),
-                  Number(searchParams?.lat)
-                ),
-                4326
-              ),
-              Number(searchParams?.radius) * METERS_IN_MILE,
-              true
-            ),
+            buildGeoSearchCriteria(Number(searchParams.radius), Number(searchParams.lat), Number(searchParams.lng)),
             filters
           )
         : info,
@@ -254,20 +223,7 @@ export async function getPosts(
         ["created_at", "DESC"],
         ["title", "ASC"],
       ],
-      attributes: [
-        "id",
-        "title",
-        "category",
-        "description",
-        "is_public",
-        "geo",
-        "created_at",
-        "author_id",
-        "city",
-        "state",
-        "location_name",
-        "zip",
-      ],
+      attributes: COMMON_POST_ATTRIBUTES,
     });
     const count = await Posts.count({
       where: info,
@@ -293,11 +249,11 @@ export async function changeFavoritePost(userId: number, postId: number) {
 
 export async function getFavoritePosts(
   page: number,
-  user: { id: number } | null | undefined
+  user: { id: number },
 ) {
   const favPosts = await FavoritePosts.findAll({
     where: {
-      user_id: user?.id,
+      user_id: user.id,
     },
     attributes: ["post_id"],
   });
@@ -312,34 +268,33 @@ export async function getFavoritePosts(
     where: {
       id: ids,
       is_blocked: false,
-      [Op.or]: [{ is_public: true }, { is_public: false, author_id: user?.id }],
+      [Op.or]: [
+        { is_public: true },
+        { is_public: false, author_id: user.id },
+      ],
     },
-    attributes: [
-      "id",
-      "title",
-      "category",
-      "description",
-      "is_public",
-      "geo",
-      "created_at",
-      "author_id",
-      "city",
-      "state",
-      "location_name",
-    ],
+    attributes: COMMON_POST_ATTRIBUTES,
   });
 
   return { posts, count: ids.length };
 }
 
-export async function getPost(postId: number) {
-  const post = await Posts.findOne({
-    where: {
-      id: postId,
-    },
+export async function getPost(postId: number, userId: number | undefined) {
+  const where = {
+    id: postId,
+    ...(userId && {
+      [Op.or]: [
+        { is_public: true },
+        { is_public: false, author_id: userId },
+      ],
+    }),
+    ...(!userId && {
+      is_public: true,
+    }),
+  };
+  return Posts.findOne({
+    where,
   });
-
-  return post;
 }
 
 export async function getUserPosts(page: number, userId: number) {
@@ -351,20 +306,7 @@ export async function getUserPosts(page: number, userId: number) {
       ["created_at", "DESC"],
       ["title", "ASC"],
     ],
-    attributes: [
-      "id",
-      "title",
-      "category",
-      "description",
-      "is_public",
-      "geo",
-      "created_at",
-      "author_id",
-      "is_blocked",
-      "city",
-      "state",
-      "location_name",
-    ],
+    attributes: COMMON_POST_ATTRIBUTES,
   });
 
   const count = await Posts.count({ where: { author_id: userId } });
@@ -389,6 +331,11 @@ export async function deletePost(
   t: Transaction
 ) {
   try {
+    const isAuthor = await isAuthorCheck(userId, postId);
+    if (!isAuthor) {
+      return;
+    }
+
     await UserPosts.destroy({ where: { post_id: postId }, transaction: t });
 
     await FavoritePosts.destroy({
@@ -429,13 +376,13 @@ export async function deletePost(
   }
 }
 
-export async function changePostVisible(
+export function changePostVisible(
   userId: number,
   title: string,
   postId: number,
   is_public: boolean
 ) {
-  await Posts.update(
+  return Posts.update(
     { is_public, title },
     {
       where: { author_id: userId, id: postId },
@@ -443,13 +390,13 @@ export async function changePostVisible(
   );
 }
 
-export async function editPost(
+export function editPost(
   postId: number,
   postTitle: string,
   postCategory: string,
   postDescription: string
 ) {
-  const res = await Posts.update(
+  return Posts.update(
     {
       title: postTitle,
       category: postCategory,
@@ -462,7 +409,7 @@ export async function editPost(
   );
 }
 
-export async function deletePosts(userId: number, t: Transaction) {
+export async function deleteUserPosts(userId: number, t: Transaction) {
   try {
     const posts = await Posts.findAll({
       where: { author_id: userId },

@@ -90,7 +90,7 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
   }
 
   const post = await backendLoader<Posts>(
-    () => getPost(postId),
+    () => getPost(postId, session?.user.id),
     ["created_at", "updated_at"]
   );
 

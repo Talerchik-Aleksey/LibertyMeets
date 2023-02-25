@@ -34,7 +34,7 @@ export async function sendReplyMessageToThread(
     throw new HttpError(404, "user not found");
   }
 
-  const post = await getPost(thread.post_id);
+  const post = await getPost(thread.post_id, user.id);
   const title = post?.title;
 
   const baseDomain = config.get<string>("emails.replySetup.baseDomain");

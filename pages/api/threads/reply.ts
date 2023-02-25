@@ -68,7 +68,7 @@ export default async function handler(
         throw new HttpError(400, "invalid postId");
       }
 
-      const post = await getPost(postId);
+      const post = await getPost(postId, userId);
       if (!post) {
         res.status(404);
         return;

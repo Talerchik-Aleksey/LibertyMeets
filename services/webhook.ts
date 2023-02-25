@@ -35,7 +35,7 @@ const processReplyToThread = async (
   }
   const fromEmail = addresses[0].address;
 
-  const post = await getPost(thread.post_id);
+  const post = await getPost(thread.post_id, undefined);
   if (!post) {
     return null;
   }

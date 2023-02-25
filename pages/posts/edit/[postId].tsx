@@ -28,11 +28,13 @@ export default function EditPost({ appUrl, post: initialPost }: PropsType) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const appUrl = config.get<string>("appUrl");
   const session = await getSession({ req: ctx.req });
-  if (!session?.user) {
+  if (!session || !session.user) {
     return {
       notFound: true,
     };
   }
+
+  const userId = session.user.id;
 
   const postId = Number(ctx.query.postId);
   if (!postId || isNaN(postId)) {
@@ -42,11 +44,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   const post = await backendLoader<Posts>(
-    () => getPost(postId),
+    () => getPost(postId, userId),
     ["created_at", "updated_at"]
   );
 
-  if (!post || session?.user.id !== post.author_id) {
+  if (!post || userId !== post.author_id) {
     return {
       notFound: true,
     };

@@ -33,12 +33,12 @@ export default async function handler(
     }
 
     const session = await getSession({ req });
-    if (!session) {
+    if (!session || !session.user) {
       res.status(401);
       return;
     }
 
-    const { posts, count } = await getFavoritePosts(page, session?.user);
+    const { posts, count } = await getFavoritePosts(page, session.user);
     res.status(200).json({ status: "ok", data: { posts, count } });
   } catch (err) {
     errorResponse(req, res, err);

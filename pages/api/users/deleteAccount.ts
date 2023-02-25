@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 import { deleteAccount } from "../../../services/users";
-import { deletePosts } from "../../../services/posts";
+import { deleteUserPosts } from "../../../services/posts";
 import { connect } from "../../../utils/db";
 import { errorResponse } from "../../../utils/response";
 import { CommonApiResponse } from "../../../types/general";
@@ -32,7 +32,7 @@ export default async function handler(
     await (
       await sequelize
     ).transaction(async (t) => {
-      const resDelPosts = await deletePosts(session?.user.id as number, t);
+      const resDelPosts = await deleteUserPosts(session?.user.id as number, t);
       if (resDelPosts) {
         res
           .status(500)

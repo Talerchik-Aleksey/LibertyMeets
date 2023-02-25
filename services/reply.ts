@@ -37,7 +37,7 @@ export async function handleReplyToThread(
   isReceived: boolean = false,
   messageId: string = "",
 ) {
-  const post = await getPost(thread.post_id);
+  const post = await getPost(thread.post_id, undefined);
   const postId = post!.id;
   const isAuthor = await isAuthorCheck(userId, postId);
 

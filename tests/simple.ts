@@ -13,7 +13,7 @@ describe("Simple test", () => {
     const postId = 9;
     const userIdStranger = 3;
 
-    const post = await getPost(postId);
+    const post = await getPost(postId, undefined);
     const result = await handleReplyToPost(userIdStranger, post!, 'hello world');
 
     expect(result).toBeTruthy();

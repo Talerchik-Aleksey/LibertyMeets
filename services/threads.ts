@@ -29,7 +29,7 @@ export async function isUserCanView(threadId: string, userId: number) {
   }
   const threadCreatorId = foundThread.user_id;
 
-  const post = await getPost(foundThread.post_id)
+  const post = await getPost(foundThread.post_id, userId);
   const authorId = post!.author_id;
 
   return userId === threadCreatorId || userId === authorId;
