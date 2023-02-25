@@ -7,7 +7,7 @@ import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
 import * as sequelize from "sequelize";
 import { connect } from "../utils/db";
-import { Transaction } from "sequelize";
+import { Op, Transaction } from "sequelize";
 import { METERS_IN_MILE } from "../constants/constants";
 import { checkPostTitile, isDraft } from "../utils/titleStatusUtils";
 
@@ -46,6 +46,8 @@ type getPostsTypes = {
   is_blocked: boolean | string[] | undefined;
   zip?: string | string[] | undefined;
   id?: number[];
+  [Op.or]?: Object;
+  is_public?: boolean;
 };
 
 type SearchProps = {
@@ -177,6 +179,11 @@ export async function getPosts(
     }
 
     if (user) {
+      info[Op.or] = [
+        { is_public: true },
+        { is_public: false, author_id: user?.id },
+      ];
+
       if (
         searchParams &&
         searchParams.lat &&
@@ -184,8 +191,27 @@ export async function getPosts(
         searchParams.radius
       ) {
         const posts = await searchPostsWithGeoRadius(searchParams, user, info);
+
+        const { zip, ...filters } = info;
         const count = await Posts.count({
-          where: info,
+          where: sequelize.and(
+            sequelize.fn(
+              "ST_DWithin",
+              sequelize.col("geo"),
+              sequelize.fn(
+                "ST_SetSRID",
+                sequelize.fn(
+                  "ST_MakePoint",
+                  Number(searchParams?.lng),
+                  Number(searchParams?.lat)
+                ),
+                4326
+              ),
+              Number(searchParams?.radius) * METERS_IN_MILE,
+              true
+            ),
+            filters
+          ),
         });
 
         return { posts, count };
@@ -199,6 +225,7 @@ export async function getPosts(
       return { posts, count };
     }
 
+    info.is_public = true;
     const { zip, ...filters } = info;
     const posts = await Posts.findAll({
       where: searchParams?.radius
@@ -282,7 +309,11 @@ export async function getFavoritePosts(
       ["created_at", "DESC"],
       ["title", "ASC"],
     ],
-    where: { id: ids, is_blocked: false },
+    where: {
+      id: ids,
+      is_blocked: false,
+      [Op.or]: [{ is_public: true }, { is_public: false, author_id: user?.id }],
+    },
     attributes: [
       "id",
       "title",
