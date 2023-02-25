@@ -289,9 +289,9 @@ export default function CreatePost(props: CreatePostProps) {
                 { required: false },
                 {
                   type: "string",
-                  max:100
+                  max: 100,
                 },
-                ]}
+              ]}
             >
               <Input className={styles.cityInput} />
             </Form.Item>
@@ -349,5 +349,4 @@ export default function CreatePost(props: CreatePostProps) {
       </div>
     </section>
   );
-}
 }
