@@ -163,7 +163,7 @@ export default function CreatePost(props: CreatePostProps) {
                 colon={false}
                 rules={[
                   { required: true },
-                  { type: "string", min: 4, max: 100 },
+                  { type: "string", min: 4, max: 90 },
                 ]}
               >
                 <Input

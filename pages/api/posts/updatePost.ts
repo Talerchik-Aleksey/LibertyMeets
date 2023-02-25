@@ -8,6 +8,7 @@ import { errorResponse } from "../../../utils/response";
 type Payload = {};
 
 type BodyType = {
+  title: string;
   postId: number;
   is_public: boolean;
 };
@@ -32,9 +33,9 @@ export default async function handler(
     }
 
     const body = req.body as BodyType;
-    const { postId, is_public } = body;
+    const { title, postId, is_public } = body;
 
-    await changePostVisible(session.user.id, postId, is_public);
+    await changePostVisible(session.user.id, title, postId, is_public);
 
     res.status(200).json({ status: "ok", data: {} });
   } catch (err) {
