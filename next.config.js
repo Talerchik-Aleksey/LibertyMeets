@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   env: {
     GEOCODE: process.env.GEOCODE,
-    HJID: process.env.HJID
+    NEXT_PUBLIC_HOTJAR_ID: process.env.NEXT_PUBLIC_HOTJAR_ID,
   },
 };
 

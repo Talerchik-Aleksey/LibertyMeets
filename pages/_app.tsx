@@ -5,14 +5,14 @@ import { SessionProvider } from "next-auth/react";
 import Header from "../Components/General/Header/Header";
 import { useEffect } from "react";
 
-const hjid = process.env.HJID;
+const hotjarId = process.env.NEXT_PUBLIC_HOTJAR_ID;
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const script = document.createElement("script");
     script.innerHTML = `(function(h,o,t,j,a,r){
       h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-      h._hjSettings={hjid:${hjid},hjsv:6};
+      h._hjSettings={hjid:${hotjarId},hjsv:6};
       a=o.getElementsByTagName('head')[0];
       r=o.createElement('script');r.async=1;
       r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
@@ -39,12 +39,3 @@ export default function App({ Component, pageProps }: AppProps) {
     </>
   );
 }
-
-// export async function getStaticProps() {
-//   const hjid = config.get<number>("hotjar.hjid");
-//   const logger = getLogger("db");
-//   logger.info("hello");
-//   return {
-//     props: { hjid },
-//   };
-// }

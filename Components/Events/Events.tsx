@@ -204,7 +204,7 @@ export default function Events({
       (lat === undefined || lng === undefined) &&
       (!zipCode || zipCode === "")
     ) {
-      error("Write a zip code for radius sampling");
+      error("Provide a zip code for radius sampling");
       return;
     }
 

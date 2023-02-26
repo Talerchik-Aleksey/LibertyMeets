@@ -19,7 +19,7 @@ type SinglePostProps = {
 
 type PostType = Posts;
 
-const SHARETHIS_TOKEN = process.env.SHARETHIS_TOKEN;
+const SHARETHIS_TOKEN = process.env.NEXT_PUBLIC_SHARETHIS_TOKEN;
 
 export default function SinglePost({
   session,
