@@ -246,6 +246,69 @@ export default function CreatePost(props: CreatePostProps) {
               </Form.Item>
             </div>
           </div>
+          <div className={styles.mapContainer}>
+            <Form.Item className={styles.locationContainer}>
+              <Form.Item
+                label="City or neighborhood"
+                name="location_name"
+                colon={true}
+                className={styles.city}
+                rules={[
+                  { required: false },
+                  {
+                    type: "string",
+                    max: 100,
+                  },
+                ]}
+              >
+                <Input className={styles.cityInput} />
+              </Form.Item>
+              <Form.Item
+                label="Postal code"
+                name="zip"
+                colon={false}
+                className={styles.zipCode}
+                rules={[
+                  { required: true },
+                  {
+                    type: "string",
+                    pattern: postalRegex,
+                    message:
+                      "Invalid postal code. Please enter a valid US postal code",
+                  },
+                  {
+                    validator: async (_, value) => {
+                      const geocodeResult = await getLocations(value);
+                      const locations = geocodeResult?.locations;
+                      if (locations && locations.length === 1) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        "Value not found in geocode result"
+                      );
+                    },
+                  },
+                ]}
+                help={geocodeResult?.map((result) => result.formatted_address)}
+              >
+                <Input
+                  className={styles.zipCodeInput}
+                  onChange={(event) => setPostalCode(event.target.value)}
+                />
+              </Form.Item>
+            </Form.Item>
+            <div className={styles.location}>
+              <div className={styles.map}>
+                <Map
+                  appUrl={appUrl}
+                  userLat={session?.user.lat}
+                  userLng={session?.user.lng}
+                  lat={lat}
+                  lng={lng}
+                />
+              </div>
+            </div>
+          </div>
           <div className={styles.public}>
             <Switch
               defaultChecked={false}
@@ -267,66 +330,6 @@ export default function CreatePost(props: CreatePostProps) {
               <Image src="/decor/qwe.svg" alt="" width={26} height={26} />
             </Tooltip>
           </div>
-          <div className={styles.location}>
-            <span>* Location</span>
-            <div className={styles.map}>
-              <Map
-                appUrl={appUrl}
-                userLat={session?.user.lat}
-                userLng={session?.user.lng}
-                lat={lat}
-                lng={lng}
-              />
-            </div>
-          </div>
-          <Form.Item className={styles.locationContainer}>
-            <Form.Item
-              label="City or neighborhood"
-              name="location_name"
-              colon={true}
-              className={styles.city}
-              rules={[
-                { required: false },
-                {
-                  type: "string",
-                  max: 100,
-                },
-              ]}
-            >
-              <Input className={styles.cityInput} />
-            </Form.Item>
-            <Form.Item
-              label="Postal code"
-              name="zip"
-              colon={false}
-              className={styles.zipCode}
-              rules={[
-                { required: true },
-                {
-                  type: "string",
-                  pattern: postalRegex,
-                  message:
-                    "Invalid postal code. Please enter a valid US postal code",
-                },
-                {
-                  validator: async (_, value) => {
-                    const geocodeResult = await getLocations(value);
-                    const locations = geocodeResult?.locations;
-                    if (locations && locations.length === 1) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject("Value not found in geocode result");
-                  },
-                },
-              ]}
-              help={geocodeResult?.map((result) => result.formatted_address)}
-            >
-              <Input
-                className={styles.zipCodeInput}
-                onChange={(event) => setPostalCode(event.target.value)}
-              />
-            </Form.Item>
-          </Form.Item>
           <div className={styles.buttonBlock}>
             <Button
               className={styles.cancel}
