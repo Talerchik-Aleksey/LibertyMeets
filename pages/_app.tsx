@@ -4,7 +4,6 @@ import Footer from "../Components/General/Footer/Footer";
 import { SessionProvider } from "next-auth/react";
 import Header from "../Components/General/Header/Header";
 import { useEffect } from "react";
-import Head from "next/head";
 
 const hotjarId = process.env.NEXT_PUBLIC_HOTJAR_ID;
 
@@ -30,12 +29,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Head>
-        <title>
-          LibertyMeets - Connect with Like-Minded Individuals for a More Free
-          Future
-        </title>
-      </Head>
       <SessionProvider>
         <Header />
         <div className="main">
