@@ -35,6 +35,30 @@ export default function App({ Component, pageProps }: AppProps) {
           LibertyMeets - Connect with Like-Minded Individuals for a More Free
           Future
         </title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+          name="description"
+          content="Connect with like-minded individuals who share your values of freedom and liberty. LibertyMeets is the perfect platform for finding new friends in your town."
+        />
+        <meta
+          property="og:title"
+          content="LibertyMeets - Find Freedom-Friendly Folks Near You"
+        />
+        <meta
+          property="og:description"
+          content="Connect with like-minded individuals who share your values of freedom and liberty. LibertyMeets is the perfect platform for finding new friends in your town."
+        />
+        <meta
+          name="twitter:title"
+          content="LibertyMeets - Find Freedom-Friendly Folks Near You"
+        />
+        <meta
+          name="twitter:description"
+          content="Connect with like-minded individuals who share your values of freedom and liberty. LibertyMeets is the perfect platform for finding new friends in your town."
+        />
+        <meta property="og:image" content="/favicon.png" />
+        <meta property="twitter:image" content="/favicon.png" />
       </Head>
       <SessionProvider>
         <Header />

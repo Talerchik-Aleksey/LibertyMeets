@@ -47,6 +47,14 @@ export default function SinglePost({
             ></script>
           </>
         )}
+
+        <meta name="description" content={post.description} />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.description} />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.description} />
+        <meta property="og:image" content="favicon.png" />
+        <meta property="twitter:image" content="/favicon.png" />
       </Head>
       <div className="sharethis-sticky-share-buttons"></div>
       {isAuthor ? (
