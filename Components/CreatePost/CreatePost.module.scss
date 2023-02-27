@@ -92,8 +92,22 @@
   width: 100%;
 }
 
+.mapContainer {
+  display: flex;
+  justify-content: center;
+  gap: 5rem;
+  flex-wrap: wrap;
+}
+
 .map {
   margin: 0 auto;
+  max-width: 300px;
+  max-height: 300px;
+
+  & > div {
+    max-width: 300px;
+    max-height: 300px;
+  }
 }
 
 .createContainer {
@@ -174,6 +188,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 20px 0px 40px 0px;
 }
 
 .location {
@@ -234,7 +249,6 @@
 .locationContainer {
   padding-top: 40px;
   width: 300px;
-  margin: 0 auto 70px auto;
 
   @media (max-width: 575px) {
     width: 170px;
