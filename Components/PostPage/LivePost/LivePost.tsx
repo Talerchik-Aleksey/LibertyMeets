@@ -8,8 +8,9 @@ import { Spiner } from "../../General/Spiner/Spiner";
 import styles from "./LivePost.module.scss";
 import Location from "../../Location/Location";
 import { Posts } from "../../../models/posts";
+import Head from "next/head";
 
-type PostType = Posts ;
+type PostType = Posts;
 type PostProps = { session: Session | null; appUrl: string; post: PostType };
 
 export default function LivePost(props: PostProps) {
@@ -32,73 +33,76 @@ export default function LivePost(props: PostProps) {
   const coordinates = [post.lat, post.lng];
 
   return (
-    <section className={styles.container}>
-      <div className={styles.backBlock}>
-        <Button
-          className={styles.backButton}
-          type="link"
-          onClick={() => history.back()}
-        >
-          <Image
-            src="/decor/arrow-left.svg"
-            alt=""
-            width={45}
-            height={42}
-            className={styles.backImage}
-          />
-          <span className={styles.backButtonText}>Back</span>
-        </Button>
-      </div>
-
-      <div className={styles.livePostContainer}>
-        <div className={styles.postHeader}>
-          <div className={(styles.categoryBlock, styles.left)}>
-            <div className={styles.categoryButton}>
-              <span className={styles.categoryButtonText}>{post.category}</span>
-            </div>
-          </div>
-          <div className={styles.titleBlock}>
-            <span className={styles.titleText}>{post.title}</span>
-          </div>
-          <div className={styles.right}></div>
+    <>
+      <section className={styles.container}>
+        <div className={styles.backBlock}>
+          <Button
+            className={styles.backButton}
+            type="link"
+            onClick={() => history.back()}
+          >
+            <Image
+              src="/decor/arrow-left.svg"
+              alt=""
+              width={45}
+              height={42}
+              className={styles.backImage}
+            />
+            <span className={styles.backButtonText}>Back</span>
+          </Button>
         </div>
 
-        <div className={styles.postContent}>
-          <div className={styles.descriptionBlock}>
-            <p className={styles.descriptionText}>{post.description}</p>
+        <div className={styles.livePostContainer}>
+          <div className={styles.postHeader}>
+            <div className={(styles.categoryBlock, styles.left)}>
+              <div className={styles.categoryButton}>
+                <span className={styles.categoryButtonText}>
+                  {post.category}
+                </span>
+              </div>
+            </div>
+            <div className={styles.titleBlock}>
+              <span className={styles.titleText}>{post.title}</span>
+            </div>
+            <div className={styles.right}></div>
           </div>
-          <div className={styles.cardBlock}>
-            {coordinates && coordinates.length === 2 ? (
-              <>
-              <Location post={post}/>
-                <Map
-                  appUrl={appUrl}
-                  userLat={props.session?.user.lat}
-                  userLng={props.session?.user.lng}
-                  lat={Number(coordinates[0])}
-                  lng={Number(coordinates[1])}
-                />
-              </>
+
+          <div className={styles.postContent}>
+            <div className={styles.descriptionBlock}>
+              <p className={styles.descriptionText}>{post.description}</p>
+            </div>
+            <div className={styles.cardBlock}>
+              {coordinates && coordinates.length === 2 ? (
+                <>
+                  <Location post={post} />
+                  <Map
+                    appUrl={appUrl}
+                    userLat={props.session?.user.lat}
+                    userLng={props.session?.user.lng}
+                    lat={Number(coordinates[0])}
+                    lng={Number(coordinates[1])}
+                  />
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+          <div className={styles.buttonBlock}>
+            {props.session?.user ? (
+              <ThreadForm
+                appUrl={appUrl}
+                postId={post.id}
+                isThreadExists={false}
+                threadId={""}
+              />
             ) : (
               <></>
             )}
           </div>
-        </div>
-        <div className={styles.buttonBlock}>
-          {props.session?.user ? (
-            <ThreadForm
-              appUrl={appUrl}
-              postId={post.id}
-              isThreadExists={false}
-              threadId={""}
-            />
-          ) : (
-            <></>
-          )}
-        </div>
-        {/* */}
+          {/* */}
 
-        {/*
+          {/*
           <Button
             className={styles.shareBtn}
             onClick={() => {
@@ -133,8 +137,8 @@ export default function LivePost(props: PostProps) {
           </Button>
           */}
 
-        {/* <Modal></Modal> */}
-        {/*
+          {/* <Modal></Modal> */}
+          {/*
           <Modal
             centered
             open={open}
@@ -168,7 +172,8 @@ export default function LivePost(props: PostProps) {
               </div>
             )}
           </Modal> */}
-      </div>
-    </section>
+        </div>
+      </section>
+    </>
   );
 }
