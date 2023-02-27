@@ -8,7 +8,7 @@
     "password": "DB_PASS",
     "database": "DB_NAME"
   },
-  "secretKey": "AUTH_SECRET_KEY",
+  "secretKey": "NEXTAUTH_SECRET",
   "recaptcha": {
     "public_recaptcha_key": "RECAPTCHA_PUB_KEY",
     "recaptcha_key": "RECAPTCHA_PRI_KEY"
