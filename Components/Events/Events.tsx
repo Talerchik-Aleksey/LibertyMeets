@@ -272,7 +272,7 @@ export default function Events({
                 />
                 {getPostsByDate(posts, isTomorrow).length > 0 && (
                   <div className={styles.eventsSubBlockTitle}>
-                    <span className={styles.buttonDay}>Tomorrow</span>
+                    <span className={styles.buttonDay}>Yesterday</span>
                   </div>
                 )}
                 <PostsList
