@@ -309,27 +309,6 @@ export default function CreatePost(props: CreatePostProps) {
               </div>
             </div>
           </div>
-          <div className={styles.public}>
-            <Switch
-              defaultChecked={false}
-              className={styles.switch}
-              onChange={() => setIsPublic(!isPublic)}
-              style={
-                isPublic
-                  ? { backgroundColor: "#921a64" }
-                  : { backgroundColor: "#8f8f8f" }
-              }
-            />
-            <span>Set To Public?</span>
-            <Tooltip
-              placement="top"
-              title={
-                "Setting this post to public lets users that are not signed in see this post."
-              }
-            >
-              <Image src="/decor/qwe.svg" alt="" width={26} height={26} />
-            </Tooltip>
-          </div>
           <div className={styles.buttonBlock}>
             <Button
               className={styles.cancel}
