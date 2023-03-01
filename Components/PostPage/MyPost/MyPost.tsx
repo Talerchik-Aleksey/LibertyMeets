@@ -143,11 +143,9 @@ export default function MyPost(props: PostProps) {
         )}
         <Select
           value={"Edit"}
-          style={{
-            width: "20%",
-          }}
+          dropdownMatchSelectWidth={false}
           showArrow={false}
-          placement={"bottomLeft"}
+          placement={"bottomRight"}
           className={styles.select}
           bordered={false}
         >

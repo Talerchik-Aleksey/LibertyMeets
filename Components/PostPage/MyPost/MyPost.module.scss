@@ -51,7 +51,7 @@
 
 .backBlock {
   height: 60px;
-  
+
   margin: 20px 0 0 50px;
 
   @media (max-width: 1300px) {
@@ -104,8 +104,8 @@
 .titleBlock {
   width: 600px;
 
-  @media (max-width: 600px) {
-    width: 400px;
+  @media (max-width: 650px) {
+    width: -webkit-fill-available;
   }
 
   @media (max-width: 400px) {
@@ -123,7 +123,7 @@
   word-wrap: break-word;
   max-width: 90%;
 
-  @media (max-width: 600px) {
+  @media (max-width: 650px) {
     margin-top: 40px;
     font-size: 36px;
   }
@@ -329,15 +329,11 @@
   .right {
     flex: 1;
   }
-
-  @media (max-width: 1400px) {
-    margin-top: 40px;
-  }
 }
 
 .select {
   position: absolute;
-  right: -90px;
+  right: 0px;
   background: url("./../../../public/decor/EditDots.svg");
   background-repeat: no-repeat;
 
@@ -354,16 +350,6 @@
     @media (max-width: 600px) {
       font-size: 17px !important;
     }
-  }
-
-  @media (max-width: 1400px) {
-    left: 35px;
-    width: 200px !important;
-  }
-
-  @media (max-width: 600px) {
-    left: 35px;
-    width: 200px !important;
   }
 }
 
