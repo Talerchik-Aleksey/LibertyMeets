@@ -56,7 +56,10 @@ export default function SinglePost({
         <meta property="og:image" content="favicon.png" />
         <meta property="twitter:image" content="/favicon.png" />
       </Head>
-      <div className="sharethis-sticky-share-buttons"></div>
+      <div
+        className="sharethis-sticky-share-buttons"
+        style={{ marginTop: "20vh" }}
+      ></div>
       {isAuthor ? (
         <>
           <MyPost
