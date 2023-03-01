@@ -66,40 +66,40 @@ export default function LivePost(props: PostProps) {
         </div>
 
         <div className={styles.livePostContainer}>
-          {session.status === "authenticated" && (
-            <div className={styles.star}>
-              {post.favoriteUsers?.length > 0 || post.is_favorite ? (
-                <div
-                  onClick={() => {
-                    changeStar(post.id);
-                  }}
-                >
-                  <Image
-                    src="/decor/starFaiv.svg"
-                    alt=""
-                    width={20}
-                    height={20}
-                    className={styles.starImage}
-                  />
-                </div>
-              ) : (
-                <div
-                  onClick={() => {
-                    changeStar(post.id);
-                  }}
-                >
-                  <Image
-                    src="/decor/starNoFaiv.svg"
-                    alt=""
-                    width={20}
-                    height={20}
-                    className={styles.starImage}
-                  />
-                </div>
-              )}
-            </div>
-          )}
           <div className={styles.postHeader}>
+            {session.status === "authenticated" && (
+              <div className={styles.star}>
+                {post.favoriteUsers?.length > 0 || post.is_favorite ? (
+                  <div
+                    onClick={() => {
+                      changeStar(post.id);
+                    }}
+                  >
+                    <Image
+                      src="/decor/starFaiv.svg"
+                      alt=""
+                      width={20}
+                      height={20}
+                      className={styles.starImage}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => {
+                      changeStar(post.id);
+                    }}
+                  >
+                    <Image
+                      src="/decor/starNoFaiv.svg"
+                      alt=""
+                      width={20}
+                      height={20}
+                      className={styles.starImage}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
             <div className={(styles.categoryBlock, styles.left)}>
               <div className={styles.categoryButton}>
                 <span className={styles.categoryButtonText}>

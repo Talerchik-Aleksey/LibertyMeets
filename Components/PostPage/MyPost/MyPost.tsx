@@ -8,28 +8,27 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { Session } from "next-auth";
 import { Spiner } from "../../General/Spiner/Spiner";
-import { Posts } from "../../../models/posts";
 import Location from "../../Location/Location";
 import styles from "./MyPost.module.scss";
 import { changeTitleByStatus } from "../../../utils/titleStatusUtils";
+import { ExchangePostType, PostType } from "../../../types/general";
 
 const { Option } = Select;
 
 type PostProps = {
   session: Session | null;
   appUrl: string;
-  post: PostType;
+  post: ExchangePostType;
   fromUrl: string;
 };
 type ErrorResponse = {
   status: string;
 };
-type PostType = Posts;
 
 const availableFromUrl = ["posts", "myPosts"];
 
 export default function MyPost(props: PostProps) {
-  const [post, setPost] = useState<PostType>(props.post);
+  const [post, setPost] = useState<PostType>(props.post as PostType);
   const [errorMessage, setErrorMessage] = useState<string>("");
   let appUrl = props.appUrl;
   if (props.fromUrl in availableFromUrl) {
