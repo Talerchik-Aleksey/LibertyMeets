@@ -320,6 +320,14 @@
   }
 }
 
+.star {
+  margin-top: 10px;
+
+  & > div {
+    cursor: pointer;
+  }
+}
+
 .topBlock {
   display: flex;
   flex-wrap: wrap;

@@ -4,20 +4,18 @@ import { useState } from "react";
 import { getSession } from "next-auth/react";
 import { getPost } from "../../services/posts";
 import { backendLoader } from "../../utils/backend-loader";
-import type { Posts } from "../../models/posts";
 import MyPost from "../../Components/PostPage/MyPost/MyPost";
 import LivePost from "../../Components/PostPage/LivePost/LivePost";
 import { useRouter } from "next/router";
 import { Session } from "next-auth";
 import Head from "next/head";
+import { ExchangePostType } from "../../types/general";
 
 type SinglePostProps = {
   session: Session | null;
   appUrl: string;
-  post: PostType;
+  post: ExchangePostType;
 };
-
-type PostType = Posts;
 
 const SHARETHIS_TOKEN = process.env.NEXT_PUBLIC_SHARETHIS_TOKEN;
 
@@ -26,7 +24,7 @@ export default function SinglePost({
   appUrl,
   post: initialPost,
 }: SinglePostProps) {
-  const [post, setPost] = useState<PostType>(initialPost);
+  const [post, setPost] = useState<ExchangePostType>(initialPost);
   const router = useRouter();
   const fromUrl = router.query.fromUrl?.toString();
   const isAuthor = session ? post?.author_id === session?.user.id : undefined;
@@ -56,7 +54,10 @@ export default function SinglePost({
         <meta property="og:image" content="favicon.png" />
         <meta property="twitter:image" content="/favicon.png" />
       </Head>
-      <div className="sharethis-sticky-share-buttons"></div>
+      <div
+        className="sharethis-sticky-share-buttons"
+        style={{ marginTop: "20vh" }}
+      ></div>
       {isAuthor ? (
         <>
           <MyPost
@@ -97,7 +98,7 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
     };
   }
 
-  const post = await backendLoader<Posts>(
+  const post = await backendLoader<ExchangePostType>(
     () => getPost(postId, session?.user.id),
     ["created_at", "updated_at"]
   );

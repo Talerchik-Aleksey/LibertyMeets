@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Posts } from "../../models/posts";
+import { PostType } from "../../types/general";
 import styles from "./Location.module.scss";
 
 type LocationProps = {
-  post: Posts
+  post: PostType;
 };
 
 export default function Location(props: LocationProps) {

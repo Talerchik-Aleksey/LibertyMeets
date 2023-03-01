@@ -1,6 +1,6 @@
-import { Posts } from "../models/posts";
+import { PostType } from "../types/general";
 
-function addingPostTitle(post: Posts) {
+function addingPostTitle(post: PostType) {
   return post.title.trim().toLowerCase().startsWith("draft:")
     ? post.title
     : `Draft: ${post.title}`;
@@ -12,7 +12,7 @@ export function checkPostTitile(title: string) {
     : `Draft: ${title}`;
 }
 
-export function changeTitleByStatus(post: Posts, is_public: boolean) {
+export function changeTitleByStatus(post: PostType, is_public: boolean) {
   return is_public ? post.title.slice(7) : addingPostTitle(post);
 }
 

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button, Tooltip } from "antd";
+import { Button } from "antd";
 import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import ThreadForm from "../../Posts/ThreadForm";
@@ -7,14 +7,19 @@ import { Session } from "next-auth";
 import { Spiner } from "../../General/Spiner/Spiner";
 import styles from "./LivePost.module.scss";
 import Location from "../../Location/Location";
-import { Posts } from "../../../models/posts";
-import Head from "next/head";
+import { useSession } from "next-auth/react";
+import { ExchangePostType, PostType } from "../../../types/general";
+import axios from "axios";
 
-type PostType = Posts;
-type PostProps = { session: Session | null; appUrl: string; post: PostType };
+type PostProps = {
+  session: Session | null;
+  appUrl: string;
+  post: ExchangePostType;
+};
 
 export default function LivePost(props: PostProps) {
-  const [post, setPost] = useState<PostType>(props.post);
+  const [post, setPost] = useState<PostType>(props.post as PostType);
+  const session = useSession();
   const appUrl = props.appUrl;
 
   const Map = useMemo(
@@ -31,6 +36,14 @@ export default function LivePost(props: PostProps) {
   }
 
   const coordinates = [post.lat, post.lng];
+
+  async function changeStar(postId: number) {
+    const res = await axios.post(`${appUrl}/api/favorites/${postId}`);
+
+    const is_favorite = res.data.data.isFavorite;
+
+    setPost({ ...post, is_favorite });
+  }
 
   return (
     <>
@@ -54,6 +67,39 @@ export default function LivePost(props: PostProps) {
 
         <div className={styles.livePostContainer}>
           <div className={styles.postHeader}>
+            {session.status === "authenticated" && (
+              <div className={styles.star}>
+                {post.favoriteUsers?.length > 0 || post.is_favorite ? (
+                  <div
+                    onClick={() => {
+                      changeStar(post.id);
+                    }}
+                  >
+                    <Image
+                      src="/decor/starFaiv.svg"
+                      alt=""
+                      width={20}
+                      height={20}
+                      className={styles.starImage}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => {
+                      changeStar(post.id);
+                    }}
+                  >
+                    <Image
+                      src="/decor/starNoFaiv.svg"
+                      alt=""
+                      width={20}
+                      height={20}
+                      className={styles.starImage}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
             <div className={(styles.categoryBlock, styles.left)}>
               <div className={styles.categoryButton}>
                 <span className={styles.categoryButtonText}>
