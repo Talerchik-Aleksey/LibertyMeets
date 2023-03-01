@@ -143,11 +143,9 @@ export default function MyPost(props: PostProps) {
         )}
         <Select
           value={"Edit"}
-          style={{
-            width: "20%",
-          }}
+          dropdownMatchSelectWidth={false}
           showArrow={false}
-          placement={"bottomLeft"}
+          placement={"bottomRight"}
           className={styles.select}
           bordered={false}
         >
@@ -252,7 +250,7 @@ export default function MyPost(props: PostProps) {
               <Tooltip
                 trigger={"hover"}
                 title={
-                  "Setting this post to public lets users that are not asigned in see this post."
+                  "Setting this post to public allows anyone to see and reply to it."
                 }
               >
                 <Image
