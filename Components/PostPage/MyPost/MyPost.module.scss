@@ -51,7 +51,7 @@
 
 .backBlock {
   height: 60px;
-  
+
   margin: 20px 0 0 50px;
 
   @media (max-width: 1300px) {
@@ -301,6 +301,8 @@
 .cardBlock {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 30px;
   width: 300px;
   height: 300px;
   max-width: 300px;
@@ -312,7 +314,6 @@
   }
 
   @media (max-width: 1080px) {
-    flex-direction: column;
     gap: 10px;
     width: 100%;
     max-width: none;

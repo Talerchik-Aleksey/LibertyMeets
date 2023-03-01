@@ -1,10 +1,13 @@
 .location {
+  width: 300px;
+
+  text-align: right;
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   color: #8f8f8f;
-  white-space: nowrap;
+  white-space: wrap;
 
   @media (max-width: 800px) {
     font-size: 15px;
@@ -13,7 +16,6 @@
   }
 
   @media (max-width: 600px) {
-    text-align: right;
     max-width: 280px;
   }
 }

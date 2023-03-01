@@ -296,7 +296,8 @@
 
 .cardBlock {
   display: flex;
-  justify-content: base-line;
+  justify-content: center;
+  align-items: center;
   gap: 30px;
   width: 300px;
   height: 300px;
