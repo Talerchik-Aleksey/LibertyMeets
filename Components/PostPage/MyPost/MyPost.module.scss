@@ -51,7 +51,7 @@
 
 .backBlock {
   height: 60px;
-  
+
   margin: 20px 0 0 50px;
 
   @media (max-width: 1300px) {
@@ -317,6 +317,10 @@
     width: 100%;
     max-width: none;
   }
+}
+
+.star {
+  margin-top: 10px;
 }
 
 .topBlock {
