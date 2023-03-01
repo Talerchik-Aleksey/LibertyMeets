@@ -7,11 +7,11 @@ export function isToday(date: Date): boolean {
 
   return false;
 }
-export function isTomorrow(date: Date): boolean {
+export function isYesterday(date: Date): boolean {
   const today = new Date();
-  const tomorrow = new Date(today.setDate(today.getDate() - 1));
+  const yesterday = new Date(today.setDate(today.getDate() - 1));
 
-  if (tomorrow.toDateString() === date.toDateString()) {
+  if (yesterday.toDateString() === date.toDateString()) {
     return true;
   }
 

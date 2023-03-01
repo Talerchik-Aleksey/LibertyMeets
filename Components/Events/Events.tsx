@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import AddListing from "../AddListing/AddListing";
 import NavBar from "../General/NavBar/NavBar";
-import { isToday, isTomorrow } from "../../utils/eventTimeStatus";
+import { isToday, isYesterday } from "../../utils/eventTimeStatus";
 import styles from "./Events.module.scss";
 import { useRouter } from "next/router";
 import { ExchangePostType } from "../../types/general";
@@ -270,20 +270,20 @@ export default function Events({
                   isViewForAllCategory={isViewForAllCategory}
                   isLogin={isLogin}
                 />
-                {getPostsByDate(posts, isTomorrow).length > 0 && (
+                {getPostsByDate(posts, isYesterday).length > 0 && (
                   <div className={styles.eventsSubBlockTitle}>
                     <span className={styles.buttonDay}>Yesterday</span>
                   </div>
                 )}
                 <PostsList
-                  posts={getPostsByDate(posts, isTomorrow)}
+                  posts={getPostsByDate(posts, isYesterday)}
                   changeStar={changeStar}
                   isViewForAllCategory={isViewForAllCategory}
                   isLogin={isLogin}
                 />
                 {getPostsByDate(
                   posts,
-                  (date) => !isTomorrow(date) && !isToday(date)
+                  (date) => !isYesterday(date) && !isToday(date)
                 ).length > 0 && (
                   <div className={styles.eventsSubBlockTitle}>
                     <span className={styles.buttonDay}>Earlier</span>
@@ -292,7 +292,7 @@ export default function Events({
                 <PostsList
                   posts={getPostsByDate(
                     posts,
-                    (date) => !isTomorrow(date) && !isToday(date)
+                    (date) => !isYesterday(date) && !isToday(date)
                   )}
                   changeStar={changeStar}
                   isViewForAllCategory={isViewForAllCategory}
