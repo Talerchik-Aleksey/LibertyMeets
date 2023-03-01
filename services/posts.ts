@@ -1,7 +1,7 @@
 import { FavoritePosts } from "../models/favoritePosts";
 import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
-import { PostType } from "../types/general";
+import { ExchangePostType, PostType } from "../types/general";
 import config from "config";
 import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
@@ -36,13 +36,9 @@ const buildGeoSearchCriteria = (radius: number, lat: number, lng: number) => {
   return sequelize.fn(
     "ST_DWithin",
     sequelize.col("geo"),
-    sequelize.fn(
-      "ST_SetSRID",
-      sequelize.fn("ST_MakePoint", lng, lat),
-      4326
-    ),
+    sequelize.fn("ST_SetSRID", sequelize.fn("ST_MakePoint", lng, lat), 4326),
     radius * METERS_IN_MILE,
-    true,
+    true
   );
 };
 
@@ -110,11 +106,15 @@ async function searchPostsWithGeoRadius(
   const { zip, ...filters } = info;
   return await Posts.findAll({
     where: sequelize.and(
-      buildGeoSearchCriteria(Number(searchParams.radius), Number(searchParams.lat), Number(searchParams.lng)),
+      buildGeoSearchCriteria(
+        Number(searchParams.radius),
+        Number(searchParams.lat),
+        Number(searchParams.lng)
+      ),
       filters,
       {
         is_public: true,
-      },
+      }
     ),
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * ((searchParams?.page || 1) - 1),
@@ -189,11 +189,15 @@ export async function getPosts(
         const { zip, ...filters } = info;
         const count = await Posts.count({
           where: sequelize.and(
-            buildGeoSearchCriteria(Number(searchParams.radius), Number(searchParams.lat), Number(searchParams.lng)),
+            buildGeoSearchCriteria(
+              Number(searchParams.radius),
+              Number(searchParams.lat),
+              Number(searchParams.lng)
+            ),
             filters,
             {
               is_public: true,
-            },
+            }
           ),
         });
 
@@ -213,7 +217,11 @@ export async function getPosts(
     const posts = await Posts.findAll({
       where: searchParams?.radius
         ? sequelize.and(
-            buildGeoSearchCriteria(Number(searchParams.radius), Number(searchParams.lat), Number(searchParams.lng)),
+            buildGeoSearchCriteria(
+              Number(searchParams.radius),
+              Number(searchParams.lat),
+              Number(searchParams.lng)
+            ),
             filters
           )
         : info,
@@ -247,10 +255,7 @@ export async function changeFavoritePost(userId: number, postId: number) {
   }
 }
 
-export async function getFavoritePosts(
-  page: number,
-  user: { id: number },
-) {
+export async function getFavoritePosts(page: number, user: { id: number }) {
   const favPosts = await FavoritePosts.findAll({
     where: {
       user_id: user.id,
@@ -268,10 +273,7 @@ export async function getFavoritePosts(
     where: {
       id: ids,
       is_blocked: false,
-      [Op.or]: [
-        { is_public: true },
-        { is_public: false, author_id: user.id },
-      ],
+      [Op.or]: [{ is_public: true }, { is_public: false, author_id: user.id }],
     },
     attributes: COMMON_POST_ATTRIBUTES,
   });
@@ -283,10 +285,7 @@ export async function getPost(postId: number, userId: number | undefined) {
   const where = {
     id: postId,
     ...(userId && {
-      [Op.or]: [
-        { is_public: true },
-        { is_public: false, author_id: userId },
-      ],
+      [Op.or]: [{ is_public: true }, { is_public: false, author_id: userId }],
     }),
     ...(!userId && {
       is_public: true,
@@ -294,7 +293,14 @@ export async function getPost(postId: number, userId: number | undefined) {
   };
   return Posts.findOne({
     where,
-  });
+    include: {
+      model: FavoritePosts,
+      as: "favoriteUsers",
+      where: { user_id: userId },
+      required: false,
+      attributes: ["id", "user_id", "post_id"],
+    },
+  }) as Promise<ExchangePostType>;
 }
 
 export async function getUserPosts(page: number, userId: number) {
