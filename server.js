@@ -25,6 +25,12 @@ app.prepare().then(() => {
         if (req.url.startsWith('/_next/static/')) {
           return true;
         }
+        if (req.url.startsWith('/next/static/')) {
+          return true;
+        }
+        if (req.url.startsWith('/static/fonts/')) {
+          return true;
+        }
         if (req.url.startsWith('/decor/')) {
           return true;
         }
