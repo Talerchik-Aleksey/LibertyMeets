@@ -22,6 +22,7 @@ export async function backendLoader<T extends Model>(
       return acc;
     }, plainData);
   } catch (err) {
+    console.error(err);
     return null;
   }
 }
