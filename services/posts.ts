@@ -291,6 +291,11 @@ export async function getPost(postId: number, userId: number | undefined) {
       is_public: true,
     }),
   };
+  if (!userId) {
+    return Posts.findOne({
+      where,
+    }) as Promise<ExchangePostType>;
+  }
   return Posts.findOne({
     where,
     include: {
