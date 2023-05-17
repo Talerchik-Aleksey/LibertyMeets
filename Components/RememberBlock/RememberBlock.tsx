@@ -11,11 +11,12 @@ export default function RememberBlock() {
         height={41}
         className={styles.rememberImage}
       />
-      <span className={styles.title}>Remember!</span>
+      <span className={styles.title}>Запомни!</span>
       <p className={styles.description}>
-        Please do not give time/location details or personal identifying
-        information in the post title or description. And if you are meeting
-        with strangers, please do so in a public place.
+        Пожалуйста, не указывайте детали времени/местоположения или личную
+        идентифицирующую информацию в названии или описании сообщения. И если вы
+        встречаетесь с незнакомыми людьми, пожалуйста, делайте это в
+        общественном месте.
       </p>
     </section>
   );

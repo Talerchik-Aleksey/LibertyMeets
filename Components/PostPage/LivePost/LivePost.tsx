@@ -61,7 +61,7 @@ export default function LivePost(props: PostProps) {
               height={42}
               className={styles.backImage}
             />
-            <span className={styles.backButtonText}>Back</span>
+            <span className={styles.backButtonText}>Назад</span>
           </Button>
         </div>
 

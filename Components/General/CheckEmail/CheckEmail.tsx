@@ -4,10 +4,11 @@ export default function CheckEmail() {
   return (
     <section className={styles.container}>
       <h5 className={styles.message}>
-        Your password reset request has been successfully submitted! Please
-        check your email for further instructions on how to reset your password.
-        If you do not receive an email within the next hour, please check your
-        spam folder or contact support for assistance.
+        Ваш запрос на сброс пароля успешно отправлен! Пожалуйста, проверьте свою
+        электронную почту для получения дальнейших инструкций по сбросу пароля.
+        Если вы не получите письмо в течение следующего часа, проверьте папку
+        "Спам" или обратитесь в службу поддержки. папку со спамом или обратитесь
+        за помощью в службу поддержки.
       </h5>
     </section>
   );

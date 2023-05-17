@@ -8,7 +8,7 @@ export default function MyProfile() {
       {" "}
       <Link className={styles.navigationItemLink} href={"/my-favorites"}>
         <Button type="text" className={styles.myProfile}>
-          My Profile
+          Мой профиль
         </Button>
       </Link>
     </li>

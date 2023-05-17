@@ -4,7 +4,7 @@ export default function NotFound() {
   return (
     <section className={styles.container}>
       <span className={styles.codeMessage}>404</span>
-      <span className={styles.message}>Not Found</span>
+      <span className={styles.message}>Страница не найдена</span>
     </section>
   );
 }

@@ -9,9 +9,9 @@ export default function AddListing() {
   return (
     <div className={styles.container}>
       <div className={styles.noCriteria}>
-        No Further Opportunities Meet This Criteria
+        Нет других возможностей, отвечающих этим критериям
       </div>
-      <div className={styles.title}>Add Your Listing</div>
+      <div className={styles.title}>Добавить свое объявление</div>
       <Link
         className={styles.createPost}
         href={session.status === "authenticated" ? "/createPost" : "/signin"}
@@ -23,7 +23,7 @@ export default function AddListing() {
           height={14}
           className={styles.vector}
         />
-        <span className={styles.buttonText}>Create Post</span>
+        <span className={styles.buttonText}>Создать объявление</span>
       </Link>
     </div>
   );

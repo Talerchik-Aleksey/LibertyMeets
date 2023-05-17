@@ -82,12 +82,12 @@ export default function MyPost(props: PostProps) {
 
   const showDeleteConfirm = () => {
     confirm({
-      title: "Are you sure you want to delete your post?",
+      title: "Вы уверены?",
       icon: <QuestionCircleOutlined />,
-      content: "All information associated with post will also be deleted",
-      okText: "Yes",
+      content: "Вся информация будет удалена!",
+      okText: "Да",
       okType: "danger",
-      cancelText: "No",
+      cancelText: "Нет",
       onOk() {
         deletePost();
       },
@@ -136,7 +136,7 @@ export default function MyPost(props: PostProps) {
             height={42}
             className={styles.backImage}
           />
-          <span className={styles.backButtonText}>Back</span>
+          <span className={styles.backButtonText}>Назад</span>
         </Button>
       </div>
       <div className={styles.myPostContainer}>
@@ -145,7 +145,7 @@ export default function MyPost(props: PostProps) {
             <div className={styles.blockedWrapper}>
               <Image src="/decor/remember.svg" alt="" width={45} height={41} />
               <span className={styles.blockedTitle}>
-                This post blocked by admin!
+                Этот пост заблокирован
               </span>
             </div>
           </div>
@@ -168,7 +168,7 @@ export default function MyPost(props: PostProps) {
                   height={14}
                   className={styles.edit}
                 />
-                Edit
+                Редактировать
               </div>
             </Link>
           </Option>
@@ -186,7 +186,7 @@ export default function MyPost(props: PostProps) {
                 height={16}
                 className={styles.eye}
               />
-              Make Post {post.is_public ? "Private" : "Public"}
+              Сделать пост {post.is_public ? "Private" : "Public"}
             </div>
           </Option>
           <Option className={styles.optionContainer} key="delete">
@@ -198,7 +198,7 @@ export default function MyPost(props: PostProps) {
                 height={16}
                 className={styles.delete}
               />
-              Delete
+              Удалить
             </div>
           </Option>
         </Select>
@@ -281,7 +281,7 @@ export default function MyPost(props: PostProps) {
                   post.is_public ? styles.currentlyActive : styles.currently
                 }
               >
-                This Post Is Currently
+                Этот пост в настоящее время
               </span>
               <span
                 className={post.is_public ? styles.publicActive : styles.public}
@@ -292,7 +292,7 @@ export default function MyPost(props: PostProps) {
               <Tooltip
                 trigger={"hover"}
                 title={
-                  "Setting this post to public allows anyone to see and reply to it."
+                  "Если сделать это сообщение общедоступным, любой сможет увидеть его и ответить на него"
                 }
               >
                 <Image

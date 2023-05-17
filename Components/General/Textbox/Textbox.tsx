@@ -4,54 +4,64 @@ export default function Textbox() {
   return (
     <section className={styles.container}>
       <div className={styles.textbox}>
-        <h4 className={styles.textboxTitle}>What Is LibertyMeets?</h4>
+        <h4 className={styles.textboxTitle}>Что такое LibertyMeets</h4>
         <ul className={styles.textboxDescription}>
-          <li>Unlike social media sites, LibertyMeets
-            is geared toward in-person connections to
-            form local bonds and take action in your community.
+          <li>
+            В отличие от сайтов социальных сетей, LibertyMeets ориентирован на
+            личные встречи. связи для формирования местных связей и действий в
+            вашем сообществе.
           </li>
-          <li>Many conservative/libertarians/moderates
-            of all ages would like to get more involved
-            politically but don&apos;t know exactly how,
-            beyond contacting representatives/campaigns,
-            searching in a roundabout way where/how to volunteer,
-            responding to solicitations, posting on social media,
-            and voting.
+          <li>
+            Многие консерваторы/либертарианцы/модераторы всех возрастов хотели
+            бы но не знают, как именно, помимо обращения к
+            представителям/кампаниям, поиска в окольными путями, где/как стать
+            волонтером, откликаться на призывы, размещения информации в
+            социальных сетях и голосования.
           </li>
-          <li>They would also like to find new like-minded
-            peers to engage with socially and professionally,
-            especially younger adults who may feel isolated in
-            progressive cities and organizations. Their fervor
-            is being undeserved without a clearer and easier way
-            to connect in-person with other freedom-oriented people.
+          <li>
+            Они также хотели бы найти новых единомышленников, с которыми можно
+            было бы общаться в социальном и профессиональном плане, особенно
+            молодые взрослые, которые могут чувствовать себя изолированными в
+            прогрессивных городах и организациях. Их пыл проявляется
+            незаслуженно без более четкого и простого способа связаться лично с
+            другими людьми, ориентированными на свободу.
           </li>
         </ul>
       </div>
       <div className={styles.textbox}>
-        <h4 className={styles.textboxTitle}>Your Privacy Is Paramount</h4>
+        <h4 className={styles.textboxTitle}>
+          Ваша конфиденциальность имеет первостепенное значение
+        </h4>
         <ul className={styles.textboxDescription}>
-          <li>Sign-up information is to ensure users
-            are connecting with real people.
+          <li>
+            Информация о регистрации служит для обеспечения связи пользователей
+            с реальными людьми.
           </li>
-          <li>Other than that, your business
-            isn&apos;t our business. We do not and will not
-            share or sell your information.
+          <li>
+            В остальном, ваш бизнес - это не наш бизнес. Мы не и не будем
+            делиться или продавать вашу информацию.
           </li>
-          <li>When you reply to a post, or someone replies
-            to your post, your email address is anonymous.
-            Feel free to see our privacy policy for details.
+          <li>
+            Когда вы отвечаете на сообщение или кто-то отвечает на ваше
+            сообщение, ваш адрес электронной почты будет анонимным. Не
+            стесняйтесь ознакомиться с нашей политикой конфиденциальности для
+            подробности.
           </li>
         </ul>
       </div>
       <div className={styles.textbox}>
-        <h4 className={styles.textboxTitle}>How Does It Work?</h4>
+        <h4 className={styles.textboxTitle}>Как это работает?</h4>
         <ul className={styles.textboxDescription}>
-          <li>Simplicity and speed are our goals.</li>
-          <li>Anyone can browse and respond to public posts.</li>
-          <li>Sign up to post, view and respond to private posts,
-            and keep track of your favorite posts.
+          <li>Простота и скорость - вот наши цели.</li>
+          <li>Каждый может просматривать и отвечать на публичные сообщения.</li>
+          <li>
+            Зарегистрируйтесь, чтобы отправлять сообщения, просматривать личные
+            сообщения и отвечать на них, а также отслеживать любимые сообщения.
           </li>
-          <li>Here&apos;s a short video exploring the site&apos;s functionality.</li>
+          <li>
+            Здесь представлен короткий видеоролик, рассказывающий о
+            функциональности сайта.
+          </li>
         </ul>
       </div>
     </section>

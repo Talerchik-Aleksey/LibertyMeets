@@ -4,18 +4,16 @@ import LibertyMeetsLogo from "../../LibertyMeetsLogo";
 import styles from "./Footer.module.scss";
 
 export default function Footer() {
-
   return (
     <footer className={styles.footer}>
       <div className={styles.logo}>
         <Link href={"/"}>
-          <LibertyMeetsLogo /></Link>
+          <LibertyMeetsLogo />
+        </Link>
       </div>
       <div className={styles.footerInfo}>
         <Link className={styles.linkAbout} href="/about">
-          <div className={styles.clickableText}>
-            About LibertyMeets
-          </div>
+          <div className={styles.clickableText}>О нас</div>
         </Link>
         <div className={styles.liberty}>LibertyMeets ©️ 2023</div>
       </div>

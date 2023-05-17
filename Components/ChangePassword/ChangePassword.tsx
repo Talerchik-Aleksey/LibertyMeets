@@ -84,13 +84,13 @@ export default function ChangePassword({ appUrl }: ChangePasswordProps) {
               rules={[
                 {
                   required: true,
-                  message: "Please input your new password!",
+                  message: "Пожалуйста, введите новый пароль!",
                 },
                 {
                   max: 100,
                   pattern: PASSWORD_VALIDATION_PATTERN,
                   message:
-                    "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
+                    "Минимум 8 символов, минимум 1 строчная буква, 1 заглавная буква, 1 специальный символ и 1 цифра",
                 },
               ]}
             >
@@ -118,12 +118,12 @@ export default function ChangePassword({ appUrl }: ChangePasswordProps) {
               labelAlign="left"
               className={styles.password}
               rules={[
-                { required: true, message: "Please repeat your password!" },
+                { required: true, message: "Пожалуйста повторите свой пароль" },
                 {
                   max: 100,
                   pattern: PASSWORD_VALIDATION_PATTERN,
                   message:
-                    "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
+                    "Минимум 8 символов, минимум 1 строчная буква, 1 заглавная буква, 1 специальный символ и 1 цифра",
                 },
               ]}
             >
@@ -159,7 +159,7 @@ export default function ChangePassword({ appUrl }: ChangePasswordProps) {
               </Button>
             </Form.Item>
             {isPasswordsEqual ||
-              "The new passwords you have entered do not match. Please ensure that both the new password and repeat password fields contain the same text, then try again. If you continue to have trouble, please reach out to our support team for assistance."}
+              "Введенные вами новые пароли не совпадают. Убедитесь, что в полях &quot;Новый пароль&quot; и &quot;Повторный пароль&quot; содержится одинаковый текст, а затем повторите попытку. Если у вас по-прежнему возникают проблемы, обратитесь за помощью в нашу службу поддержки."}
           </Form>
         </div>
       </section>

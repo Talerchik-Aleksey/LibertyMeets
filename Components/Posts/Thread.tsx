@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { generateFromString } from "generate-avatar";
+import Image from "next/image";
 
 type PropsType = {
   appUrl: string;
@@ -38,7 +39,7 @@ export default function Thread({
     <>
       {messages.map((item) => (
         <div key={item.id} style={{ margin: "20px" }}>
-          <img
+          <Image
             src={`data:image/svg+xml;utf8,${generateFromString(
               `${item.user_id}`
             )}`}

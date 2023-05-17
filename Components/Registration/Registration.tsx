@@ -38,14 +38,14 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
     if (!recaptchaValue || !terms) {
       if (!terms && !recaptchaValue) {
         error(
-          "It looks like you have not agreed to our terms and have not passed the reCAPTCHA verification"
+          "Похоже, что вы не согласились с нашими условиями и не прошли проверку reCAPTCHA"
         );
         return;
       } else if (!terms) {
-        error("It looks like you have not agreed to our terms");
+        error("Похоже, что вы не согласились с нашими условиями");
         return;
       } else {
-        error("It looks like you have not passed the reCAPTCHA verification");
+        error("Похоже, что вы не прошли проверку reCAPTCHA");
       }
     }
 
@@ -58,7 +58,7 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
       }
     } catch (err) {
       error(
-        "Please try again later or contact our customer support team for assistance"
+        "Пожалуйста, повторите попытку позже или обратитесь за помощью в нашу службу поддержки клиентов"
       );
       recaptchaRef.current?.reset();
     }
@@ -122,12 +122,12 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
             className={styles.password}
             labelAlign="left"
             rules={[
-              { required: true, message: "Please input your password!" },
+              { required: true, message: "Пожалуйста, введите пароль" },
               {
                 pattern: PASSWORD_VALIDATION_PATTERN,
                 max: 100,
                 message:
-                  "Minimum 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 special character and 1 number",
+                  "Минимум 8 символов, минимум 1 строчная буква, 1 заглавная буква, 1 специальный символ и 1 цифра",
               },
             ]}
           >
@@ -151,14 +151,14 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
             <label className={styles.container}>
               <span className={styles.checkboxText}>
                 {" "}
-                I have read the{" "}
+                Я согласен на
                 <Link
                   target="_blank"
                   href={`${appUrl}/terms`}
                   rel="noopener noreferrer"
                   className={styles.termsLink}
                 >
-                  Terms & Privacy Policy
+                  Условия использования
                 </Link>
               </span>
               <input
@@ -193,13 +193,13 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
                 height={14}
                 className={styles.loginImage}
               />
-              Sign Up
+              Зарегистрироваться
             </Button>
           </Form.Item>
         </Form>
 
         <Link className={styles.link} href={"/signin"}>
-          I already have an account!
+          Уже зарегистрированы?
         </Link>
       </div>
     </section>

@@ -38,15 +38,7 @@ const getLocations = async (
       `${searchTerm}`
     );
 
-    const locationsInUSA = response.results.filter((location) =>
-      location.formatted_address.includes(filterCountry || "USA")
-    );
-
-    if (locationsInUSA.length === 0) {
-      return null;
-    }
-
-    return { locations: locationsInUSA };
+    return { locations: response.results };
   } catch (e) {
     return null;
   }

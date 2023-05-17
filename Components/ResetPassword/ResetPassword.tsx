@@ -92,13 +92,13 @@ export default function ResetPassword({ appUrl }: ResetPasswordProps) {
                 height={16}
                 className={styles.reset}
               />
-              <span className={styles.resetText}>Reset Password</span>
+              <span className={styles.resetText}>Сбросить пароль</span>
             </Button>
           </Form.Item>
           <ResetPasswodTextStatus errCode={resetEmailStatus} />
         </Form>
         <Link className={styles.goBack} href={"/signin"}>
-          Go Back to Log In
+          Вернуться к входу
         </Link>
       </div>
     </section>

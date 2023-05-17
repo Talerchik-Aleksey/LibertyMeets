@@ -6,8 +6,12 @@ export default function LogOut() {
   return (
     <li className={styles.navigationItem}>
       {" "}
-      <Button type="text" className={styles.logOut} onClick={() => signOut({ callbackUrl: '/' })}>
-        Log Out
+      <Button
+        type="text"
+        className={styles.logOut}
+        onClick={() => signOut({ callbackUrl: "/" })}
+      >
+        Выйти
       </Button>
     </li>
   );

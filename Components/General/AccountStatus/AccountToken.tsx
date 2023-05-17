@@ -3,18 +3,20 @@ import styles from "./AccountToken.module.scss";
 const informationInPage = {
   success: {
     message:
-      " Your account has been successfully activated. You can now enjoy all the features of our service. If you have any questions, feel free to contact us. Have a good time using it!",
+      "Ваша учетная запись успешно активирована. Теперь вы можете пользоваться всеми возможностями нашего сервиса. Если у вас возникнут вопросы, не стесняйтесь обращаться к нам. Приятного пользования!",
   },
   error: {
     message:
-      "Sorry, an error has occurred. Please try again later or contact support for assistance.",
+      "Извините, произошла ошибка. Пожалуйста, повторите попытку позже или обратитесь в службу поддержки за помощью.",
   },
 };
 
 export default function AccountToken({ isError }: { isError: boolean }) {
   return (
     <section className={styles.container}>
-      <h5 className={styles.codeMessage}>{isError ? "Error!" : "Congratulations!"}</h5>
+      <h5 className={styles.codeMessage}>
+        {isError ? "Ошибка" : "Поздравляем!"}
+      </h5>
       <span className={styles.message}>
         {isError
           ? informationInPage.error.message

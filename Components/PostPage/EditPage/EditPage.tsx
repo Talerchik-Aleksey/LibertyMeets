@@ -53,12 +53,12 @@ export default function EditPage(props: EditPostProps) {
             height={42}
             className={styles.vector}
           />
-          <span className={styles.backBtn}>Back</span>
+          <span className={styles.backBtn}>Назад</span>
         </Button>
       </div>
       <div className={styles.editContainer}>
         <Form name="normal_login" onFinish={onFinish}>
-          <div className={styles.title}>Edit Post</div>
+          <div className={styles.title}>Редактирование объявления</div>
           <div className={styles.inputContainer}>
             <div className={styles.postTitle}>
               <Form.Item
@@ -150,11 +150,11 @@ export default function EditPage(props: EditPostProps) {
           <div className={styles.buttonBlock}>
             <Button className={styles.cancel} onClick={() => history.back()}>
               <Image src="/decor/x.svg" alt="" width={10} height={10} />
-              <span className={styles.cancelBtn}>Cancel</span>
+              <span className={styles.cancelBtn}>Отмена</span>
             </Button>
             <Form.Item>
               <Button className={styles.edit} htmlType="submit">
-                <span className={styles.editBtn}>Save</span>
+                <span className={styles.editBtn}>Сохранить</span>
               </Button>
             </Form.Item>
           </div>

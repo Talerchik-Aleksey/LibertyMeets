@@ -114,7 +114,7 @@ export default function Login() {
             </Form.Item>
             <div className={styles.box}>
               <label className={styles.container}>
-                <span className={styles.checkboxText}>Remember me</span>
+                <span className={styles.checkboxText}>Запомнить меня</span>
                 <input
                   type="checkbox"
                   className={styles.checkHighload}
@@ -123,7 +123,7 @@ export default function Login() {
                 <span className={styles.highload2}></span>
               </label>
               <Link className={styles.forgot} href="/reset-password">
-                Forgot password
+                Забыли пароль?
               </Link>
             </div>
             <Form.Item className={styles.logIn}>
@@ -139,15 +139,15 @@ export default function Login() {
                   height={20}
                   className={styles.vector}
                 />
-                <span className={styles.buttonLogInsText}>Log in</span>
+                <span className={styles.buttonLogInsText}>Войти</span>
               </Button>
             </Form.Item>
           </Form>
           <Link className={styles.dontHave} href="/registration">
-            Don’t have an account yet?{" "}
+            Нет аккаунта?
           </Link>
           <Link className={styles.signUp} href={"/registration"}>
-            Sign Up For Free!
+            Регистрация
           </Link>
         </div>
       </section>

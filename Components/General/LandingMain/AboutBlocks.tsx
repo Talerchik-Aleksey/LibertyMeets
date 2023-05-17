@@ -2,60 +2,63 @@ import AboutBlock from "./AboutBlock";
 
 const blocksInfo = [
   {
-    title: "Purpose",
+    title: "О компании",
     img: { src: "decor/Icon 1.svg", width: 147, height: 150 },
     lines: [
       {
         isMarked: true,
-        text: "A trusted platform to connect freedom-minded people",
+        text: "Надежная платформа для общения свободомыслящих людей",
       },
       {
         isMarked: true,
-        text: "Facilitate strong local communities and work environments",
+        text: "Способствовать созданию сильных местных сообществ и рабочей среды",
       },
       {
         isMarked: true,
-        text: "Allow volunteers/donors to connect directly with campaigns",
+        text: "Позволить волонтерам/донорам напрямую связываться с кампаниями",
       },
       {
         isMarked: true,
-        text: "Enhance the liberty movement's social, political, and economic influence",
+        text: "Усилить социальное, политическое и экономическое влияние движения за свободу",
       },
     ],
   },
   {
-    title: "Benefits",
+    title: "Преимущества",
     img: { src: "decor/Icon 2.svg", width: 145, height: 144 },
     lines: [
-      { isMarked: true, text: "Access to audience who shares your values" },
-      { isMarked: true, text: "Easy and free to use" },
+      { isMarked: true, text: "Доступ к аудитории, разделяющей ваши ценности" },
+      { isMarked: true, text: "Простота и бесплатность использования" },
       {
         isMarked: true,
-        text: "Like Craigslist, your communications are anonymous",
+        text: "Как и в Craigslist, ваши сообщения анонимны.",
       },
-      { isMarked: true, text: "Focused on maintaining your privacy" },
+      {
+        isMarked: true,
+        text: "Сосредоточены на сохранении вашей конфиденциальности",
+      },
     ],
   },
   {
-    title: "How it works",
+    title: "Как это работает",
     img: { src: "decor/Icon 3.svg", width: 135, height: 150 },
     lines: [
       {
         isMarked: false,
-        text: "Search and Post opportunities in four categories:",
+        text: "Поиск и размещение вакансий в четырех категориях:",
       },
-      { isMarked: true, text: "Social (meet like-minded people)" },
+      { isMarked: true, text: "Социальные (знакомство с единомышленниками)" },
       {
         isMarked: true,
-        text: "Volunteer (easily find ways to turn passion into action)",
-      },
-      {
-        isMarked: true,
-        text: "Professional (connect employers and employees on the same page)",
+        text: "Станьте волонтером (легко находите способы превратить страсть в действие)",
       },
       {
         isMarked: true,
-        text: "Campaigns (bypass GOP/RNC control of resources)",
+        text: "Профессиональные (объединяют работодателей и сотрудников на одной странице)",
+      },
+      {
+        isMarked: true,
+        text: "Кампании (обойти контроль GOP/RNC над ресурсами)",
       },
     ],
   },
@@ -65,7 +68,12 @@ export default function AboutBlocks() {
   return (
     <>
       {blocksInfo.map((item, i) => (
-        <AboutBlock title={item.title} img={item.img} lines={item.lines} key={i} />
+        <AboutBlock
+          title={item.title}
+          img={item.img}
+          lines={item.lines}
+          key={i}
+        />
       ))}
     </>
   );

@@ -20,7 +20,8 @@ export default function LandingMain() {
             />
           </div>
           <h2 className={styles.description}>
-            The place to find freedom-friendly folks near you.
+            Место, где можно найти дружественных к свободе людей поблизости от
+            вас.
           </h2>
         </div>
       </section>
@@ -31,7 +32,7 @@ export default function LandingMain() {
         <div className={styles.buttonBlock}>
           <Link className={styles.buttonLearnLink} href="/about">
             <span className={styles.buttonLearnMore}>
-              Learn More About LibertyMeets
+              Узнайте больше о LibertyMeets
             </span>
           </Link>
         </div>
@@ -40,14 +41,15 @@ export default function LandingMain() {
         <article className={styles.descriptionPurple}>
           <q>
             <span className={styles.quote}>
-              LibertyMeets has helped us find new like-minded friends in our
-              town. Finally a platform with people who have our values and is
-              more than sitting behind a keyboard.
+              LibertyMeets помог нам найти новых друзей-единомышленников в нашем
+              городе. Наконец-то появилась платформа с людьми, которые разделяют
+              наши ценности и являются больше, чем просто сидящие за
+              клавиатурой.
             </span>
           </q>
           <br />
           <br />
-          <span className={styles.quote}>Bob & Jessica Smith</span>
+          <span className={styles.quote}>Боб и Джессика Смит</span>
           <div className={styles.controlButtons}>
             <SearchOpportunities />
             <SignUp />

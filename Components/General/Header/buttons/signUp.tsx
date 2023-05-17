@@ -15,7 +15,7 @@ export default function SignUp() {
             height={14}
             className={styles.signUpImage}
           />
-          <span className={styles.signUpText}>Sign Up </span>
+          <span className={styles.signUpText}>Регистрация</span>
         </Button>
       </Link>
     </li>

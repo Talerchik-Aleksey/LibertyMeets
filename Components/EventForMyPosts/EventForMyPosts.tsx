@@ -42,7 +42,7 @@ export default function EventForMyPosts({
           <div className={styles.rightBlock}>
             {post.is_blocked && (
               <div className={styles.blocked}>
-                <span className={styles.blockedText}>blocked</span>{" "}
+                <span className={styles.blockedText}>Заблокирован</span>{" "}
               </div>
             )}
           </div>

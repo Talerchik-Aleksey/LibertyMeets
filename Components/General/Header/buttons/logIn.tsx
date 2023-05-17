@@ -8,7 +8,7 @@ export default function LogIn() {
       {" "}
       <Link className={styles.navigationItemLink} href={"/signin"}>
         <Button type="text" className={styles.logIn}>
-          Log In
+          Войти
         </Button>
       </Link>
     </li>

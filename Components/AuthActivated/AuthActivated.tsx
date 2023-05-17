@@ -17,7 +17,6 @@ export default function AuthActivated({ appUrl }: PropsType) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { data: session } = useSession();
-
   useEffect(() => {
     if (session?.user === null && session?.email) {
       setIsVisible(true);
@@ -62,7 +61,7 @@ export default function AuthActivated({ appUrl }: PropsType) {
       {errorMessage ? <div>{errorMessage}</div> : <></>}
       {isVisible ? (
         <div className={styles.blockResend}>
-          <div className={styles.text}>Resend the activation link?</div>
+          <div className={styles.text}>Повторно отправить письмо?</div>
           <Button type="text" className={styles.resend} onClick={resendEmail}>
             <Image
               src="/decor/reset.svg"
@@ -71,18 +70,18 @@ export default function AuthActivated({ appUrl }: PropsType) {
               height={16}
               className={styles.reset}
             />
-            Resend
+            Выслать повторно
           </Button>
         </div>
       ) : (
         <></>
       )}
       <p className={styles.message}>
-        Your account has been created, but in order to use it fully, you need to
-        activate your email. We have sent a confirmation email to the address
-        you provided. Please follow the instructions in the email to complete
-        the activation process. If you have not received the email, please check
-        your spam folder.
+        Ваш аккаунт создан, но для того, чтобы использовать его в полной мере,
+        вам необходимо активировать вашу электронную почту. Мы отправили письмо
+        с подтверждением на адрес который вы указали. Пожалуйста, следуйте
+        инструкциям в этом письме, чтобы завершить процесс активации. Если вы не
+        получили письмо, пожалуйста, проверьте папку &quot;Спам&quot;
       </p>
     </div>
   );

@@ -56,7 +56,7 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
 
     if (res.status === 200) {
       showModalSuccess(
-        "We sent your message to the host. Receive responses and continue chatting over email."
+        "Мы отправили ваше сообщение хозяину. Получите ответы и продолжите общение по электронной почте"
       );
       form.setFieldsValue({
         message: "",
@@ -64,7 +64,7 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
       return;
     }
     showModalError(
-      "Sorry, your reply was not sent. Please try again later or contact support for assistance."
+      "Извините, ваш ответ не был отправлен. Пожалуйста, повторите попытку позже или обратитесь в службу поддержки за помощью."
     );
     form.setFieldsValue({
       message: "",
@@ -100,7 +100,7 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
               size={"small"}
               className={styles.descriptionTextarea}
               placeholder={
-                "Please do not give time/location details or personal indentifying infromation in your reply. And if you meeting with strangers, please do it in a public place."
+                "Пожалуйста, не указывайте в своем ответе время/место встречи или личную информацию. А если вы встречаетесь с незнакомцами, пожалуйста, делайте это в общественном месте."
               }
             />
           </Form.Item>
@@ -112,7 +112,7 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
               height={10}
               className={styles.reply}
             />
-            <span className={styles.replyBtnText}>Reply</span>
+            <span className={styles.replyBtnText}>Отправить</span>
           </Button>
         </Form>
       ) : (
@@ -124,7 +124,7 @@ export default function ThreadForm({ appUrl, threadId, postId }: PropsType) {
             height={10}
             className={styles.reply}
           />
-          <span className={styles.replyBtnText}>Reply</span>
+          <span className={styles.replyBtnText}>Отправить</span>
         </Button>
       )}
     </>

@@ -261,7 +261,7 @@ export default function Events({
               <div className={styles.eventsSubBlock}>
                 {getPostsByDate(posts, isToday).length > 0 && (
                   <div className={styles.eventsSubBlockTitle}>
-                    <span className={styles.buttonDay}>Today</span>
+                    <span className={styles.buttonDay}>Сегодня</span>
                   </div>
                 )}
                 <PostsList
@@ -272,7 +272,7 @@ export default function Events({
                 />
                 {getPostsByDate(posts, isYesterday).length > 0 && (
                   <div className={styles.eventsSubBlockTitle}>
-                    <span className={styles.buttonDay}>Yesterday</span>
+                    <span className={styles.buttonDay}>Вчера</span>
                   </div>
                 )}
                 <PostsList
@@ -286,7 +286,7 @@ export default function Events({
                   (date) => !isYesterday(date) && !isToday(date)
                 ).length > 0 && (
                   <div className={styles.eventsSubBlockTitle}>
-                    <span className={styles.buttonDay}>Earlier</span>
+                    <span className={styles.buttonDay}>Раньше</span>
                   </div>
                 )}
                 <PostsList

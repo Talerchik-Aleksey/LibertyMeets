@@ -27,7 +27,7 @@ export default function AuthorThreads({ appUrl, postId }: PropsType) {
     <>
       {threads.map((item) => (
         <div key={`thread-${item.id}`}>
-          thread {item.id}
+          Тред {item.id}
           <Thread appUrl={appUrl} threadId={item.id} />
           <ThreadForm
             appUrl={appUrl}

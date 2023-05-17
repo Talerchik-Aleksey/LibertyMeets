@@ -98,9 +98,7 @@ export default function CreatePost(props: CreatePostProps) {
       }
     } catch (e) {
       console.error(e);
-      error(
-        "It looks like there was a problem while trying to create your post"
-      );
+      error("Произошла ошибка при добавлении объявления. Попробуйте позже.");
     }
   }
 
@@ -116,7 +114,7 @@ export default function CreatePost(props: CreatePostProps) {
         })
         .catch((e) => {
           console.error(e);
-          error("Sorry, but we were unable to detect location.");
+          error("Произошла ошибка при выяснении координат. Попробуйте позже.");
         });
     } else {
       setLat(Number(session?.user.lat));
@@ -141,7 +139,7 @@ export default function CreatePost(props: CreatePostProps) {
               height={42}
               className={styles.vector}
             />
-            <span className={styles.backBtn}>Back</span>
+            <span className={styles.backBtn}>Назад</span>
           </Button>
         </Link>
       </div>
@@ -151,7 +149,7 @@ export default function CreatePost(props: CreatePostProps) {
           onFinish={onFinish}
           initialValues={{ remember: true }}
         >
-          <div className={styles.title}>Create Post</div>
+          <div className={styles.title}>Создание объявления</div>
           <div className={styles.inputContainer}>
             <div className={styles.postTitle}>
               <Form.Item
@@ -167,7 +165,7 @@ export default function CreatePost(props: CreatePostProps) {
                 ]}
               >
                 <Input
-                  placeholder="Your Title"
+                  placeholder="Ваш заголовок объявления"
                   suffix={
                     <Image
                       src="/decor/editPensil.svg"
@@ -192,7 +190,7 @@ export default function CreatePost(props: CreatePostProps) {
               >
                 <Select
                   className={styles.categorySelect}
-                  placeholder="Please select the group for your post"
+                  placeholder="Выберите категорию"
                 >
                   <Select.Option
                     className={styles.categorySelectOption}
@@ -241,7 +239,7 @@ export default function CreatePost(props: CreatePostProps) {
                   rows={7}
                   size={"small"}
                   className={styles.descriptionTextarea}
-                  placeholder="Describe your listing in detail here"
+                  placeholder="Введите описание объявления"
                 />
               </Form.Item>
             </div>
@@ -273,8 +271,7 @@ export default function CreatePost(props: CreatePostProps) {
                   {
                     type: "string",
                     pattern: postalRegex,
-                    message:
-                      "Invalid postal code. Please enter a valid US postal code",
+                    message: "Введите корректный почтовый индекс",
                   },
                   {
                     validator: async (_, value) => {
@@ -284,7 +281,7 @@ export default function CreatePost(props: CreatePostProps) {
                         return Promise.resolve();
                       }
                       return Promise.reject(
-                        "Value not found in geocode result"
+                        "Введите корректный почтовый индекс"
                       );
                     },
                   },
@@ -315,12 +312,12 @@ export default function CreatePost(props: CreatePostProps) {
               onClick={() => router.push("/posts")}
             >
               <Image src="/decor/x.svg" alt="" width={10} height={10} />
-              <span className={styles.cancelBtn}>Cancel</span>
+              <span className={styles.cancelBtn}>Отмена</span>
             </Button>
             <Form.Item>
               <Button className={styles.preview} htmlType="submit">
                 {/* <Image src="/decor/eyes.svg" alt="" width={16} height={14} /> */}
-                <span className={styles.previewBtn}>Create Post</span>
+                <span className={styles.previewBtn}>Создать</span>
               </Button>
             </Form.Item>
           </div>
