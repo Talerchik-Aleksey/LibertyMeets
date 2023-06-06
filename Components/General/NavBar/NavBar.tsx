@@ -1,7 +1,7 @@
 import { AutoComplete, Button, Input } from "antd";
 import { debounce } from "lodash";
 import Image from "next/image";
-import { CATEGORIES } from "../../../constants/constants";
+import { CATEGORIES, RU_CATEGORIES } from "../../../constants/constants";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
 import styles from "./NavBar.module.scss";
@@ -71,13 +71,13 @@ export default function NavBar(props: NavBarProps) {
               changeCategory(item);
             }}
           >
-            {item}
+            {RU_CATEGORIES[index]}
           </Button>
         ))}
       </div>
       <div className={styles.location}>
         <div className={styles.place}>
-          <span className={styles.text}>Zip Code</span>
+          <span className={styles.text}>Почтовый индекс</span>
           <Input
             suffix={
               <Image src="/decor/location2.svg" alt="" width={18} height={18} />
@@ -89,7 +89,7 @@ export default function NavBar(props: NavBarProps) {
           />
         </div>
         <div className={styles.radius}>
-          <span className={styles.text}>Radius</span>
+          <span className={styles.text}>Радиус</span>
           <AutoComplete
             options={autoCompleteOption}
             onChange={searchByRadius}

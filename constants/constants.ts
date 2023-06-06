@@ -9,4 +9,12 @@ export const CATEGORIES = [
   "Campaigns",
 ];
 
+export const RU_CATEGORIES = [
+  "Все",
+  "Социальные",
+  "Волонтёрство",
+  "Профессиональные",
+  "Кэмпинг",
+];
+
 export const METERS_IN_MILE = 1609.344;

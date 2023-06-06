@@ -89,13 +89,13 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
           <Form.Item
             name="email"
             rules={[
-              { required: true },
+              { required: true, message: "Пожалуйста, введите почту" },
               { type: "email" },
               { type: "string", max: 100 },
             ]}
             colon={false}
             labelAlign="left"
-            label="Email"
+            label="Почта"
             labelCol={{ span: 5 }}
             className={styles.email}
           >
@@ -115,7 +115,7 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
           </Form.Item>
 
           <Form.Item
-            label="Password"
+            label="Пароль"
             name="password"
             colon={false}
             labelCol={{ span: 5 }}

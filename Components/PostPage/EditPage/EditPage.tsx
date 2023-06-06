@@ -65,7 +65,7 @@ export default function EditPage(props: EditPostProps) {
                 className={styles.postTitleText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="Post Title"
+                label="Заголовок"
                 name="title"
                 colon={false}
                 initialValue={props.post.title}
@@ -92,7 +92,7 @@ export default function EditPage(props: EditPostProps) {
                 className={styles.categoryText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="Category"
+                label="Категория"
                 name="category"
                 initialValue={props.post.category}
                 colon={false}
@@ -130,7 +130,7 @@ export default function EditPage(props: EditPostProps) {
                 className={styles.descriptionText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="Description"
+                label="Описание"
                 name="description"
                 colon={false}
                 initialValue={props.post.description}

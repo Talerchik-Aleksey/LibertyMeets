@@ -156,11 +156,11 @@ export default function CreatePost(props: CreatePostProps) {
                 className={styles.postTitleText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="Post Title"
+                label="Заголовок"
                 name="title"
                 colon={false}
                 rules={[
-                  { required: true },
+                  { required: true, message: "Введите заголовок объявления" },
                   { type: "string", min: 4, max: 90 },
                 ]}
               >
@@ -183,10 +183,10 @@ export default function CreatePost(props: CreatePostProps) {
                 className={styles.categoryText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="Category"
+                label="Категория"
                 name="category"
                 colon={false}
-                rules={[{ required: true }]}
+                rules={[{ required: true, message: "Выберите категорию" }]}
               >
                 <Select
                   className={styles.categorySelect}
@@ -224,11 +224,11 @@ export default function CreatePost(props: CreatePostProps) {
                 className={styles.descriptionText}
                 labelAlign={"left"}
                 labelCol={{ span: 2 }}
-                label="Description"
+                label="Описание"
                 name="description"
                 colon={false}
                 rules={[
-                  { required: true },
+                  { required: true, message: "Введите описание объявления" },
                   { type: "string", min: 4, max: 1000 },
                 ]}
               >
@@ -247,7 +247,7 @@ export default function CreatePost(props: CreatePostProps) {
           <div className={styles.mapContainer}>
             <Form.Item className={styles.locationContainer}>
               <Form.Item
-                label="City or neighborhood"
+                label="Доп. информация"
                 name="location_name"
                 colon={true}
                 className={styles.city}
@@ -262,12 +262,12 @@ export default function CreatePost(props: CreatePostProps) {
                 <Input className={styles.cityInput} />
               </Form.Item>
               <Form.Item
-                label="Postal code"
+                label="Почтый индекc"
                 name="zip"
                 colon={false}
                 className={styles.zipCode}
                 rules={[
-                  { required: true },
+                  { required: true, message: "Введите почтовый индекс" },
                   {
                     type: "string",
                     pattern: postalRegex,

@@ -14,7 +14,7 @@ export default function Login() {
   const error = () => {
     messageApi.open({
       type: "error",
-      content: "Invalid credentials",
+      content: "Неверная почта или пароль",
       duration: 2.5,
       style: {
         marginTop: "10vh",
@@ -64,13 +64,13 @@ export default function Login() {
             <Form.Item
               name="email"
               rules={[
-                { required: true },
+                { required: true, message: "Пожалуйста, введите почту" },
                 { type: "email" },
                 { type: "string", max: 100 },
               ]}
               colon={false}
               labelAlign="left"
-              label="E-mail"
+              label="Почта"
               labelCol={{ span: 3 }}
               className={styles.username}
             >
@@ -84,18 +84,21 @@ export default function Login() {
                     className={styles.vector}
                   />
                 }
-                placeholder="Username"
+                placeholder="some.email@gmail.com"
                 className={styles.usernameInput}
               />
             </Form.Item>
             <Form.Item
-              label="Password"
+              label="Пароль"
               name="password"
               colon={false}
               labelCol={{ span: 3 }}
               labelAlign="left"
               className={styles.password}
-              rules={[{ required: true }, { type: "string", min: 4, max: 100 }]}
+              rules={[
+                { required: true, message: "Пожалуйста, введите пароль" },
+                { type: "string", min: 4, max: 100 },
+              ]}
             >
               <Input
                 suffix={
@@ -107,8 +110,8 @@ export default function Login() {
                     className={styles.vector}
                   />
                 }
+                placeholder="********"
                 type="password"
-                placeholder="Password"
                 className={styles.inputPassword}
               />
             </Form.Item>

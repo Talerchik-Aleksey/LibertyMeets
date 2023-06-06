@@ -204,7 +204,7 @@ export default function Events({
       (lat === undefined || lng === undefined) &&
       (!zipCode || zipCode === "")
     ) {
-      error("Provide a zip code for radius sampling");
+      error("Предоставте почтовый индекс для выборки по радиусу");
       return;
     }
 
