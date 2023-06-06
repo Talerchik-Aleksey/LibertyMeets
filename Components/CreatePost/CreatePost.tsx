@@ -270,7 +270,6 @@ export default function CreatePost(props: CreatePostProps) {
                   { required: true, message: "Введите почтовый индекс" },
                   {
                     type: "string",
-                    pattern: postalRegex,
                     message: "Введите корректный почтовый индекс",
                   },
                   {
