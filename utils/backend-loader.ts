@@ -26,3 +26,48 @@ export async function backendLoader<T extends Model>(
     return null;
   }
 }
+
+export async function backendLoaderArray<T extends Model[]>(
+  fn: () => Promise<T | null>,
+  dateFields: string[]
+): Promise<T | null> {
+  try {
+    const entities = await fn();
+    if (!entities) {
+      return null;
+    }
+    const plainDataArray = await Promise.all(
+      entities.map(async (entity) => {
+        const plainData = await entity.toJSON();
+        convertDatesToJson(plainData, dateFields);
+        return plainData;
+      })
+    );
+    return plainDataArray as T;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+function convertDatesToJson(data: any, dateFields: string[]) {
+  for (const field of dateFields) {
+    const nestedFields = field.split(".");
+    let nestedData = data;
+    for (const nestedField of nestedFields) {
+      nestedData = nestedData[nestedField];
+      if (!nestedData) {
+        break;
+      }
+    }
+    if (nestedData instanceof Date) {
+      const parentData = nestedFields
+        .slice(0, -1)
+        .reduce((obj, key) => obj[key], data);
+      parentData[nestedFields[nestedFields.length - 1]] =
+        nestedData.toISOString();
+    } else if (typeof nestedData === "object") {
+      convertDatesToJson(nestedData, nestedFields.slice(1));
+    }
+  }
+}

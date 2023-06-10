@@ -1,7 +1,7 @@
 import { FavoritePosts } from "../models/favoritePosts";
 import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
-import { ExchangePostType, PostType } from "../types/general";
+import { CommentType, ExchangePostType, PostType } from "../types/general";
 import config from "config";
 import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
@@ -10,6 +10,8 @@ import { connect } from "../utils/db";
 import { Op, Transaction } from "sequelize";
 import { METERS_IN_MILE } from "../constants/constants";
 import { checkPostTitile, isDraft } from "../utils/titleStatusUtils";
+import { Comments } from "../models/comments";
+import { Users } from "../models/users";
 
 const PAGE_SIZE = config.get<number>("posts.perPage");
 
@@ -460,4 +462,42 @@ export async function deleteUserPosts(userId: number, t: Transaction) {
     const error = err as Error;
     return error;
   }
+}
+
+export async function getComments(postId: number) {
+  return Comments.findAll({
+    where: { postId },
+    include: {
+      model: Users,
+    },
+  });
+}
+
+export async function createComment(
+  userId: number,
+  postId: number,
+  content: string
+) {
+  const comment = await Comments.create({
+    userId,
+    postId,
+    content,
+  });
+
+  return await getComment(comment.id);
+}
+
+export async function getComment(id: number) {
+  return await Comments.findOne({
+    where: { id },
+    include: {
+      model: Users,
+    },
+  });
+}
+
+export async function deleteComment(id: number) {
+  return await Comments.destroy({
+    where: { id },
+  });
 }

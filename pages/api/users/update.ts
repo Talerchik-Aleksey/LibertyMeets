@@ -26,19 +26,19 @@ export default async function handler(
       return;
     }
 
-    console.log(req.body);
-
     req.log.debug({ body: req.body }, "Request.body");
 
     const { location } = req.body as BodyType;
 
     const session = await getSession({ req });
 
-    if (!session?.user) {
+    req.log.info({ session }, "session");
+
+    if (session?.user) {
       throw new HttpError(400, "user not valid");
     }
 
-    await changeLocation(session.user.id as number, location[0], location[1]);
+    await changeLocation(session?.user.id as number, location[0], location[1]);
 
     res
       .status(200)

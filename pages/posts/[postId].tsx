@@ -2,17 +2,20 @@ import config from "config";
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 import { getSession } from "next-auth/react";
-import { getPost } from "../../services/posts";
-import { backendLoader } from "../../utils/backend-loader";
+import { getComments, getPost } from "../../services/posts";
+import { backendLoader, backendLoaderArray } from "../../utils/backend-loader";
 import MyPost from "../../Components/PostPage/MyPost/MyPost";
 import LivePost from "../../Components/PostPage/LivePost/LivePost";
 import { useRouter } from "next/router";
 import { Session } from "next-auth";
 import Head from "next/head";
 import { ExchangePostType } from "../../types/general";
+import { Comments as CommentsModel } from "../../models/comments";
+import Comments from "../../Components/PostPage/Comments/Comments";
 
 type SinglePostProps = {
   session: Session | null;
+  comments: CommentsModel[] | null;
   appUrl: string;
   post: ExchangePostType;
 };
@@ -22,12 +25,14 @@ const SHARETHIS_TOKEN = process.env.NEXT_PUBLIC_SHARETHIS_TOKEN;
 export default function SinglePost({
   session,
   appUrl,
+  comments,
   post: initialPost,
 }: SinglePostProps) {
   const [post, setPost] = useState<ExchangePostType>(initialPost);
   const router = useRouter();
   const fromUrl = router.query.fromUrl?.toString();
   const isAuthor = session ? post?.author_id === session?.user.id : undefined;
+  console.log(session);
 
   return (
     <>
@@ -67,6 +72,12 @@ export default function SinglePost({
             session={session}
           />
           {/* <AuthorThreads appUrl={appUrl} postId={post.id} /> */}
+          <Comments
+            appUrl={appUrl}
+            postId={post.id}
+            comments={comments}
+            session={session}
+          />
         </>
       ) : (
         <>
@@ -79,6 +90,12 @@ export default function SinglePost({
             threadId={"1"}
             isAuthor={isAuthor}
           /> */}
+          <Comments
+            appUrl={appUrl}
+            postId={post.id}
+            comments={comments}
+            session={session}
+          />
         </>
       )}
     </>
@@ -103,6 +120,11 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
     ["created_at", "updated_at"]
   );
 
+  const comments = await backendLoaderArray<CommentsModel[]>(
+    () => getComments(postId),
+    ["createdAt", "updatedAt", "user.created_at", "user.updated_at"]
+  );
+
   if (!post) {
     return {
       notFound: true,
@@ -112,6 +134,7 @@ export const getServerSideProps: GetServerSideProps<SinglePostProps> = async (
   return {
     props: {
       session,
+      comments: comments || [],
       appUrl,
       post,
     },

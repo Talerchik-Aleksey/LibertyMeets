@@ -151,7 +151,7 @@ export default function MyPost(props: PostProps) {
           </div>
         )}
         <Select
-          value={"Edit"}
+          value={"Редактировать"}
           dropdownMatchSelectWidth={false}
           showArrow={false}
           placement={"bottomRight"}
@@ -186,7 +186,7 @@ export default function MyPost(props: PostProps) {
                 height={16}
                 className={styles.eye}
               />
-              Сделать пост {post.is_public ? "Private" : "Public"}
+              Сделать пост {post.is_public ? "приватным" : "Публичным"}
             </div>
           </Option>
           <Option className={styles.optionContainer} key="delete">

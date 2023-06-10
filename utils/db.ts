@@ -8,6 +8,7 @@ import { FavoritePosts } from "../models/favoritePosts";
 import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
 import { getLogger } from "./logging";
+import { Comments } from "../models/comments";
 
 export type ConnectionOptionsType = {
   type?: Dialect;
@@ -34,7 +35,15 @@ export async function connect(): Promise<Sequelize> {
     benchmark: true,
     pool: options.pool,
     transactionType: "IMMEDIATE" as any,
-    models: [Users, Posts, UserPosts, FavoritePosts, Threads, ThreadMessages],
+    models: [
+      Users,
+      Posts,
+      UserPosts,
+      FavoritePosts,
+      Threads,
+      ThreadMessages,
+      Comments,
+    ],
     /* @ts-ignore */
     logging: (str, timing, args: any) => {
       const logDetails = { timing, bind: undefined, trx: undefined };

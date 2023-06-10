@@ -38,3 +38,4 @@ export type ExchangePostType = Posts & {
   is_favorite?: boolean;
   favoriteUsers: { id: number }[];
 };
+

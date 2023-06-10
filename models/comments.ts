@@ -4,13 +4,15 @@ import {
   DataType,
   AllowNull,
   Model,
+  Default,
   PrimaryKey,
   AutoIncrement,
   CreatedAt,
+  UpdatedAt,
   DeletedAt,
   ForeignKey,
+  HasMany,
   BelongsTo,
-  UpdatedAt,
 } from "sequelize-typescript";
 import { Posts } from "./posts";
 import { Users } from "./users";
@@ -19,10 +21,9 @@ import { Users } from "./users";
   timestamps: true,
   paranoid: true,
   underscored: true,
-  tableName: "favorite_posts",
-  initialAutoIncrement: "1",
+  tableName: "comments",
 })
-export class FavoritePosts extends Model {
+export class Comments extends Model {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.NUMBER)
@@ -31,26 +32,32 @@ export class FavoritePosts extends Model {
   @AllowNull(false)
   @Column(DataType.NUMBER)
   @ForeignKey(() => Users)
-  user_id!: number;
+  userId!: number;
 
   @AllowNull(false)
-  @Column(DataType.NUMBER)
+  @Column(DataType.INTEGER)
   @ForeignKey(() => Posts)
-  post_id!: number;
+  postId!: number;
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  content!: string;
 
   @CreatedAt
   @Column
-  created_at!: Date;
+  createdAt!: Date;
 
   @UpdatedAt
   @Column
-  updated_at!: Date;
+  updatedAt!: Date;
 
   @DeletedAt
   @Column
-  deleted_at!: Date;
+  deletedAt!: Date;
+
+  @BelongsTo(() => Users)
+  user!: Users;
 
   @BelongsTo(() => Posts)
-  post?: Posts;
+  post!: Posts;
 }
-

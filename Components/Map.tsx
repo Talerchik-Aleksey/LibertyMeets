@@ -50,18 +50,6 @@ function LocationMarker(props: MapProps) {
         if (!userLat || !userLng) {
           return;
         }
-        if (
-          userLat?.toFixed(2) !== lat.toFixed(2) ||
-          userLng?.toFixed(2) !== lng.toFixed(2)
-        ) {
-          await axios.post(
-            `${appUrl}/api/users/update`,
-            { location: [lat, lng] },
-            {
-              withCredentials: true,
-            }
-          );
-        }
       }
     })();
   }, [appUrl, lat, lng, map, userLat, userLng]);
