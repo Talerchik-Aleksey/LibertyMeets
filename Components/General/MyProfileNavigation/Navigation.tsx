@@ -5,11 +5,11 @@ import styles from "./Navigation.module.scss";
 type NavigationProps = { activePage: string };
 
 export default function Navigation(activePage: NavigationProps) {
-  const NavigationMap = ["Мои избранные", "Мои объявления", "Настройки"];
-  const links = {
+  const NavigationMap = ["Мои избранные", "Мои объявления", "Мои настройки"];
+  const links: Record<string, string> = {
     "Мои избранные": "/my-favorites",
+    "Мои настройки": "/settings",
     "Мои объявления": "/myPosts",
-    Settings: "/settings",
   };
 
   return (

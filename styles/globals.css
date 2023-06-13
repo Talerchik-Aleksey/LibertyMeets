@@ -1,72 +1,137 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
 :root {
+  --LibertyMeets-White: #ffffff;
+  --LibertyMeets-Lightgrey: #e1e1e1;
+  --LibertyMeets-Lightgrey-100: #919191;
+  --LibertyMeets-Grey: #626262;
+  --LibertyMeets-Darkgrey: #4f4f4f;
   --LibertyMeets-Purple-100: #efeff4;
+  --LibertyMeets-Purple-200: #d4c0de;
+  --LibertyMeets-Purple-300: #9152a3;
+  --LibertyMeets-Purple-400: #911f64;
   --LibertyMeets-Purple-500: #921a64;
   --LibertyMeets-Purple-500A: #6f2cff;
+  --LibertyMeets-Purple-500B: #3d2f6e;
   --LibertyMeets-Purple-600: #640674;
   --LibertyMeets-Purple-900: #471b51;
   --LibertyMeets-UtilityBlack: #333333;
+  --LibertyMeets-Black: #000000;
   --LibertyMeets-UtilityGrey: #8f8f8f;
   --LibertyMeets-Background: #f9fafb;
   --LibertyMeets-Warning_Accent: #ff8b00;
+  --LibertyMeets-Warning_Accent-100: #a92424;
+  --LibertyMeets-Orange: #f2cdae;
+  --LibertyMeets-Salmon: #eab9ba;
+  --LibertyMeets-Aqua: #bfe0de;
+  --LibertyMeets-Aqua-100: #52abaa;
+  --LibertyMeets-Brown: #4c1001;
+  --LibertyMeets-Brown-100: #460000;
 }
 
 @font-face {
-  font-family: 'Butler';
+  font-family: "Butler";
   font-style: normal;
   font-weight: 700;
-  src: url('/static/fonts/Butler-Bold700.woff2') format('woff2');
+  src: url("/static/fonts/Butler-Bold700.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: 'Butler';
+  font-family: "Butler";
   font-style: normal;
   font-weight: 600;
-  src: url('/static/fonts/Butler-Medium600.woff2') format('woff2');
+  src: url("/static/fonts/Butler-Medium600.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: 'Nunito';
+  font-family: "Nunito";
   font-style: normal;
   font-weight: 600;
-  src: url('/static/fonts/Nunito-SemiBold600.ttf') format('truetype');
+  src: url("/static/fonts/Nunito-SemiBold600.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 700;
-  src: url('/static/fonts/Inter-ExtraBold.woff2') format('woff2');
+  src: url("/static/fonts/Inter-ExtraBold.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 700;
-  src: url('/static/fonts/Inter-Bold700.woff2') format('woff2');
+  src: url("/static/fonts/Inter-Bold700.woff2") format("woff2");
 }
 
-
 @font-face {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 500;
-  src: url('/static/fonts/Inter-Medium500.woff2') format('woff2');
+  src: url("/static/fonts/Inter-Medium500.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  src: url('/static/fonts/Inter-Regular400.woff2') format('woff2');
+  src: url("/static/fonts/Inter-Regular400.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 600;
-  src: url('/static/fonts/Inter-SemiBold600.woff2') format('woff2');
+  src: url("/static/fonts/Inter-SemiBold600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Lexend";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/static/fonts/Lexend-Regular-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Lexend";
+  font-style: normal;
+  font-weight: 500;
+  src: url("/static/fonts/Lexend-Medium-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Lexend";
+  font-style: normal;
+  font-weight: 600;
+  src: url("/static/fonts/Lexend-Semibold-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Lexend";
+  font-style: normal;
+  font-weight: 700;
+  src: url("/static/fonts/Lexend-Bold-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/static/fonts/Roboto-Regular-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  src: url("/static/fonts/Roboto-Medium-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  src: url("/static/fonts/Roboto-Bold-700.woff2") format("woff2");
 }
 
 * {
@@ -90,9 +155,9 @@ label {
 }
 
 .main {
-  padding-top: 90px;
+  padding-top: 80px;
   flex-grow: 1;
-  min-height: calc(100vh - 188px);
+  min-height: calc(100vh - 176px);
 }
 
 a {
@@ -110,4 +175,28 @@ footer {
 
 p {
   margin-bottom: 0;
+}
+
+.carousel-root,
+.carousel.carousel-slider,
+.slider-wrapper,
+.slider,
+.slide {
+  height: 100%;
+}
+
+.carousel.carousel-slider .control-dots {
+  margin: 0;
+}
+
+.carousel.carousel-slider .control-dots .dot {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--LibertyMeets-White);
+  background-color: transparent;
+  opacity: 1;
+}
+
+.carousel.carousel-slider .control-dots .dot.selected {
+  background-color: var(--LibertyMeets-White);
 }

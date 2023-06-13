@@ -3,11 +3,10 @@
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
-  line-height: 30px;
   display: flex;
   align-items: center;
   color: #921a64;
-  padding: 4px 6px;
+  padding: 6px 16px;
   gap: 4px;
   width: min-content;
   background: #eee9f7;
@@ -18,14 +17,9 @@
 .eventsPageContainer {
   background: #f9fafb;
   display: flex;
-  padding-top: 130px;
   flex-direction: column;
   gap: 30px;
   min-height: 100vh;
-
-  @media (max-width: 800px) {
-    padding-top: 40px;
-  }
 }
 
 .container {
@@ -48,28 +42,41 @@
 }
 
 .navigation {
+  position: sticky;
+  top: 80px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  padding: 21px 44px 23px;
+  border-bottom: 1px solid var(--LibertyMeets-Purple-100);
+  background-color: var(--LibertyMeets-Background);
+
+  @media (max-width: 1150px) {
+    top: 94px;
+  }
+
+  @media (max-width: 1150px) {
+    padding: 20px;
+  }
 }
 
 .eventsSubBlock {
   display: flex;
   flex-direction: column;
-  gap: 15px;
   width: 100%;
 }
 
 .buttonDay {
-  margin: 15px 0 5px 15px;
+  margin: 25px 0 25px 25px;
 }
 
 .eventsContainer {
   display: flex;
   flex-direction: column;
   gap: 30px;
-  background: #ffffff;
-  box-shadow: 0px 1px 2px rgba(31, 41, 55, 0.08);
   width: 1112px;
+  border-radius: 5px;
+  background: #ffffff;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
 
   @media (max-width: 1250px) {

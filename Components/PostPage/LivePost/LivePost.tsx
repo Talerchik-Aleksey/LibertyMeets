@@ -48,104 +48,92 @@ export default function LivePost(props: PostProps) {
   return (
     <>
       <section className={styles.container}>
-        <div className={styles.backBlock}>
-          <Button
-            className={styles.backButton}
-            type="link"
-            onClick={() => history.back()}
-          >
-            <Image
-              src="/decor/arrow-left.svg"
-              alt=""
-              width={45}
-              height={42}
-              className={styles.backImage}
-            />
-            <span className={styles.backButtonText}>Назад</span>
-          </Button>
-        </div>
-
+        <Button
+          className={styles.backButton}
+          type="link"
+          onClick={() => history.back()}
+        >
+          <Image
+            src="/decor/arrow-left-1.svg"
+            alt=""
+            width={23}
+            height={7}
+            className={styles.backImage}
+          />
+        </Button>
         <div className={styles.livePostContainer}>
-          <div className={styles.postHeader}>
-            {session.status === "authenticated" && (
-              <div className={styles.star}>
-                {post.favoriteUsers?.length > 0 || post.is_favorite ? (
-                  <div
-                    onClick={() => {
-                      changeStar(post.id);
-                    }}
-                  >
-                    <Image
-                      src="/decor/starFaiv.svg"
-                      alt=""
-                      width={20}
-                      height={20}
-                      className={styles.starImage}
-                    />
-                  </div>
-                ) : (
-                  <div
-                    onClick={() => {
-                      changeStar(post.id);
-                    }}
-                  >
-                    <Image
-                      src="/decor/starNoFaiv.svg"
-                      alt=""
-                      width={20}
-                      height={20}
-                      className={styles.starImage}
-                    />
-                  </div>
-                )}
+          <div className={styles.livePostInfo}>
+            <div className={styles.livePostTags}>
+              {session.status === "authenticated" && (
+                <div className={styles.livePostStar}>
+                  {
+                    <div
+                      onClick={() => {
+                        changeStar(post.id);
+                      }}
+                    >
+                      <Image
+                        src={
+                          post.favoriteUsers?.length > 0 || post.is_favorite
+                            ? "/decor/starFaiv.svg"
+                            : "/decor/starNoFaiv.svg"
+                        }
+                        alt=""
+                        width={20}
+                        height={20}
+                        className={styles.starImage}
+                      />
+                    </div>
+                  }
+                </div>
+              )}
+              <div className={styles.livePostCategory}>{post.category}</div>
+            </div>
+            <div className={styles.livePostTitle}>{post.title}</div>
+            <div className={styles.livePostDescription}>{post.description}</div>
+            <div className={styles.livePostLocation}>
+              <div>
+                <Image
+                  src={"/decor/marker.svg"}
+                  alt=""
+                  width={14}
+                  height={20}
+                  className={styles.starImage}
+                />
               </div>
-            )}
-            <div className={(styles.categoryBlock, styles.left)}>
-              <div className={styles.categoryButton}>
-                <span className={styles.categoryButtonText}>
-                  {post.category}
-                </span>
-              </div>
-            </div>
-            <div className={styles.titleBlock}>
-              <span className={styles.titleText}>{post.title}</span>
-            </div>
-            <div className={styles.right}></div>
-          </div>
-
-          <div className={styles.postContent}>
-            <div className={styles.descriptionBlock}>
-              <p className={styles.descriptionText}>{post.description}</p>
-            </div>
-            <div className={styles.cardBlock}>
               {coordinates && coordinates.length === 2 ? (
-                <>
-                  <Location post={post} />
-                  <Map
-                    appUrl={appUrl}
-                    userLat={props.session?.user.lat}
-                    userLng={props.session?.user.lng}
-                    lat={Number(coordinates[0])}
-                    lng={Number(coordinates[1])}
-                  />
-                </>
+                <Location post={post} />
+              ) : (
+                <></>
+              )}
+            </div>
+            <div className={styles.buttonBlock}>
+              {props.session?.user ? (
+                <ThreadForm
+                  appUrl={appUrl}
+                  postId={post.id}
+                  isThreadExists={false}
+                  threadId={""}
+                />
               ) : (
                 <></>
               )}
             </div>
           </div>
-          <div className={styles.buttonBlock}>
-            {props.session?.user ? (
-              <ThreadForm
+          <div className={styles.livePostMap}>
+            {coordinates && coordinates.length === 2 ? (
+              <Map
                 appUrl={appUrl}
-                postId={post.id}
-                isThreadExists={false}
-                threadId={""}
+                userLat={props.session?.user.lat}
+                userLng={props.session?.user.lng}
+                lat={Number(coordinates[0])}
+                lng={Number(coordinates[1])}
               />
             ) : (
               <></>
             )}
           </div>
+
           {/* */}
 
           {/*

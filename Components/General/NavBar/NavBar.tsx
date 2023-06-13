@@ -77,7 +77,7 @@ export default function NavBar(props: NavBarProps) {
       </div>
       <div className={styles.location}>
         <div className={styles.place}>
-          <span className={styles.text}>Почтовый индекс</span>
+          <span className={styles.text}>Zip Code</span>
           <Input
             suffix={
               <Image src="/decor/location2.svg" alt="" width={18} height={18} />
@@ -89,7 +89,7 @@ export default function NavBar(props: NavBarProps) {
           />
         </div>
         <div className={styles.radius}>
-          <span className={styles.text}>Радиус</span>
+          <span className={styles.text}>Radius</span>
           <AutoComplete
             options={autoCompleteOption}
             onChange={searchByRadius}

@@ -12,12 +12,12 @@
 .container {
   display: flex;
   align-items: center;
-  height: 56px;
+  height: 62px;
   border-radius: 4px;
   max-width: 100%;
-  padding: 0 10px;
+  padding: 0 15px;
   gap: 10px;
-  margin: 0 15px 15px 15px;
+  margin: 0 25px;
 
   @media (max-width: 800px) {
     width: auto;
@@ -32,6 +32,10 @@
 
   &:hover {
     background: #eee9f7;
+  }
+
+  &:last-child {
+    margin-bottom: 25px;
   }
 }
 
@@ -71,10 +75,11 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: "Inter";
+  font-family: "Lexend";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
+  line-height: 20px;
   color: #333333;
 
   @media (max-width: 1250px) {
@@ -94,20 +99,68 @@
   }
 }
 
-.label {
-  width: 84px;
-  height: 20px;
-  justify-content: center;
-  gap: 10px;
-  background: #921a64;
-  box-shadow: 0px 1px 2px rgba(31, 41, 55, 0.08);
-  border-radius: 4px;
-  font-family: "Inter";
-  font-weight: 500;
-  font-size: 10px;
+.labelVolunteer {
+  width: 101px;
+  height: 23px;
   display: flex;
+  gap: 10px;
   align-items: center;
-  color: #ffffff;
+  justify-content: center;
+  border-radius: 40px;
+  font-family: "Lexend";
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--LibertyMeets-Aqua-100);
+  background-color: var(--LibertyMeets-Aqua);
+}
+
+.labelSocial {
+  width: 101px;
+  height: 23px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  font-family: "Lexend";
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--LibertyMeets-Purple-300);
+  background-color: var(--LibertyMeets-Purple-200);
+}
+
+.labelCampaigns {
+  width: 101px;
+  height: 23px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  font-family: "Lexend";
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--LibertyMeets-Brown);
+  background-color: var(--LibertyMeets-Orange);
+}
+
+.labelProfessional {
+  width: 101px;
+  height: 23px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  font-family: "Lexend";
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--LibertyMeets-Brown-100);
+  background-color: var(--LibertyMeets-Salmon);
 }
 
 .date {

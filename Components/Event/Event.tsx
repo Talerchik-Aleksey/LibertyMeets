@@ -59,7 +59,9 @@ export default function EventSingleRow(props: EventSingleRowProps) {
       >
         <div className={styles.leftBlock}>
           {isViewForAllCategory ? (
-            <div className={styles.label}>{post.category}</div>
+            <div className={styles[`label${post.category}`]}>
+              {post.category}
+            </div>
           ) : (
             <></>
           )}
