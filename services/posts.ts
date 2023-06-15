@@ -1,7 +1,7 @@
 import { FavoritePosts } from "../models/favoritePosts";
 import { Posts } from "../models/posts";
 import { UserPosts } from "../models/usersPosts";
-import { CommentType, ExchangePostType, PostType } from "../types/general";
+import { ExchangePostType, PostType } from "../types/general";
 import config from "config";
 import { Threads } from "../models/threads";
 import { ThreadMessages } from "../models/threadMessages";
