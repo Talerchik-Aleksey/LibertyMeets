@@ -97,6 +97,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         return token;
       },
       session: ({ session, token }: { session: any; token: any }) => {
+        console.log(token);
         if (token.is_blocked) {
           session.user = null;
           session.email = token.email;
