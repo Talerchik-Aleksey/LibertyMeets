@@ -21,6 +21,7 @@ export async function saveUserToDatabase(user: UserType) {
   const userToSave = {
     email: user.email,
     password: hashSync(user.password, saltLength),
+    is_enabled: true,
   };
   await Users.create(userToSave);
 }

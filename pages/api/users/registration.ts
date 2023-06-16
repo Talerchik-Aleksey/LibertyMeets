@@ -57,19 +57,19 @@ export default async function handler(
       throw new HttpError(422, "Invalid captcha code");
     }
 
-    const email_verification_token = v4(email);
+    // const email_verification_token = v4(email);
     await saveUserToDatabase({ email, password });
-    await fillEmailToken(email, email_verification_token);
+    // await fillEmailToken(email, email_verification_token);
 
-    const url = process.env.NEXTAUTH_URL;
-    if (!url) {
-      throw new HttpError(404, "Web site not found");
-    }
+    // const url = process.env.NEXTAUTH_URL;
+    // if (!url) {
+    //   throw new HttpError(404, "Web site not found");
+    // }
 
-    const verificationUrl = `${process.env.NEXTAUTH_URL}/account/verification/${email_verification_token}`;
-    const supportEmail = config.get<string>("emails.supportEmail");
+    // const verificationUrl = `${process.env.NEXTAUTH_URL}/account/verification/${email_verification_token}`;
+    // const supportEmail = config.get<string>("emails.supportEmail");
 
-    await sendVerificationByEmail(email, verificationUrl, supportEmail);
+    // await sendVerificationByEmail(email, verificationUrl, supportEmail);
     res
       .status(200)
       .json({ status: "ok", data: { message: "success registration" } });
