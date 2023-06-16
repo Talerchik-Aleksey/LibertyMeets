@@ -52,9 +52,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
             return null;
           }
 
-          return user.is_enabled
-            ? (user as unknown as DefaultUser | null)
-            : null;
+          return user as unknown as DefaultUser | null;
         },
       }),
       CredentialsProvider({
@@ -79,23 +77,32 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     callbacks: {
       jwt: async (params: any) => {
         const { token, user } = params;
+        if (user && !user.is_enabled) {
+          token.email = user.email;
+          token.is_blocked = true;
+          return token;
+        }
         if (user) {
-          if (user.lat) {
+          if (user.lat && user.lng) {
             token.lat = +user.lat;
-          } else {
-            token.lat = DEFAULT_LAT;
-          }
-          if (user.lng) {
             token.lng = +user.lng;
           } else {
+            token.lat = DEFAULT_LAT;
             token.lng = DEFAULT_LNG;
           }
           token.id = user.id;
           token.email = user.email;
         }
+
         return token;
       },
       session: ({ session, token }: { session: any; token: any }) => {
+        if (token.is_blocked) {
+          session.user = null;
+          session.email = token.email;
+          return session;
+        }
+
         if (token) {
           session.user!.id = token.id as number;
           session.user!.email = token.email as string;
