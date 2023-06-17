@@ -13,6 +13,7 @@ import { Location } from "@/services/geocodeSearch";
 import getLocations from "@/services/geocodeSearch";
 import { postStore } from "@/stores";
 import type { CreatePostValues } from "@/types/general";
+import axios from "axios";
 
 const { TextArea } = Input;
 
@@ -105,13 +106,33 @@ export default function CreatePost(props: CreatePostProps) {
         zip: values.zip,
       });
 
-      router.push("/createPost/previewPost");
+      const res = await axios.post(
+        `${appUrl}/api/posts/create`,
+        {
+          category: values.category,
+          city: values.city,
+          description: values.description,
+          isPublic,
+          lat,
+          lng,
+          locationName: values.location_name || "",
+          title: values.title,
+          state: values.state,
+          zip: values.zip,
+        },
+        { withCredentials: true }
+      );
 
-      return true;
+      if (res.status === 200) {
+        router.push("/myPosts");
+        postStore.clearParams();
+
+        return true;
+      }
     } catch (e) {
       console.error(e);
       error(
-        "It looks like there was a problem while trying to create your post"
+        "Ошибка при создании поста. Попробуйте позже или обратитесь к администратору."
       );
     }
   }
