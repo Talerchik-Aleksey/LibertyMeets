@@ -151,7 +151,7 @@ export default function Registration({ appUrl, recaptchaKey }: PropsType) {
             <label className={styles.container}>
               <span className={styles.checkboxText}>
                 {" "}
-                Я согласен на
+                Я согласен на{" "}
                 <Link
                   target="_blank"
                   href={`${appUrl}/terms`}

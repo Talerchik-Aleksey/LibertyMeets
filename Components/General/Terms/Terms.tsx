@@ -4,62 +4,68 @@ export default function Terms() {
   return (
     <section className={styles.container}>
       <div className={styles.terms}>
-        <h4 className={styles.termsTitle}>Our Privacy Policy</h4>
+        <h4 className={styles.termsTitle}>Наша политика конфиденциальности</h4>
         <p className={styles.termsDescriptionBold}>
-          This Privacy Policy describes Our policies and procedures on the
-          collection, use and disclosure of Your information when You use the
-          Service and tells You about Your privacy rights and how the law
-          protects You. We use Your Personal data to provide and improve the
-          Service. By using the Service, You agree to the collection and use of
-          information in accordance with this Privacy Policy.
+          Настоящая Политика конфиденциальности описывает нашу политику и
+          процедуры в отношении сбора, использования и раскрытия Вашей
+          информации, когда Вы используете Услуги, а также рассказывает о Ваших
+          правах на конфиденциальность и о том, как закон защищает Вас. Мы
+          используем Ваши личные данные для предоставления и улучшения Услуги.
+          Используя Сервис, Вы соглашаетесь на сбор и использование информации в
+          соответствии с настоящей Политикой конфиденциальности.
           <br />
           <br />
-          This privacy policy applies to the information that You provide to
-          LibertyMeets.com (“Service”).
+          Данная политика конфиденциальности распространяется на информацию,
+          которую Вы предоставляете на сайте LibertyMeets.com.
         </p>
       </div>
       <div className={styles.textbox}>
-        <h4 className={styles.termsTitle}>What Info We Collect</h4>
+        <h4 className={styles.termsTitle}>Какую информацию мы собираем</h4>
         <p className={styles.termsDescription}>
-          We may collect, use, transfer, and disclose Your information for the
-          following purposes:
+          Мы можем собирать, использовать, передавать и раскрывать вашу
+          информацию в следующих целях следующих целей:
         </p>
         <ul className={styles.termsList}>
-          <li>to facilitate and perform services You have requested;</li>
+          <li>для облегчения и предоставления запрошенных вами услуг;</li>
           <li>
-            to provide You with information that You request or which You may
-            need in order to contact Us (for example, if You submit a comment,
-            question or complaint to Us, We may respond to Your message);
+            предоставить Вам информацию, которую Вы запрашиваете или которую Вы
+            можете необходимо, чтобы связаться с Нами (например, если Вы
+            отправляете комментарий, вопрос или жалоба к Нам, Мы можем ответить
+            на Ваше сообщение);
           </li>
-          <li>for internal recordkeeping;</li>
-          <li>to administer the Service;</li>
-          <li>to communicate with You regarding the Service;</li>
-          <li>to improve and customize the Service;</li>
-          <li>to notify You about changes to the Service;</li>
-          <li>to notify You about changes to the Service; </li>
-          <li>to comply with the law; and </li>
+          <li>для внутреннего учета;</li>
+          <li>для администрирования Сервиса;</li>
+          <li>для связи с вами относительно Сервиса;</li>
+          <li>для улучшения и настройки Сервиса;</li>
+          <li>уведомлять Вас об изменениях в Сервисе;</li>
+          <li>уведомлять Вас об изменениях в Сервисе; </li>
+          <li>соблюдать закон; и </li>
           <li>
-            as described to You at the point where You provide Your information
-            to Us.
+            как описано для вас в момент, когда вы предоставляете свою
+            информацию нам.
           </li>
         </ul>
       </div>
       <div className={styles.textbox}>
-        <h4 className={styles.termsTitle}>How Does It Work?</h4>
+        <h4 className={styles.termsTitle}>Как это работает?</h4>
         <p className={styles.termsDescription}>
-          We use Your information to provide and improve the Service. We do not
-          share Your information with third parties.
+          Мы используем Вашу информацию для предоставления и улучшения Услуги.
+          Мы не передаем Вашу информацию третьим лицам.
         </p>
-        <span className={styles.cookies}>COLLECTION AND USE OF COOKIES</span>
+        <span className={styles.cookies}>
+          СБОР И ИСПОЛЬЗОВАНИЕ ФАЙЛОВ COOKIE
+        </span>
         <p className={styles.termsDescription}>
-          A cookie is a small piece of data stored on Your computer that
-          identifies Your browser and thatThis Privacy Policy describes Our
-          policies and procedures on the collection, use and disclosure of Your
-          information when You use the Service and tells You about Your privacy
-          rights and how the law protects You. We use Your Personal data to
-          provide and improve the Service. By using the Service, You agree to
-          the collection and use of information in accordance with this Privacy
-          Policy.
+          Cookie - это небольшой фрагмент данных, хранящийся на вашем
+          компьютере, который идентифицирует ваш браузер и чтоЭта Политика
+          конфиденциальности описывает нашу политику и процедуры по сбору,
+          использованию и раскрытию Вашей информации, когда вы пользуетесь
+          Услугой, и рассказывает вам о ваших правах на конфиденциальность и о
+          том, как закон защищает вас. правах и о том, как закон защищает вас.
+          Мы используем Ваши персональные данные для предоставления и улучшения
+          Сервиса. Пользуясь Сервисом, Вы соглашаетесь на сбор и использование
+          информации в соответствии с настоящей Политикой конфиденциальности.
+          Политикой.
         </p>
       </div>
     </section>

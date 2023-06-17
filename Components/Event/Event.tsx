@@ -16,6 +16,12 @@ export default function EventSingleRow(props: EventSingleRowProps) {
   const { post, changeStar, isViewForAllCategory, isLogin } = props;
   const router = useRouter();
   const pathname = router.pathname.slice(1);
+  const ruCategories: Record<string, string> = {
+    Social: "Социальный",
+    Volunteer: "Волонтерство",
+    Professional: "Профессиональный",
+    Campaign: "Кэмпинг",
+  };
 
   return (
     <div className={styles.container}>
@@ -60,7 +66,7 @@ export default function EventSingleRow(props: EventSingleRowProps) {
         <div className={styles.leftBlock}>
           {isViewForAllCategory ? (
             <div className={styles[`label${post.category}`]}>
-              {post.category}
+              {ruCategories[post.category]}
             </div>
           ) : (
             <></>

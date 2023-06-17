@@ -4,8 +4,8 @@ type ErrorTextType = {
 
 const errorText: ErrorTextType = {
   200: "",
-  404: "Sorry, the email address you entered could not be found.",
-  500: "Sorry, an error has occurred. Please try again later or contact technical support for further assistance.",
+  404: "Извините, такая пользовательская учетная запись не найдена.",
+  500: "Проблема с сервером. Попробуйте позже.",
 };
 
 export default function ResetPasswodTextStatus({
@@ -18,7 +18,7 @@ export default function ResetPasswodTextStatus({
       <p>
         {errCode in errorText
           ? errorText[errCode]
-          : `Unknown error. Error code - ${errCode}`}
+          : `Произошла ошибка - ${errCode}`}
       </p>
     </>
   );
