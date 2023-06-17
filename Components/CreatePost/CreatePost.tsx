@@ -368,7 +368,7 @@ export default function CreatePost(props: CreatePostProps) {
                 <Form.Item>
                   <Button className={styles.preview} htmlType="submit">
                     {/* <Image src="/decor/eyes.svg" alt="" width={16} height={14} /> */}
-                    <span className={styles.previewBtn}>Предпросмотр</span>
+                    <span className={styles.previewBtn}>Опубликовать</span>
                   </Button>
                 </Form.Item>
               </div>
