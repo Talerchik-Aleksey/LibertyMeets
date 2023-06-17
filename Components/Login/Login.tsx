@@ -16,7 +16,6 @@ export default function Login() {
       type: "error",
       content: "Неверная почта или пароль",
       duration: 2.5,
-      maxCount: 1,
       style: {
         marginTop: "10vh",
       },
