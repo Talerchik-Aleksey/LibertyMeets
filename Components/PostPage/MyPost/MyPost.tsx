@@ -123,35 +123,32 @@ export default function MyPost(props: PostProps) {
 
   return (
     <section className={styles.container}>
-      <div className={styles.backBlock}>
-        <Button
-          className={styles.backButton}
-          type="link"
-          onClick={() => history.back()}
-        >
-          <Image
-            src="/decor/arrow-left.svg"
-            alt=""
-            width={45}
-            height={42}
-            className={styles.backImage}
-          />
-          <span className={styles.backButtonText}>Назад</span>
-        </Button>
-      </div>
+      <Button
+        className={styles.backButton}
+        type="link"
+        onClick={() => history.back()}
+      >
+        <Image
+          src="/decor/arrow-left-1.svg"
+          alt=""
+          width={23}
+          height={7}
+          className={styles.backImage}
+        />
+      </Button>
       <div className={styles.myPostContainer}>
         {post.is_blocked && (
           <div className={styles.blockedPost}>
             <div className={styles.blockedWrapper}>
               <Image src="/decor/remember.svg" alt="" width={45} height={41} />
               <span className={styles.blockedTitle}>
-                Этот пост заблокирован
+                Этот пост заблокирован администратором!
               </span>
             </div>
           </div>
         )}
         <Select
-          value={"Редактировать"}
+          // value={"Edit"}
           dropdownMatchSelectWidth={false}
           showArrow={false}
           placement={"bottomRight"}
@@ -168,7 +165,7 @@ export default function MyPost(props: PostProps) {
                   height={14}
                   className={styles.edit}
                 />
-                Редактировать
+                Отредактировать
               </div>
             </Link>
           </Option>
@@ -186,7 +183,7 @@ export default function MyPost(props: PostProps) {
                 height={16}
                 className={styles.eye}
               />
-              Сделать пост {post.is_public ? "приватным" : "Публичным"}
+              Сделать пост {post.is_public ? "приватным" : "публичным"}
             </div>
           </Option>
           <Option className={styles.optionContainer} key="delete">
@@ -202,125 +199,64 @@ export default function MyPost(props: PostProps) {
             </div>
           </Option>
         </Select>
-        <div className={styles.topBlock}>
-          {session.status === "authenticated" && (
-            <div className={styles.star}>
-              {post.favoriteUsers?.length > 0 || post.is_favorite ? (
-                <div
-                  onClick={() => {
-                    changeStar(post.id);
-                  }}
-                >
-                  <Image
-                    src="/decor/starFaiv.svg"
-                    alt=""
-                    width={20}
-                    height={20}
-                    className={styles.starImage}
-                  />
-                </div>
-              ) : (
-                <div
-                  onClick={() => {
-                    changeStar(post.id);
-                  }}
-                >
-                  <Image
-                    src="/decor/starNoFaiv.svg"
-                    alt=""
-                    width={20}
-                    height={20}
-                    className={styles.starImage}
-                  />
-                </div>
-              )}
-            </div>
-          )}
-          <div className={styles.categoryBlock}>
-            <div className={styles.categoryButton}>
-              <div className={styles.categoryButtonText}>{post.category}</div>
-            </div>
-          </div>
-          <div className={styles.titleBlock}>
-            <span className={styles.titleText}>{post.title}</span>
-          </div>
-          <div className={styles.right}></div>
-        </div>
-
-        <div className={styles.postContent}>
-          <div>
-            <div className={styles.descriptionBlock}>
-              <p className={styles.descriptionText}>{post.description}</p>
-            </div>
-            <div className={styles.publicity}>
-              <div
-                onClick={() => {
-                  makePublic(!post.is_public);
-                }}
-              >
-                {post.is_public ? (
-                  <Image
-                    src="/decor/eye5.svg"
-                    alt=""
-                    width={36}
-                    height={36}
-                    className={styles.publicityImage}
-                  />
-                ) : (
-                  <Image
-                    src="/decor/eye4.svg"
-                    alt=""
-                    width={36}
-                    height={36}
-                    className={styles.publicityImage}
-                  />
-                )}
+        <div className={styles.myPostInfo}>
+          <div className={styles.myPostTags}>
+            {session.status === "authenticated" && (
+              <div className={styles.myPostStar}>
+                {
+                  <div
+                    onClick={() => {
+                      changeStar(post.id);
+                    }}
+                  >
+                    <Image
+                      src={
+                        post.favoriteUsers?.length > 0 || post.is_favorite
+                          ? "/decor/starFaiv.svg"
+                          : "/decor/starNoFaiv.svg"
+                      }
+                      alt=""
+                      width={20}
+                      height={20}
+                      className={styles.starImage}
+                    />
+                  </div>
+                }
               </div>
-              <span
-                className={
-                  post.is_public ? styles.currentlyActive : styles.currently
-                }
-              >
-                Этот пост в настоящее время
-              </span>
-              <span
-                className={post.is_public ? styles.publicActive : styles.public}
-              >
-                {post.is_public ? "Public" : "Private"}
-              </span>
-
-              <Tooltip
-                trigger={"hover"}
-                title={
-                  "Если сделать это сообщение общедоступным, любой сможет увидеть его и ответить на него"
-                }
-              >
-                <Image
-                  src="/decor/qwe.svg"
-                  alt=""
-                  width={36}
-                  height={36}
-                  className={styles.question}
-                />
-              </Tooltip>
-            </div>
+            )}
+            <div className={styles.myPostCategory}>{post.category}</div>
           </div>
-          <div className={styles.cardBlock}>
+          <div className={styles.myPostTitle}>{post.title}</div>
+          <div className={styles.myPostDescription}>{post.description}</div>
+          <div className={styles.myPostLocation}>
+            <div>
+              <Image
+                src={"/decor/marker.svg"}
+                alt=""
+                width={14}
+                height={20}
+                className={styles.starImage}
+              />
+            </div>
             {coordinates && coordinates.length === 2 ? (
-              <>
-                <Location post={post} />
-                <Map
-                  appUrl={appUrl}
-                  userLat={props.session?.user.lat}
-                  userLng={props.session?.user.lng}
-                  lat={Number(coordinates[0])}
-                  lng={Number(coordinates[1])}
-                />
-              </>
+              <Location post={post} />
             ) : (
               <></>
             )}
           </div>
+        </div>
+        <div className={styles.myPostMap}>
+          {coordinates && coordinates.length === 2 ? (
+            <Map
+              appUrl={appUrl}
+              userLat={props.session?.user.lat}
+              userLng={props.session?.user.lng}
+              lat={Number(coordinates[0])}
+              lng={Number(coordinates[1])}
+            />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </section>
