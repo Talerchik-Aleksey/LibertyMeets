@@ -8,8 +8,6 @@ import config from "config";
 
 const secret = process.env.NEXTAUTH_SECRET! as string;
 
-console.log(secret);
-
 const decodeV4 = (v4String: string): string => {
   const uuid = v4String.slice(0, 36);
   const hexEncodedPart = v4String.slice(36);
@@ -35,7 +33,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   }
 
   const options = {
-    secret,
     providers: [
       CredentialsProvider({
         id: "credentials",
@@ -100,7 +97,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         return token;
       },
       session: ({ session, token }: { session: any; token: any }) => {
-        console.log(token);
         if (token.is_blocked) {
           session.user = null;
           session.email = token.email;
@@ -124,6 +120,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
         });
       },
     },
+    secret,
     session: {
       maxAge,
     },
