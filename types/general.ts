@@ -39,3 +39,56 @@ export type ExchangePostType = Posts & {
   favoriteUsers: { id: number }[];
 };
 
+export type BtnSize = "large" | "small";
+export type BtnFontType = "lexend" | "inter" | "roboto";
+export type BtnColor = "magenta" | "purple";
+
+export interface ButtonProps {
+  color?: BtnColor;
+  fontType?: BtnFontType;
+  hasIcon?: boolean;
+  size?: BtnSize;
+}
+
+export interface IOpportunitiesCard {
+  description: string;
+  icon: string;
+  title: string;
+  titleWidth: number;
+  titleHeight: number;
+  url: string;
+}
+
+export interface OpportunitiesCardProps {
+  item: IOpportunitiesCard;
+}
+
+export interface IPrivacyCard {
+  description: string;
+  icon: string;
+  title: string;
+  titleWidth: number;
+  titleHeight: number;
+}
+
+export interface PrivacyCardProps {
+  item: IPrivacyCard;
+}
+
+export interface ReviewCarouselItem {
+  author: string;
+  quote: string;
+}
+
+export interface CreatePostValues {
+  category: string;
+  city: string;
+  description: string;
+  is_public: boolean;
+  lat: number;
+  lng: number;
+  location_name: any;
+  state: string;
+  title: string;
+  zip: string;
+}

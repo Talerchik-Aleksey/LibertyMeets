@@ -1,16 +1,18 @@
-import Image from "next/image";
-import { Button, Form, Input, Select, Switch, Tooltip, message } from "antd";
-import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import axios from "axios";
-import RememberBlock from "../RememberBlock/RememberBlock";
-import styles from "./CreatePost.module.scss";
 import Link from "next/link";
-import { Location } from "../../services/geocodeSearch";
-import getLocations from "../../services/geocodeSearch";
-import { Spiner } from "../General/Spiner/Spiner";
+import { useRouter } from "next/router";
+import { Button, Form, Input, Select, message } from "antd";
+
+import { Spiner } from "@/components/General/Spiner/Spiner";
+import RememberBlock from "@/components/RememberBlock/RememberBlock";
+import styles from "@/components/CreatePost/CreatePost.module.scss";
+import { Location } from "@/services/geocodeSearch";
+import getLocations from "@/services/geocodeSearch";
+import { postStore } from "@/stores";
+import type { CreatePostValues } from "@/types/general";
 
 const { TextArea } = Input;
 
@@ -78,7 +80,7 @@ export default function CreatePost(props: CreatePostProps) {
     return values;
   }
 
-  async function onFinish(values: any) {
+  async function onFinish(values: CreatePostValues) {
     try {
       values.lat = lat;
       values.lng = lng;
@@ -89,18 +91,37 @@ export default function CreatePost(props: CreatePostProps) {
       }
 
       fillLocationData(values, geocodeResult[0]);
-      const res = await axios.post(`${appUrl}/api/posts/create`, values, {
-        withCredentials: true,
+
+      postStore.setPostParams({
+        category: values.category,
+        city: values.city,
+        description: values.description,
+        isPublic,
+        lat,
+        lng,
+        locationName: values.location_name || "",
+        title: values.title,
+        state: values.state,
+        zip: values.zip,
       });
 
-      if (res.status === 200) {
-        router.push("/myPosts");
-      }
+      router.push("/createPost/previewPost");
+
+      return true;
     } catch (e) {
       console.error(e);
-      error("Произошла ошибка при добавлении объявления. Попробуйте позже.");
+      error(
+        "It looks like there was a problem while trying to create your post"
+      );
     }
   }
+
+  const onCancelClick = () => {
+    postStore.clearParams();
+    router.push("/posts");
+
+    return true;
+  };
 
   useEffect(() => {
     if (postalCode) {
@@ -114,7 +135,7 @@ export default function CreatePost(props: CreatePostProps) {
         })
         .catch((e) => {
           console.error(e);
-          error("Произошла ошибка при выяснении координат. Попробуйте позже.");
+          error("Sorry, but we were unable to detect location.");
         });
     } else {
       setLat(Number(session?.user.lat));
@@ -122,24 +143,40 @@ export default function CreatePost(props: CreatePostProps) {
     }
   }, [postalCode, session?.user]);
 
+  const initValues = {
+    category: postStore.category,
+    description: postStore.description,
+    location_name: postStore.locationName,
+    title: postStore.title,
+    zip: postStore.zip,
+  };
+
+  useEffect(() => {
+    if (postStore.zip) {
+      setPostalCode(postStore.zip);
+    }
+  }, []);
+
+  const onBackClick = () => {
+    postStore.clearParams();
+    router.push("/posts");
+
+    return true;
+  };
+
   return (
     <section className={styles.container}>
       <div className={styles.error}>{contextHolder}</div>
       <div className={styles.arrow}>
         <Link className={styles.backLink} href={""}>
-          <Button
-            className={styles.arrowBtn}
-            type="link"
-            onClick={() => history.back()}
-          >
+          <Button className={styles.arrowBtn} type="link" onClick={onBackClick}>
             <Image
-              src="/decor/arrow-left.svg"
+              src="/decor/arrow-left-1.svg"
               alt=""
-              width={45}
-              height={42}
-              className={styles.vector}
+              width={23}
+              height={7}
+              className={styles.arrowBtnImg}
             />
-            <span className={styles.backBtn}>Назад</span>
           </Button>
         </Link>
       </div>
@@ -147,77 +184,80 @@ export default function CreatePost(props: CreatePostProps) {
         <Form
           name="normal_login"
           onFinish={onFinish}
-          initialValues={{ remember: true }}
+          initialValues={initValues}
+          layout="vertical"
         >
-          <div className={styles.title}>Создание объявления</div>
+          <div className={styles.title}>Create Post</div>
           <div className={styles.inputContainer}>
-            <div className={styles.postTitle}>
-              <Form.Item
-                className={styles.postTitleText}
-                labelAlign={"left"}
-                labelCol={{ span: 2 }}
-                label="Заголовок"
-                name="title"
-                colon={false}
-                rules={[
-                  { required: true, message: "Введите заголовок объявления" },
-                  { type: "string", min: 4, max: 90 },
-                ]}
-              >
-                <Input
-                  placeholder="Ваш заголовок объявления"
-                  suffix={
-                    <Image
-                      src="/decor/editPensil.svg"
-                      alt=""
-                      width={18}
-                      height={30}
-                    />
-                  }
-                  className={styles.postTitleInput}
-                />
-              </Form.Item>
-            </div>
-            <div className={styles.category}>
-              <Form.Item
-                className={styles.categoryText}
-                labelAlign={"left"}
-                labelCol={{ span: 2 }}
-                label="Категория"
-                name="category"
-                colon={false}
-                rules={[{ required: true, message: "Выберите категорию" }]}
-              >
-                <Select
-                  className={styles.categorySelect}
-                  placeholder="Выберите категорию"
+            <div className={styles.wrapperContainer}>
+              <div className={styles.postTitle}>
+                <Form.Item
+                  className={styles.postTitleText}
+                  labelAlign={"left"}
+                  labelCol={{ span: 2 }}
+                  label="Заголовок поста"
+                  name="title"
+                  colon={false}
+                  rules={[
+                    { required: true },
+                    { type: "string", min: 4, max: 90 },
+                  ]}
                 >
-                  <Select.Option
-                    className={styles.categorySelectOption}
-                    value="Social"
+                  <Input
+                    placeholder="Ваш зоголовок"
+                    suffix={
+                      <Image
+                        src="/decor/editPensil.svg"
+                        alt=""
+                        width={18}
+                        height={30}
+                      />
+                    }
+                    className={styles.postTitleInput}
+                  />
+                </Form.Item>
+              </div>
+              <div className={styles.category}>
+                <Form.Item
+                  className={styles.categoryText}
+                  labelAlign={"left"}
+                  labelCol={{ span: 2 }}
+                  label="Категория"
+                  name="category"
+                  colon={false}
+                  rules={[{ required: true }]}
+                >
+                  <Select
+                    className={styles.categorySelect}
+                    placeholder="Пожалуйста выберите категорию"
                   >
-                    Social
-                  </Select.Option>
-                  <Select.Option
-                    className={styles.categorySelectOption}
-                    value="Volunteer"
-                  >
-                    Volunteer
-                  </Select.Option>
-                  <Select.Option
-                    className={styles.categorySelectOption}
-                    value="Professional"
-                  >
-                    Professional
-                  </Select.Option>
-                  <Select.Option
-                    className={styles.categorySelectOption}
-                    value="Campaigns"
-                  >
-                    Сampaigns
-                  </Select.Option>
-                </Select>
-              </Form.Item>
+                    <Select.Option
+                      className={styles.categorySelectOption}
+                      value="Social"
+                    >
+                      Социальный
+                    </Select.Option>
+                    <Select.Option
+                      className={styles.categorySelectOption}
+                      value="Volunteer"
+                    >
+                      Валонтёрский
+                    </Select.Option>
+                    <Select.Option
+                      className={styles.categorySelectOption}
+                      value="Professional"
+                    >
+                      Профессиональный
+                    </Select.Option>
+                    <Select.Option
+                      className={styles.categorySelectOption}
+                      value="Campaigns"
+                    >
+                      Кэмпинг
+                    </Select.Option>
+                  </Select>
+                </Form.Item>
+              </div>
             </div>
             <div className={styles.description}>
               <Form.Item
@@ -228,7 +268,7 @@ export default function CreatePost(props: CreatePostProps) {
                 name="description"
                 colon={false}
                 rules={[
-                  { required: true, message: "Введите описание объявления" },
+                  { required: true },
                   { type: "string", min: 4, max: 1000 },
                 ]}
               >
@@ -239,60 +279,79 @@ export default function CreatePost(props: CreatePostProps) {
                   rows={7}
                   size={"small"}
                   className={styles.descriptionTextarea}
-                  placeholder="Введите описание объявления"
+                  placeholder="Напишите описание"
                 />
               </Form.Item>
             </div>
           </div>
+          <div className={styles.remember}>
+            <RememberBlock />
+          </div>
           <div className={styles.mapContainer}>
-            <Form.Item className={styles.locationContainer}>
-              <Form.Item
-                label="Доп. информация"
-                name="location_name"
-                colon={true}
-                className={styles.city}
-                rules={[
-                  { required: false },
-                  {
-                    type: "string",
-                    max: 100,
-                  },
-                ]}
-              >
-                <Input className={styles.cityInput} />
-              </Form.Item>
-              <Form.Item
-                label="Почтый индекc"
-                name="zip"
-                colon={false}
-                className={styles.zipCode}
-                rules={[
-                  { required: true, message: "Введите почтовый индекс" },
-                  {
-                    type: "string",
-                    message: "Введите корректный почтовый индекс",
-                  },
-                  {
-                    validator: async (_, value) => {
-                      const geocodeResult = await getLocations(value);
-                      const locations = geocodeResult?.locations;
-                      if (locations && locations.length === 1) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(
-                        "Введите корректный почтовый индекс"
-                      );
-                    },
-                  },
-                ]}
-                help={geocodeResult?.map((result) => result.formatted_address)}
-              >
-                <Input
-                  className={styles.zipCodeInput}
-                  onChange={(event) => setPostalCode(event.target.value)}
-                />
-              </Form.Item>
-            </Form.Item>
+            <div className={styles.locationContainer}>
+              <div>
+                <Form.Item>
+                  <Form.Item
+                    label="Город и остальное"
+                    name="location_name"
+                    colon={true}
+                    className={styles.city}
+                    rules={[
+                      { required: false },
+                      {
+                        type: "string",
+                        max: 100,
+                      },
+                    ]}
+                  >
+                    <Input className={styles.cityInput} />
+                  </Form.Item>
+                  <Form.Item
+                    label="Почтовый индекс"
+                    name="zip"
+                    colon={false}
+                    className={styles.zipCode}
+                    rules={[
+                      { required: true },
+                      {
+                        validator: async (_, value) => {
+                          if (!value) {
+                            return;
+                          }
+
+                          const geocodeResult = await getLocations(value);
+                          const locations = geocodeResult?.locations;
+                          if (locations && locations.length === 1) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject("Результатов не найдено");
+                        },
+                      },
+                    ]}
+                    extra={geocodeResult?.map(
+                      (result) => result.formatted_address
+                    )}
+                  >
+                    <Input
+                      className={styles.zipCodeInput}
+                      onChange={(event) => setPostalCode(event.target.value)}
+                    />
+                  </Form.Item>
+                </Form.Item>
+              </div>
+              <div className={styles.buttonBlock}>
+                <Button className={styles.cancel} onClick={onCancelClick}>
+                  {/* <Image src="/decor/x.svg" alt="" width={10} height={10} /> */}
+                  <span className={styles.cancelBtn}>Отменить</span>
+                </Button>
+                <Form.Item>
+                  <Button className={styles.preview} htmlType="submit">
+                    {/* <Image src="/decor/eyes.svg" alt="" width={16} height={14} /> */}
+                    <span className={styles.previewBtn}>Предпросмотр</span>
+                  </Button>
+                </Form.Item>
+              </div>
+            </div>
             <div className={styles.location}>
               <div className={styles.map}>
                 <Map
@@ -304,24 +363,6 @@ export default function CreatePost(props: CreatePostProps) {
                 />
               </div>
             </div>
-          </div>
-          <div className={styles.buttonBlock}>
-            <Button
-              className={styles.cancel}
-              onClick={() => router.push("/posts")}
-            >
-              <Image src="/decor/x.svg" alt="" width={10} height={10} />
-              <span className={styles.cancelBtn}>Отмена</span>
-            </Button>
-            <Form.Item>
-              <Button className={styles.preview} htmlType="submit">
-                {/* <Image src="/decor/eyes.svg" alt="" width={16} height={14} /> */}
-                <span className={styles.previewBtn}>Создать</span>
-              </Button>
-            </Form.Item>
-          </div>
-          <div className={styles.remember}>
-            <RememberBlock />
           </div>
         </Form>
       </div>
