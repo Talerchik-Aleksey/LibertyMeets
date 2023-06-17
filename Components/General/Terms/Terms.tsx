@@ -16,7 +16,7 @@ export default function Terms() {
           <br />
           <br />
           Данная политика конфиденциальности распространяется на информацию,
-          которую Вы предоставляете на сайте LibertyMeets.com.
+          которую Вы предоставляете на сайте 10-ballow-za-diplom.my-new-site.com
         </p>
       </div>
       <div className={styles.textbox}>
