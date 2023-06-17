@@ -20,7 +20,7 @@ export default function EventSingleRow(props: EventSingleRowProps) {
     Social: "Социальный",
     Volunteer: "Волонтерство",
     Professional: "Профессиональный",
-    Camping: "Кэмпинг",
+    Campaigns: "Кэмпинг",
   };
 
   return (
