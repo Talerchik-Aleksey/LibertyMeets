@@ -208,7 +208,7 @@ export default function CreatePost(props: CreatePostProps) {
           initialValues={initValues}
           layout="vertical"
         >
-          <div className={styles.title}>Create Post</div>
+          <div className={styles.title}>Создание объявления</div>
           <div className={styles.inputContainer}>
             <div className={styles.wrapperContainer}>
               <div className={styles.postTitle}>
