@@ -114,9 +114,6 @@ async function searchPostsWithGeoRadius(
         Number(searchParams.lng)
       ),
       filters,
-      {
-        is_public: true,
-      }
     ),
     limit: PAGE_SIZE,
     offset: PAGE_SIZE * ((searchParams?.page || 1) - 1),
@@ -206,6 +203,7 @@ export async function getPosts(
         return { posts, count };
       }
 
+      console.log("searchParams", searchParams);
       const posts = await searchPostsWithoutGeo(searchParams, user, info);
       const count = await Posts.count({
         where: info,
