@@ -349,7 +349,7 @@ export default function CreatePost(props: CreatePostProps) {
                     colon={false}
                     className={styles.zipCode}
                     rules={[
-                      { required: true },
+                      { required: true, message: "Введите почтовый индекс" },
                       {
                         validator: async (_, value) => {
                           if (!value) {
