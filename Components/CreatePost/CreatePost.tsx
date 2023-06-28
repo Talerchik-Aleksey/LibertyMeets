@@ -220,8 +220,13 @@ export default function CreatePost(props: CreatePostProps) {
                   name="title"
                   colon={false}
                   rules={[
-                    { required: true },
-                    { type: "string", min: 4, max: 90 },
+                    { required: true, message: "Введите заголовок" },
+                    {
+                      type: "string",
+                      min: 4,
+                      max: 90,
+                      message: "Минимум 4 символа, до 90",
+                    },
                   ]}
                 >
                   <Input
@@ -246,7 +251,12 @@ export default function CreatePost(props: CreatePostProps) {
                   label="Категория"
                   name="category"
                   colon={false}
-                  rules={[{ required: true }]}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Пожалуйста выберите категорию",
+                    },
+                  ]}
                 >
                   <Select
                     className={styles.categorySelect}
@@ -289,8 +299,13 @@ export default function CreatePost(props: CreatePostProps) {
                 name="description"
                 colon={false}
                 rules={[
-                  { required: true },
-                  { type: "string", min: 4, max: 1000 },
+                  { required: true, message: "Введите описание" },
+                  {
+                    type: "string",
+                    min: 4,
+                    max: 1000,
+                    message: "Минимум 4 символа и максимум 1000",
+                  },
                 ]}
               >
                 <TextArea
@@ -322,6 +337,7 @@ export default function CreatePost(props: CreatePostProps) {
                       {
                         type: "string",
                         max: 100,
+                        message: "Максимум 100 символов",
                       },
                     ]}
                   >
